@@ -2,6 +2,7 @@
 using MazeSolver.Models.MazeWalkers;
 using MazeSolver.Services;
 using Moq;
+using System;
 using Xunit;
 
 namespace MazeSolver.Domain.Tests
@@ -18,7 +19,9 @@ namespace MazeSolver.Domain.Tests
             var mazeLineParser = new MazeLineParser();
             var mazeBuilder = new MazeBuilder(mazeReader, mazeLineParser);
             var mazeWalkerBuilder = new MazeWalkerBuilder(mazeBuilder);
-            _application = new Application(mazeWalkerBuilder, _screen.Object, mazeBuilder);
+            var mazeSolutionVisualizer = new MazeSolutionVisualizer();
+            var screenDisplayer = new ScreenDisplayer(_screen.Object, mazeSolutionVisualizer);
+            _application = new Application(mazeWalkerBuilder, mazeBuilder, screenDisplayer);
         }
 
         [Fact]
@@ -55,12 +58,14 @@ namespace MazeSolver.Domain.Tests
 
             _screen.Verify(x => x.WriteOutput("Reached end of maze! :)"), Times.Once);
 
-            _screen.Verify(x => x.WriteOutput("# S # # # #"));
-            _screen.Verify(x => x.WriteOutput("# * * . . #"));
-            _screen.Verify(x => x.WriteOutput("# # * # # #"));
-            _screen.Verify(x => x.WriteOutput("# . * * * F"));
-            _screen.Verify(x => x.WriteOutput("# # # . # #"));
-            _screen.Verify(x => x.WriteOutput("# # # # # #"));
+            _screen.Verify(x => x.WriteOutput(string.Join(
+                Environment.NewLine,
+                "# S # # # #",
+                "# * * . . #",
+                "# # * # # #",
+                "# . * * * F",
+                "# # # . # #",
+                "# # # # # #")));
 
             _screen.VerifyNoOtherCalls();
         }
