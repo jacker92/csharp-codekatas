@@ -46,9 +46,9 @@
     <Compile Include="Builders\IMazeWalkerBuilder.cs" />
     <Compile Include="Builders\MazeWalkerBuilder.cs" />
     <Compile Include="Exceptions\MazeInputFormatException.cs" />
-    <Compile Include="IMazeSolutionVisualizer.cs" />
-    <Compile Include="IScreenDisplayer.cs" />
-    <Compile Include="MazeSolutionVisualizer.cs" />
+    <Compile Include="Services\IMazeSolutionVisualizer.cs" />
+    <Compile Include="Services\IScreenDisplayer.cs" />
+    <Compile Include="Services\MazeSolutionVisualizer.cs" />
     <Compile Include="Models\MazeWalkers\MazeWalkerType.cs" />
     <Compile Include="Models\MazeWalkers\BaseMazeWalker.cs" />
     <Compile Include="Models\MazeWalkers\DumbMazeWalker.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="Models\MazeWalkers\IMazeWalker.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\MazeWalkers\SmartMazeWalker.cs" />
-    <Compile Include="ScreenDisplayer.cs" />
+    <Compile Include="Services\ScreenDisplayer.cs" />
     <Compile Include="Services\IMazeLineParser.cs" />
     <Compile Include="Services\IRawMazeReader.cs" />
     <Compile Include="Services\IScreen.cs" />
