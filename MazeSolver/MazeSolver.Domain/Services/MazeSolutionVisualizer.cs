@@ -3,7 +3,7 @@ using MazeSolver.Utils;
 using System;
 using System.Collections.Generic;
 
-namespace MazeSolver
+namespace MazeSolver.Services
 {
     public class MazeSolutionVisualizer : IMazeSolutionVisualizer
     {

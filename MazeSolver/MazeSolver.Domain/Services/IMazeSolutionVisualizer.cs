@@ -1,7 +1,7 @@
 ﻿using MazeSolver.Models;
 using System.Collections.Generic;
 
-namespace MazeSolver
+namespace MazeSolver.Services
 {
     public interface IMazeSolutionVisualizer
     {
