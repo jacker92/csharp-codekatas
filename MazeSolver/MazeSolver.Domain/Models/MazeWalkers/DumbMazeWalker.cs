@@ -36,7 +36,7 @@ namespace MazeSolver.Models.MazeWalkers
                 return false;
             }
 
-            return _mazeGrid.Grid[pointToOurLeft.Y][pointToOurLeft.X];
+            return _mazeGrid.Grid[pointToOurLeft.Y][pointToOurLeft.X].TileType != TileType.Wall;
         }
 
         public override Stack<Point> GetShortestPath()
@@ -133,7 +133,11 @@ namespace MazeSolver.Models.MazeWalkers
                 return false;
             }
 
-            var canMoveForward = _mazeGrid.Grid[desiredPoint.Y][desiredPoint.X];
+            var location = _mazeGrid.Grid[desiredPoint.Y][desiredPoint.X];
+
+            var canMoveForward = location.TileType != TileType.Start &&
+                                    location.TileType != TileType.Wall;
+
             if (canMoveForward) CurrentPosition = desiredPoint;
             return canMoveForward;
         }

@@ -4,6 +4,6 @@
     {
         public Point Start { get; internal set; }
         public Point Finish { get; internal set; }
-        public bool[][] Grid { get; internal set; }
+        public Tile[][] Grid { get; internal set; }
     }
 }

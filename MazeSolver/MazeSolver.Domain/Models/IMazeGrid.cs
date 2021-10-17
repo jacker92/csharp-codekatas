@@ -2,10 +2,8 @@
 {
     public interface IMazeGrid
     {
-        int Width { get; }
-        int Height { get; }
         Point Finish { get; }
-        bool[][] Grid { get; }
+        Tile[][] Grid { get; }
         Point StartPosition { get; }
         bool IsOutOfBounds(Point point);
     }

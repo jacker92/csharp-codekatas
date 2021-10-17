@@ -2,15 +2,7 @@
 {
     public class MazeGrid : IMazeGrid
     {
-        // +--------> +ve X
-        // |
-        // |
-        // |
-        // |
-        // v
-        // +ve Y
-
-        public MazeGrid(bool[][] grid, Point start, Point finish)
+        public MazeGrid(Tile[][] grid, Point start, Point finish)
         {
             Grid = grid;
             StartPosition = start;
@@ -21,16 +13,12 @@
 
         public Point Finish { get; }
 
-        public bool[][] Grid { get; }
-
-        public int Width => Grid.Length;
-
-        public int Height => Grid.Length;
+        public Tile[][] Grid { get; }
 
         public bool IsOutOfBounds(Point point)
         {
             return point.Y < 0 || point.Y > Grid.Length ||
-                 point.X < 0 || point.X > Grid.Length;
+                 point.X < 0 || point.X > Grid[point.Y].Length;
         }
     }
 }

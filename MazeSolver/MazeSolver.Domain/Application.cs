@@ -1,5 +1,6 @@
 ﻿using MazeSolver.Builders;
 using MazeSolver.Models.MazeWalkers;
+using MazeSolver.Services;
 
 namespace MazeSolver
 {

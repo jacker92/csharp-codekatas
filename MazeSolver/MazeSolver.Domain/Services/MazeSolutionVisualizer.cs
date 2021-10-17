@@ -10,7 +10,7 @@ namespace MazeSolver.Services
         public string CreateVisualization(IMazeGrid maze, Stack<Point> shortestPath)
         {
             var lines = new List<string>();
-            for (int i = 0; i < maze.Height; i++)
+            for (int i = 0; i < maze.Grid.Length; i++)
             {
                 var characters = new List<char>();
                 for (int j = 0; j < maze.Grid[i].Length; j++)
@@ -29,7 +29,7 @@ namespace MazeSolver.Services
                     {
                         characters.Add(MazeCharacters.StartingPoint);
                     }
-                    else if (maze.Grid[i][j])
+                    else if (maze.Grid[i][j].TileType == TileType.Floor)
                     {
                         characters.Add(MazeCharacters.Floor);
                     }

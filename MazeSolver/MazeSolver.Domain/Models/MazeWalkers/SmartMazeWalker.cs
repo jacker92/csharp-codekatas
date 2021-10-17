@@ -99,12 +99,25 @@ namespace MazeSolver.Models.MazeWalkers
                 new Location { Point = new Point(current.X, current.Y + 1) },
                 new Location { Point = new Point(current.X - 1, current.Y) },
                 new Location { Point = new Point(current.X + 1, current.Y) }
-            }.Where(x => x.Point.X >= 0 && x.Point.Y >= 0 &&
-                         x.Point.X <= _mazeGrid.Width - 1 && x.Point.Y <= _mazeGrid.Height - 1 &&
-                         !x.Point.Equals(_mazeGrid.StartPosition));
+            }.Where(x => IsValidLocation(x));
 
-            return proposedLocations.Where(
-                l => _mazeGrid.Grid[l.Point.Y][l.Point.X] || _mazeGrid.Finish.Equals(l.Point)).ToList();
+            return proposedLocations.ToList();
+        }
+
+        private bool IsValidLocation(Location x)
+        {
+            var isOutOfBounds = _mazeGrid.IsOutOfBounds(x.Point);
+
+            if (isOutOfBounds)
+            {
+                return false;
+            }
+
+            var location = _mazeGrid.Grid[x.Point.Y][x.Point.X];
+
+            return !x.Point.Equals(_mazeGrid.StartPosition) &&
+                                     location.TileType != TileType.Start &&
+                                     location.TileType != TileType.Wall;
         }
     }
 }
