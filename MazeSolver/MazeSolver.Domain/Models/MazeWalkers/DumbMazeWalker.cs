@@ -31,7 +31,7 @@ namespace MazeSolver.Models.MazeWalkers
                     break;
             }
 
-            if (_mazeGrid.IsOutOfBounds(pointToOurLeft))
+            if (MazeHelpers.IsOutOfBounds(pointToOurLeft, _mazeGrid.Grid))
             {
                 return false;
             }
@@ -126,7 +126,7 @@ namespace MazeSolver.Models.MazeWalkers
                     break;
             }
 
-            var isOutOfBounds = _mazeGrid.IsOutOfBounds(desiredPoint);
+            var isOutOfBounds = MazeHelpers.IsOutOfBounds(desiredPoint, _mazeGrid.Grid);
 
             if (isOutOfBounds)
             {

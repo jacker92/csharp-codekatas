@@ -20,7 +20,7 @@ namespace MazeSolver.Services
 
                 for (int currentCol = 0; currentCol < line.Length; currentCol++)
                 {
-                    TileType? tileType = null;
+                    TileType? tileType;
                     switch (line[currentCol])
                     {
                         case MazeCharacters.StartingPoint:

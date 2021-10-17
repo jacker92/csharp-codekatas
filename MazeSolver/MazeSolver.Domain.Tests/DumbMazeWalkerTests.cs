@@ -15,8 +15,7 @@ namespace MazeSolver.Domain.Tests
         {
             _mazeGrid = new Mock<IMazeGrid>();
             _mazeGrid.SetReturnsDefault(new Point(0, 0));
-            _mazeGrid.Setup(x => x.IsOutOfBounds(It.IsAny<Point>())).Returns(true);
-
+          
             _dumbMazeWalker = new DumbMazeWalker(_mazeGrid.Object);
         }
 

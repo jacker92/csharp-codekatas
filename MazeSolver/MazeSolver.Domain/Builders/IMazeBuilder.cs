@@ -4,6 +4,6 @@ namespace MazeSolver.Builders
 {
     public interface IMazeBuilder
     {
-        MazeGrid Build(int mazeNumber);
+        IMazeGrid Build(int mazeNumber);
     }
 }

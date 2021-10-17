@@ -11,7 +11,7 @@ namespace MazeSolver
             var screen = new Screen();
             var mazeReader = new RawMazeFileReader();
             var mazeLineParser = new MazeLineParser();
-            var mazeBuilder = new MazeBuilder(mazeReader, mazeLineParser);
+            var mazeBuilder = new RandomMazeBuilder();
             var mazeWalkerBuilder = new MazeWalkerBuilder(mazeBuilder);
             var mazeSolutionVisualizer = new MazeSolutionVisualizer();
             var screenDisplayer = new ScreenDisplayer(screen, mazeSolutionVisualizer);

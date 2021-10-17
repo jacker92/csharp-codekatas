@@ -46,6 +46,7 @@
     <Compile Include="Builders\IMazeWalkerBuilder.cs" />
     <Compile Include="Builders\MazeWalkerBuilder.cs" />
     <Compile Include="Exceptions\MazeInputFormatException.cs" />
+    <Compile Include="Models\MazeHelpers.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TileType.cs" />
     <Compile Include="Services\IMazeSolutionVisualizer.cs" />

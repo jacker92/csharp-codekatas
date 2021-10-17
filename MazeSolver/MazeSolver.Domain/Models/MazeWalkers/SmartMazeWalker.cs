@@ -106,7 +106,7 @@ namespace MazeSolver.Models.MazeWalkers
 
         private bool IsValidLocation(Location x)
         {
-            var isOutOfBounds = _mazeGrid.IsOutOfBounds(x.Point);
+            var isOutOfBounds = MazeHelpers.IsOutOfBounds(x.Point, _mazeGrid.Grid);
 
             if (isOutOfBounds)
             {

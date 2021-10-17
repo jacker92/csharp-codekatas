@@ -7,6 +7,7 @@ using Xunit;
 
 namespace MazeSolver.Domain.Tests
 {
+
     public class ApplicationTests
     {
         private readonly Application _application;
