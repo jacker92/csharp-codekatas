@@ -13,9 +13,9 @@ namespace MazeSolver
             var mazeLineParser = new MazeLineParser();
             var mazeBuilder = new MazeBuilder(mazeReader, mazeLineParser);
             var mazeWalkerBuilder = new MazeWalkerBuilder(mazeBuilder);
-            var mazeApp = new Application(mazeWalkerBuilder, screen);
+            var mazeApp = new Application(mazeWalkerBuilder, screen, mazeBuilder);
 
-            mazeApp.Run(MazeWalkerType.SmartMazeWalker, 1);
+            mazeApp.Run(MazeWalkerType.SmartMazeWalker, 3, true);
             screen.ReadInput();
         }
     }

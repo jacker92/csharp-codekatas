@@ -1,4 +1,5 @@
-﻿using MazeSolver.Models;
+﻿using MazeSolver.Exceptions;
+using MazeSolver.Models;
 using MazeSolver.Utils;
 
 namespace MazeSolver.Services

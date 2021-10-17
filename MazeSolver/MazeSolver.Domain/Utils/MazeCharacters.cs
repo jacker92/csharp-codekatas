@@ -6,5 +6,6 @@
         public const char Floor = '.';
         public const char StartingPoint = 'S';
         public const char FinishPoint = 'F';
+        public const char Path = '*';
     }
 }

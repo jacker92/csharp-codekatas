@@ -1,4 +1,5 @@
-﻿using MazeSolver.Models.MazeWalkers;
+﻿using MazeSolver.Models;
+using MazeSolver.Models.MazeWalkers;
 using System;
 
 namespace MazeSolver.Builders
@@ -12,18 +13,17 @@ namespace MazeSolver.Builders
             _mazeBuilder = mazeBuilder ?? throw new ArgumentNullException(nameof(mazeBuilder));
         }
 
-        public IMazeWalker Build(MazeWalkerType mazeWalkerType, int mazeNumber)
+        public IMazeWalker Build(MazeWalkerType mazeWalkerType, IMazeGrid mazeGrid)
         {
-
 
             IMazeWalker mazeWalker = null;
             switch (mazeWalkerType)
             {
                 case MazeWalkerType.DumbMazeWalker:
-                    mazeWalker = new DumbMazeWalker(maze);
+                    mazeWalker = new DumbMazeWalker(mazeGrid);
                     break;
                 case MazeWalkerType.SmartMazeWalker:
-                    mazeWalker = new SmartMazeWalker(maze);
+                    mazeWalker = new SmartMazeWalker(mazeGrid);
                     break;
             }
 

@@ -1,9 +1,10 @@
-﻿using MazeSolver.Models.MazeWalkers;
+﻿using MazeSolver.Models;
+using MazeSolver.Models.MazeWalkers;
 
 namespace MazeSolver.Builders
 {
     public interface IMazeWalkerBuilder
     {
-        IMazeWalker Build(MazeWalkerType mazeWalkerType, int mazeNumber);
+        IMazeWalker Build(MazeWalkerType mazeWalkerType, IMazeGrid mazeGrid);
     }
 }

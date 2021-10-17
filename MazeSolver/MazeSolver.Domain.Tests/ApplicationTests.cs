@@ -18,7 +18,7 @@ namespace MazeSolver.Domain.Tests
             var mazeLineParser = new MazeLineParser();
             var mazeBuilder = new MazeBuilder(mazeReader, mazeLineParser);
             var mazeWalkerBuilder = new MazeWalkerBuilder(mazeBuilder);
-            _application = new Application(mazeWalkerBuilder, _screen.Object);
+            _application = new Application(mazeWalkerBuilder, _screen.Object, mazeBuilder);
         }
 
         [Fact]
