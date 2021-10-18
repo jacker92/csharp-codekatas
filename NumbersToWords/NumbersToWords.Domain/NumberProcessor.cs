@@ -6,5 +6,10 @@
         {
             return input % 10;
         }
+
+        public int GetTwoDigitNumber(int input)
+        {
+            return input % 100;
+        }
     }
 }
