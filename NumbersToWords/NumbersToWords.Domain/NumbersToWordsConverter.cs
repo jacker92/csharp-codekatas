@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace NumbersToWords.Domain
 {
@@ -35,6 +36,26 @@ namespace NumbersToWords.Domain
             if (value < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            var valueStr = value.ToString();
+            var builder = new StringBuilder();
+
+            if (value < 100 && value > 19)
+            {
+                var tens = valueStr.Substring(0, 1);
+                var asInt = int.Parse($"{tens}0");
+                builder.Append(_dictionary[asInt]);
+                var ones = valueStr.Substring(1, 1);
+                if (ones != "0")
+                {
+                    builder.Append($"-{_dictionary[int.Parse(ones)]}");
+                }
+            }
+
+            if (builder.Length > 0)
+            {
+                return builder.ToString();
             }
 
             if (value < 21)

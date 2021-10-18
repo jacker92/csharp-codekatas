@@ -52,5 +52,13 @@ namespace NumbersToWords.Domain.Tests
             var result = _numbersToWordsConverter.Convert(value);
             Assert.Equal(convertedValue, result);
         }
+
+        [Theory]
+        [InlineData(21, "twenty-one")]
+        public void Convert_ShouldReturnCorrectResult_ForTwoDigitNumbers20To99(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value);
+            Assert.Equal(convertedValue, result);
+        }
     }
 }
