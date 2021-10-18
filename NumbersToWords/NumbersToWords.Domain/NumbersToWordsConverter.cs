@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NumbersToWords.Domain
 {
@@ -53,46 +52,58 @@ namespace NumbersToWords.Domain
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            var builder = new StringBuilder();
+            if (value == 0)
+            {
+                return _dictionary[0];
+            }
 
-            ParseThreeDigitNumbers(value, builder);
-            return ParseTwoDigitNumbers(value, builder);
+            var values = new List<string>();
+
+            values.AddRange(ParseThreeDigitNumbers(value));
+            values.AddRange(ParseTwoDigitNumbers(value));
+
+            return string.Join(' ', values);
         }
 
-        private string ParseTwoDigitNumbers(int value, StringBuilder builder)
+        private IList<string> ParseThreeDigitNumbers(int value)
         {
-            if (value < 100 && value > 19)
-            {
-                var lastDigit = _numberProcessor.GetLastDigit(value);
+            var list = new List<string>();
 
-                var even = _numberProcessor.GetEvenTwoDigitNumber(value);
-                builder.Append(_dictionary[even]);
-                if (lastDigit != 0)
-                {
-                    builder.Append($"-{_dictionary[lastDigit]}");
-                }
-            }
-
-            if (builder.Length > 0)
-            {
-                return builder.ToString();
-            }
-
-            if (value < 21)
-            {
-                return _dictionary[value];
-            }
-
-            return _dictionary[0];
-        }
-
-        private void ParseThreeDigitNumbers(int value, StringBuilder builder)
-        {
             if (value >= 100)
             {
                 var oneDigit = _numberProcessor.GetFirstDigit(value);
-                builder.Append($"{_dictionary[oneDigit]} {_dictionary[100]}");
+                list.Add($"{_dictionary[oneDigit]} {_dictionary[100]}");
             }
+
+            return list;
+        }
+
+        private IList<string> ParseTwoDigitNumbers(int value)
+        {
+            var twoDigits = _numberProcessor.GetTwoDigitNumber(value);
+            var values = new List<string>();
+
+            if (twoDigits > 20)
+            {
+                var lastDigit = _numberProcessor.GetLastDigit(twoDigits);
+                var evenTwoDigitNumber = _numberProcessor.GetEvenTwoDigitNumber(twoDigits);
+
+                var evenTwoDigitNumberStr = _dictionary[evenTwoDigitNumber];
+
+                if (lastDigit != 0)
+                {
+                    evenTwoDigitNumberStr += $"-{_dictionary[lastDigit]}";
+                }
+
+                values.Add(evenTwoDigitNumberStr);
+            }
+
+            if (twoDigits < 21 && twoDigits != 0)
+            {
+                values.Add(_dictionary[twoDigits]);
+            }
+
+            return values;
         }
     }
 }

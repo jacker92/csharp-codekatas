@@ -81,5 +81,16 @@ namespace NumbersToWords.Domain.Tests
             var result = _numbersToWordsConverter.Convert(value);
             Assert.Equal(convertedValue, result);
         }
+
+        [Theory]
+        [InlineData(105, "one hundred five")]
+        [InlineData(539, "five hundred thirty-nine")]
+        [InlineData(999, "nine hundred ninety-nine")]
+        [InlineData(810, "eight hundred ten")]
+        public void Convert_ShouldReturnCorrectResult_ForThreeDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value);
+            Assert.Equal(convertedValue, result);
+        }
     }
 }
