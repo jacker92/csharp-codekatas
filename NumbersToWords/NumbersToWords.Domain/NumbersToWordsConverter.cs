@@ -4,6 +4,7 @@ using System.Text;
 
 namespace NumbersToWords.Domain
 {
+
     public class NumbersToWordsConverter
     {
         private readonly Dictionary<int, string> _dictionary = new Dictionary<int, string>
