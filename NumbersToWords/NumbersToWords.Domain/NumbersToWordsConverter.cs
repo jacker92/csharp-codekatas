@@ -36,6 +36,7 @@ namespace NumbersToWords.Domain
             {70, "seventy"},
             {80, "eighty"},
             {90, "ninety"},
+            {100, "hundred"},
         };
 
         private readonly NumberProcessor _numberProcessor;
@@ -54,11 +55,18 @@ namespace NumbersToWords.Domain
 
             var builder = new StringBuilder();
 
+            ParseThreeDigitNumbers(value, builder);
+            return ParseTwoDigitNumbers(value, builder);
+        }
+
+        private string ParseTwoDigitNumbers(int value, StringBuilder builder)
+        {
             if (value < 100 && value > 19)
             {
+                var lastDigit = _numberProcessor.GetLastDigit(value);
+
                 var even = _numberProcessor.GetEvenTwoDigitNumber(value);
                 builder.Append(_dictionary[even]);
-                var lastDigit = _numberProcessor.GetLastDigit(value);
                 if (lastDigit != 0)
                 {
                     builder.Append($"-{_dictionary[lastDigit]}");
@@ -76,6 +84,15 @@ namespace NumbersToWords.Domain
             }
 
             return _dictionary[0];
+        }
+
+        private void ParseThreeDigitNumbers(int value, StringBuilder builder)
+        {
+            if (value >= 100)
+            {
+                var oneDigit = _numberProcessor.GetFirstDigit(value);
+                builder.Append($"{_dictionary[oneDigit]} {_dictionary[100]}");
+            }
         }
     }
 }
