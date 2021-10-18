@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31808.319
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumbersToWords.Domain", "NumbersToWords.Domain\NumbersToWords.Domain.csproj", "{223CE5A0-822F-46D2-A711-6F2D70A5ECC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumbersToWords.Domain.Tests", "NumbersToWords.Domain.Tests\NumbersToWords.Domain.Tests.csproj", "{6E60ADAF-AD68-4BF0-8447-702E66A66E64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{223CE5A0-822F-46D2-A711-6F2D70A5ECC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{223CE5A0-822F-46D2-A711-6F2D70A5ECC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{223CE5A0-822F-46D2-A711-6F2D70A5ECC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{223CE5A0-822F-46D2-A711-6F2D70A5ECC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E60ADAF-AD68-4BF0-8447-702E66A66E64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E60ADAF-AD68-4BF0-8447-702E66A66E64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E60ADAF-AD68-4BF0-8447-702E66A66E64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E60ADAF-AD68-4BF0-8447-702E66A66E64}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4715A6C9-D7B4-4559-89CB-F48860A8B760}
+	EndGlobalSection
+EndGlobal
