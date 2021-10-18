@@ -34,11 +34,13 @@ namespace MazeSolver.Builders
         {
             var cells = new Stack<Tile>();
             var visitedCells = 0;
-
-            while (visitedCells < totalCells / 2.5)
+            var alreadyProcessedCells = new List<Tile>();
+            while (visitedCells < totalCells / 2)
             {
+                int required = GetRequiredAmountOfWalls(currentCell, alreadyProcessedCells);
+
                 // get a list of the neighboring cells with all 4 walls intact
-                var adjacentCells = GetNeighborsWithWalls(currentCell.Location, tiles);
+                var adjacentCells = GetNeighborsWithWalls(currentCell.Location, tiles, required);
                 // test if a cell like this exists
                 if (adjacentCells.Count > 0)
                 {
@@ -51,13 +53,19 @@ namespace MazeSolver.Builders
                     cells.Push(currentCell); // push the current cell onto the stack
                     currentCell = randomCell; // make the random neighbor the new current cell
                     visitedCells++; // increment the # of cells visited
+
+                    alreadyProcessedCells.Add(currentCell);
                 }
                 else // No adjacent cells that haven't been visited, go back to the previous cell
                 {
-
                     currentCell = cells.Pop();
                 }
             }
+        }
+
+        private static int GetRequiredAmountOfWalls(Tile currentCell, List<Tile> alreadyProcessedCells)
+        {
+            return alreadyProcessedCells.Contains(currentCell) ? 2 : 3;
         }
 
         private static Tile[][] InitializeTiles(int width)
@@ -75,7 +83,7 @@ namespace MazeSolver.Builders
             return tiles;
         }
 
-        private List<Tile> GetNeighborsWithWalls(Point currentCell, Tile[][] tiles)
+        private List<Tile> GetNeighborsWithWalls(Point currentCell, Tile[][] tiles, int requiredAmount)
         {
             var proposed = MazeHelpers.ProposedLocations(currentCell);
 
@@ -86,8 +94,7 @@ namespace MazeSolver.Builders
             }).ToList();
 
 
-            return res.Count() >= 2 ? res.Select(x => tiles[x.Y][x.X]).ToList() : new List<Tile>();
-
+            return res.Count() >= requiredAmount ? res.Select(x => tiles[x.Y][x.X]).ToList() : new List<Tile>();
         }
     }
 }
