@@ -11,5 +11,10 @@
         {
             return input % 100;
         }
+
+        public int GetEvenTwoDigitNumber(int input)
+        {
+            return input % 100 - input % 10;
+        }
     }
 }

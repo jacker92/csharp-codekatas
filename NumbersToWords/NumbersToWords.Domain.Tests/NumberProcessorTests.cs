@@ -32,5 +32,16 @@ namespace NumbersToWords.Domain.Tests
             var result = _numberProcessor.GetTwoDigitNumber(input);
             Assert.Equal(expected, result);
         }
+
+        [Theory]
+        [InlineData(65, 60)]
+        [InlineData(155, 50)]
+        [InlineData(1575, 70)]
+        [InlineData(1, 0)]
+        public void GetEvenTwoDigitNumber_ShouldReturnCorrectResult(int input, int expected)
+        {
+            var result = _numberProcessor.GetEvenTwoDigitNumber(input);
+            Assert.Equal(expected, result);
+        }
     }
 }
