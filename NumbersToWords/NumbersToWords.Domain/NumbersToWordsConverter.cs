@@ -81,6 +81,18 @@ namespace NumbersToWords.Domain
         private IList<string> ParseTwoDigitNumbers(int value)
         {
             var twoDigits = _numberProcessor.GetTwoDigitNumber(value);
+            var values = ParseTwoDigitsOverTwenty(twoDigits);
+
+            if (twoDigits < 21 && twoDigits != 0)
+            {
+                values.Add(_dictionary[twoDigits]);
+            }
+
+            return values;
+        }
+
+        private List<string> ParseTwoDigitsOverTwenty(int twoDigits)
+        {
             var values = new List<string>();
 
             if (twoDigits > 20)
@@ -96,11 +108,6 @@ namespace NumbersToWords.Domain
                 }
 
                 values.Add(evenTwoDigitNumberStr);
-            }
-
-            if (twoDigits < 21 && twoDigits != 0)
-            {
-                values.Add(_dictionary[twoDigits]);
             }
 
             return values;
