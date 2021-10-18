@@ -55,6 +55,17 @@ namespace NumbersToWords.Domain.Tests
 
         [Theory]
         [InlineData(21, "twenty-one")]
+        [InlineData(22, "twenty-two")]
+        [InlineData(23, "twenty-three")]
+        [InlineData(24, "twenty-four")]
+        [InlineData(30, "thirty")]
+        [InlineData(40, "fourty")]
+        [InlineData(50, "fifty")]
+        [InlineData(60, "sixty")]
+        [InlineData(70, "seventy")]
+        [InlineData(80, "eighty")]
+        [InlineData(90, "ninety")]
+        [InlineData(95, "ninety-five")]
         public void Convert_ShouldReturnCorrectResult_ForTwoDigitNumbers20To99(int value, string convertedValue)
         {
             var result = _numbersToWordsConverter.Convert(value);
