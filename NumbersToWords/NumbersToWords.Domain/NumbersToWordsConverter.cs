@@ -52,18 +52,16 @@ namespace NumbersToWords.Domain
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            var valueStr = value.ToString();
             var builder = new StringBuilder();
 
             if (value < 100 && value > 19)
             {
-                var tens = valueStr.Substring(0, 1);
-                var asInt = int.Parse($"{tens}0");
-                builder.Append(_dictionary[asInt]);
-                var ones = valueStr.Substring(1, 1);
-                if (ones != "0")
+                var even = _numberProcessor.GetEvenTwoDigitNumber(value);
+                builder.Append(_dictionary[even]);
+                var lastDigit = _numberProcessor.GetLastDigit(value);
+                if (lastDigit != 0)
                 {
-                    builder.Append($"-{_dictionary[int.Parse(ones)]}");
+                    builder.Append($"-{_dictionary[lastDigit]}");
                 }
             }
 
@@ -76,7 +74,8 @@ namespace NumbersToWords.Domain
             {
                 return _dictionary[value];
             }
-            return "zero";
+
+            return _dictionary[0];
         }
     }
 }

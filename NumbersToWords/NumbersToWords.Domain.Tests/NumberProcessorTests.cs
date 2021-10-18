@@ -18,7 +18,7 @@ namespace NumbersToWords.Domain.Tests
         [InlineData(1, 1)]
         public void GetOneDigitNumber_ShouldReturnCorrectResult(int input, int expected)
         {
-            var result = _numberProcessor.GetOneDigitNumber(input);
+            var result = _numberProcessor.GetLastDigit(input);
             Assert.Equal(expected, result);
         }
 

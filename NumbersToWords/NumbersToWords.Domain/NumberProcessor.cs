@@ -2,7 +2,7 @@
 {
     public class NumberProcessor
     {
-        public int GetOneDigitNumber(int input)
+        public int GetLastDigit(int input)
         {
             return input % 10;
         }
