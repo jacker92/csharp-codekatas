@@ -135,6 +135,8 @@ namespace NumbersToWords.Domain.Tests
 
         [Theory]
         [InlineData(100000, "one hundred thousand")]
+        [InlineData(500000, "five hundred thousand")]
+        [InlineData(900000, "nine hundred thousand")]
         public void Convert_ShouldReturnCorrectResult_ForEvenSixDigitNumbers(int value, string convertedValue)
         {
             var result = _numbersToWordsConverter.Convert(value);
