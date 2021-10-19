@@ -67,5 +67,18 @@ namespace NumbersToWords.Domain.Tests
             var result = _numberProcessor.GetEvenThreeDigitNumber(input);
             Assert.Equal(expected, result);
         }
+
+        [Theory]
+        [InlineData(1655, 655)]
+        [InlineData(1555, 555)]
+        [InlineData(1500, 500)]
+        [InlineData(150, 150)]
+        [InlineData(1, 1)]
+        [InlineData(12, 12)]
+        public void GetThreeDigitNumber_ShouldReturnCorrectResult(int input, int expected)
+        {
+            var result = _numberProcessor.GetThreeDigitNumber(input);
+            Assert.Equal(expected, result);
+        }
     }
 }
