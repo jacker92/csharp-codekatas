@@ -78,6 +78,10 @@ namespace NumbersToWords.Domain
                 {
                     list.AddRange(ParseTwoDigitNumbers(amountOfThousands));
                 }
+                else if (amountOfThousands < 1000)
+                {
+                    list.AddRange(ParseThreeDigitNumbers(amountOfThousands));
+                }
 
                 list.Add($"{_dictionary[1000]}");
             }
