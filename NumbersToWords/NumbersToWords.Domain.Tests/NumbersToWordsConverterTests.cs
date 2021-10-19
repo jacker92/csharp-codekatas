@@ -142,5 +142,15 @@ namespace NumbersToWords.Domain.Tests
             var result = _numbersToWordsConverter.Convert(value);
             Assert.Equal(convertedValue, result);
         }
+
+        [Theory]
+        [InlineData(100001, "one hundred thousand one")]
+        [InlineData(505050, "five hundred five thousand fifty")]
+        [InlineData(999999, "nine hundred ninety-nine thousand nine hundred ninety-nine")]
+        public void Convert_ShouldReturnCorrectResult_ForSixDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value);
+            Assert.Equal(convertedValue, result);
+        }
     }
 }
