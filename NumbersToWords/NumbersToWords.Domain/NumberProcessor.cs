@@ -36,5 +36,27 @@
         {
             return value % 1000;
         }
+
+        public int GetEvenFourDigitNumber(int input)
+        {
+            return input % 10000 - input % 1000;
+        }
+
+        public int GetFourDigitNumber(int input)
+        {
+            return input % 10000;
+        }
+
+        public int GetAmountOfThousands(int input)
+        {
+            var str = input.ToString();
+            if (str.Length <= 3)
+            {
+                return 0;
+            }
+
+            str = str.Substring(0, str.Length - 3);
+            return int.Parse(str);
+        }
     }
 }

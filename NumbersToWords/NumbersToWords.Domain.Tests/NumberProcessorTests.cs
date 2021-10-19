@@ -80,5 +80,43 @@ namespace NumbersToWords.Domain.Tests
             var result = _numberProcessor.GetThreeDigitNumber(input);
             Assert.Equal(expected, result);
         }
+
+        [Theory]
+        [InlineData(65555, 5000)]
+        [InlineData(12345, 2000)]
+        [InlineData(1575, 1000)]
+        [InlineData(155, 0)]
+        [InlineData(1, 0)]
+        [InlineData(12, 0)]
+        public void GetEvenFourDigitNumber_ShouldReturnCorrectResult(int input, int expected)
+        {
+            var result = _numberProcessor.GetEvenFourDigitNumber(input);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(14655, 4655)]
+        [InlineData(15555, 5555)]
+        [InlineData(1500, 1500)]
+        [InlineData(150, 150)]
+        [InlineData(1, 1)]
+        [InlineData(12, 12)]
+        public void GetFourDigitNumber_ShouldReturnCorrectResult(int input, int expected)
+        {
+            var result = _numberProcessor.GetFourDigitNumber(input);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(1000, 1)]
+        [InlineData(10000, 10)]
+        [InlineData(100000, 100)]
+        [InlineData(1000000, 1000)]
+        [InlineData(100, 0)]
+        public void GetAmountOfThousands_ShouldReturnCorrectResult(int input, int expected)
+        {
+            var result = _numberProcessor.GetAmountOfThousands(input);
+            Assert.Equal(expected, result);
+        }
     }
 }

@@ -60,21 +60,21 @@ namespace NumbersToWords.Domain
 
             var values = new List<string>();
 
-            values.AddRange(ParseFourDigitNumbers(value));
+            values.AddRange(ParseFourFiveAndSixDigitNumbers(value));
             values.AddRange(ParseThreeDigitNumbers(value));
             values.AddRange(ParseTwoDigitNumbers(value));
 
             return string.Join(' ', values);
         }
 
-        private IList<string> ParseFourDigitNumbers(int value)
+        private IList<string> ParseFourFiveAndSixDigitNumbers(int value)
         {
             var list = new List<string>();
 
             if (value >= 1000)
             {
-                var oneDigit = _numberProcessor.GetFirstDigit(value);
-                list.Add($"{_dictionary[oneDigit]} {_dictionary[1000]}");
+                var amountOfThousands = _numberProcessor.GetAmountOfThousands(value);
+                list.Add($"{_dictionary[amountOfThousands]} {_dictionary[1000]}");
             }
 
             return list;

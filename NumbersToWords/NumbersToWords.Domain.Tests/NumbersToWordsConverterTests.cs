@@ -112,5 +112,22 @@ namespace NumbersToWords.Domain.Tests
             var result = _numbersToWordsConverter.Convert(value);
             Assert.Equal(convertedValue, result);
         }
+
+        [Theory]
+        [InlineData(10000, "ten thousand")]
+        public void Convert_ShouldReturnCorrectResult_ForEvenFiveDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value);
+            Assert.Equal(convertedValue, result);
+        }
+
+        [Theory]
+        [InlineData(10100, "ten thousand one hundred")]
+
+        public void Convert_ShouldReturnCorrectResult_ForFiveDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value);
+            Assert.Equal(convertedValue, result);
+        }
     }
 }
