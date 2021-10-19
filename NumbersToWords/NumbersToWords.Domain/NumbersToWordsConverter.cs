@@ -74,7 +74,12 @@ namespace NumbersToWords.Domain
             if (value >= 1000)
             {
                 var amountOfThousands = _numberProcessor.GetAmountOfThousands(value);
-                list.Add($"{_dictionary[amountOfThousands]} {_dictionary[1000]}");
+                if (amountOfThousands < 100)
+                {
+                    list.AddRange(ParseTwoDigitNumbers(amountOfThousands));
+                }
+
+                list.Add($"{_dictionary[1000]}");
             }
 
             return list;
