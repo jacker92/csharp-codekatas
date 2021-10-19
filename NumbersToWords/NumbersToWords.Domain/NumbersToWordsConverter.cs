@@ -36,6 +36,7 @@ namespace NumbersToWords.Domain
             {80, "eighty"},
             {90, "ninety"},
             {100, "hundred"},
+            {1000, "thousand"},
         };
 
         private readonly NumberProcessor _numberProcessor;
@@ -59,17 +60,31 @@ namespace NumbersToWords.Domain
 
             var values = new List<string>();
 
+            values.AddRange(ParseFourDigitNumbers(value));
             values.AddRange(ParseThreeDigitNumbers(value));
             values.AddRange(ParseTwoDigitNumbers(value));
 
             return string.Join(' ', values);
         }
 
+        private IList<string> ParseFourDigitNumbers(int value)
+        {
+            var list = new List<string>();
+
+            if (value >= 1000)
+            {
+                var oneDigit = _numberProcessor.GetFirstDigit(value);
+                list.Add($"{_dictionary[oneDigit]} {_dictionary[1000]}");
+            }
+
+            return list;
+        }
+
         private IList<string> ParseThreeDigitNumbers(int value)
         {
             var list = new List<string>();
 
-            if (value >= 100)
+            if (value < 1000 && value >= 100)
             {
                 var oneDigit = _numberProcessor.GetFirstDigit(value);
                 list.Add($"{_dictionary[oneDigit]} {_dictionary[100]}");
