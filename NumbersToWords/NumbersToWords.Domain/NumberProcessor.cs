@@ -31,5 +31,10 @@
 
             return input;
         }
+
+        public int GetThreeDigitNumber(int value)
+        {
+            return value % 1000;
+        }
     }
 }

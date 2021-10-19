@@ -82,11 +82,12 @@ namespace NumbersToWords.Domain
 
         private IList<string> ParseThreeDigitNumbers(int value)
         {
+            var threeDigits = _numberProcessor.GetThreeDigitNumber(value);
             var list = new List<string>();
 
-            if (value < 1000 && value >= 100)
+            if (threeDigits >= 100)
             {
-                var oneDigit = _numberProcessor.GetFirstDigit(value);
+                var oneDigit = _numberProcessor.GetFirstDigit(threeDigits);
                 list.Add($"{_dictionary[oneDigit]} {_dictionary[100]}");
             }
 
