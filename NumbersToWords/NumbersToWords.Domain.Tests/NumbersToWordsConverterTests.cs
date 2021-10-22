@@ -172,5 +172,26 @@ namespace NumbersToWords.Domain.Tests
             var result = _numbersToWordsConverter.Convert(value);
             Assert.Equal(convertedValue, result);
         }
+
+        [Theory]
+        [InlineData(10000000, "ten million")]
+        [InlineData(50000000, "fifty million")]
+        [InlineData(90000000, "ninety million")]
+        public void Convert_ShouldReturnCorrectResult_ForEvenEightDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value);
+            Assert.Equal(convertedValue, result);
+        }
+
+        [Theory]
+        [InlineData(10000100, "ten million one hundred")]
+        [InlineData(20001001, "twenty million one thousand one")]
+        [InlineData(55555555, "fifty-five million five hundred fifty-five thousand five hundred fifty-five")]
+        [InlineData(99999999, "ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine")]
+        public void Convert_ShouldReturnCorrectResult_ForEightDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value);
+            Assert.Equal(convertedValue, result);
+        }
     }
 }
