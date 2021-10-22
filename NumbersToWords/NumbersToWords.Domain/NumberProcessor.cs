@@ -1,4 +1,6 @@
-﻿namespace NumbersToWords.Domain
+﻿using System;
+
+namespace NumbersToWords.Domain
 {
     public class NumberProcessor
     {
@@ -49,13 +51,25 @@
 
         public int GetAmountOfThousands(int input)
         {
+            return GetAmountOf(input, 3);
+        }
+
+        public int GetAmountOfMillions(int input)
+        {
+            return GetAmountOf(input, 6);
+        }
+
+        private int GetAmountOf(int input, int indexOfEndChar)
+        {
             var str = input.ToString();
-            if (str.Length <= 3)
+            if (str.Length <= indexOfEndChar)
             {
                 return 0;
             }
 
-            str = str.Substring(0, str.Length - 3);
+            var endIndex = str.Length - indexOfEndChar;
+
+            str = str.Substring(Math.Max(endIndex - 3, 0), endIndex);
             return int.Parse(str);
         }
     }

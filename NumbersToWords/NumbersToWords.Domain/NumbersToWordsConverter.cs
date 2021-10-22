@@ -37,6 +37,7 @@ namespace NumbersToWords.Domain
             {90, "ninety"},
             {100, "hundred"},
             {1000, "thousand"},
+            {1000000, "million"},
         };
 
         private readonly NumberProcessor _numberProcessor;
@@ -59,12 +60,32 @@ namespace NumbersToWords.Domain
             }
 
             var values = new List<string>();
-
+            values.AddRange(ParseSevenEightAndNineDigitNumbers(value));
             values.AddRange(ParseFourFiveAndSixDigitNumbers(value));
             values.AddRange(ParseThreeDigitNumbers(value));
             values.AddRange(ParseTwoDigitNumbers(value));
 
             return string.Join(' ', values);
+        }
+
+        private IList<string> ParseSevenEightAndNineDigitNumbers(int value)
+        {
+            var list = new List<string>();
+
+            if (value >= 1000000)
+            {
+                var amountOfMillions = _numberProcessor.GetAmountOfMillions(value);
+                if (amountOfMillions >= 100)
+                {
+                    list.AddRange(ParseThreeDigitNumbers(amountOfMillions));
+                }
+
+                list.AddRange(ParseTwoDigitNumbers(amountOfMillions));
+
+                list.Add($"{_dictionary[1000000]}");
+            }
+
+            return list;
         }
 
         private IList<string> ParseFourFiveAndSixDigitNumbers(int value)
@@ -74,6 +95,12 @@ namespace NumbersToWords.Domain
             if (value >= 1000)
             {
                 var amountOfThousands = _numberProcessor.GetAmountOfThousands(value);
+
+                if (amountOfThousands == 0)
+                {
+                    return list;
+                }
+
                 if (amountOfThousands >= 100)
                 {
                     list.AddRange(ParseThreeDigitNumbers(amountOfThousands));

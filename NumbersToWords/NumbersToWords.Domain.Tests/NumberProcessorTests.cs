@@ -111,11 +111,24 @@ namespace NumbersToWords.Domain.Tests
         [InlineData(1000, 1)]
         [InlineData(10000, 10)]
         [InlineData(100000, 100)]
-        [InlineData(1000000, 1000)]
+        [InlineData(1000000, 0)]
         [InlineData(100, 0)]
         public void GetAmountOfThousands_ShouldReturnCorrectResult(int input, int expected)
         {
             var result = _numberProcessor.GetAmountOfThousands(input);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(100000, 0)]
+        [InlineData(1000000, 1)]
+        [InlineData(10000000, 10)]
+        [InlineData(100000000, 100)]
+        [InlineData(1000000000, 0)]
+        [InlineData(100, 0)]
+        public void GetAmountOfMillions_ShouldReturnCorrectResult(int input, int expected)
+        {
+            var result = _numberProcessor.GetAmountOfMillions(input);
             Assert.Equal(expected, result);
         }
     }
