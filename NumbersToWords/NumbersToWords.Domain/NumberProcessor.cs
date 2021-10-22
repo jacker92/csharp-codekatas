@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NumbersToWords.Domain
+﻿namespace NumbersToWords.Domain
 {
     public class NumberProcessor
     {
@@ -69,7 +67,16 @@ namespace NumbersToWords.Domain
 
             var endIndex = str.Length - indexOfEndChar;
 
-            str = str.Substring(Math.Max(endIndex - 3, 0), endIndex);
+            if (endIndex - 3 > 0)
+            {
+                str = str.Remove(0, endIndex - 3);
+                endIndex = str.Length - indexOfEndChar;
+            }
+
+            var startIndex = endIndex - 3 < 0 ? 0 : endIndex - 3;
+            var calculatedEndIndex = str.Length % 3 == 0 ? 3 : str.Length % 3;
+
+            str = str.Substring(startIndex, calculatedEndIndex);
             return int.Parse(str);
         }
     }

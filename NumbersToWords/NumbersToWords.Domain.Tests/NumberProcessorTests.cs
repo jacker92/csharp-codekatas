@@ -112,6 +112,7 @@ namespace NumbersToWords.Domain.Tests
         [InlineData(10000, 10)]
         [InlineData(100000, 100)]
         [InlineData(1000000, 0)]
+        [InlineData(5050505, 50)]
         [InlineData(100, 0)]
         public void GetAmountOfThousands_ShouldReturnCorrectResult(int input, int expected)
         {
