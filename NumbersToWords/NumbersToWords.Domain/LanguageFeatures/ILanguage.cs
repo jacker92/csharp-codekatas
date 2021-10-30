@@ -1,7 +1,9 @@
 ﻿namespace NumbersToWords.Domain.LanguageFeatures
 {
-    public interface ILanguageFeatures
+    public interface ILanguage
     {
+
+
         Language Language { get; }
         bool UsesDashes { get; }
         bool SingleUnitIsSpecifiedAsADigit { get; }

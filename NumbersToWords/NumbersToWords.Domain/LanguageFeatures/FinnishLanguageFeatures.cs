@@ -1,6 +1,6 @@
 ﻿namespace NumbersToWords.Domain.LanguageFeatures
 {
-    public class FinnishLanguageFeatures : ILanguageFeatures
+    public class FinnishLanguageFeatures : ILanguage
     {
         public Language Language => Language.Finnish;
         public bool UsesDashes => false;
@@ -9,7 +9,7 @@
         public bool UsesPluralizedForms => true;
         public string PluralizedForm(string digits)
         {
-            if (digits == "tuhat")
+            if (digits == Translations.FinnishTranslations[Constants.Thousand])
             {
                 return "ta";
             }

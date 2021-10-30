@@ -42,12 +42,12 @@ namespace NumbersToWords.Domain
 
         private IList<string> ParseSevenEightAndNineDigitNumbers(int value, Language language)
         {
-            return ParseNumbers(value, language, 1000000, _numberProcessor.GetAmountOfMillions);
+            return ParseNumbers(value, language, Constants.Million, _numberProcessor.GetAmountOfMillions);
         }
 
         private IList<string> ParseFourFiveAndSixDigitNumbers(int value, Language language)
         {
-            return ParseNumbers(value, language, 1000, _numberProcessor.GetAmountOfThousands);
+            return ParseNumbers(value, language, Constants.Thousand, _numberProcessor.GetAmountOfThousands);
         }
 
         private IList<string> ParseNumbers(int value, Language language, int minNumberToParse, Func<int, int> extractionFunc)
@@ -103,7 +103,7 @@ namespace NumbersToWords.Domain
 
                 if (_languageFeatureService.UsesSpacesBetweenNumbers(language))
                 {
-                    result += " ";
+                    result += Constants.Space;
                 }
 
                 var hundred = _translationService.Translate(100, language);
@@ -161,12 +161,10 @@ namespace NumbersToWords.Domain
 
             if (_languageFeatureService.UsesDashes(language))
             {
-                digits += "-";
+                digits += Constants.Dash;
             }
 
-            digits += _translationService.Translate(lastDigit, language);
-
-            return digits;
+            return digits + _translationService.Translate(lastDigit, language);
         }
     }
 }

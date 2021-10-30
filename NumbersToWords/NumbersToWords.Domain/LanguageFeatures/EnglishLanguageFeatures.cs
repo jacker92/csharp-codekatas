@@ -1,6 +1,6 @@
 ﻿namespace NumbersToWords.Domain.LanguageFeatures
 {
-    public class EnglishLanguageFeatures : ILanguageFeatures
+    public class EnglishLanguageFeatures : ILanguage
     {
         public Language Language => Language.English;
         public bool UsesDashes => true;

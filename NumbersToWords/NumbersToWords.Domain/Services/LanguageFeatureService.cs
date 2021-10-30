@@ -6,7 +6,7 @@ namespace NumbersToWords.Domain.Services
 {
     public class LanguageFeatureService : ILanguageFeatureService
     {
-        private readonly List<ILanguageFeatures> _languageFeatures = new List<ILanguageFeatures>
+        private readonly List<ILanguage> _languageFeatures = new List<ILanguage>
         {
             new EnglishLanguageFeatures(),
             new FinnishLanguageFeatures()
