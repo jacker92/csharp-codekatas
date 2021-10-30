@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NumbersToWords.Domain.LanguageFeatures;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NumbersToWords.Domain.Services

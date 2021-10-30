@@ -1,4 +1,4 @@
-﻿namespace NumbersToWords.Domain.Language
+﻿namespace NumbersToWords.Domain
 {
     public enum Language
     {

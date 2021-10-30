@@ -1,4 +1,4 @@
-﻿namespace NumbersToWords.Domain.Language.LanguageFeatures
+﻿namespace NumbersToWords.Domain.LanguageFeatures
 {
     public class EnglishLanguageFeatures : ILanguageFeatures
     {

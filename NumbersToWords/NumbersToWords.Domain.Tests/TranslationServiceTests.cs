@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NumbersToWords.Domain.Services;
+using System;
 using Xunit;
 
 namespace NumbersToWords.Domain.Tests
