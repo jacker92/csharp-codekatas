@@ -74,8 +74,8 @@ namespace NumbersToWords.Domain.Tests
 
         [Theory]
         [InlineData(100, "sata")]
-        //[InlineData(200, "kaksisataa")]
-        //[InlineData(500, "viisisataa")]
+        [InlineData(200, "kaksisataa")]
+        [InlineData(500, "viisisataa")]
         public void Convert_ShouldReturnCorrectResult_ForEvenThreeDigitNumbers(int value, string convertedValue)
         {
             var result = _numbersToWordsConverter.Convert(value, Language.Finnish);

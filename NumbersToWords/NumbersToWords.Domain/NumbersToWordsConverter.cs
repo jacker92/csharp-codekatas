@@ -52,7 +52,7 @@ namespace NumbersToWords.Domain
 
                 list.AddRange(ParseTwoDigitNumbers(amountOfMillions, language));
 
-                list.Add($"{_translationService.Translate(1000000, language)}");
+                list.Add(_translationService.Translate(1000000, language));
             }
 
             return list;
@@ -78,7 +78,7 @@ namespace NumbersToWords.Domain
 
                 list.AddRange(ParseTwoDigitNumbers(amountOfThousands, language));
 
-                list.Add($"{_translationService.Translate(1000, language)}");
+                list.Add(_translationService.Translate(1000, language));
             }
 
             return list;
@@ -104,7 +104,15 @@ namespace NumbersToWords.Domain
                     result += " ";
                 }
 
-                list.Add($"{result}{_translationService.Translate(100, language)}");
+                var hundred = _translationService.Translate(100, language);
+                result += hundred;
+
+                if (oneDigit != 1 && _languageFeatureService.UsesPluralizedForms(language))
+                {
+                    result += _languageFeatureService.GetPluralizedForm(language, hundred);
+                }
+
+                list.Add(result);
             }
 
             return list;
@@ -146,15 +154,17 @@ namespace NumbersToWords.Domain
         {
             string digits = string.Empty;
 
-            if (lastDigit != 0)
+            if (lastDigit == 0)
             {
-                if (_languageFeatureService.UsesDashes(language))
-                {
-                    digits += "-";
-                }
-
-                digits += $"{_translationService.Translate(lastDigit, language)}";
+                return digits;
             }
+
+            if (_languageFeatureService.UsesDashes(language))
+            {
+                digits += "-";
+            }
+
+            digits += _translationService.Translate(lastDigit, language);
 
             return digits;
         }

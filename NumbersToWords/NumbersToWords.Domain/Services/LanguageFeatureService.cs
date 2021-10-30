@@ -24,10 +24,22 @@ namespace NumbersToWords.Domain.Services
                                     .UsesDashes;
         }
 
+        public bool UsesPluralizedForms(Language language)
+        {
+            return _languageFeatures.Single(x => x.Language == language)
+                                    .UsesPluralizedForms;
+        }
+
         public bool UsesSpacesBetweenNumbers(Language language)
         {
             return _languageFeatures.Single(x => x.Language == language)
                                  .UsesSpacesBetweenNumbers;
+        }
+
+        public string GetPluralizedForm(Language language, string digits)
+        {
+            return _languageFeatures.Single(x => x.Language == language)
+                                .PluralizedForm(digits);
         }
     }
 }

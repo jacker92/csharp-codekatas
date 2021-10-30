@@ -6,5 +6,10 @@
         public bool UsesDashes => false;
         public bool SingleUnitIsSpecifiedAsADigit => false;
         public bool UsesSpacesBetweenNumbers => false;
+        public bool UsesPluralizedForms => true;
+        public string PluralizedForm(string digits)
+        {
+            return "a";
+        }
     }
 }
