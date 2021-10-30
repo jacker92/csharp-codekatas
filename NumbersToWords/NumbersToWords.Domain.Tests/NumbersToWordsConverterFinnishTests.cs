@@ -82,16 +82,16 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(105, "one hundred five")]
-        //[InlineData(539, "five hundred thirty-nine")]
-        //[InlineData(999, "nine hundred ninety-nine")]
-        //[InlineData(810, "eight hundred ten")]
-        //public void Convert_ShouldReturnCorrectResult_ForThreeDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(105, "sataviisi")]
+        [InlineData(539, "viisisataakolmekymmentäyhdeksän")]
+        [InlineData(999, "yhdeksänsataayhdeksänkymmentäyhdeksän")]
+        [InlineData(810, "kahdeksansataakymmenen")]
+        public void Convert_ShouldReturnCorrectResult_ForThreeDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(1000, "one thousand")]

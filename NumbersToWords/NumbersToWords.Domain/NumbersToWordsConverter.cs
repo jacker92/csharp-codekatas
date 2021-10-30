@@ -35,7 +35,9 @@ namespace NumbersToWords.Domain
             values.AddRange(ParseThreeDigitNumbers(value, language));
             values.AddRange(ParseTwoDigitNumbers(value, language));
 
-            return string.Join(' ', values);
+            return _languageFeatureService.UsesSpacesBetweenNumbers(language) ?
+                string.Join(' ', values) :
+                string.Concat(values);
         }
 
         private IList<string> ParseSevenEightAndNineDigitNumbers(int value, Language language)
@@ -140,11 +142,9 @@ namespace NumbersToWords.Domain
                 var lastDigit = _numberProcessor.GetLastDigit(twoDigits);
                 var evenTwoDigitNumber = _numberProcessor.GetEvenTwoDigitNumber(twoDigits);
 
-                var evenTwoDigitNumberStr = _translationService.Translate(evenTwoDigitNumber, language);
-
-                evenTwoDigitNumberStr += AddSecondDigit(language, lastDigit);
-
-                values.Add(evenTwoDigitNumberStr);
+                var translation = _translationService.Translate(evenTwoDigitNumber, language);
+                var secondDigit = AddSecondDigit(language, lastDigit);
+                values.Add(translation + secondDigit);
             }
 
             return values;
