@@ -42,66 +42,45 @@ namespace NumbersToWords.Domain
 
         private IList<string> ParseSevenEightAndNineDigitNumbers(int value, Language language)
         {
+            return ParseNumbers(value, language, 1000000, _numberProcessor.GetAmountOfMillions);
+        }
+
+        private IList<string> ParseFourFiveAndSixDigitNumbers(int value, Language language)
+        {
+            return ParseNumbers(value, language, 1000, _numberProcessor.GetAmountOfThousands);
+        }
+
+        private IList<string> ParseNumbers(int value, Language language, int minNumberToParse, Func<int, int> extractionFunc)
+        {
             var list = new List<string>();
 
-            if (value >= 1000000)
+            if (value >= minNumberToParse)
             {
-                var amountOfMillions = _numberProcessor.GetAmountOfMillions(value);
+                var amountOfNumbers = extractionFunc(value);
 
-                if (amountOfMillions > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
+                if (amountOfNumbers == 0)
                 {
-                    if (amountOfMillions >= 100)
-                    {
-                        list.AddRange(ParseThreeDigitNumbers(amountOfMillions, language));
-                    }
-
-                    list.AddRange(ParseTwoDigitNumbers(amountOfMillions, language));
+                    return list;
                 }
 
-                var million = _translationService.Translate(1000000, language);
+                if (amountOfNumbers > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
+                {
+                    if (amountOfNumbers >= 100)
+                    {
+                        list.AddRange(ParseThreeDigitNumbers(amountOfNumbers, language));
+                    }
 
-                if (amountOfMillions > 1 && _languageFeatureService.UsesPluralizedForms(language))
+                    list.AddRange(ParseTwoDigitNumbers(amountOfNumbers, language));
+                }
+
+                var million = _translationService.Translate(minNumberToParse, language);
+
+                if (amountOfNumbers > 1 && _languageFeatureService.UsesPluralizedForms(language))
                 {
                     million += _languageFeatureService.GetPluralizedForm(language, million);
                 }
 
                 list.Add(million);
-            }
-
-            return list;
-        }
-
-        private IList<string> ParseFourFiveAndSixDigitNumbers(int value, Language language)
-        {
-            var list = new List<string>();
-
-            if (value >= 1000)
-            {
-                var amountOfThousands = _numberProcessor.GetAmountOfThousands(value);
-
-                if (amountOfThousands == 0)
-                {
-                    return list;
-                }
-
-                if (amountOfThousands > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
-                {
-                    if (amountOfThousands >= 100)
-                    {
-                        list.AddRange(ParseThreeDigitNumbers(amountOfThousands, language));
-                    }
-
-                    list.AddRange(ParseTwoDigitNumbers(amountOfThousands, language));
-                }
-
-                var thousand = _translationService.Translate(1000, language);
-
-                if (amountOfThousands > 1 && _languageFeatureService.UsesPluralizedForms(language))
-                {
-                    thousand += _languageFeatureService.GetPluralizedForm(language, thousand);
-                }
-
-                list.Add(thousand);
             }
 
             return list;
@@ -173,7 +152,7 @@ namespace NumbersToWords.Domain
 
         private string AddSecondDigit(Language language, int lastDigit)
         {
-            string digits = string.Empty;
+            var digits = string.Empty;
 
             if (lastDigit == 0)
             {
