@@ -14,7 +14,7 @@ namespace NumbersToWords.Domain
             _numberProcessor = new NumberProcessor();
         }
 
-        public string Convert(int value)
+        public string Convert(int value, Language language = Language.English)
         {
             if (value < 0)
             {
@@ -23,19 +23,19 @@ namespace NumbersToWords.Domain
 
             if (value == 0)
             {
-                return _translationService.Translate(0);
+                return _translationService.Translate(0, language);
             }
 
             var values = new List<string>();
-            values.AddRange(ParseSevenEightAndNineDigitNumbers(value));
-            values.AddRange(ParseFourFiveAndSixDigitNumbers(value));
-            values.AddRange(ParseThreeDigitNumbers(value));
-            values.AddRange(ParseTwoDigitNumbers(value));
+            values.AddRange(ParseSevenEightAndNineDigitNumbers(value, language));
+            values.AddRange(ParseFourFiveAndSixDigitNumbers(value, language));
+            values.AddRange(ParseThreeDigitNumbers(value, language));
+            values.AddRange(ParseTwoDigitNumbers(value, language));
 
             return string.Join(' ', values);
         }
 
-        private IList<string> ParseSevenEightAndNineDigitNumbers(int value)
+        private IList<string> ParseSevenEightAndNineDigitNumbers(int value, Language language)
         {
             var list = new List<string>();
 
@@ -44,18 +44,18 @@ namespace NumbersToWords.Domain
                 var amountOfMillions = _numberProcessor.GetAmountOfMillions(value);
                 if (amountOfMillions >= 100)
                 {
-                    list.AddRange(ParseThreeDigitNumbers(amountOfMillions));
+                    list.AddRange(ParseThreeDigitNumbers(amountOfMillions, language));
                 }
 
-                list.AddRange(ParseTwoDigitNumbers(amountOfMillions));
+                list.AddRange(ParseTwoDigitNumbers(amountOfMillions, language));
 
-                list.Add($"{_translationService.Translate(1000000)}");
+                list.Add($"{_translationService.Translate(1000000, language)}");
             }
 
             return list;
         }
 
-        private IList<string> ParseFourFiveAndSixDigitNumbers(int value)
+        private IList<string> ParseFourFiveAndSixDigitNumbers(int value, Language language)
         {
             var list = new List<string>();
 
@@ -70,18 +70,18 @@ namespace NumbersToWords.Domain
 
                 if (amountOfThousands >= 100)
                 {
-                    list.AddRange(ParseThreeDigitNumbers(amountOfThousands));
+                    list.AddRange(ParseThreeDigitNumbers(amountOfThousands, language));
                 }
 
-                list.AddRange(ParseTwoDigitNumbers(amountOfThousands));
+                list.AddRange(ParseTwoDigitNumbers(amountOfThousands, language));
 
-                list.Add($"{_translationService.Translate(1000)}");
+                list.Add($"{_translationService.Translate(1000, language)}");
             }
 
             return list;
         }
 
-        private IList<string> ParseThreeDigitNumbers(int value)
+        private IList<string> ParseThreeDigitNumbers(int value, Language language)
         {
             var threeDigits = _numberProcessor.GetThreeDigitNumber(value);
             var list = new List<string>();
@@ -89,26 +89,26 @@ namespace NumbersToWords.Domain
             if (threeDigits >= 100)
             {
                 var oneDigit = _numberProcessor.GetFirstDigit(threeDigits);
-                list.Add($"{_translationService.Translate(oneDigit)} {_translationService.Translate(100)}");
+                list.Add($"{_translationService.Translate(oneDigit, language)} {_translationService.Translate(100, language)}");
             }
 
             return list;
         }
 
-        private IList<string> ParseTwoDigitNumbers(int value)
+        private IList<string> ParseTwoDigitNumbers(int value, Language language)
         {
             var twoDigits = _numberProcessor.GetTwoDigitNumber(value);
-            var values = ParseTwoDigitsOverTwenty(twoDigits);
+            var values = ParseTwoDigitsOverTwenty(twoDigits, language);
 
             if (twoDigits < 21 && twoDigits != 0)
             {
-                values.Add(_translationService.Translate(twoDigits));
+                values.Add(_translationService.Translate(twoDigits, language));
             }
 
             return values;
         }
 
-        private List<string> ParseTwoDigitsOverTwenty(int twoDigits)
+        private List<string> ParseTwoDigitsOverTwenty(int twoDigits, Language language)
         {
             var values = new List<string>();
 
@@ -117,11 +117,11 @@ namespace NumbersToWords.Domain
                 var lastDigit = _numberProcessor.GetLastDigit(twoDigits);
                 var evenTwoDigitNumber = _numberProcessor.GetEvenTwoDigitNumber(twoDigits);
 
-                var evenTwoDigitNumberStr = _translationService.Translate(evenTwoDigitNumber);
+                var evenTwoDigitNumberStr = _translationService.Translate(evenTwoDigitNumber, language);
 
                 if (lastDigit != 0)
                 {
-                    evenTwoDigitNumberStr += $"-{_translationService.Translate(lastDigit)}";
+                    evenTwoDigitNumberStr += $"-{_translationService.Translate(lastDigit, language)}";
                 }
 
                 values.Add(evenTwoDigitNumberStr);

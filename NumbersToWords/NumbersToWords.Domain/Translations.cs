@@ -50,7 +50,7 @@ namespace NumbersToWords.Domain
             {6, "kuusi"},
             {7, "seitsemän"},
             {8, "kahdeksan"},
-            {9, "nine"},
+            {9, "yhdeksän"},
             {10, "kymmenen"},
             {11, "yksitoista"},
             {12, "kaksitoista"},
