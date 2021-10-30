@@ -1,3 +1,4 @@
+using NumbersToWords.Domain.Services;
 using System;
 using Xunit;
 
@@ -5,11 +6,11 @@ namespace NumbersToWords.Domain.Tests
 {
     public class NumbersToWordsConverterTests
     {
-        private readonly NumbersToWordsConverter _numbersToWordsConverter;
+        private readonly NumbersToWordsConverterService _numbersToWordsConverter;
 
         public NumbersToWordsConverterTests()
         {
-            _numbersToWordsConverter = new NumbersToWordsConverter();
+            _numbersToWordsConverter = new NumbersToWordsConverterService();
         }
 
         [Fact]

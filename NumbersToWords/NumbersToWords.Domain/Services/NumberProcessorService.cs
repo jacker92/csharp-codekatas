@@ -1,6 +1,6 @@
-﻿namespace NumbersToWords.Domain
+﻿namespace NumbersToWords.Domain.Services
 {
-    public class NumberProcessor
+    public class NumberProcessorService
     {
         public int GetLastDigit(int input)
         {

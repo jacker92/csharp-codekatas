@@ -1,4 +1,6 @@
-﻿namespace NumbersToWords.Domain.Services
+﻿using NumbersToWords.Domain.Languages;
+
+namespace NumbersToWords.Domain.Services
 {
     public interface ILanguageFeatureService
     {

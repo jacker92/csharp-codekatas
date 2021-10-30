@@ -1,14 +1,15 @@
-﻿using Xunit;
+﻿using NumbersToWords.Domain.Services;
+using Xunit;
 
 namespace NumbersToWords.Domain.Tests
 {
     public class NumberProcessorTests
     {
-        private readonly NumberProcessor _numberProcessor;
+        private readonly NumberProcessorService _numberProcessor;
 
         public NumberProcessorTests()
         {
-            _numberProcessor = new NumberProcessor();
+            _numberProcessor = new NumberProcessorService();
         }
 
         [Theory]

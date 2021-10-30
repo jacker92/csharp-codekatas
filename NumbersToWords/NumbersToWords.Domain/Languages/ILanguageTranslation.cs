@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace NumbersToWords.Domain.LanguageFeatures
+namespace NumbersToWords.Domain.Languages
 {
     public interface ILanguageTranslation
     {
-        public Dictionary<int, string> Translations { get; }
-
+        Dictionary<int, string> Translations { get; }
         string Zero { get; }
         string One { get; }
         string Two { get; }

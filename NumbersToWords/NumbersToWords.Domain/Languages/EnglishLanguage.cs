@@ -1,4 +1,6 @@
-﻿namespace NumbersToWords.Domain.LanguageFeatures
+﻿using NumbersToWords.Domain.LanguageFeatures;
+
+namespace NumbersToWords.Domain.Languages
 {
     public class EnglishLanguage : LanguageBase
     {

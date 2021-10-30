@@ -1,20 +1,21 @@
-﻿using NumbersToWords.Domain.Services;
+﻿using NumbersToWords.Domain.Languages;
+using NumbersToWords.Domain.Utils;
 using System;
 using System.Collections.Generic;
 
-namespace NumbersToWords.Domain
+namespace NumbersToWords.Domain.Services
 {
-    public class NumbersToWordsConverter
+    public class NumbersToWordsConverterService
     {
-        private readonly NumberProcessor _numberProcessor;
+        private readonly NumberProcessorService _numberProcessor;
         private readonly ITranslationService _translationService;
         private readonly ILanguageFeatureService _languageFeatureService;
 
-        public NumbersToWordsConverter()
+        public NumbersToWordsConverterService()
         {
             var languageService = new LanguageService();
             _translationService = new TranslationService(languageService);
-            _numberProcessor = new NumberProcessor();
+            _numberProcessor = new NumberProcessorService();
             _languageFeatureService = new LanguageFeatureService(languageService);
         }
 

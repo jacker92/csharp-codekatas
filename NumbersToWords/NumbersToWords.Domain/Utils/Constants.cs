@@ -1,4 +1,4 @@
-﻿namespace NumbersToWords.Domain
+﻿namespace NumbersToWords.Domain.Utils
 {
     public static class Constants
     {

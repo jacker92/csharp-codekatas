@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using NumbersToWords.Domain.LanguageFeatures;
+using System.Collections.Generic;
 
-namespace NumbersToWords.Domain.LanguageFeatures
+namespace NumbersToWords.Domain.Languages
 {
     public abstract class LanguageBase : ILanguage
     {
