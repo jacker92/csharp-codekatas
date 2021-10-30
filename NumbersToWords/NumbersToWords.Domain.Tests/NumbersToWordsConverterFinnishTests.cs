@@ -53,24 +53,24 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(21, "twenty-one")]
-        //[InlineData(22, "twenty-two")]
-        //[InlineData(23, "twenty-three")]
-        //[InlineData(24, "twenty-four")]
-        //[InlineData(30, "thirty")]
-        //[InlineData(40, "fourty")]
-        //[InlineData(50, "fifty")]
-        //[InlineData(60, "sixty")]
-        //[InlineData(70, "seventy")]
-        //[InlineData(80, "eighty")]
-        //[InlineData(90, "ninety")]
-        //[InlineData(95, "ninety-five")]
-        //public void Convert_ShouldReturnCorrectResult_ForTwoDigitNumbers20To99(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(21, "kaksikymmentäyksi")]
+        [InlineData(22, "kaksikymmentäkaksi")]
+        [InlineData(23, "kaksikymmentäkolme")]
+        [InlineData(24, "kaksikymmentäneljä")]
+        [InlineData(30, "kolmekymmentä")]
+        [InlineData(40, "neljäkymmentä")]
+        [InlineData(50, "viisikymmentä")]
+        [InlineData(60, "kuusikymmentä")]
+        [InlineData(70, "seitsemänkymmentä")]
+        [InlineData(80, "kahdeksankymmentä")]
+        [InlineData(90, "yhdeksänkymmentä")]
+        [InlineData(95, "yhdeksänkymmentäviisi")]
+        public void Convert_ShouldReturnCorrectResult_ForTwoDigitNumbers20To99(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(100, "one hundred")]

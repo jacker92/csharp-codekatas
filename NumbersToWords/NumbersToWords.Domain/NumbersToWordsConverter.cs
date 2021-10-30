@@ -7,11 +7,13 @@ namespace NumbersToWords.Domain
     {
         private readonly NumberProcessor _numberProcessor;
         private readonly ITranslationService _translationService;
+        private readonly ILanguageFeatureService _languageFeatureService;
 
         public NumbersToWordsConverter()
         {
             _translationService = new TranslationService();
             _numberProcessor = new NumberProcessor();
+            _languageFeatureService = new LanguageFeatureService();
         }
 
         public string Convert(int value, Language language = Language.English)
@@ -119,15 +121,29 @@ namespace NumbersToWords.Domain
 
                 var evenTwoDigitNumberStr = _translationService.Translate(evenTwoDigitNumber, language);
 
-                if (lastDigit != 0)
-                {
-                    evenTwoDigitNumberStr += $"-{_translationService.Translate(lastDigit, language)}";
-                }
+                evenTwoDigitNumberStr += AddSecondDigit(language, lastDigit);
 
                 values.Add(evenTwoDigitNumberStr);
             }
 
             return values;
+        }
+
+        private string AddSecondDigit(Language language, int lastDigit)
+        {
+            string digits = string.Empty;
+
+            if (lastDigit != 0)
+            {
+                if (_languageFeatureService.UsesDashes(language))
+                {
+                    digits += "-";
+                }
+
+                digits += $"{_translationService.Translate(lastDigit, language)}";
+            }
+
+            return digits;
         }
     }
 }
