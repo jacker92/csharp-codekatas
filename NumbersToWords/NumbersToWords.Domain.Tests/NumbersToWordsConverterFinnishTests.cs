@@ -113,35 +113,35 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(10000, "ten thousand")]
-        //[InlineData(50000, "fifty thousand")]
-        //public void Convert_ShouldReturnCorrectResult_ForEvenFiveDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(10000, "kymmenentuhatta")]
+        [InlineData(50000, "viisikymmentätuhatta")]
+        public void Convert_ShouldReturnCorrectResult_ForEvenFiveDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
 
-        //[Theory]
-        //[InlineData(10100, "ten thousand one hundred")]
-        //[InlineData(10001, "ten thousand one")]
-        //[InlineData(99000, "ninety-nine thousand")]
-        //[InlineData(99999, "ninety-nine thousand nine hundred ninety-nine")]
-        //public void Convert_ShouldReturnCorrectResult_ForFiveDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(10100, "kymmenentuhattasata")]
+        [InlineData(10001, "kymmenentuhattayksi")]
+        [InlineData(99000, "yhdeksänkymmentäyhdeksäntuhatta")]
+        [InlineData(99999, "yhdeksänkymmentäyhdeksäntuhattayhdeksänsataayhdeksänkymmentäyhdeksän")]
+        public void Convert_ShouldReturnCorrectResult_ForFiveDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
 
-        //[Theory]
-        //[InlineData(100000, "one hundred thousand")]
-        //[InlineData(500000, "five hundred thousand")]
-        //[InlineData(900000, "nine hundred thousand")]
-        //public void Convert_ShouldReturnCorrectResult_ForEvenSixDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(100000, "satatuhatta")]
+        [InlineData(500000, "viisisataatuhatta")]
+        [InlineData(900000, "yhdeksänsataatuhatta")]
+        public void Convert_ShouldReturnCorrectResult_ForEvenSixDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(100001, "one hundred thousand one")]
