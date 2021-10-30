@@ -194,26 +194,26 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(100000000, "one hundred million")]
-        //[InlineData(500000000, "five hundred million")]
-        //[InlineData(900000000, "nine hundred million")]
-        //public void Convert_ShouldReturnCorrectResult_ForEvenNineDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(100000000, "satamiljoonaa")]
+        [InlineData(500000000, "viisisataamiljoonaa")]
+        [InlineData(900000000, "yhdeksänsataamiljoonaa")]
+        public void Convert_ShouldReturnCorrectResult_ForEvenNineDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
 
 
-        //[Theory]
-        //[InlineData(100000001, "one hundred million one")]
-        //[InlineData(200010009, "two hundred million ten thousand nine")]
-        //[InlineData(555555555, "five hundred fifty-five million five hundred fifty-five thousand five hundred fifty-five")]
-        //[InlineData(999999999, "nine hundred ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine")]
-        //public void Convert_ShouldReturnCorrectResult_ForNineDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(100000001, "satamiljoonaayksi")]
+        [InlineData(200010009, "kaksisataamiljoonaakymmenentuhattayhdeksän")]
+        [InlineData(555555555, "viisisataaviisikymmentäviisimiljoonaaviisisataaviisikymmentäviisituhattaviisisataaviisikymmentäviisi")]
+        [InlineData(999999999, "yhdeksänsataayhdeksänkymmentäyhdeksänmiljoonaayhdeksänsataayhdeksänkymmentäyhdeksäntuhattayhdeksänsataayhdeksänkymmentäyhdeksän")]
+        public void Convert_ShouldReturnCorrectResult_ForNineDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
     }
 }
