@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace NumbersToWords.Domain
+namespace NumbersToWords.Domain.Services
 {
     public class LanguageFeatureService : ILanguageFeatureService
     {

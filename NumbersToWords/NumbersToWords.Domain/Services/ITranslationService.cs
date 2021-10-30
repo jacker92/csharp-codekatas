@@ -1,4 +1,4 @@
-﻿namespace NumbersToWords.Domain
+﻿namespace NumbersToWords.Domain.Services
 {
     public interface ITranslationService
     {

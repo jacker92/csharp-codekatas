@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NumbersToWords.Domain
+namespace NumbersToWords.Domain.Services
 {
     public class TranslationService : ITranslationService
     {
