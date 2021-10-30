@@ -1,16 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 
 namespace NumbersToWords.Domain.Services
 {
     public class TranslationService : ITranslationService
     {
-        private readonly Dictionary<Language, Dictionary<int, string>> _dictionaries = new Dictionary<Language, Dictionary<int, string>> {
-            { Language.English, Translations.EnglishTranslations },
-            { Language.Finnish, Translations.FinnishTranslations } };
+        private readonly ILanguageService _languageService;
+
+        public TranslationService(ILanguageService languageService)
+        {
+            _languageService = languageService ?? throw new ArgumentNullException(nameof(languageService));
+        }
 
         public string Translate(int numberToTranslate, Language language)
         {
-            return _dictionaries[language][numberToTranslate];
+            return _languageService.Languages
+                .Single(x => x.Language == language)
+                .Translations[numberToTranslate];
         }
     }
 }

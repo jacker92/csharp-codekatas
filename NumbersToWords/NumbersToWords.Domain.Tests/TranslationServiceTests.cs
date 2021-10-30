@@ -10,7 +10,7 @@ namespace NumbersToWords.Domain.Tests
 
         public TranslationServiceTests()
         {
-            _translationService = new TranslationService();
+            _translationService = new TranslationService(new LanguageService());
         }
 
         [Theory]

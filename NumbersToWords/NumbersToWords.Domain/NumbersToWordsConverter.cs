@@ -12,9 +12,10 @@ namespace NumbersToWords.Domain
 
         public NumbersToWordsConverter()
         {
-            _translationService = new TranslationService();
+            var languageService = new LanguageService();
+            _translationService = new TranslationService(languageService);
             _numberProcessor = new NumberProcessor();
-            _languageFeatureService = new LanguageFeatureService();
+            _languageFeatureService = new LanguageFeatureService(languageService);
         }
 
         public string Convert(int value, Language language = Language.English)
