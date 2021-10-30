@@ -4,5 +4,7 @@
     {
         Language Language { get; }
         bool UsesDashes { get; }
+        bool SingleUnitIsSpecifiedAsADigit { get; }
+        bool UsesSpacesBetweenNumbers { get; }
     }
 }

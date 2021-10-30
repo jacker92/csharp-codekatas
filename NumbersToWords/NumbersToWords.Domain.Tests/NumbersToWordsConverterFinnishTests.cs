@@ -72,15 +72,15 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(100, "one hundred")]
-        //[InlineData(200, "two hundred")]
-        //[InlineData(500, "five hundred")]
-        //public void Convert_ShouldReturnCorrectResult_ForEvenThreeDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(100, "sata")]
+        //[InlineData(200, "kaksisataa")]
+        //[InlineData(500, "viisisataa")]
+        public void Convert_ShouldReturnCorrectResult_ForEvenThreeDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(105, "one hundred five")]

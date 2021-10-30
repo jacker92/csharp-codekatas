@@ -92,7 +92,19 @@ namespace NumbersToWords.Domain
             if (threeDigits >= 100)
             {
                 var oneDigit = _numberProcessor.GetFirstDigit(threeDigits);
-                list.Add($"{_translationService.Translate(oneDigit, language)} {_translationService.Translate(100, language)}");
+
+                string result = string.Empty;
+                if (oneDigit != 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
+                {
+                    result += _translationService.Translate(oneDigit, language);
+                }
+
+                if (_languageFeatureService.UsesSpacesBetweenNumbers(language))
+                {
+                    result += " ";
+                }
+
+                list.Add($"{result}{_translationService.Translate(100, language)}");
             }
 
             return list;

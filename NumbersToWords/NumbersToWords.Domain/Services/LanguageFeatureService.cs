@@ -12,10 +12,22 @@ namespace NumbersToWords.Domain.Services
             new FinnishLanguageFeatures()
         };
 
+        public bool SingleUnitIsSpecifiedAsADigit(Language language)
+        {
+            return _languageFeatures.Single(x => x.Language == language)
+                                   .SingleUnitIsSpecifiedAsADigit;
+        }
+
         public bool UsesDashes(Language language)
         {
             return _languageFeatures.Single(x => x.Language == language)
                                     .UsesDashes;
+        }
+
+        public bool UsesSpacesBetweenNumbers(Language language)
+        {
+            return _languageFeatures.Single(x => x.Language == language)
+                                 .UsesSpacesBetweenNumbers;
         }
     }
 }
