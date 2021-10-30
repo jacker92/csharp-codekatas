@@ -8,7 +8,7 @@
         public bool UsesSpacesBetweenNumbers => true;
         public bool UsesPluralizedForms => false;
 
-        public string PluralizedForm(int digits)
+        public string PluralizedForm(string digits)
         {
             return string.Empty;
         }

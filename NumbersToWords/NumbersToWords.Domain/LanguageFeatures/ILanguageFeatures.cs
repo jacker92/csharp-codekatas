@@ -7,6 +7,6 @@
         bool SingleUnitIsSpecifiedAsADigit { get; }
         bool UsesSpacesBetweenNumbers { get; }
         bool UsesPluralizedForms { get; }
-        string PluralizedForm(int digits);
+        string PluralizedForm(string digits);
     }
 }

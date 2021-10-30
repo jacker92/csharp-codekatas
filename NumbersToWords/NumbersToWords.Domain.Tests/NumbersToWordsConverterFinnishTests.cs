@@ -153,25 +153,25 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(1000000, "one million")]
-        //[InlineData(5000000, "five million")]
-        //[InlineData(9000000, "nine million")]
-        //public void Convert_ShouldReturnCorrectResult_ForEvenSevenDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(1000000, "miljoona")]
+        [InlineData(5000000, "viisimiljoonaa")]
+        [InlineData(9000000, "yhdeksänmiljoonaa")]
+        public void Convert_ShouldReturnCorrectResult_ForEvenSevenDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
 
-        //[Theory]
-        //[InlineData(1000001, "one million one")]
-        //[InlineData(5050505, "five million fifty thousand five hundred five")]
-        //[InlineData(9999999, "nine million nine hundred ninety-nine thousand nine hundred ninety-nine")]
-        //public void Convert_ShouldReturnCorrectResult_ForSevenDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(1000001, "miljoonayksi")]
+        [InlineData(5050505, "viisimiljoonaaviisikymmentätuhattaviisisataaviisi")]
+        [InlineData(9999999, "yhdeksänmiljoonaayhdeksänsataayhdeksänkymmentäyhdeksäntuhattayhdeksänsataayhdeksänkymmentäyhdeksän")]
+        public void Convert_ShouldReturnCorrectResult_ForSevenDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Finnish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(10000000, "ten million")]

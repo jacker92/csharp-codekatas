@@ -7,9 +7,9 @@
         public bool SingleUnitIsSpecifiedAsADigit => false;
         public bool UsesSpacesBetweenNumbers => false;
         public bool UsesPluralizedForms => true;
-        public string PluralizedForm(int digits)
+        public string PluralizedForm(string digits)
         {
-            if (digits > 1000)
+            if (digits == "tuhat")
             {
                 return "ta";
             }

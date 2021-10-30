@@ -47,14 +47,25 @@ namespace NumbersToWords.Domain
             if (value >= 1000000)
             {
                 var amountOfMillions = _numberProcessor.GetAmountOfMillions(value);
-                if (amountOfMillions >= 100)
+
+                if (amountOfMillions > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
                 {
-                    list.AddRange(ParseThreeDigitNumbers(amountOfMillions, language));
+                    if (amountOfMillions >= 100)
+                    {
+                        list.AddRange(ParseThreeDigitNumbers(amountOfMillions, language));
+                    }
+
+                    list.AddRange(ParseTwoDigitNumbers(amountOfMillions, language));
                 }
 
-                list.AddRange(ParseTwoDigitNumbers(amountOfMillions, language));
+                var million = _translationService.Translate(1000000, language);
 
-                list.Add(_translationService.Translate(1000000, language));
+                if (amountOfMillions > 1 && _languageFeatureService.UsesPluralizedForms(language))
+                {
+                    million += _languageFeatureService.GetPluralizedForm(language, million);
+                }
+
+                list.Add(million);
             }
 
             return list;
@@ -87,7 +98,7 @@ namespace NumbersToWords.Domain
 
                 if (amountOfThousands > 1 && _languageFeatureService.UsesPluralizedForms(language))
                 {
-                    thousand += _languageFeatureService.GetPluralizedForm(language, value);
+                    thousand += _languageFeatureService.GetPluralizedForm(language, thousand);
                 }
 
                 list.Add(thousand);
@@ -121,7 +132,7 @@ namespace NumbersToWords.Domain
 
                 if (oneDigit != 1 && _languageFeatureService.UsesPluralizedForms(language))
                 {
-                    result += _languageFeatureService.GetPluralizedForm(language, 100);
+                    result += _languageFeatureService.GetPluralizedForm(language, hundred);
                 }
 
                 list.Add(result);
