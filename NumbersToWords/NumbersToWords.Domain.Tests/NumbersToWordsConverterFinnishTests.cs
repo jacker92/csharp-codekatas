@@ -95,8 +95,8 @@ namespace NumbersToWords.Domain.Tests
 
         [Theory]
         [InlineData(1000, "tuhat")]
-        //[InlineData(2000, "two thousand")]
-        //[InlineData(5000, "five thousand")]
+        [InlineData(2000, "kaksituhatta")]
+        [InlineData(5000, "viisituhatta")]
         public void Convert_ShouldReturnCorrectResult_ForEvenFourDigitNumbers(int value, string convertedValue)
         {
             var result = _numbersToWordsConverter.Convert(value, Language.Finnish);

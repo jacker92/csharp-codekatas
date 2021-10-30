@@ -83,7 +83,14 @@ namespace NumbersToWords.Domain
                     list.AddRange(ParseTwoDigitNumbers(amountOfThousands, language));
                 }
 
-                list.Add(_translationService.Translate(1000, language));
+                var thousand = _translationService.Translate(1000, language);
+
+                if (amountOfThousands > 1 && _languageFeatureService.UsesPluralizedForms(language))
+                {
+                    thousand += _languageFeatureService.GetPluralizedForm(language, value);
+                }
+
+                list.Add(thousand);
             }
 
             return list;
@@ -114,7 +121,7 @@ namespace NumbersToWords.Domain
 
                 if (oneDigit != 1 && _languageFeatureService.UsesPluralizedForms(language))
                 {
-                    result += _languageFeatureService.GetPluralizedForm(language, hundred);
+                    result += _languageFeatureService.GetPluralizedForm(language, 100);
                 }
 
                 list.Add(result);
