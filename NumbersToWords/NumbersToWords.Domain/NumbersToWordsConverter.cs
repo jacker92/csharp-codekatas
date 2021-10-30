@@ -73,12 +73,15 @@ namespace NumbersToWords.Domain
                     return list;
                 }
 
-                if (amountOfThousands >= 100)
+                if (amountOfThousands > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
                 {
-                    list.AddRange(ParseThreeDigitNumbers(amountOfThousands, language));
-                }
+                    if (amountOfThousands >= 100)
+                    {
+                        list.AddRange(ParseThreeDigitNumbers(amountOfThousands, language));
+                    }
 
-                list.AddRange(ParseTwoDigitNumbers(amountOfThousands, language));
+                    list.AddRange(ParseTwoDigitNumbers(amountOfThousands, language));
+                }
 
                 list.Add(_translationService.Translate(1000, language));
             }
