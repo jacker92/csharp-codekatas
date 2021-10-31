@@ -52,6 +52,27 @@ namespace NumbersToWords.Domain.Services
 
         private IList<string> ProcessNumber(Language language, int minNumberToParse, int amountOfNumbers)
         {
+            var list = ParseFirstDigits(language, minNumberToParse, amountOfNumbers);
+
+            if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language))
+            {
+                list = new List<string> { string.Concat(list) };
+            }
+
+            var number = _translationService.Translate(minNumberToParse, language);
+
+            if (amountOfNumbers > 1 && _languageFeatureService.UsesPluralizedForms(language))
+            {
+                number += _languageFeatureService.GetPluralizedForm(language, number);
+            }
+
+            list.Add(number);
+
+            return list;
+        }
+
+        private IList<string> ParseFirstDigits(Language language, int minNumberToParse, int amountOfNumbers)
+        {
             var list = new List<string>();
 
             if (amountOfNumbers > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
@@ -73,20 +94,6 @@ namespace NumbersToWords.Domain.Services
                     list.AddRange(twoDigitNumbers);
                 }
             }
-
-            if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language))
-            {
-                list = new List<string> { string.Concat(list) };
-            }
-
-            var number = _translationService.Translate(minNumberToParse, language);
-
-            if (amountOfNumbers > 1 && _languageFeatureService.UsesPluralizedForms(language))
-            {
-                number += _languageFeatureService.GetPluralizedForm(language, number);
-            }
-
-            list.Add(number);
 
             return list;
         }
