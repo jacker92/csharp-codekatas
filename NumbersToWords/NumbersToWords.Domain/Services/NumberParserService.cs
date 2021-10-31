@@ -33,17 +33,17 @@ namespace NumbersToWords.Domain.Services
         {
             if (value < minNumberToParse)
             {
-                return new List<string>(); 
+                return new List<string>();
             }
 
             var amountOfNumbers = extractionFunc(value);
 
             if (amountOfNumbers == 0)
             {
-                return new List<string>(); 
+                return new List<string>();
             }
 
-           var list = ProcessNumber(language, minNumberToParse, amountOfNumbers);
+            var list = ProcessNumber(language, minNumberToParse, amountOfNumbers);
 
             return ProcessingLessThanMillion(minNumberToParse, language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language)
                 ? new List<string> { string.Concat(list) }
@@ -78,29 +78,35 @@ namespace NumbersToWords.Domain.Services
 
         private IList<string> ParseFirstDigits(Language language, int minNumberToParse, int amountOfNumbers)
         {
-            var list = new List<string>();
-
-            if (amountOfNumbers <= 1 && !_languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
+            if (amountOfNumbers == 1)
             {
-                return list;
-            }
-
-            if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpecialCaseForSingleUnitForMillionOrOver(language) && amountOfNumbers == 1)
-            {
-                list.Add(_languageFeatureService.GetSpecialCaseForSingleUnitForMillionOrOver(language));
-            }
-            else
-            {
-                var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
-                var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
-
-                if (amountOfNumbers >= 100)
+                if (!_languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
                 {
-                    list.AddRange(threeDigitNumbers);
+                    return new List<string>();
                 }
 
-                list.AddRange(twoDigitNumbers);
+                else if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpecialCaseForSingleUnitForMillionOrOver(language))
+                {
+                    return new List<string> { _languageFeatureService.GetSpecialCaseForSingleUnitForMillionOrOver(language) };
+                }
             }
+
+            return ParseDigits(language, amountOfNumbers);
+        }
+
+        private IList<string> ParseDigits(Language language, int amountOfNumbers)
+        {
+            var list = new List<string>();
+
+            var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
+            var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
+
+            if (amountOfNumbers >= 100)
+            {
+                list.AddRange(threeDigitNumbers);
+            }
+
+            list.AddRange(twoDigitNumbers);
 
             return list;
         }
@@ -117,31 +123,36 @@ namespace NumbersToWords.Domain.Services
 
             if (threeDigits >= 100)
             {
-                var oneDigit = _numberProcessorService.GetFirstDigit(threeDigits);
-
-                string result = string.Empty;
-                if (oneDigit != 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
-                {
-                    result += _translationService.Translate(oneDigit, language);
-                }
-
-                if (_languageFeatureService.UsesSpacesBetweenNumbers(language))
-                {
-                    result += Constants.Space;
-                }
-
-                var hundred = _translationService.Translate(100, language);
-                result += hundred;
-
-                if (oneDigit != 1 && _languageFeatureService.UsesPluralizedForms(language))
-                {
-                    result += _languageFeatureService.GetPluralizedForm(language, hundred);
-                }
-
-                list.Add(result);
+               list.Add(ParseThreeDigits(language, threeDigits));
             }
 
             return list;
+        }
+
+        private string ParseThreeDigits(Language language, int threeDigits)
+        {
+            var oneDigit = _numberProcessorService.GetFirstDigit(threeDigits);
+
+            var result = string.Empty;
+            if (oneDigit != 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
+            {
+                result += _translationService.Translate(oneDigit, language);
+            }
+
+            if (_languageFeatureService.UsesSpacesBetweenNumbers(language))
+            {
+                result += Constants.Space;
+            }
+
+            var hundred = _translationService.Translate(100, language);
+            result += hundred;
+
+            if (oneDigit != 1 && _languageFeatureService.UsesPluralizedForms(language))
+            {
+                result += _languageFeatureService.GetPluralizedForm(language, hundred);
+            }
+
+            return result;
         }
 
         public IList<string> ParseTwoDigitNumbers(int value, Language language)
