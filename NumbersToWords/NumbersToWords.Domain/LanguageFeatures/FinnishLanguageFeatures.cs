@@ -1,4 +1,6 @@
-﻿namespace NumbersToWords.Domain.LanguageFeatures
+﻿using System;
+
+namespace NumbersToWords.Domain.LanguageFeatures
 {
     public class FinnishLanguageFeatures : ILanguageFeatures
     {
@@ -7,6 +9,12 @@
         public bool UsesSpacesBetweenNumbers => false;
         public bool UsesPluralizedForms => true;
         public bool UsesSpacesBetweenNumberGroups => false;
+
+        public string SpecialCaseForSingleUnitForMillionOrOver => throw new NotSupportedException();
+
+        public bool UsesSpecialCaseForSingleUnitForMillionOrOver => false;
+
+        public bool UsesSpacesBetweenNumbersMillionAndOver => false;
 
         public string PluralizedForm(string digits)
         {

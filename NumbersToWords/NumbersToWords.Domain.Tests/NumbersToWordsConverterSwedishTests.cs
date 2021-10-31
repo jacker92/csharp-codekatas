@@ -155,15 +155,15 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(1000000, "one million")]
-        //[InlineData(5000000, "five million")]
-        //[InlineData(9000000, "nine million")]
-        //public void Convert_ShouldReturnCorrectResult_ForEvenSevenDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(1000000, "en miljon")]
+        [InlineData(5000000, "fem miljoner")]
+        [InlineData(9000000, "nio miljoner")]
+        public void Convert_ShouldReturnCorrectResult_ForEvenSevenDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Swedish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(1000001, "one million one")]

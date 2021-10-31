@@ -88,15 +88,24 @@ namespace NumbersToWords.Domain.Services
 
                 if (amountOfNumbers > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
                 {
-                    var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
-                    var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
-
-                    if (amountOfNumbers >= 100)
+                    if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpecialCaseForSingleUnitForMillionOrOver(language) && amountOfNumbers == 1)
                     {
-                        list.AddRange(threeDigitNumbers);
+                        list.Add(_languageFeatureService.GetSpecialCaseForSingleUnitForMillionOrOver(language));
+                    }
+                    else
+                    {
+                        var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
+                        var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
+
+                        if (amountOfNumbers >= 100)
+                        {
+                            list.AddRange(threeDigitNumbers);
+                        }
+
+                        list.AddRange(twoDigitNumbers);
                     }
 
-                    list.AddRange(twoDigitNumbers);
+
                 }
 
                 var number = _translationService.Translate(minNumberToParse, language);
@@ -109,7 +118,12 @@ namespace NumbersToWords.Domain.Services
                 list.Add(number);
             }
 
-            if (!_languageFeatureService.UsesSpacesBetweenNumbers(language))
+            if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language))
+            {
+                return list;
+            }
+
+            if (!_languageFeatureService.UsesSpacesBetweenNumbers(language) && list.Any())
             {
                 return new List<string> { string.Concat(list) };
             }

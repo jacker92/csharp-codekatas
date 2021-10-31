@@ -12,9 +12,15 @@
 
         public bool UsesSpacesBetweenNumberGroups => true;
 
+        public string SpecialCaseForSingleUnitForMillionOrOver => "en";
+
+        public bool UsesSpecialCaseForSingleUnitForMillionOrOver => true;
+
+        public bool UsesSpacesBetweenNumbersMillionAndOver => true;
+
         public string PluralizedForm(string digits)
         {
-            return string.Empty;
+            return digits == "miljon" ? "er" : string.Empty;
         }
     }
 }

@@ -50,5 +50,20 @@ namespace NumbersToWords.Domain.Services
         {
             return GetLanguageFeature(language).UsesSpacesBetweenNumberGroups;
         }
+
+        public string GetSpecialCaseForSingleUnitForMillionOrOver(Language language)
+        {
+            return GetLanguageFeature(language).SpecialCaseForSingleUnitForMillionOrOver;
+        }
+
+        public bool UsesSpecialCaseForSingleUnitForMillionOrOver(Language language)
+        {
+            return GetLanguageFeature(language).UsesSpecialCaseForSingleUnitForMillionOrOver;
+        }
+
+        public bool UsesSpacesBetweenNumbersMillionAndOver(Language language)
+        {
+            return GetLanguageFeature(language).UsesSpacesBetweenNumbersMillionAndOver;
+        }
     }
 }

@@ -10,5 +10,8 @@ namespace NumbersToWords.Domain.Services
         bool UsesPluralizedForms(Language language);
         string GetPluralizedForm(Language language, string digits);
         bool UsesSpacesBetweenNumberGroups(Language language);
+        string GetSpecialCaseForSingleUnitForMillionOrOver(Language language);
+        bool UsesSpecialCaseForSingleUnitForMillionOrOver(Language language);
+        bool UsesSpacesBetweenNumbersMillionAndOver(Language language);
     }
 }

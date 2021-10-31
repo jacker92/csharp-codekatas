@@ -10,5 +10,8 @@ namespace NumbersToWords.Domain.LanguageFeatures
         bool UsesPluralizedForms { get; }
         string PluralizedForm(string digits);
         bool UsesSpacesBetweenNumberGroups { get; }
+        string SpecialCaseForSingleUnitForMillionOrOver { get; }
+        bool UsesSpecialCaseForSingleUnitForMillionOrOver { get; }
+        bool UsesSpacesBetweenNumbersMillionAndOver { get; }
     }
 }
