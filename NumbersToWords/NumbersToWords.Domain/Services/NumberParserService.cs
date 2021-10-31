@@ -33,63 +33,60 @@ namespace NumbersToWords.Domain.Services
         {
             var list = new List<string>();
 
-            if (value >= minNumberToParse)
-            {
-                var amountOfNumbers = extractionFunc(value);
-
-                if (amountOfNumbers == 0)
-                {
-                    return list;
-                }
-
-                if (amountOfNumbers > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
-                {
-                    if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpecialCaseForSingleUnitForMillionOrOver(language) && amountOfNumbers == 1)
-                    {
-                        list.Add(_languageFeatureService.GetSpecialCaseForSingleUnitForMillionOrOver(language));
-                    }
-                    else
-                    {
-                        var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
-                        var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
-
-                        if (amountOfNumbers >= 100)
-                        {
-                            list.AddRange(threeDigitNumbers);
-                        }
-
-                        list.AddRange(twoDigitNumbers);
-                    }
-
-
-                }
-
-                if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language))
-                {
-                    list = new List<string> { string.Concat(list) };
-                }
-
-                var number = _translationService.Translate(minNumberToParse, language);
-
-                if (amountOfNumbers > 1 && _languageFeatureService.UsesPluralizedForms(language))
-                {
-                    number += _languageFeatureService.GetPluralizedForm(language, number);
-                }
-
-                list.Add(number);
-            }
-
-            if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language))
+            if (value < minNumberToParse)
             {
                 return list;
             }
 
-            if (!_languageFeatureService.UsesSpacesBetweenNumbers(language) && list.Any())
+            var amountOfNumbers = extractionFunc(value);
+
+            if (amountOfNumbers == 0)
             {
-                return new List<string> { string.Concat(list) };
+                return list;
             }
 
-            return list;
+            if (amountOfNumbers > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
+            {
+                if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpecialCaseForSingleUnitForMillionOrOver(language) && amountOfNumbers == 1)
+                {
+                    list.Add(_languageFeatureService.GetSpecialCaseForSingleUnitForMillionOrOver(language));
+                }
+                else
+                {
+                    var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
+                    var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
+
+                    if (amountOfNumbers >= 100)
+                    {
+                        list.AddRange(threeDigitNumbers);
+                    }
+
+                    list.AddRange(twoDigitNumbers);
+                }
+            }
+
+            if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language))
+            {
+                list = new List<string> { string.Concat(list) };
+            }
+
+            var number = _translationService.Translate(minNumberToParse, language);
+
+            if (amountOfNumbers > 1 && _languageFeatureService.UsesPluralizedForms(language))
+            {
+                number += _languageFeatureService.GetPluralizedForm(language, number);
+            }
+
+            list.Add(number);
+
+            return ProcessingLessThanMillion(minNumberToParse, language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language) && list.Any()
+                ? new List<string> { string.Concat(list) }
+                : list;
+        }
+
+        private bool ProcessingLessThanMillion(int minNumberToParse, Language language)
+        {
+            return minNumberToParse < Constants.Million || !_languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language);
         }
 
         public IList<string> ParseThreeDigitNumbers(int value, Language language)
