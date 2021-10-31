@@ -8,7 +8,8 @@ namespace NumbersToWords.Domain.Services
         private readonly List<ILanguage> _languages = new List<ILanguage>
         {
             new EnglishLanguage(),
-            new FinnishLanguage()
+            new FinnishLanguage(),
+            new SwedishLanguage()
         };
 
         public IList<ILanguage> Languages => _languages;

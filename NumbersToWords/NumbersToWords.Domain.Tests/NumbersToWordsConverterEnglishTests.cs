@@ -4,11 +4,11 @@ using Xunit;
 
 namespace NumbersToWords.Domain.Tests
 {
-    public class NumbersToWordsConverterTests
+    public class NumbersToWordsConverterEnglishTests
     {
         private readonly NumbersToWordsConverterService _numbersToWordsConverter;
 
-        public NumbersToWordsConverterTests()
+        public NumbersToWordsConverterEnglishTests()
         {
             _numbersToWordsConverter = new NumbersToWordsConverterService();
         }

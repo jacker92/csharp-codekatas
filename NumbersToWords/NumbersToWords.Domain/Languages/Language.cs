@@ -3,6 +3,7 @@
     public enum Language
     {
         English,
-        Finnish
+        Finnish,
+        Swedish
     }
 }
