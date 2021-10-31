@@ -37,23 +37,23 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(10, "ten")]
-        //[InlineData(11, "eleven")]
-        //[InlineData(12, "twelve")]
-        //[InlineData(13, "thirteen")]
-        //[InlineData(14, "fourteen")]
-        //[InlineData(15, "fifteen")]
-        //[InlineData(16, "sixteen")]
-        //[InlineData(17, "seventeen")]
-        //[InlineData(18, "eighteen")]
-        //[InlineData(19, "nineteen")]
-        //[InlineData(20, "twenty")]
-        //public void Convert_ShouldReturnCorrectResult_ForTwoDigitNumbers10To20(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(10, "tio")]
+        [InlineData(11, "elva")]
+        [InlineData(12, "tolv")]
+        [InlineData(13, "tretton")]
+        [InlineData(14, "fjorton")]
+        [InlineData(15, "femton")]
+        [InlineData(16, "sexton")]
+        [InlineData(17, "sjutton")]
+        [InlineData(18, "arton")]
+        [InlineData(19, "nitton")]
+        [InlineData(20, "tjugo")]
+        public void Convert_ShouldReturnCorrectResult_ForTwoDigitNumbers10To20(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Swedish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(21, "twenty-one")]
