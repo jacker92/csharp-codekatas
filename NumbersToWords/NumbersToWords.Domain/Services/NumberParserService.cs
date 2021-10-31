@@ -45,7 +45,7 @@ namespace NumbersToWords.Domain.Services
 
            var list = ProcessNumber(language, minNumberToParse, amountOfNumbers);
 
-            return ProcessingLessThanMillion(minNumberToParse, language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language) && list.Any()
+            return ProcessingLessThanMillion(minNumberToParse, language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language)
                 ? new List<string> { string.Concat(list) }
                 : list;
         }
