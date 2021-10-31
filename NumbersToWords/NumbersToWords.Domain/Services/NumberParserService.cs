@@ -54,7 +54,7 @@ namespace NumbersToWords.Domain.Services
         {
             var list = ParseFirstDigits(language, minNumberToParse, amountOfNumbers);
 
-            if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language))
+            if (ValuesOverMillionShouldBeConcatned(language, minNumberToParse))
             {
                 list = new List<string> { string.Concat(list) };
             }
@@ -69,6 +69,11 @@ namespace NumbersToWords.Domain.Services
             list.Add(number);
 
             return list;
+        }
+
+        private bool ValuesOverMillionShouldBeConcatned(Language language, int minNumberToParse)
+        {
+            return minNumberToParse >= Constants.Million && !_languageFeatureService.UsesSpacesBetweenNumbers(language);
         }
 
         private IList<string> ParseFirstDigits(Language language, int minNumberToParse, int amountOfNumbers)
