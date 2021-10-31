@@ -207,15 +207,15 @@ namespace NumbersToWords.Domain.Tests
         }
 
 
-        //[Theory]
-        //[InlineData(100000001, "one hundred million one")]
-        //[InlineData(200010009, "two hundred million ten thousand nine")]
-        //[InlineData(555555555, "five hundred fifty-five million five hundred fifty-five thousand five hundred fifty-five")]
-        //[InlineData(999999999, "nine hundred ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine")]
-        //public void Convert_ShouldReturnCorrectResult_ForNineDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(100000001, "etthundra miljoner ett")]
+        [InlineData(200010009, "tvåhundra miljoner tiotusen nio")]
+        [InlineData(555555555, "femhundrafemtiofem miljoner femhundrafemtiofemtusen femhundrafemtiofem")]
+        [InlineData(999999999, "niohundranittionio miljoner niohundranittioniotusen niohundranittionio")]
+        public void Convert_ShouldReturnCorrectResult_ForNineDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Swedish);
+            Assert.Equal(convertedValue, result);
+        }
     }
 }

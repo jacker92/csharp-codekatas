@@ -108,6 +108,11 @@ namespace NumbersToWords.Domain.Services
 
                 }
 
+                if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language))
+                {
+                    list = new List<string> { string.Concat(list) };
+                }
+
                 var number = _translationService.Translate(minNumberToParse, language);
 
                 if (amountOfNumbers > 1 && _languageFeatureService.UsesPluralizedForms(language))
