@@ -31,19 +31,28 @@ namespace NumbersToWords.Domain.Services
 
         private IList<string> ParseNumbers(int value, Language language, int minNumberToParse, Func<int, int> extractionFunc)
         {
-            var list = new List<string>();
-
             if (value < minNumberToParse)
             {
-                return list;
+                return new List<string>(); 
             }
 
             var amountOfNumbers = extractionFunc(value);
 
             if (amountOfNumbers == 0)
             {
-                return list;
+                return new List<string>(); 
             }
+
+           var list = ProcessNumber(language, minNumberToParse, amountOfNumbers);
+
+            return ProcessingLessThanMillion(minNumberToParse, language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language) && list.Any()
+                ? new List<string> { string.Concat(list) }
+                : list;
+        }
+
+        private IList<string> ProcessNumber(Language language, int minNumberToParse, int amountOfNumbers)
+        {
+            var list = new List<string>();
 
             if (amountOfNumbers > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
             {
@@ -79,9 +88,7 @@ namespace NumbersToWords.Domain.Services
 
             list.Add(number);
 
-            return ProcessingLessThanMillion(minNumberToParse, language) && !_languageFeatureService.UsesSpacesBetweenNumbers(language) && list.Any()
-                ? new List<string> { string.Concat(list) }
-                : list;
+            return list;
         }
 
         private bool ProcessingLessThanMillion(int minNumberToParse, Language language)
