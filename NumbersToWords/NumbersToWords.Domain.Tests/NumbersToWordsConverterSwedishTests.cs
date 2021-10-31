@@ -124,16 +124,16 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(10100, "ten thousand one hundred")]
-        //[InlineData(10001, "ten thousand one")]
-        //[InlineData(99000, "ninety-nine thousand")]
-        //[InlineData(99999, "ninety-nine thousand nine hundred ninety-nine")]
-        //public void Convert_ShouldReturnCorrectResult_ForFiveDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(10100, "tiotusen etthundra")]
+        [InlineData(10001, "tiotusen ett")]
+        [InlineData(99000, "nittioniotusen")]
+        [InlineData(99999, "nittioniotusen niohundranittionio")]
+        public void Convert_ShouldReturnCorrectResult_ForFiveDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Swedish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(100000, "one hundred thousand")]
