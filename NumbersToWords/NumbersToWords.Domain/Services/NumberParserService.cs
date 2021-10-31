@@ -80,24 +80,26 @@ namespace NumbersToWords.Domain.Services
         {
             var list = new List<string>();
 
-            if (amountOfNumbers > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
+            if (amountOfNumbers <= 1 && !_languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
             {
-                if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpecialCaseForSingleUnitForMillionOrOver(language) && amountOfNumbers == 1)
-                {
-                    list.Add(_languageFeatureService.GetSpecialCaseForSingleUnitForMillionOrOver(language));
-                }
-                else
-                {
-                    var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
-                    var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
+                return list;
+            }
 
-                    if (amountOfNumbers >= 100)
-                    {
-                        list.AddRange(threeDigitNumbers);
-                    }
+            if (minNumberToParse >= Constants.Million && _languageFeatureService.UsesSpecialCaseForSingleUnitForMillionOrOver(language) && amountOfNumbers == 1)
+            {
+                list.Add(_languageFeatureService.GetSpecialCaseForSingleUnitForMillionOrOver(language));
+            }
+            else
+            {
+                var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
+                var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
 
-                    list.AddRange(twoDigitNumbers);
+                if (amountOfNumbers >= 100)
+                {
+                    list.AddRange(threeDigitNumbers);
                 }
+
+                list.AddRange(twoDigitNumbers);
             }
 
             return list;
