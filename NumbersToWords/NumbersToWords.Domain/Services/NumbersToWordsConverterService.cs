@@ -34,8 +34,20 @@ namespace NumbersToWords.Domain.Services
             var values = new List<string>();
             values.AddRange(ParseSevenEightAndNineDigitNumbers(value, language));
             values.AddRange(ParseFourFiveAndSixDigitNumbers(value, language));
-            values.AddRange(ParseThreeDigitNumbers(value, language));
-            values.AddRange(ParseTwoDigitNumbers(value, language));
+
+            var threeDigits = ParseThreeDigitNumbers(value, language);
+            var twoDigits = ParseTwoDigitNumbers(value, language);
+
+            if (!_languageFeatureService.UsesSpacesBetweenNumbers(language))
+            {
+                values.Add(string.Concat(threeDigits) + string.Concat(twoDigits));
+            }
+            else
+            {
+                values.AddRange(threeDigits);
+                values.AddRange(twoDigits);
+            }
+
 
             return _languageFeatureService.UsesSpacesBetweenNumberGroups(language) ?
                 string.Join(' ', values) :
