@@ -55,24 +55,24 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(21, "twenty-one")]
-        //[InlineData(22, "twenty-two")]
-        //[InlineData(23, "twenty-three")]
-        //[InlineData(24, "twenty-four")]
-        //[InlineData(30, "thirty")]
-        //[InlineData(40, "fourty")]
-        //[InlineData(50, "fifty")]
-        //[InlineData(60, "sixty")]
-        //[InlineData(70, "seventy")]
-        //[InlineData(80, "eighty")]
-        //[InlineData(90, "ninety")]
-        //[InlineData(95, "ninety-five")]
-        //public void Convert_ShouldReturnCorrectResult_ForTwoDigitNumbers20To99(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(21, "tjugoett")]
+        [InlineData(22, "tjugotvå")]
+        [InlineData(23, "tjugotre")]
+        [InlineData(24, "tjugofyra")]
+        [InlineData(30, "trettio")]
+        [InlineData(40, "fyrtio")]
+        [InlineData(50, "femtio")]
+        [InlineData(60, "sextio")]
+        [InlineData(70, "sjuttio")]
+        [InlineData(80, "åttio")]
+        [InlineData(90, "nittio")]
+        [InlineData(95, "nittiofem")]
+        public void Convert_ShouldReturnCorrectResult_ForTwoDigitNumbers20To99(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Swedish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(100, "one hundred")]
