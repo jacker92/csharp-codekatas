@@ -32,6 +32,11 @@ namespace NumbersToWords.Domain.Services
                 return _translationService.Translate(0, language);
             }
 
+            return ExecuteConversion(value, language);
+        }
+
+        private string ExecuteConversion(int value, Language language)
+        {
             var values = new List<string>();
             values.AddRange(ParseSevenEightAndNineDigitNumbers(value, language));
             values.AddRange(ParseFourFiveAndSixDigitNumbers(value, language));
