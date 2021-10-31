@@ -6,13 +6,15 @@
 
         public bool SingleUnitIsSpecifiedAsADigit => true;
 
-        public bool UsesSpacesBetweenNumbers => true;
+        public bool UsesSpacesBetweenNumbers => false;
 
         public bool UsesPluralizedForms => true;
 
+        public bool UsesSpacesBetweenNumberGroups => true;
+
         public string PluralizedForm(string digits)
         {
-            throw new System.NotImplementedException();
+            return string.Empty;
         }
     }
 }

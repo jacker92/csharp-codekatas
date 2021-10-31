@@ -1,4 +1,6 @@
-﻿namespace NumbersToWords.Domain.LanguageFeatures
+﻿using NumbersToWords.Domain.Languages;
+
+namespace NumbersToWords.Domain.LanguageFeatures
 {
     public interface ILanguageFeatures
     {
@@ -7,5 +9,6 @@
         bool UsesSpacesBetweenNumbers { get; }
         bool UsesPluralizedForms { get; }
         string PluralizedForm(string digits);
+        bool UsesSpacesBetweenNumberGroups { get; }
     }
 }

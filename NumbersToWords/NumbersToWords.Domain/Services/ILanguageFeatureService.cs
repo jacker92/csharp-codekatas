@@ -9,5 +9,6 @@ namespace NumbersToWords.Domain.Services
         bool UsesSpacesBetweenNumbers(Language language);
         bool UsesPluralizedForms(Language language);
         string GetPluralizedForm(Language language, string digits);
+        bool UsesSpacesBetweenNumberGroups(Language language);
     }
 }

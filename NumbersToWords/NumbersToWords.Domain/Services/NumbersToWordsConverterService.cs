@@ -37,7 +37,7 @@ namespace NumbersToWords.Domain.Services
             values.AddRange(ParseThreeDigitNumbers(value, language));
             values.AddRange(ParseTwoDigitNumbers(value, language));
 
-            return _languageFeatureService.UsesSpacesBetweenNumbers(language) ?
+            return _languageFeatureService.UsesSpacesBetweenNumberGroups(language) ?
                 string.Join(' ', values) :
                 string.Concat(values);
         }

@@ -6,6 +6,7 @@
         public bool SingleUnitIsSpecifiedAsADigit => false;
         public bool UsesSpacesBetweenNumbers => false;
         public bool UsesPluralizedForms => true;
+        public bool UsesSpacesBetweenNumberGroups => false;
 
         public string PluralizedForm(string digits)
         {

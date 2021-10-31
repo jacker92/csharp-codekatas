@@ -45,5 +45,10 @@ namespace NumbersToWords.Domain.Services
                 .Single(x => x.Language == language)
                 .LanguageSpecificFeatures;
         }
+
+        public bool UsesSpacesBetweenNumberGroups(Language language)
+        {
+            return GetLanguageFeature(language).UsesSpacesBetweenNumberGroups;
+        }
     }
 }
