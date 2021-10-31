@@ -175,26 +175,26 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(10000000, "ten million")]
-        //[InlineData(50000000, "fifty million")]
-        //[InlineData(90000000, "ninety million")]
-        //public void Convert_ShouldReturnCorrectResult_ForEvenEightDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(10000000, "tio miljoner")]
+        [InlineData(50000000, "femtio miljoner")]
+        [InlineData(90000000, "nittio miljoner")]
+        public void Convert_ShouldReturnCorrectResult_ForEvenEightDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Swedish);
+            Assert.Equal(convertedValue, result);
+        }
 
-        //[Theory]
-        //[InlineData(10000100, "ten million one hundred")]
-        //[InlineData(20001001, "twenty million one thousand one")]
-        //[InlineData(55555555, "fifty-five million five hundred fifty-five thousand five hundred fifty-five")]
-        //[InlineData(99999999, "ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine")]
-        //public void Convert_ShouldReturnCorrectResult_ForEightDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(10000100, "tio miljoner etthundra")]
+        [InlineData(20001001, "tjugo miljoner ettusen ett")]
+        [InlineData(55555555, "femtiofem miljoner femhundrafemtiofemtusen femhundrafemtiofem")]
+        [InlineData(99999999, "nittionio miljoner niohundranittioniotusen niohundranittionio")]
+        public void Convert_ShouldReturnCorrectResult_ForEightDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Swedish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(100000000, "one hundred million")]
