@@ -2,6 +2,7 @@
 using NumbersToWords.Domain.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NumbersToWords.Domain.Services
 {
@@ -48,10 +49,18 @@ namespace NumbersToWords.Domain.Services
                 values.AddRange(twoDigits);
             }
 
+            values = NormalizeValues(values);
 
             return _languageFeatureService.UsesSpacesBetweenNumberGroups(language) ?
                 string.Join(' ', values) :
                 string.Concat(values);
+        }
+
+        private static List<string> NormalizeValues(List<string> values)
+        {
+            return values.Where(x => !string.IsNullOrWhiteSpace(x))
+                           .Select(x => x.Replace("ttt", "tt"))
+                           .ToList();
         }
 
         private IList<string> ParseSevenEightAndNineDigitNumbers(int value, Language language)
@@ -79,22 +88,30 @@ namespace NumbersToWords.Domain.Services
 
                 if (amountOfNumbers > 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
                 {
+                    var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
+                    var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
+
                     if (amountOfNumbers >= 100)
                     {
-                        list.AddRange(ParseThreeDigitNumbers(amountOfNumbers, language));
+                        list.AddRange(threeDigitNumbers);
                     }
 
-                    list.AddRange(ParseTwoDigitNumbers(amountOfNumbers, language));
+                    list.AddRange(twoDigitNumbers);
                 }
 
-                var million = _translationService.Translate(minNumberToParse, language);
+                var number = _translationService.Translate(minNumberToParse, language);
 
                 if (amountOfNumbers > 1 && _languageFeatureService.UsesPluralizedForms(language))
                 {
-                    million += _languageFeatureService.GetPluralizedForm(language, million);
+                    number += _languageFeatureService.GetPluralizedForm(language, number);
                 }
 
-                list.Add(million);
+                list.Add(number);
+            }
+
+            if (!_languageFeatureService.UsesSpacesBetweenNumbers(language))
+            {
+                return new List<string> { string.Concat(list) };
             }
 
             return list;
