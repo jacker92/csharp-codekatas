@@ -105,15 +105,15 @@ namespace NumbersToWords.Domain.Tests
             Assert.Equal(convertedValue, result);
         }
 
-        //[Theory]
-        //[InlineData(1100, "one thousand one hundred")]
-        //[InlineData(5123, "five thousand one hundred twenty-three")]
-        //[InlineData(9999, "nine thousand nine hundred ninety-nine")]
-        //public void Convert_ShouldReturnCorrectResult_ForFourDigitNumbers(int value, string convertedValue)
-        //{
-        //    var result = _numbersToWordsConverter.Convert(value);
-        //    Assert.Equal(convertedValue, result);
-        //}
+        [Theory]
+        [InlineData(1100, "ettusen etthundra")]
+        [InlineData(5123, "femtusen etthundratjugotre")]
+        [InlineData(9999, "niotusen niohundranittionio")]
+        public void Convert_ShouldReturnCorrectResult_ForFourDigitNumbers(int value, string convertedValue)
+        {
+            var result = _numbersToWordsConverter.Convert(value, Language.Swedish);
+            Assert.Equal(convertedValue, result);
+        }
 
         //[Theory]
         //[InlineData(10000, "ten thousand")]
