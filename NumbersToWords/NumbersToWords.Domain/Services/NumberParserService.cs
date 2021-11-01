@@ -98,15 +98,12 @@ namespace NumbersToWords.Domain.Services
         {
             var list = new List<string>();
 
-            var threeDigitNumbers = ParseThreeDigitNumbers(amountOfNumbers, language);
-            var twoDigitNumbers = ParseTwoDigitNumbers(amountOfNumbers, language);
-
             if (amountOfNumbers >= 100)
             {
-                list.Add(threeDigitNumbers);
+                list.Add(ParseThreeDigitNumbers(amountOfNumbers, language));
             }
 
-            list.Add(twoDigitNumbers);
+            list.Add(ParseTwoDigitNumbers(amountOfNumbers, language));
 
             return list;
         }
