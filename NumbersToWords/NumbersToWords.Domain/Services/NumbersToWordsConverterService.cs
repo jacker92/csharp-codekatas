@@ -57,14 +57,15 @@ namespace NumbersToWords.Domain.Services
                 string.Concat(values);
         }
 
-        private IList<string> AddThreeAndTwoDigits(Language language, IList<string> threeDigits, IList<string> twoDigits)
+        private IList<string> AddThreeAndTwoDigits(Language language, IList<string> threeDigits, string twoDigits)
         {
             if (!_languageFeatureService.UsesSpacesBetweenNumbers(language))
             {
                 return new List<string> { string.Concat(threeDigits) + string.Concat(twoDigits) };
             }
 
-            return threeDigits.Concat(twoDigits).ToList();
+            threeDigits.Add(twoDigits);
+            return threeDigits.ToList();
         }
 
         private static List<string> NormalizeValues(List<string> values)

@@ -54,7 +54,7 @@ namespace NumbersToWords.Domain.Services
         {
             var list = ParseFirstDigits(language, minNumberToParse, amountOfNumbers);
 
-            if (ValuesOverMillionShouldBeConcatned(language, minNumberToParse))
+            if (ValuesOverMillionShouldBeConcatenated(language, minNumberToParse))
             {
                 list = new List<string> { string.Concat(list) };
             }
@@ -71,7 +71,7 @@ namespace NumbersToWords.Domain.Services
             return list;
         }
 
-        private bool ValuesOverMillionShouldBeConcatned(Language language, int minNumberToParse)
+        private bool ValuesOverMillionShouldBeConcatenated(Language language, int minNumberToParse)
         {
             return minNumberToParse >= Constants.Million && !_languageFeatureService.UsesSpacesBetweenNumbers(language);
         }
@@ -106,7 +106,7 @@ namespace NumbersToWords.Domain.Services
                 list.AddRange(threeDigitNumbers);
             }
 
-            list.AddRange(twoDigitNumbers);
+            list.Add(twoDigitNumbers);
 
             return list;
         }
@@ -123,7 +123,7 @@ namespace NumbersToWords.Domain.Services
 
             if (threeDigits >= 100)
             {
-               list.Add(ParseThreeDigits(language, threeDigits));
+                list.Add(ParseThreeDigits(language, threeDigits));
             }
 
             return list;
@@ -155,38 +155,36 @@ namespace NumbersToWords.Domain.Services
             return result;
         }
 
-        public IList<string> ParseTwoDigitNumbers(int value, Language language)
+        public string ParseTwoDigitNumbers(int value, Language language)
         {
             var twoDigits = _numberProcessorService.GetTwoDigitNumber(value);
-            var values = ParseTwoDigitsOverTwenty(twoDigits, language);
 
             if (twoDigits < 21 && twoDigits != 0)
             {
-                values.Add(_translationService.Translate(twoDigits, language));
+                return _translationService.Translate(twoDigits, language);
             }
 
-            return values;
+            return ParseTwoDigitsOverTwenty(twoDigits, language);
         }
 
-        private IList<string> ParseTwoDigitsOverTwenty(int twoDigits, Language language)
+        private string ParseTwoDigitsOverTwenty(int twoDigits, Language language)
         {
-            var values = new List<string>();
-
             if (twoDigits > 20)
             {
-                var lastDigit = _numberProcessorService.GetLastDigit(twoDigits);
                 var evenTwoDigitNumber = _numberProcessorService.GetEvenTwoDigitNumber(twoDigits);
 
                 var translation = _translationService.Translate(evenTwoDigitNumber, language);
-                var secondDigit = AddSecondDigit(language, lastDigit);
-                values.Add(translation + secondDigit);
+                var secondDigit = AddSecondDigit(language, twoDigits);
+                return translation + secondDigit;
             }
 
-            return values;
+            return null;
         }
 
-        private string AddSecondDigit(Language language, int lastDigit)
+        private string AddSecondDigit(Language language, int twoDigits)
         {
+            var lastDigit = _numberProcessorService.GetLastDigit(twoDigits);
+
             var digits = string.Empty;
 
             if (lastDigit == 0)
