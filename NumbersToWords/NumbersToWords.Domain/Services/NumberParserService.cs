@@ -103,7 +103,7 @@ namespace NumbersToWords.Domain.Services
 
             if (amountOfNumbers >= 100)
             {
-                list.AddRange(threeDigitNumbers);
+                list.Add(threeDigitNumbers);
             }
 
             list.Add(twoDigitNumbers);
@@ -116,17 +116,11 @@ namespace NumbersToWords.Domain.Services
             return minNumberToParse < Constants.Million || !_languageFeatureService.UsesSpacesBetweenNumbersMillionAndOver(language);
         }
 
-        public IList<string> ParseThreeDigitNumbers(int value, Language language)
+        public string ParseThreeDigitNumbers(int value, Language language)
         {
             var threeDigits = _numberProcessorService.GetThreeDigitNumber(value);
-            var list = new List<string>();
 
-            if (threeDigits >= 100)
-            {
-                list.Add(ParseThreeDigits(language, threeDigits));
-            }
-
-            return list;
+            return threeDigits >= 100 ? ParseThreeDigits(language, threeDigits) : null;
         }
 
         private string ParseThreeDigits(Language language, int threeDigits)
@@ -179,7 +173,6 @@ namespace NumbersToWords.Domain.Services
             var translation = _translationService.Translate(evenTwoDigitNumber, language);
             var secondDigit = AddSecondDigit(language, twoDigits);
             return translation + secondDigit;
-
         }
 
         private string AddSecondDigit(Language language, int twoDigits)
