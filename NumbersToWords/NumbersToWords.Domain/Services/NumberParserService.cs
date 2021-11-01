@@ -159,7 +159,12 @@ namespace NumbersToWords.Domain.Services
         {
             var twoDigits = _numberProcessorService.GetTwoDigitNumber(value);
 
-            if (twoDigits < 21 && twoDigits != 0)
+            if (twoDigits == 0)
+            {
+                return null;
+            }
+
+            if (twoDigits < 21)
             {
                 return _translationService.Translate(twoDigits, language);
             }
@@ -169,16 +174,12 @@ namespace NumbersToWords.Domain.Services
 
         private string ParseTwoDigitsOverTwenty(int twoDigits, Language language)
         {
-            if (twoDigits > 20)
-            {
-                var evenTwoDigitNumber = _numberProcessorService.GetEvenTwoDigitNumber(twoDigits);
+            var evenTwoDigitNumber = _numberProcessorService.GetEvenTwoDigitNumber(twoDigits);
 
-                var translation = _translationService.Translate(evenTwoDigitNumber, language);
-                var secondDigit = AddSecondDigit(language, twoDigits);
-                return translation + secondDigit;
-            }
+            var translation = _translationService.Translate(evenTwoDigitNumber, language);
+            var secondDigit = AddSecondDigit(language, twoDigits);
+            return translation + secondDigit;
 
-            return null;
         }
 
         private string AddSecondDigit(Language language, int twoDigits)
