@@ -123,8 +123,28 @@ namespace NumbersToWords.Domain.Services
         private string ParseThreeDigits(Language language, int threeDigits)
         {
             var oneDigit = _numberProcessorService.GetFirstDigit(threeDigits);
+            var result = HandleSpecialCases(language, oneDigit);
+            return result + HandleHundred(language, oneDigit);
+        }
 
+
+        private string HandleHundred(Language language, int oneDigit)
+        {
+            var hundred = _translationService.Translate(100, language);
+            var result = hundred;
+
+            if (oneDigit != 1 && _languageFeatureService.UsesPluralizedForms(language))
+            {
+                result += _languageFeatureService.GetPluralizedForm(language, hundred);
+            }
+
+            return result;
+        }
+
+        private string HandleSpecialCases(Language language, int oneDigit)
+        {
             var result = string.Empty;
+
             if (oneDigit != 1 || _languageFeatureService.SingleUnitIsSpecifiedAsADigit(language))
             {
                 result += _translationService.Translate(oneDigit, language);
@@ -133,14 +153,6 @@ namespace NumbersToWords.Domain.Services
             if (_languageFeatureService.UsesSpacesBetweenNumbers(language))
             {
                 result += Constants.Space;
-            }
-
-            var hundred = _translationService.Translate(100, language);
-            result += hundred;
-
-            if (oneDigit != 1 && _languageFeatureService.UsesPluralizedForms(language))
-            {
-                result += _languageFeatureService.GetPluralizedForm(language, hundred);
             }
 
             return result;
