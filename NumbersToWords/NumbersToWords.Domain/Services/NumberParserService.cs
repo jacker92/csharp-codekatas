@@ -127,7 +127,6 @@ namespace NumbersToWords.Domain.Services
             return result + HandleHundred(language, oneDigit);
         }
 
-
         private string HandleHundred(Language language, int oneDigit)
         {
             var hundred = _translationService.Translate(100, language);
