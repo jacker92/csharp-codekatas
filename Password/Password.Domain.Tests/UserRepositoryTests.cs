@@ -52,5 +52,33 @@ namespace Password.Domain.Tests
             _userRepository.Add(user);
             Assert.Equal(1, _userRepository.UserCount);
         }
+
+        [Fact]
+        public void Get_ThrowArgumentException_WithEmptyUserName()
+        {
+            Assert.Throws<ArgumentException>(() => _userRepository.Get(""));
+        }
+
+        [Fact]
+        public void Get_ShouldReturnNull_WhenUserIsNotFound()
+        {
+            var result =_userRepository.Get("jaakko");
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void Get_ShouldUser_WhenUserIsFound()
+        {
+            var user = new User
+            {
+                UserName = "jaakko",
+                Password = "password"
+            };
+
+            _userRepository.Add(user);
+
+            var result = _userRepository.Get(user.UserName);
+            Assert.Equal(user, result);
+        }
     }
 }
