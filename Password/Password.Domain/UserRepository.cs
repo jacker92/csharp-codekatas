@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Password.Domain
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly IList<User> _users = new List<User>();
 
@@ -22,7 +22,22 @@ namespace Password.Domain
             _users.Add(user);
         }
 
-        public User Get(string username)
+        public User GetByCredentials(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                throw new ArgumentException($"'{nameof(username)}' cannot be null or whitespace.", nameof(username));
+            }
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentException($"'{nameof(password)}' cannot be null or whitespace.", nameof(password));
+            }
+
+            return _users.SingleOrDefault(x => x.UserName == username && x.Password == password);
+        }
+
+        public User GetByUserName(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
             {

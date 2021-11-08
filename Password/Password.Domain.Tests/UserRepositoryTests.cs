@@ -54,20 +54,20 @@ namespace Password.Domain.Tests
         }
 
         [Fact]
-        public void Get_ThrowArgumentException_WithEmptyUserName()
+        public void GetByUserName_ThrowArgumentException_WithEmptyUserName()
         {
-            Assert.Throws<ArgumentException>(() => _userRepository.Get(""));
+            Assert.Throws<ArgumentException>(() => _userRepository.GetByUserName(""));
         }
 
         [Fact]
-        public void Get_ShouldReturnNull_WhenUserIsNotFound()
+        public void GetByUserName_ShouldReturnNull_WhenUserIsNotFound()
         {
-            var result =_userRepository.Get("jaakko");
+            var result =_userRepository.GetByUserName("jaakko");
             Assert.Null(result);
         }
 
         [Fact]
-        public void Get_ShouldUser_WhenUserIsFound()
+        public void GetByUserName_ShouldUser_WhenUserIsFound()
         {
             var user = new User
             {
@@ -77,7 +77,41 @@ namespace Password.Domain.Tests
 
             _userRepository.Add(user);
 
-            var result = _userRepository.Get(user.UserName);
+            var result = _userRepository.GetByUserName(user.UserName);
+            Assert.Equal(user, result);
+        }
+
+        [Fact]
+        public void GetByCredentials_ThrowArgumentException_WithEmptyUserName()
+        {
+            Assert.Throws<ArgumentException>(() => _userRepository.GetByCredentials("", "password"));
+        }
+
+        [Fact]
+        public void GetByCredentials_ThrowArgumentException_WithEmptyPassword()
+        {
+            Assert.Throws<ArgumentException>(() => _userRepository.GetByCredentials("test", ""));
+        }
+
+        [Fact]
+        public void GetByCredentials_ShouldReturnNull_WhenUserIsNotFound()
+        {
+            var result = _userRepository.GetByCredentials("jaakko", "test");
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetByCredentials_ShouldReturnUser_WhenUserIsFound()
+        {
+            var user = new User
+            {
+                UserName = "jaakko",
+                Password = "password"
+            };
+
+            _userRepository.Add(user);
+
+            var result = _userRepository.GetByCredentials(user.UserName, user.Password);
             Assert.Equal(user, result);
         }
     }
