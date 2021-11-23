@@ -7,14 +7,14 @@ namespace Password.Domain.Tests
     public class UserServiceTests
     {
         private Mock<IUserRepository> _userRepository;
-        private Mock<IHasher> _hasher;
+        private Mock<IHashingService> _hashingService;
         private readonly UserService _userService;
 
         public UserServiceTests()
         {
             _userRepository = new Mock<IUserRepository>();
-            _hasher = new Mock<IHasher>();
-            _userService = new UserService(_userRepository.Object, _hasher.Object);
+            _hashingService = new Mock<IHashingService>();
+            _userService = new UserService(_userRepository.Object, _hashingService.Object);
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Password.Domain.Tests
             _userRepository.Setup(x => x.GetByUserName(user.UserName))
                 .Returns(user);
 
-            _hasher.Setup(x => x.Hash(password)).Returns(hashedPassword);
+            _hashingService.Setup(x => x.Hash(password)).Returns(hashedPassword);
 
             var result = _userService.AreValidUserCredentials("test", password);
             Assert.True(result);

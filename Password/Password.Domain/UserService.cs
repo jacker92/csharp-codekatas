@@ -9,9 +9,9 @@ namespace Password.Domain
     public class UserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IHasher _hasher;
+        private readonly IHashingService _hasher;
 
-        public UserService(IUserRepository userRepository, IHasher hasher)
+        public UserService(IUserRepository userRepository, IHashingService hasher)
         {
             _userRepository = userRepository;
             _hasher = hasher;

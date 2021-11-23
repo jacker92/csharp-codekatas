@@ -1,6 +1,6 @@
 ﻿namespace Password.Domain
 {
-    public interface IHasher
+    public interface IHashingService
     {
         string Hash(string value);   
     }
