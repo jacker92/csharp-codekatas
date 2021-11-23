@@ -31,7 +31,14 @@ namespace Password.Domain
 
             var user = _userRepository.GetByUserName(userName);
 
-            return user != null && user.Password == _hasher.Hash(password);
+            if (user == null)
+            {
+                return false;
+            }
+
+            var res = _hasher.VerifyHashedPassword(user.Password, password);
+
+            return user != null && res;
         }
     }
 }

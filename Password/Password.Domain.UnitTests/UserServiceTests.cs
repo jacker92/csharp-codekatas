@@ -48,6 +48,7 @@ namespace Password.Domain.Tests
                 .Returns(user);
 
             _hashingService.Setup(x => x.Hash(password)).Returns(hashedPassword);
+            _hashingService.Setup(x => x.VerifyHashedPassword(hashedPassword, password)).Returns(true);
 
             var result = _userService.AreValidUserCredentials("test", password);
             Assert.True(result);

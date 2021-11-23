@@ -1,28 +1,25 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using System;
-using System.Security.Cryptography;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Password.Domain
 {
     public class HashingService : IHashingService
     {
+        private readonly PasswordHasher<object?> _passwordHasher;
+
+        public HashingService()
+        {
+            _passwordHasher = new PasswordHasher<object?>();
+        }
+
         public string Hash(string value)
         {
-            byte[] salt = new byte[128 / 8];
-            using (var rngCsp = new RNGCryptoServiceProvider())
-            {
-                rngCsp.GetNonZeroBytes(salt);
-            }
+           return _passwordHasher.HashPassword(null,value);
+        }
 
-            // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: value,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 100000,
-                numBytesRequested: 256 / 8));
-
-            return hashed;
+        public bool VerifyHashedPassword(string hashedPassword, string providedPassword)
+        {
+            var result = _passwordHasher.VerifyHashedPassword(null,hashedPassword, providedPassword);
+            return result == PasswordVerificationResult.Success;
         }
     }
 }
