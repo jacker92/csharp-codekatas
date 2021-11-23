@@ -6,6 +6,5 @@
 
         void Add(User user);
         User GetByUserName(string username);
-        User GetByCredentials(string username, string password);
     }
 }

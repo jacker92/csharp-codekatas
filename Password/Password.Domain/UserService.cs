@@ -9,10 +9,12 @@ namespace Password.Domain
     public class UserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IHasher _hasher;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IHasher hasher)
         {
             _userRepository = userRepository;
+            _hasher = hasher;
         }
 
         public bool AreValidUserCredentials(string userName, string password)
@@ -27,9 +29,9 @@ namespace Password.Domain
                 throw new ArgumentException($"'{nameof(password)}' cannot be null or whitespace.", nameof(password));
             }
 
-            var user = _userRepository.GetByCredentials(userName, password);
+            var user = _userRepository.GetByUserName(userName);
 
-            return user != null;
+            return user != null && user.Password == _hasher.Hash(password);
         }
     }
 }
