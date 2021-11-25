@@ -1,4 +1,6 @@
-﻿namespace Password.Domain
+﻿using Password.Domain.Models;
+
+namespace Password.Domain.Repositories
 {
     public interface IUserRepository
     {

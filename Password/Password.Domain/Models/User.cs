@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Password.Domain
+namespace Password.Domain.Models
 {
     public class User
     {

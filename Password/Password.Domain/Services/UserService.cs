@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Password.Domain.Repositories;
+using System;
 
-namespace Password.Domain
+namespace Password.Domain.Services
 {
     public class UserService
     {

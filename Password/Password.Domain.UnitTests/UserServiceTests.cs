@@ -1,4 +1,7 @@
 ﻿using Moq;
+using Password.Domain.Models;
+using Password.Domain.Repositories;
+using Password.Domain.Services;
 using System;
 using Xunit;
 

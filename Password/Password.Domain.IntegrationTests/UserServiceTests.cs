@@ -1,3 +1,6 @@
+using Password.Domain.Models;
+using Password.Domain.Repositories;
+using Password.Domain.Services;
 using Xunit;
 
 namespace Password.Domain.IntegrationTests

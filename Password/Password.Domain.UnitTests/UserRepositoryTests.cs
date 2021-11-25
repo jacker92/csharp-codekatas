@@ -1,3 +1,5 @@
+using Password.Domain.Models;
+using Password.Domain.Repositories;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Xunit;

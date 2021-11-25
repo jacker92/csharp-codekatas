@@ -1,4 +1,4 @@
-﻿namespace Password.Domain
+﻿namespace Password.Domain.Services
 {
     public interface IHashingService
     {

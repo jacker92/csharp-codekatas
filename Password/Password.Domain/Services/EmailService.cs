@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Password.Domain
+namespace Password.Domain.Services
 {
     public class EmailService : IEmailService
     {

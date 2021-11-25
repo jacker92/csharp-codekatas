@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Password.Domain.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace Password.Domain
+namespace Password.Domain.Utils
 {
     public static class ModelValidator
     {
