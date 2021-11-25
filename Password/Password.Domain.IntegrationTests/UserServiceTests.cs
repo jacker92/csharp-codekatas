@@ -9,7 +9,8 @@ namespace Password.Domain.IntegrationTests
         {
             var userRepository = new UserRepository();
             var hashingService = new HashingService();
-            var userService = new UserService(userRepository, hashingService);
+            var emailService = new EmailService();
+            var userService = new UserService(userRepository, hashingService, emailService);
 
             var password = "P@ssw0rd";
 

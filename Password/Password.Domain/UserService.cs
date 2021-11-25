@@ -6,11 +6,13 @@ namespace Password.Domain
     {
         private readonly IUserRepository _userRepository;
         private readonly IHashingService _hasher;
+        private readonly IEmailService _emailService;
 
-        public UserService(IUserRepository userRepository, IHashingService hasher)
+        public UserService(IUserRepository userRepository, IHashingService hasher, IEmailService emailService)
         {
-            _userRepository = userRepository;
-            _hasher = hasher;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         }
 
         public bool AreValidUserCredentials(string userName, string password)
@@ -35,6 +37,16 @@ namespace Password.Domain
             var res = _hasher.VerifyHashedPassword(user.Password, password);
 
             return user != null && res;
+        }
+
+        public void SendResetEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                throw new ArgumentException($"'{nameof(email)}' cannot be null or whitespace.", nameof(email));
+            }
+
+            _emailService.SendEmail(email);
         }
     }
 }
