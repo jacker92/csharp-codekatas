@@ -13,7 +13,8 @@ namespace Password.Domain.IntegrationTests
             var userRepository = new UserRepository();
             var hashingService = new HashingService();
             var emailService = new EmailService();
-            var userService = new UserService(userRepository, hashingService, emailService);
+            var tokenService = new TokenService();
+            var userService = new UserService(userRepository, hashingService, emailService, tokenService);
 
             var password = "P@ssw0rd";
 

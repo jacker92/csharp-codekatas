@@ -21,25 +21,31 @@ namespace Password.Domain.Tests
             _hashingService = new Mock<IHashingService>();
             _emailService = new Mock<IEmailService>();
             _tokenService = new Mock<ITokenService>();
-            _userService = new UserService(_userRepository.Object, _hashingService.Object, _emailService.Object);
+            _userService = new UserService(_userRepository.Object, _hashingService.Object, _emailService.Object, _tokenService.Object);
         }
 
         [Fact]
         public void ShouldThrowArgumentNullException_WithNullUserRepository()
         {
-            Assert.Throws<ArgumentNullException>(() => new UserService(null, _hashingService.Object, _emailService.Object));
+            Assert.Throws<ArgumentNullException>(() => new UserService(null, _hashingService.Object, _emailService.Object, _tokenService.Object));
         }
 
         [Fact]
         public void ShouldThrowArgumentNullException_WithNullHashingService()
         {
-            Assert.Throws<ArgumentNullException>(() => new UserService(_userRepository.Object, null, _emailService.Object));
+            Assert.Throws<ArgumentNullException>(() => new UserService(_userRepository.Object, null, _emailService.Object, _tokenService.Object));
         }
 
         [Fact]
         public void ShouldThrowArgumentNullException_WithNullEmailService()
         {
-            Assert.Throws<ArgumentNullException>(() => new UserService(_userRepository.Object, _hashingService.Object, null));
+            Assert.Throws<ArgumentNullException>(() => new UserService(_userRepository.Object, _hashingService.Object, null, _tokenService.Object));
+        }
+
+        [Fact]
+        public void ShouldThrowArgumentNullException_WithNullTokenService()
+        {
+            Assert.Throws<ArgumentNullException>(() => new UserService(_userRepository.Object, _hashingService.Object, _emailService.Object, null));
         }
 
         [Fact]
@@ -89,6 +95,8 @@ namespace Password.Domain.Tests
         public void SendResetEmail_ShouldWork()
         {
             var email = "test@test.fi";
+
+            _tokenService.Setup(x => x.GeneratePasswordExpirationToken(email)).Returns(new Token());
 
              _userService.SendResetEmail(email);
 
