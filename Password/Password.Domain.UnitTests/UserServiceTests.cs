@@ -12,6 +12,7 @@ namespace Password.Domain.Tests
         private Mock<IUserRepository> _userRepository;
         private Mock<IHashingService> _hashingService;
         private Mock<IEmailService> _emailService;
+        private Mock<ITokenService> _tokenService;
         private readonly UserService _userService;
 
         public UserServiceTests()
@@ -19,6 +20,7 @@ namespace Password.Domain.Tests
             _userRepository = new Mock<IUserRepository>();
             _hashingService = new Mock<IHashingService>();
             _emailService = new Mock<IEmailService>();
+            _tokenService = new Mock<ITokenService>();
             _userService = new UserService(_userRepository.Object, _hashingService.Object, _emailService.Object);
         }
 
@@ -88,9 +90,10 @@ namespace Password.Domain.Tests
         {
             var email = "test@test.fi";
 
-            _userService.SendResetEmail(email);
+             _userService.SendResetEmail(email);
 
-            _emailService.Verify(x => x.SendEmail(email), Times.Once);
+            _tokenService.Verify(x => x.GeneratePasswordExpirationToken(email), Times.Once);
+            _emailService.Verify(x => x.SendEmail(email, It.Is<string>(x => x.StartsWith("Hi, here is your reset code: "))), Times.Once);
         }
     }
 }

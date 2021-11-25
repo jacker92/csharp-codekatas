@@ -2,6 +2,6 @@
 {
     public interface IEmailService
     {
-        string SendEmail(string email);
+        string SendEmail(string email, string content);
     }
 }

@@ -8,7 +8,7 @@ namespace Password.Domain.Services
 {
     public class EmailService : IEmailService
     {
-        public string SendEmail(string email)
+        public string SendEmail(string email, string content)
         {
             throw new NotImplementedException();
         }

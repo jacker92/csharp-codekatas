@@ -8,6 +8,7 @@ namespace Password.Domain.Services
         private readonly IUserRepository _userRepository;
         private readonly IHashingService _hasher;
         private readonly IEmailService _emailService;
+        private readonly ITokenService _tokenService;
 
         public UserService(IUserRepository userRepository, IHashingService hasher, IEmailService emailService)
         {
@@ -47,7 +48,9 @@ namespace Password.Domain.Services
                 throw new ArgumentException($"'{nameof(email)}' cannot be null or whitespace.", nameof(email));
             }
 
-            _emailService.SendEmail(email);
+            var token =_tokenService.GeneratePasswordExpirationToken(email);
+
+            _emailService.SendEmail(email, $"Hi {token.Content}");
         }
     }
 }
