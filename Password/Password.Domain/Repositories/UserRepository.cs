@@ -33,5 +33,15 @@ namespace Password.Domain.Repositories
 
             return _users.SingleOrDefault(x => x.UserName == username);
         }
+
+        public User GetByEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                throw new ArgumentException($"'{nameof(email)}' cannot be null or whitespace.", nameof(email));
+            }
+
+            return _users.SingleOrDefault(x => x.Email == email);
+        }
     }
 }

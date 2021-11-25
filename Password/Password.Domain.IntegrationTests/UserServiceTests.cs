@@ -18,7 +18,7 @@ namespace Password.Domain.IntegrationTests
 
             var password = "P@ssw0rd";
 
-            var user = new User { UserName = "jaakko", Password = hashingService.Hash(password) };
+            var user = new User { UserName = "jaakko", Password = hashingService.Hash(password), Email = "jaakko@asdf.fi" };
 
             userRepository.Add(user);
 

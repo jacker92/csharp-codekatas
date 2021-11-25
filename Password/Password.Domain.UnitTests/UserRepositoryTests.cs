@@ -18,7 +18,7 @@ namespace Password.Domain.Tests
         [Fact]
         public void Add_ShouldThrowArgumentNullException_WithNullUser()
         {
-           Assert.Throws<ArgumentNullException>(() => _userRepository.Add(null));
+            Assert.Throws<ArgumentNullException>(() => _userRepository.Add(null));
         }
 
         [Fact]
@@ -48,7 +48,8 @@ namespace Password.Domain.Tests
             var user = new User
             {
                 UserName = "jaakko",
-                Password = "password"
+                Password = "password",
+                Email = "jaakko@test.fi"
             };
 
             _userRepository.Add(user);
@@ -64,17 +65,47 @@ namespace Password.Domain.Tests
         [Fact]
         public void GetByUserName_ShouldReturnNull_WhenUserIsNotFound()
         {
-            var result =_userRepository.GetByUserName("jaakko");
+            var result = _userRepository.GetByUserName("jaakko");
             Assert.Null(result);
         }
 
         [Fact]
-        public void GetByUserName_ShouldUser_WhenUserIsFound()
+        public void GetByUserName_ShouldReturnUser_WhenUserIsFound()
         {
             var user = new User
             {
                 UserName = "jaakko",
-                Password = "password"
+                Password = "password",
+                Email = "jaakko@asdf.fi"
+            };
+
+            _userRepository.Add(user);
+
+            var result = _userRepository.GetByUserName(user.UserName);
+            Assert.Equal(user, result);
+        }
+
+        [Fact]
+        public void GetByEmail_ThrowArgumentException_WithEmptyEmail()
+        {
+            Assert.Throws<ArgumentException>(() => _userRepository.GetByEmail(""));
+        }
+
+        [Fact]
+        public void GetByEmail_ShouldReturnNull_WhenUserIsNotFound()
+        {
+            var result = _userRepository.GetByEmail("jaakko@asdf.fi");
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetByEmail_ShouldReturnUser_WhenUserIsFound()
+        {
+            var user = new User
+            {
+                UserName = "jaakko",
+                Password = "password",
+                Email = "jaakko@asdf.fi"
             };
 
             _userRepository.Add(user);
