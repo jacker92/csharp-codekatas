@@ -49,7 +49,9 @@ namespace Password.Domain.Services
                 throw new ArgumentException($"'{nameof(email)}' cannot be null or whitespace.", nameof(email));
             }
 
-            var token =_tokenService.GeneratePasswordExpirationToken(email);
+            var user = _userRepository.GetByEmail(email);
+
+            var token =_tokenService.GeneratePasswordExpirationToken(user);
 
             _emailService.SendEmail(email, $"Hi, here is your reset code: {token.Content}");
         }

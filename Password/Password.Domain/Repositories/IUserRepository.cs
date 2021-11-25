@@ -6,6 +6,7 @@ namespace Password.Domain.Repositories
     {
         int UserCount { get; }
         void Add(User user);
+        User GetByEmail(string email);
         User GetByUserName(string username);
     }
 }

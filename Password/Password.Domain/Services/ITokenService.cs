@@ -4,6 +4,6 @@ namespace Password.Domain.Services
 {
     public interface ITokenService
     {
-        Token GeneratePasswordExpirationToken(string email);
+        Token GeneratePasswordExpirationToken(User user);
     }
 }

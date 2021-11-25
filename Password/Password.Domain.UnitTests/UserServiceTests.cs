@@ -96,11 +96,14 @@ namespace Password.Domain.Tests
         {
             var email = "test@test.fi";
 
-            _tokenService.Setup(x => x.GeneratePasswordExpirationToken(email)).Returns(new Token());
+            var user = new User();
+
+            _tokenService.Setup(x => x.GeneratePasswordExpirationToken(user)).Returns(new Token());
+            _userRepository.Setup(x => x.GetByEmail(email)).Returns(user);
 
              _userService.SendResetEmail(email);
 
-            _tokenService.Verify(x => x.GeneratePasswordExpirationToken(email), Times.Once);
+            _tokenService.Verify(x => x.GeneratePasswordExpirationToken(user), Times.Once);
             _emailService.Verify(x => x.SendEmail(email, It.Is<string>(x => x.StartsWith("Hi, here is your reset code: "))), Times.Once);
         }
     }
