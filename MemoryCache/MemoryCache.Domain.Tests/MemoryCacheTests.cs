@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace MemoryCache.Domain.Tests
@@ -11,6 +10,19 @@ namespace MemoryCache.Domain.Tests
         public MemoryCacheTests()
         {
             _memoryCache = new MemoryCache();
+        }
+
+        [Fact]
+        public void ShouldThrowArgumentNullException_WithNullMemoryCacheOptions()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MemoryCache(null));
+        }
+
+        [Fact]
+        public void SetTimeToLive_ShouldBeUsed()
+        {
+            var memoryCache = new MemoryCache(new MemoryCacheOptions { ItemTimeToLive = TimeSpan.FromHours(1) });
+            Assert.Equal(TimeSpan.FromHours(1), memoryCache.TimeToLive);
         }
 
         [Fact]
@@ -76,16 +88,8 @@ namespace MemoryCache.Domain.Tests
         [Fact]
         public void CapacityIsSetCorrectly()
         {
-            var memoryCache = new MemoryCache(new MemoryCacheOptions { Capacity = 1});
+            var memoryCache = new MemoryCache(new MemoryCacheOptions { Capacity = 1 });
             Assert.Equal(1, memoryCache.Capacity);
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        public void Capacity_ShouldThrowArgumentOutOfRangeException_WithInvalidCapacity(int capacity)
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new MemoryCache(new MemoryCacheOptions { Capacity = capacity }));
         }
 
         [Fact]

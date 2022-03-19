@@ -1,33 +1,23 @@
 ﻿namespace MemoryCache.Domain
 {
-    public class MemoryCacheOptions
-    {
-        public TimeSpan ItemTimeToLive { get; set; } = TimeSpan.FromSeconds(60);
-        public int Capacity { get; set; } = 100000;
-    }
-
     public class MemoryCache
     {
         private readonly IDictionary<string, MemoryCacheItem> _items;
-        public int Capacity { get; }
+        private readonly MemoryCacheOptions _memoryCacheOptions;
+
+        public int Capacity => _memoryCacheOptions.Capacity;
         public int CurrentCapacity => _items.Count();
-        public TimeSpan TimeToLive { get; }
+        public TimeSpan TimeToLive => _memoryCacheOptions.ItemTimeToLive;
 
         public MemoryCache(MemoryCacheOptions memoryCacheOptions)
         {
-            if (memoryCacheOptions.Capacity <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(memoryCacheOptions.Capacity));
-            }
+            _memoryCacheOptions = memoryCacheOptions ?? throw new ArgumentNullException(nameof(memoryCacheOptions));
 
             _items = new Dictionary<string, MemoryCacheItem>();
-            Capacity = memoryCacheOptions.Capacity;
-            TimeToLive = memoryCacheOptions.ItemTimeToLive;
         }
 
         public MemoryCache() : this(new MemoryCacheOptions())
         {
-
         }
 
         public MemoryCacheItem GetItem(string key)
