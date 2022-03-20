@@ -36,9 +36,12 @@
             var pathWithoutAnchor = fullPathSplitted[0];
 
             var query = GetQuery(pathWithoutAnchor);
+
+            var pathWithoutQuery = pathWithoutAnchor.Split('?')[0];
+
             var anchor = GetAnchor(fullPathSplitted);
 
-            return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0], port, pathWithoutAnchor, query, anchor);
+            return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0], port, pathWithoutQuery, query, anchor);
         }
 
         private string GetAnchor(string[] fullPathSplitted)

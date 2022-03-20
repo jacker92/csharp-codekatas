@@ -33,6 +33,7 @@ namespace URLParts.Domain.Tests
         [InlineData("http://www.google.fi:asd")]
         [InlineData("http://www.google.fi:123/¤")]
         [InlineData("http://www.google.fi:123/asdf#&")]
+        [InlineData("http://www.google.fi:123/asdf?%")]
         public void Decompose_ShouldThrowFormatException_WithURLInInvalidFormat(string url)
         {
             Assert.Throws<FormatException>(() => _urlParser.Decompose(url));
@@ -59,7 +60,10 @@ namespace URLParts.Domain.Tests
         [InlineData("ftp://foo.com:9000/files", "ftp", "", "foo.com", 9000, "files", "", "")]
         [InlineData("https://www.foobar.com:8080/download/install.exe", "https", "www", "foobar.com", 8080, "download/install.exe", "", "")]
         [InlineData("https://localhost/index.html", "https", "", "localhost", 443, "index.html", "", "")]
+        [InlineData("https://localhost/index.html?hi", "https", "", "localhost", 443, "index.html", "hi", "")]
         [InlineData("https://localhost/index.html#footer", "https", "", "localhost", 443, "index.html", "", "footer")]
+        [InlineData("https://localhost/index.html?hi#footer", "https", "", "localhost", 443, "index.html", "hi", "footer")]
+        [InlineData("https://localhost/index.html?hi&world#footer", "https", "", "localhost", 443, "index.html", "hi&world", "footer")]
         public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol, string expectedSubdomain, string expectedDomain, int expectedPort, string expectedPath, string expectedQuery, string expectedAnchor)
         {
             var result = _urlParser.Decompose(url);

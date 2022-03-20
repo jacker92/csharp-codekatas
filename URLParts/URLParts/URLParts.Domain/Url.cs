@@ -46,11 +46,26 @@
 
             Path = path;
 
+            ValidateQuery(query);
+
             Query = query;
 
             ValidateAnchor(anchor);
 
             Anchor = anchor;
+        }
+
+        private void ValidateQuery(string query)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return;
+            }
+
+            if (!query.All(x => char.IsLetterOrDigit(x) || x == '&'))
+            {
+                throw new FormatException();
+            }
         }
 
         private void ValidateAnchor(string anchor)
@@ -73,7 +88,7 @@
                 return;
             }
 
-            if (!path.All(x => char.IsLetterOrDigit(x) || x == '.' || x == '/'))
+            if (!path.All(x => char.IsLetterOrDigit(x) || x == '.' || x == '/' || x == '?' || x == '&'))
             {
                 throw new FormatException();
             }
