@@ -9,7 +9,7 @@
                 throw new ArgumentException($"'{nameof(url)}' cannot be null or whitespace.", nameof(url));
             }
 
-            throw new NotImplementedException();
+            throw new FormatException();
         }
     }
 }

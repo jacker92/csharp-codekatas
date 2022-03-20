@@ -11,5 +11,12 @@ namespace URLParts.Domain.Tests
             var parser = new URLParser();
             Assert.Throws<ArgumentException>(() => parser.Decompose(string.Empty));
         }
+
+        [Fact]
+        public void Decompose_ShouldThrowFormatException_WithURLInInvalidFormat()
+        {
+            var parser = new URLParser();
+            Assert.Throws<FormatException>(() => parser.Decompose("asdf"));
+        }
     }
 }
