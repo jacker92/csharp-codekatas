@@ -23,6 +23,8 @@ namespace EndOfLineWhitespaceTrimming.Domain.Tests
         [InlineData("asdf ", "asdf")]
         [InlineData("asdf\t", "asdf")]
         [InlineData(" asdf", " asdf")]
+        [InlineData("ab\r\n cd \r\n", "ab\r\n cd\r\n")]
+        [InlineData("\r\n", "\r\n")]
         public void Trim_ShouldReturnCorrectResult(string stringToTrim, string expected)
         {
             var result = _whitespaceTrimmer.Trim(stringToTrim);    
