@@ -5,11 +5,17 @@ namespace URLParts.Domain.Tests
 {
     public class URLParserTests
     {
+        private readonly URLParser _urlParser;
+
+        public URLParserTests()
+        {
+            _urlParser = new URLParser();
+        }
+
         [Fact]
         public void Decompose_ShouldThrowArgumentException_WithEmptyUrl()
         {
-            var parser = new URLParser();
-            Assert.Throws<ArgumentException>(() => parser.Decompose(string.Empty));
+            Assert.Throws<ArgumentException>(() => _urlParser.Decompose(string.Empty));
         }
 
         [Theory]
@@ -17,17 +23,16 @@ namespace URLParts.Domain.Tests
         [InlineData("http")]
         public void Decompose_ShouldThrowFormatException_WithURLInInvalidFormat(string url)
         {
-            var parser = new URLParser();
-            Assert.Throws<FormatException>(() => parser.Decompose(url));
+            Assert.Throws<FormatException>(() => _urlParser.Decompose(url));
         }
 
-        [Fact]
-        public void Decompose_ShouldWorkCorrecly()
+        [Theory]
+        [InlineData("http://google.fi", "http")]
+        public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol)
         {
-            var parser = new URLParser();
-            Url url = parser.Decompose("http://google.fi");
+            var result = _urlParser.Decompose(url);
 
-            Assert.Equal("http", url.Protocol);
+            Assert.Equal(expectedProtocol, result.Protocol);
         }
     }
 }
