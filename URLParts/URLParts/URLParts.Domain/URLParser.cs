@@ -1,17 +1,31 @@
 ﻿namespace URLParts.Domain
 {
+    public class Protocol
+    {
+        public string ProtocolName { get; set; }
+        public int DefaultPort { get; set; }
+    }
+
     public class Url
     {
-        private static readonly List<string> _protocols = new List<string> { "http", "https", "ftp", "sftp" };
+        private static readonly List<Protocol> _protocols = new List<Protocol> {
+            new Protocol { ProtocolName = "http", DefaultPort = 80},
+            new Protocol { ProtocolName = "https", DefaultPort = 443},
+            new Protocol { ProtocolName = "ftp", DefaultPort = 21},
+            new Protocol { ProtocolName = "sftp", DefaultPort = 22} };
+
         private static readonly List<string> _topLevelDomains = new List<string> { "fi", "com", "net", "org", "int", "edu", "gov", "mil" };
 
-        public Url(string protocol, string subdomain, string domain)
+        public Url(string protocol, string subdomain, string domain, int? port = null)
         {
-            if (!_protocols.Contains(protocol))
+            var correspondingProtocol = _protocols.SingleOrDefault(x => x.ProtocolName == protocol);
+
+            if (correspondingProtocol == null)
             {
                 throw new FormatException();
             }
 
+            Port = correspondingProtocol.DefaultPort;
             Protocol = protocol;
 
             // empty string is allowed
@@ -46,6 +60,7 @@
         public string Protocol { get; }
         public string Subdomain { get; }
         public string Domain { get; }
+        public int Port { get; set; }
     }
 
     public class URLParser

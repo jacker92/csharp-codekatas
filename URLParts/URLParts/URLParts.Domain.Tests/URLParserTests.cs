@@ -34,26 +34,27 @@ namespace URLParts.Domain.Tests
         }
 
         [Theory]
-        [InlineData("http://foo.google.fi", "http", "foo", "google.fi")]
-        [InlineData("http://1.fi", "http", "", "1.fi")]
-        [InlineData("http://a.1.fi", "http", "a", "1.fi")]
-        [InlineData("http://foo.google.net", "http", "foo", "google.net")]
-        [InlineData("http://foo.google.org", "http", "foo", "google.org")]
-        [InlineData("http://foo.google.int", "http", "foo", "google.int")]
-        [InlineData("http://foo.google.edu", "http", "foo", "google.edu")]
-        [InlineData("http://foo.google.gov", "http", "foo", "google.gov")]
-        [InlineData("http://foo.google.mil", "http", "foo", "google.mil")]
-        [InlineData("http://foo.google.com", "http", "foo", "google.com")]
-        [InlineData("https://google.fi", "https", "", "google.fi")]
-        [InlineData("ftp://google.fi", "ftp", "", "google.fi")]
-        [InlineData("sftp://google.fi", "sftp", "", "google.fi")]
-        public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol, string expectedSubdomain, string expectedDomain)
+        [InlineData("http://foo.google.fi", "http", "foo", "google.fi", 80)]
+        [InlineData("http://1.fi", "http", "", "1.fi", 80)]
+        [InlineData("http://a.1.fi", "http", "a", "1.fi", 80)]
+        [InlineData("http://foo.google.net", "http", "foo", "google.net", 80)]
+        [InlineData("http://foo.google.org", "http", "foo", "google.org", 80)]
+        [InlineData("http://foo.google.int", "http", "foo", "google.int", 80)]
+        [InlineData("http://foo.google.edu", "http", "foo", "google.edu", 80)]
+        [InlineData("http://foo.google.gov", "http", "foo", "google.gov", 80)]
+        [InlineData("http://foo.google.mil", "http", "foo", "google.mil", 80)]
+        [InlineData("http://foo.google.com", "http", "foo", "google.com", 80)]
+        [InlineData("https://google.fi", "https", "", "google.fi", 443)]
+        [InlineData("ftp://google.fi", "ftp", "", "google.fi", 21)]
+        [InlineData("sftp://google.fi", "sftp", "", "google.fi", 22)]
+        public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol, string expectedSubdomain, string expectedDomain, int expectedPort)
         {
             var result = _urlParser.Decompose(url);
 
             Assert.Equal(expectedProtocol, result.Protocol);
             Assert.Equal(expectedSubdomain, result.Subdomain);
             Assert.Equal(expectedDomain, result.Domain);
+            Assert.Equal(expectedPort, result.Port);
         }
     }
 }
