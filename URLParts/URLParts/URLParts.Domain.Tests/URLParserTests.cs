@@ -31,6 +31,7 @@ namespace URLParts.Domain.Tests
         [InlineData("http://www.google.fi:65536")]
         [InlineData("http://www.google.fi:0")]
         [InlineData("http://www.google.fi:asd")]
+        [InlineData("http://www.google.fi:123/¤")]
         public void Decompose_ShouldThrowFormatException_WithURLInInvalidFormat(string url)
         {
             Assert.Throws<FormatException>(() => _urlParser.Decompose(url));

@@ -42,7 +42,22 @@
 
             Domain = domain;
 
+            ValidatePath(path);
+
             Path = path;
+        }
+
+        private void ValidatePath(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return;
+            }
+
+            if (!path.All(x => char.IsLetterOrDigit(x) || x == '.' || x == '/'))
+            {
+                throw new FormatException();
+            }
         }
 
         private static void ValidateDomain(string domain)
