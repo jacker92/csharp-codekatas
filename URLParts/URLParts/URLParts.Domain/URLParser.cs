@@ -11,7 +11,7 @@
 
             if (!url.Contains(":") || !url.Contains("//") || !url.Contains("."))
             {
-                throw new FormatException();
+                throw new FormatException(ExceptionMessages.InvalidUrl);
             }
 
             var protocol = GetProtocolName(url);
@@ -81,7 +81,7 @@
 
             if (!PortIsInCorrectFormat(possiblePort, out int port))
             {
-                throw new FormatException();
+                throw new FormatException(ExceptionMessages.InvalidPort);
             }
 
             return port;
@@ -118,7 +118,7 @@
 
             if (domains.Any(domain => string.IsNullOrWhiteSpace(domain)))
             {
-                throw new FormatException();
+                throw new FormatException(ExceptionMessages.InvalidDomain);
             }
 
             return domains;
@@ -130,7 +130,7 @@
 
             if (string.IsNullOrWhiteSpace(protocol))
             {
-                throw new FormatException();
+                throw new FormatException(ExceptionMessages.InvalidProtocol);
             }
 
             return protocol;

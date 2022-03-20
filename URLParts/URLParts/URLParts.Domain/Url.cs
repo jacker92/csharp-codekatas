@@ -14,27 +14,14 @@
         {
             var correspondingProtocol = _protocols.SingleOrDefault(x => x.ProtocolName == protocol);
 
-            if (correspondingProtocol == null)
-            {
-                throw new FormatException();
-            }
+            ValidateProtocol(correspondingProtocol);
+            ValidatePort(port);
 
-            SetPort(port, correspondingProtocol);
+            Port = GetPort(port, correspondingProtocol!);
+
             Protocol = protocol;
 
-            // empty string is allowed
-            if (!string.IsNullOrEmpty(subdomain))
-            {
-                if (!char.IsLetter(subdomain.First()))
-                {
-                    throw new FormatException();
-                }
-
-                if (!subdomain.All(x => char.IsLetterOrDigit(x)))
-                {
-                    throw new FormatException();
-                }
-            }
+            ValidateSubdomain(subdomain);
 
             Subdomain = subdomain;
 
@@ -55,6 +42,41 @@
             Anchor = anchor;
         }
 
+        private int GetPort(int? port, Protocol correspondingProtocol)
+        {
+            return port ?? correspondingProtocol.DefaultPort;
+        }
+
+        private static void ValidateProtocol(Protocol? correspondingProtocol)
+        {
+            if (correspondingProtocol == null)
+            {
+                throw new FormatException(ExceptionMessages.InvalidProtocol);
+            }
+        }
+
+        private void ValidatePort(int? port)
+        {
+            if (port == null)
+            {
+                return;
+            }
+
+            if (port.Value < 1 || port.Value > 65535)
+            {
+                throw new FormatException(ExceptionMessages.PortOutOfRange);
+            }
+        }
+
+        private static void ValidateSubdomain(string subdomain)
+        {
+            // empty string is allowed
+            if (!string.IsNullOrEmpty(subdomain) && (!char.IsLetter(subdomain.First()) || !subdomain.All(x => char.IsLetterOrDigit(x))))
+            {
+                throw new FormatException(ExceptionMessages.InvalidSubdomain);
+            }
+        }
+
         private void ValidateQuery(string query)
         {
             if (string.IsNullOrEmpty(query))
@@ -64,7 +86,7 @@
 
             if (!query.All(x => char.IsLetterOrDigit(x) || x == '&'))
             {
-                throw new FormatException();
+                throw new FormatException(ExceptionMessages.InvalidQuery);
             }
         }
 
@@ -77,7 +99,7 @@
 
             if (!anchor.All(x => char.IsLetterOrDigit(x)))
             {
-                throw new FormatException();
+                throw new FormatException(ExceptionMessages.InvalidAnchor);
             }
         }
 
@@ -90,7 +112,7 @@
 
             if (!path.All(x => char.IsLetterOrDigit(x) || x == '.' || x == '/' || x == '?' || x == '&' || x == '%'))
             {
-                throw new FormatException();
+                throw new FormatException(ExceptionMessages.InvalidPath);
             }
         }
 
@@ -105,29 +127,13 @@
 
             if (!_topLevelDomains.Contains(splittedDomain[1]))
             {
-                throw new FormatException();
+                throw new FormatException(ExceptionMessages.TopLevelDomainNotSupported);
             }
 
             if (!splittedDomain[0].All(x => char.IsLetterOrDigit(x)))
             {
-                throw new FormatException();
+                throw new FormatException(ExceptionMessages.InvalidDomain);
             }
-        }
-
-        private void SetPort(int? port, Protocol correspondingProtocol)
-        {
-            if (port == null)
-            {
-                Port = correspondingProtocol.DefaultPort;
-                return;
-            }
-
-            if (port.Value < 1 || port.Value > 65535)
-            {
-                throw new FormatException();
-            }
-
-            Port = port.Value;
         }
 
         public string Protocol { get; }

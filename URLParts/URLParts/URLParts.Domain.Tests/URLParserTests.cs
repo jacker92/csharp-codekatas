@@ -19,26 +19,29 @@ namespace URLParts.Domain.Tests
         }
 
         [Theory]
-        [InlineData("asdf")]
-        [InlineData("http")]
-        [InlineData("http:")]
-        [InlineData("http://")]
-        [InlineData("http://.")]
-        [InlineData("http://a.c")]
-        [InlineData("http://&.fi")]
-        [InlineData("http://1.1.fi")]
-        [InlineData("http://..fi")]
-        [InlineData("http://www.google.fi:65536")]
-        [InlineData("http://www.google.fi:0")]
-        [InlineData("http://www.google.fi:asd")]
-        [InlineData("http://www.google.fi:123/¤")]
-        [InlineData("http://www.google.fi:123/asdf#&")]
-        [InlineData("http://www.google.fi:123/asdf?%")]
-        [InlineData("http://www.google.fi:123/asdf?asdf&[")]
-        [InlineData("http://www.google.fi:123/asdf?asdf&sf#[")]
-        public void Decompose_ShouldThrowFormatException_WithURLInInvalidFormat(string url)
+        [InlineData("asdf", ExceptionMessages.InvalidUrl)]
+        [InlineData("http", ExceptionMessages.InvalidUrl)]
+        [InlineData("http:", ExceptionMessages.InvalidUrl)]
+        [InlineData("http://", ExceptionMessages.InvalidUrl)]
+        [InlineData("http://.", ExceptionMessages.InvalidDomain)]
+        [InlineData("://google.fi", ExceptionMessages.InvalidProtocol)]
+        [InlineData("http://a.c", ExceptionMessages.TopLevelDomainNotSupported)]
+        [InlineData("http://a.info", ExceptionMessages.TopLevelDomainNotSupported)]
+        [InlineData("http://&.fi", ExceptionMessages.InvalidDomain)]
+        [InlineData("http://1.1.fi", ExceptionMessages.InvalidSubdomain)]
+        [InlineData("http://..fi", ExceptionMessages.InvalidDomain)]
+        [InlineData("http://www.google.fi:65536", ExceptionMessages.PortOutOfRange)]
+        [InlineData("http://www.google.fi:0", ExceptionMessages.PortOutOfRange)]
+        [InlineData("http://www.google.fi:asd", ExceptionMessages.InvalidPort)]
+        [InlineData("http://www.google.fi:123/¤", ExceptionMessages.InvalidPath)]
+        [InlineData("http://www.google.fi:123/asdf#&", ExceptionMessages.InvalidAnchor)]
+        [InlineData("http://www.google.fi:123/asdf?%", ExceptionMessages.InvalidQuery)]
+        [InlineData("http://www.google.fi:123/asdf?asdf&[", ExceptionMessages.InvalidQuery)]
+        [InlineData("http://www.google.fi:123/asdf?asdf&sf#[", ExceptionMessages.InvalidAnchor)]
+        public void Decompose_ShouldThrowFormatException_WithURLInInvalidFormat(string url, string expectedErrorMessage)
         {
-            Assert.Throws<FormatException>(() => _urlParser.Decompose(url));
+            var error = Assert.Throws<FormatException>(() => _urlParser.Decompose(url));
+            Assert.Equal(expectedErrorMessage, error.Message);
         }
 
         [Theory]
