@@ -30,12 +30,14 @@
 
             var port = GetPort(domainWithPossiblePortSplitted);
 
-            var path = GetPath(domainAndPath);
+            var pathWithParametersAndAnchor = GetPathWithParametersAndAnchor(domainAndPath);
+
+            var path = pathWithParametersAndAnchor.Split("#")[0];
 
             return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0], port, path);
         }
 
-        private string GetPath(string[] domainAndPath)
+        private string GetPathWithParametersAndAnchor(string[] domainAndPath)
         {
             return domainAndPath.Length == 2 ? domainAndPath[1] : string.Empty;
         }
