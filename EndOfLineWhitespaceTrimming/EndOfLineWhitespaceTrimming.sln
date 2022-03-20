@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndOfLineWhitespaceTrimming.Domain", "EndOfLineWhitespaceTrimming.Domain\EndOfLineWhitespaceTrimming.Domain.csproj", "{B1F81843-F033-4A86-9A41-2E7A3C32B853}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndOfLineWhitespaceTrimming.Domain.Tests", "EndOfLineWhitespaceTrimming.Domain.Tests\EndOfLineWhitespaceTrimming.Domain.Tests.csproj", "{C210D175-25A4-4AAD-B7CB-E3E83754C3ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1F81843-F033-4A86-9A41-2E7A3C32B853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1F81843-F033-4A86-9A41-2E7A3C32B853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1F81843-F033-4A86-9A41-2E7A3C32B853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1F81843-F033-4A86-9A41-2E7A3C32B853}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C210D175-25A4-4AAD-B7CB-E3E83754C3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C210D175-25A4-4AAD-B7CB-E3E83754C3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C210D175-25A4-4AAD-B7CB-E3E83754C3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C210D175-25A4-4AAD-B7CB-E3E83754C3ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17B41F19-8FC5-4511-A184-C8C12A434F69}
+	EndGlobalSection
+EndGlobal
