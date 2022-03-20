@@ -88,7 +88,7 @@
                 return;
             }
 
-            if (!path.All(x => char.IsLetterOrDigit(x) || x == '.' || x == '/' || x == '?' || x == '&'))
+            if (!path.All(x => char.IsLetterOrDigit(x) || x == '.' || x == '/' || x == '?' || x == '&' || x == '%'))
             {
                 throw new FormatException();
             }
