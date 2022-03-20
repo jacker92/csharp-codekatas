@@ -30,15 +30,16 @@ namespace URLParts.Domain.Tests
         }
 
         [Theory]
-        [InlineData("http://foo.google.fi", "http", "foo")]
-        [InlineData("https://google.fi", "https", "")]
-        [InlineData("ftp://google.fi", "ftp", "")]
-        [InlineData("sftp://google.fi", "sftp", "")]
-        public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol, string expectedSubdomain)
+        [InlineData("http://foo.google.fi", "http", "foo", "google.fi")]
+        [InlineData("https://google.fi", "https", "", "google.fi")]
+        [InlineData("ftp://google.fi", "ftp", "", "google.fi")]
+        [InlineData("sftp://google.fi", "sftp", "", "google.fi")]
+        public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol, string expectedSubdomain, string expectedDomain)
         {
             var result = _urlParser.Decompose(url);
 
             Assert.Equal(expectedProtocol, result.Protocol);
+            Assert.Equal(expectedDomain, result.Domain);
         }
     }
 }

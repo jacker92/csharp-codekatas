@@ -4,6 +4,7 @@
     {
         public string Protocol { get; set; }
         public string Subdomain { get; set; }
+        public IEnumerable<char> Domain { get; set; }
     }
 
     public class URLParser
@@ -22,14 +23,6 @@
                 throw new FormatException();
             }
 
-            var domainAndRest = url.Split("//")[1];
-            var domains = domainAndRest.Split('.');
-
-            if (domains.Any(domain => string.IsNullOrWhiteSpace(domain)))
-            {
-                throw new FormatException();
-            }
-
             var protocol = url.Split(':').FirstOrDefault();
 
             if (string.IsNullOrWhiteSpace(protocol))
@@ -41,9 +34,28 @@
                 throw new FormatException();
             }
 
+            var domainAndRest = url.Split("//")[1];
+
+            var domains = domainAndRest.Split('.');
+
+            if (domains.Any(domain => string.IsNullOrWhiteSpace(domain)))
+            {
+                throw new FormatException();
+            }
+
+            var subdomain = string.Empty;
+            var domain = domainAndRest;
+            if (domains.Count() > 2)
+            {
+                subdomain = domains[0];
+                domain = domainAndRest.Split('.', 2)[1];
+            }
+
             return new Url
             {
                 Protocol = protocol,
+                Domain = domain,
+                Subdomain = subdomain
             };
         }
     }
