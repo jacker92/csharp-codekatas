@@ -10,7 +10,7 @@
 
         private static readonly List<string> _topLevelDomains = new List<string> { "fi", "com", "net", "org", "int", "edu", "gov", "mil" };
 
-        public Url(string protocol, string subdomain, string domain, int? port = null)
+        public Url(string protocol, string subdomain, string domain, int? port, string path)
         {
             var correspondingProtocol = _protocols.SingleOrDefault(x => x.ProtocolName == protocol);
 
@@ -49,6 +49,8 @@
             }
 
             Domain = domain;
+
+            Path = path;
         }
 
         private void SetPort(int? port, Protocol correspondingProtocol)
@@ -71,5 +73,6 @@
         public string Subdomain { get; }
         public string Domain { get; }
         public int Port { get; set; }
+        public string Path { get; set; }
     }
 }
