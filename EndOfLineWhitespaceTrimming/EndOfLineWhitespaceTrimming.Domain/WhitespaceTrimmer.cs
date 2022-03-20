@@ -9,7 +9,7 @@
                 throw new ArgumentNullException(nameof(str));
             }
 
-            return str;
+            return str.TrimEnd();
         }
     }
 }
