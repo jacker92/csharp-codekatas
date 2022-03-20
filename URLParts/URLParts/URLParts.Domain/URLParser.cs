@@ -25,7 +25,7 @@
                 throw new FormatException();
             }
 
-            Port = correspondingProtocol.DefaultPort;
+            SetPort(port, correspondingProtocol);
             Protocol = protocol;
 
             // empty string is allowed
@@ -55,6 +55,22 @@
             }
 
             Domain = domain;
+        }
+
+        private void SetPort(int? port, Protocol correspondingProtocol)
+        {
+            if (port == null)
+            {
+                Port = correspondingProtocol.DefaultPort;
+                return;
+            }
+
+            if (port.Value < 1 || port.Value > 65535)
+            {
+                throw new FormatException();
+            }
+
+            Port = port.Value;
         }
 
         public string Protocol { get; }
@@ -101,9 +117,19 @@
                 domain = domainAndRest.Split('.', 2)[1];
             }
 
-            var toplevelDomain = domain.Split(".")[1];
+            var domainWithPossiblePortSplitted = domain.Split(':');
 
-            return new Url(protocol, subdomain, domain);
+            if (domainWithPossiblePortSplitted.Length == 1)
+            {
+                return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0]);
+            }
+
+            if (!int.TryParse(domainWithPossiblePortSplitted[1], out int port))
+            {
+                throw new FormatException();
+            }
+
+            return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0], port);
         }
     }
 }

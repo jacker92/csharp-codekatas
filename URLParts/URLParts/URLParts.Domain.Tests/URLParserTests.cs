@@ -28,6 +28,8 @@ namespace URLParts.Domain.Tests
         [InlineData("http://&.fi")]
         [InlineData("http://1.1.fi")]
         [InlineData("http://..fi")]
+        [InlineData("http://www.google.fi:65536")]
+        [InlineData("http://www.google.fi:0")]
         public void Decompose_ShouldThrowFormatException_WithURLInInvalidFormat(string url)
         {
             Assert.Throws<FormatException>(() => _urlParser.Decompose(url));
@@ -38,7 +40,9 @@ namespace URLParts.Domain.Tests
         [InlineData("http://1.fi", "http", "", "1.fi", 80)]
         [InlineData("http://a.1.fi", "http", "a", "1.fi", 80)]
         [InlineData("http://foo.google.net", "http", "foo", "google.net", 80)]
-        [InlineData("http://foo.google.org", "http", "foo", "google.org", 80)]
+        [InlineData("http://foo.google.org:81", "http", "foo", "google.org", 81)]
+        [InlineData("http://foo.google.org:65535", "http", "foo", "google.org", 65535)]
+        [InlineData("http://foo.google.org:1", "http", "foo", "google.org", 1)]
         [InlineData("http://foo.google.int", "http", "foo", "google.int", 80)]
         [InlineData("http://foo.google.edu", "http", "foo", "google.edu", 80)]
         [InlineData("http://foo.google.gov", "http", "foo", "google.gov", 80)]
