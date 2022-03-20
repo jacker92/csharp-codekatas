@@ -21,17 +21,20 @@ namespace URLParts.Domain.Tests
         [Theory]
         [InlineData("asdf")]
         [InlineData("http")]
+        [InlineData("http:")]
+        [InlineData("http://")]
+        [InlineData("http://.")]
         public void Decompose_ShouldThrowFormatException_WithURLInInvalidFormat(string url)
         {
             Assert.Throws<FormatException>(() => _urlParser.Decompose(url));
         }
 
         [Theory]
-        [InlineData("http://google.fi", "http")]
-        [InlineData("https://google.fi", "https")]
-        [InlineData("ftp://google.fi", "ftp")]
-        [InlineData("sftp://google.fi", "sftp")]
-        public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol)
+        [InlineData("http://foo.google.fi", "http", "foo")]
+        [InlineData("https://google.fi", "https", "")]
+        [InlineData("ftp://google.fi", "ftp", "")]
+        [InlineData("sftp://google.fi", "sftp", "")]
+        public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol, string expectedSubdomain)
         {
             var result = _urlParser.Decompose(url);
 

@@ -3,6 +3,7 @@
     public class Url
     {
         public string Protocol { get; set; }
+        public string Subdomain { get; set; }
     }
 
     public class URLParser
@@ -16,7 +17,15 @@
                 throw new ArgumentException($"'{nameof(url)}' cannot be null or whitespace.", nameof(url));
             }
 
-            if (!url.Contains(":"))
+            if (!url.Contains(":") || !url.Contains("//") || !url.Contains("."))
+            {
+                throw new FormatException();
+            }
+
+            var domainAndRest = url.Split("//")[1];
+            var domains = domainAndRest.Split('.');
+
+            if (domains.Any(domain => string.IsNullOrWhiteSpace(domain)))
             {
                 throw new FormatException();
             }
@@ -34,7 +43,7 @@
 
             return new Url
             {
-                Protocol = protocol
+                Protocol = protocol,
             };
         }
     }
