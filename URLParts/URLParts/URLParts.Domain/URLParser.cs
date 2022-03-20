@@ -14,6 +14,20 @@
 
             Protocol = protocol;
 
+            // empty string is allowed
+            if (!string.IsNullOrEmpty(subdomain))
+            {
+                if (!char.IsLetter(subdomain.First()))
+                {
+                    throw new FormatException();
+                }
+
+                if (!subdomain.All(x => char.IsLetterOrDigit(x)))
+                {
+                    throw new FormatException();
+                }
+            }
+
             Subdomain = subdomain;
 
             if (!_topLevelDomains.Contains(domain.Split('.')[1]))
