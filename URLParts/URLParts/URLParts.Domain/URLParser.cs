@@ -10,6 +10,7 @@
     public class URLParser
     {
         private static readonly List<string> _protocols = new List<string> { "http", "https", "ftp", "sftp" };
+        private static readonly List<string> _topLevelDomains = new List<string> { "fi", "com" };
 
         public Url Decompose(string url)
         {
@@ -49,6 +50,13 @@
             {
                 subdomain = domains[0];
                 domain = domainAndRest.Split('.', 2)[1];
+            }
+
+            var toplevelDomain = domain.Split(".")[1];
+
+            if (!_topLevelDomains.Contains(toplevelDomain))
+            {
+                throw new FormatException();
             }
 
             return new Url
