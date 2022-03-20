@@ -2,16 +2,40 @@
 {
     public class Url
     {
-        public string Protocol { get; set; }
-        public string Subdomain { get; set; }
-        public IEnumerable<char> Domain { get; set; }
+        private static readonly List<string> _protocols = new List<string> { "http", "https", "ftp", "sftp" };
+        private static readonly List<string> _topLevelDomains = new List<string> { "fi", "com", "net", "org", "int", "edu", "gov", "mil" };
+
+        public Url(string protocol, string subdomain, string domain)
+        {
+            if (!_protocols.Contains(protocol))
+            {
+                throw new FormatException();
+            }
+
+            Protocol = protocol;
+
+            Subdomain = subdomain;
+
+            if (!_topLevelDomains.Contains(domain.Split('.')[1]))
+            {
+                throw new FormatException();
+            }
+
+            if (!domain.Split('.')[0].All(x => char.IsLetterOrDigit(x)))
+            {
+                throw new FormatException();
+            }
+
+            Domain = domain;
+        }
+
+        public string Protocol { get; }
+        public string Subdomain { get; }
+        public string Domain { get; }
     }
 
     public class URLParser
     {
-        private static readonly List<string> _protocols = new List<string> { "http", "https", "ftp", "sftp" };
-        private static readonly List<string> _topLevelDomains = new List<string> { "fi", "com", "net", "org", "int", "edu", "gov", "mil" };
-
         public Url Decompose(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -27,10 +51,6 @@
             var protocol = url.Split(':').FirstOrDefault();
 
             if (string.IsNullOrWhiteSpace(protocol))
-            {
-                throw new FormatException();
-            }
-            if (!_protocols.Contains(protocol))
             {
                 throw new FormatException();
             }
@@ -54,17 +74,7 @@
 
             var toplevelDomain = domain.Split(".")[1];
 
-            if (!_topLevelDomains.Contains(toplevelDomain))
-            {
-                throw new FormatException();
-            }
-
-            return new Url
-            {
-                Protocol = protocol,
-                Domain = domain,
-                Subdomain = subdomain
-            };
+            return new Url(protocol, subdomain, domain);
         }
     }
 }
