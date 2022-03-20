@@ -28,6 +28,9 @@ namespace URLParts.Domain.Tests
 
         [Theory]
         [InlineData("http://google.fi", "http")]
+        [InlineData("https://google.fi", "https")]
+        [InlineData("ftp://google.fi", "ftp")]
+        [InlineData("sftp://google.fi", "sftp")]
         public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol)
         {
             var result = _urlParser.Decompose(url);

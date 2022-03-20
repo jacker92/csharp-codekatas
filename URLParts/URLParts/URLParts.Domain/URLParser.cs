@@ -7,7 +7,7 @@
 
     public class URLParser
     {
-        private static readonly List<string> _protocols = new List<string> { "http" };
+        private static readonly List<string> _protocols = new List<string> { "http", "https", "ftp", "sftp" };
 
         public Url Decompose(string url)
         {
