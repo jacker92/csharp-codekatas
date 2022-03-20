@@ -30,6 +30,8 @@ namespace URLParts.Domain.Tests
         [InlineData("http://..fi")]
         [InlineData("http://www.google.fi:65536")]
         [InlineData("http://www.google.fi:0")]
+        [InlineData("http://www.google.fi:asd")]
+        [InlineData("http://www.google.fi:asd/¤")]
         public void Decompose_ShouldThrowFormatException_WithURLInInvalidFormat(string url)
         {
             Assert.Throws<FormatException>(() => _urlParser.Decompose(url));
@@ -51,6 +53,7 @@ namespace URLParts.Domain.Tests
         [InlineData("https://google.fi", "https", "", "google.fi", 443)]
         [InlineData("ftp://google.fi", "ftp", "", "google.fi", 21)]
         [InlineData("sftp://google.fi", "sftp", "", "google.fi", 22)]
+        [InlineData("sftp://google.fi/a", "sftp", "", "google.fi", 22)]
         public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol, string expectedSubdomain, string expectedDomain, int expectedPort)
         {
             var result = _urlParser.Decompose(url);

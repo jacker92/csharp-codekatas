@@ -18,6 +18,11 @@
 
             var domainAndRest = url.Split("//")[1];
 
+            var domainAndPath = domainAndRest.Split("/", 2);
+            domainAndRest = domainAndPath[0];
+
+            var path = GetPath(domainAndPath);
+
             var domains = GetDomains(domainAndRest);
 
             var subdomain = GetSubdomain(domains);
@@ -28,6 +33,11 @@
             var port = GetPort(domainWithPossiblePortSplitted);
 
             return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0], port);
+        }
+
+        private string GetPath(string[] domainAndPath)
+        {
+            return domainAndPath.Length == 2 ? domainAndPath[1] : null;
         }
 
         private int? GetPort(string[] domainWithPossiblePortSplitted)
