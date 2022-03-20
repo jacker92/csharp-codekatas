@@ -20,37 +20,56 @@
 
             var domains = GetDomains(domainAndRest);
 
-            var domain = domainAndRest;
-            var subdomain = string.Empty;
-            if (domains.Count() > 2)
-            {
-                subdomain = domains[0];
-                domain = domainAndRest.Split('.', 2)[1];
-            }
+            var subdomain = GetSubdomain(domains);
+            var domain = GetPrimaryDomain(domainAndRest, domains);
 
             var domainWithPossiblePortSplitted = domain.Split(':');
 
-            if (HasExplicitPortDefined(domainWithPossiblePortSplitted))
-            {
-                return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0]);
-            }
-
-            if (!PortIsInCorrectFormat(domainWithPossiblePortSplitted, out int port))
-            {
-                throw new FormatException();
-            }
+            var port = GetPort(domainWithPossiblePortSplitted);
 
             return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0], port);
         }
 
-        private static bool PortIsInCorrectFormat(string[] domainWithPossiblePortSplitted, out int port)
+        private int? GetPort(string[] domainWithPossiblePortSplitted)
         {
-            return int.TryParse(domainWithPossiblePortSplitted[1], out port);
+            if (!HasExplicitPortDefined(domainWithPossiblePortSplitted))
+            {
+                return null;
+            }
+
+            var possiblePort = domainWithPossiblePortSplitted[1];
+
+            if (!PortIsInCorrectFormat(possiblePort, out int port))
+            {
+                throw new FormatException();
+            }
+
+            return port;
+        }
+
+        private static string GetPrimaryDomain(string domainAndRest, string[] domains)
+        {
+            if (domains.Count() > 2)
+            {
+                return domainAndRest.Split('.', 2)[1];
+            }
+
+            return domainAndRest;
+        }
+
+        private static string GetSubdomain(string[] domains)
+        {
+            return domains.Count() > 2 ? domains[0] : string.Empty;
+        }
+
+        private static bool PortIsInCorrectFormat(string possiblePort, out int port)
+        {
+            return int.TryParse(possiblePort, out port);
         }
 
         private static bool HasExplicitPortDefined(string[] domainWithPossiblePortSplitted)
         {
-            return domainWithPossiblePortSplitted.Length == 1;
+            return domainWithPossiblePortSplitted.Length != 1;
         }
 
         private static string[] GetDomains(string domainAndRest)
