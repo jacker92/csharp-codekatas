@@ -10,7 +10,7 @@
     public class URLParser
     {
         private static readonly List<string> _protocols = new List<string> { "http", "https", "ftp", "sftp" };
-        private static readonly List<string> _topLevelDomains = new List<string> { "fi", "com" };
+        private static readonly List<string> _topLevelDomains = new List<string> { "fi", "com", "net", "org", "int", "edu", "gov", "mil" };
 
         public Url Decompose(string url)
         {

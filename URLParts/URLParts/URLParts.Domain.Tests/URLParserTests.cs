@@ -32,6 +32,12 @@ namespace URLParts.Domain.Tests
 
         [Theory]
         [InlineData("http://foo.google.fi", "http", "foo", "google.fi")]
+        [InlineData("http://foo.google.net", "http", "foo", "google.net")]
+        [InlineData("http://foo.google.org", "http", "foo", "google.org")]
+        [InlineData("http://foo.google.int", "http", "foo", "google.int")]
+        [InlineData("http://foo.google.edu", "http", "foo", "google.edu")]
+        [InlineData("http://foo.google.gov", "http", "foo", "google.gov")]
+        [InlineData("http://foo.google.mil", "http", "foo", "google.mil")]
         [InlineData("http://foo.google.com", "http", "foo", "google.com")]
         [InlineData("https://google.fi", "https", "", "google.fi")]
         [InlineData("ftp://google.fi", "ftp", "", "google.fi")]
