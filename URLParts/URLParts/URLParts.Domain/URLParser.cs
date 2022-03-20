@@ -32,9 +32,34 @@
 
             var pathWithParametersAndAnchor = GetPathWithParametersAndAnchor(domainAndPath);
 
-            var path = pathWithParametersAndAnchor.Split("#")[0];
+            var fullPathSplitted = pathWithParametersAndAnchor.Split("#");
+            var pathWithoutAnchor = fullPathSplitted[0];
 
-            return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0], port, path);
+            var query = GetQuery(pathWithoutAnchor);
+            var anchor = GetAnchor(fullPathSplitted);
+
+            return new Url(protocol, subdomain, domainWithPossiblePortSplitted[0], port, pathWithoutAnchor, query, anchor);
+        }
+
+        private string GetAnchor(string[] fullPathSplitted)
+        {
+            if (fullPathSplitted.Length == 1)
+            {
+                return string.Empty;
+            }
+
+            return fullPathSplitted[1];
+        }
+
+        private string GetQuery(string pathWithoutAnchor)
+        {
+            var splittedPath = pathWithoutAnchor.Split('?');
+            if (splittedPath.Length == 1)
+            {
+                return string.Empty;
+            }
+
+            return splittedPath[1];
         }
 
         private string GetPathWithParametersAndAnchor(string[] domainAndPath)

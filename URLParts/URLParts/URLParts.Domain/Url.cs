@@ -10,7 +10,7 @@
 
         private static readonly List<string> _topLevelDomains = new List<string> { "fi", "com", "net", "org", "int", "edu", "gov", "mil" };
 
-        public Url(string protocol, string subdomain, string domain, int? port, string path)
+        public Url(string protocol, string subdomain, string domain, int? port, string path, string query, string anchor)
         {
             var correspondingProtocol = _protocols.SingleOrDefault(x => x.ProtocolName == protocol);
 
@@ -45,6 +45,25 @@
             ValidatePath(path);
 
             Path = path;
+
+            Query = query;
+
+            ValidateAnchor(anchor);
+
+            Anchor = anchor;
+        }
+
+        private void ValidateAnchor(string anchor)
+        {
+            if (string.IsNullOrEmpty(anchor))
+            {
+                return;
+            }
+
+            if (!anchor.All(x => char.IsLetterOrDigit(x)))
+            {
+                throw new FormatException();
+            }
         }
 
         private void ValidatePath(string path)
@@ -99,7 +118,9 @@
         public string Protocol { get; }
         public string Subdomain { get; }
         public string Domain { get; }
-        public int Port { get; set; }
-        public string Path { get; set; }
+        public int Port { get; private set; }
+        public string Path { get; }
+        public string Query { get; }
+        public IEnumerable<char> Anchor { get; set; }
     }
 }
