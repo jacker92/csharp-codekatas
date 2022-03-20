@@ -39,6 +39,7 @@ namespace URLParts.Domain.Tests
             var result = _urlParser.Decompose(url);
 
             Assert.Equal(expectedProtocol, result.Protocol);
+            Assert.Equal(expectedSubdomain, result.Subdomain);
             Assert.Equal(expectedDomain, result.Domain);
         }
     }
