@@ -16,7 +16,17 @@
                 throw new ArgumentException($"'{nameof(url)}' cannot be null or whitespace.", nameof(url));
             }
 
+            if (!url.Contains(":"))
+            {
+                throw new FormatException();
+            }
+
             var protocol = url.Split(':').FirstOrDefault();
+
+            if (string.IsNullOrWhiteSpace(protocol))
+            {
+                throw new FormatException();
+            }
             if (!_protocols.Contains(protocol))
             {
                 throw new FormatException();
