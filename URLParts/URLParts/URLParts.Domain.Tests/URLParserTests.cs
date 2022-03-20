@@ -18,5 +18,14 @@ namespace URLParts.Domain.Tests
             var parser = new URLParser();
             Assert.Throws<FormatException>(() => parser.Decompose("asdf"));
         }
+
+        [Fact]
+        public void Decompose_ShouldWorkCorrecly()
+        {
+            var parser = new URLParser();
+            Url url = parser.Decompose("http://google.fi");
+
+            Assert.Equal("http", url.Protocol);
+        }
     }
 }
