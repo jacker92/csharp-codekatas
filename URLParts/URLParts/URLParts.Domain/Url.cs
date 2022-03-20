@@ -38,19 +38,31 @@
 
             Subdomain = subdomain;
 
-            if (!_topLevelDomains.Contains(domain.Split('.')[1]))
-            {
-                throw new FormatException();
-            }
-
-            if (!domain.Split('.')[0].All(x => char.IsLetterOrDigit(x)))
-            {
-                throw new FormatException();
-            }
+            ValidateDomain(domain);
 
             Domain = domain;
 
             Path = path;
+        }
+
+        private static void ValidateDomain(string domain)
+        {
+            var splittedDomain = domain.Split('.');
+
+            if (splittedDomain.Length == 1 && splittedDomain[0] == "localhost")
+            {
+                return;
+            }
+
+            if (!_topLevelDomains.Contains(splittedDomain[1]))
+            {
+                throw new FormatException();
+            }
+
+            if (!splittedDomain[0].All(x => char.IsLetterOrDigit(x)))
+            {
+                throw new FormatException();
+            }
         }
 
         private void SetPort(int? port, Protocol correspondingProtocol)

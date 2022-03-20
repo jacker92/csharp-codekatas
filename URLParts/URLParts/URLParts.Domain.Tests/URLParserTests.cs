@@ -54,6 +54,10 @@ namespace URLParts.Domain.Tests
         [InlineData("ftp://google.fi", "ftp", "", "google.fi", 21, "")]
         [InlineData("sftp://google.fi", "sftp", "", "google.fi", 22, "")]
         [InlineData("sftp://google.fi/a", "sftp", "", "google.fi", 22, "a")]
+        [InlineData("http://foo.bar.com/foobar.html", "http", "foo", "bar.com", 80, "foobar.html")]
+        [InlineData("ftp://foo.com:9000/files", "ftp", "", "foo.com", 9000, "files")]
+        [InlineData("https://www.foobar.com:8080/download/install.exe", "https", "www", "foobar.com", 8080, "download/install.exe")]
+        [InlineData("https://localhost/index.html", "https", "", "localhost", 443, "index.html")]
         public void Decompose_ShouldWorkCorrecly(string url, string expectedProtocol, string expectedSubdomain, string expectedDomain, int expectedPort, string expectedPath)
         {
             var result = _urlParser.Decompose(url);
