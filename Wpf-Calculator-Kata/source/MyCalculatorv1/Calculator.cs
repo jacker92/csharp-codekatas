@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,19 +14,34 @@ namespace MyCalculatorv1
         {
             try
             {
-                var res = new DataTable().Compute(text, null);
-
-                if (TextIsExpression(res))
+                return ComputeResult(text);
+            }
+            catch (Exception exc)
+            {
+                if (exc is ArithmeticException || exc is EvaluateException || exc is SyntaxErrorException)
                 {
-                    return text;
+                    return "Error!";
                 }
 
-                return $"{text}={res}";
+                throw;
             }
-            catch (SyntaxErrorException exc)
+        }
+
+        private static string ComputeResult(string text)
+        {
+            var res = new DataTable().Compute(text, null);
+
+            if (Convert.ToString(res, CultureInfo.InvariantCulture) == "NaN")
             {
-                return "Error!";
+                throw new ArithmeticException();
             }
+
+            if (TextIsExpression(res))
+            {
+                return text;
+            }
+
+            return $"{text}={res}";
         }
 
         private static bool TextIsExpression(object res)

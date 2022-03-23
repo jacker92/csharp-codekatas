@@ -24,7 +24,8 @@ namespace MyCalculatorv1.Tests
         [InlineData("1/0", "1/0=∞")]
         [InlineData("2*9=18", "2*9=18")]
         [InlineData("2*9=17", "2*9=17")]
-         public void GetResult_ShouldReturnCorrectResult(string current, string expected)
+        [InlineData("0/0", "Error!")]
+        public void GetResult_ShouldReturnCorrectResult(string current, string expected)
         {
             var result = _calculator.GetResult(current);
             Assert.Equal(expected, result);
