@@ -9,6 +9,8 @@ namespace MyCalculatorv1
 {
     public partial class MainWindow : Window
     {
+        private readonly Calculator calculator;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -24,7 +26,7 @@ namespace MyCalculatorv1
         {
             try
             {
-                GetResult();
+              tb.Text += GetResult();
             }
             catch (Exception exc)
             {
@@ -32,7 +34,7 @@ namespace MyCalculatorv1
             }
         }
 
-        private void GetResult()
+        private string GetResult()
         {
             int iOp = GetOperationIndex();
 
@@ -42,19 +44,19 @@ namespace MyCalculatorv1
 
             if (op == "+")
             {
-                tb.Text += "=" + (op1 + op2);
+                return "=" + (op1 + op2);
             }
             else if (op == "-")
             {
-                tb.Text += "=" + (op1 - op2);
+                return "=" + (op1 - op2);
             }
             else if (op == "*")
             {
-                tb.Text += "=" + (op1 * op2);
+                return "=" + (op1 * op2);
             }
             else
             {
-                tb.Text += "=" + (op1 / op2);
+                return "=" + (op1 / op2);
             }
         }
 
