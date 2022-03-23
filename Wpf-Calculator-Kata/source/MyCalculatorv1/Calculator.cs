@@ -22,7 +22,7 @@ namespace MyCalculatorv1
 
                 return $"{text}={res}";
             }
-            catch (Exception exc)
+            catch (SyntaxErrorException exc)
             {
                 return "Error!";
             }
