@@ -25,7 +25,7 @@ namespace MyCalculatorv1
 
         private void Result_click(object sender, RoutedEventArgs e)
         {
-            tb.Text += calculator.GetResult(tb.Text);
+            tb.Text = calculator.GetResult(tb.Text);
         }
 
         private void Off_Click_1(object sender, RoutedEventArgs e)

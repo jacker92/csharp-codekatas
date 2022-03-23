@@ -14,12 +14,23 @@ namespace MyCalculatorv1
             try
             {
                 var res = new DataTable().Compute(text, null);
-                return $"={res}";
+
+                if (TextIsExpression(res))
+                {
+                    return text;
+                }
+
+                return $"{text}={res}";
             }
             catch (Exception exc)
             {
                 return "Error!";
             }
+        }
+
+        private static bool TextIsExpression(object res)
+        {
+            return res.ToString() == "True" || res.ToString() == "False";
         }
     }
 }
