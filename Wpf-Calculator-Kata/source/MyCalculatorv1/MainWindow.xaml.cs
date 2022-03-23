@@ -24,7 +24,7 @@ namespace MyCalculatorv1
         {
             try
             {
-                result();
+                GetResult();
             }
             catch (Exception exc)
             {
@@ -32,9 +32,34 @@ namespace MyCalculatorv1
             }
         }
 
-        private void result()
+        private void GetResult()
         {
-            String op;
+            int iOp = GetOperationIndex();
+
+            string op = tb.Text.Substring(iOp, 1);
+            double op1 = Convert.ToDouble(tb.Text.Substring(0, iOp));
+            double op2 = Convert.ToDouble(tb.Text.Substring(iOp + 1, tb.Text.Length - iOp - 1));
+
+            if (op == "+")
+            {
+                tb.Text += "=" + (op1 + op2);
+            }
+            else if (op == "-")
+            {
+                tb.Text += "=" + (op1 - op2);
+            }
+            else if (op == "*")
+            {
+                tb.Text += "=" + (op1 * op2);
+            }
+            else
+            {
+                tb.Text += "=" + (op1 / op2);
+            }
+        }
+
+        private int GetOperationIndex()
+        {
             int iOp = 0;
             if (tb.Text.Contains("+"))
             {
@@ -56,27 +81,8 @@ namespace MyCalculatorv1
             {
                 //error
             }
-            
-            op = tb.Text.Substring(iOp, 1);
-            double op1 = Convert.ToDouble(tb.Text.Substring(0, iOp));
-            double op2 = Convert.ToDouble(tb.Text.Substring(iOp + 1, tb.Text.Length - iOp - 1));
 
-            if (op == "+")
-            {
-                tb.Text += "=" + (op1 + op2);
-            }
-            else if (op == "-")
-            {
-                tb.Text += "=" + (op1 - op2);
-            }
-            else if (op == "*")
-            {
-                tb.Text += "=" + (op1 * op2);
-            }
-            else
-            {
-                tb.Text += "=" + (op1 / op2);
-            }
+            return iOp;
         }
 
         private void Off_Click_1(object sender, RoutedEventArgs e)
