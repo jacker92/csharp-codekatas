@@ -18,45 +18,45 @@ namespace MyCalculatorv1
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Button b = (Button) sender;
+            Button b = (Button)sender;
             tb.Text += b.Content.ToString();
         }
 
         private void Result_click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-              tb.Text += GetResult();
-            }
-            catch (Exception exc)
-            {
-                tb.Text = "Error!";
-            }
+            tb.Text += GetResult();
         }
 
         private string GetResult()
         {
-            int iOp = GetOperationIndex();
+            try
+            {
+                int iOp = GetOperationIndex();
 
-            string op = tb.Text.Substring(iOp, 1);
-            double op1 = Convert.ToDouble(tb.Text.Substring(0, iOp));
-            double op2 = Convert.ToDouble(tb.Text.Substring(iOp + 1, tb.Text.Length - iOp - 1));
+                string op = tb.Text.Substring(iOp, 1);
+                double op1 = Convert.ToDouble(tb.Text.Substring(0, iOp));
+                double op2 = Convert.ToDouble(tb.Text.Substring(iOp + 1, tb.Text.Length - iOp - 1));
 
-            if (op == "+")
-            {
-                return "=" + (op1 + op2);
+                if (op == "+")
+                {
+                    return "=" + (op1 + op2);
+                }
+                else if (op == "-")
+                {
+                    return "=" + (op1 - op2);
+                }
+                else if (op == "*")
+                {
+                    return "=" + (op1 * op2);
+                }
+                else
+                {
+                    return "=" + (op1 / op2);
+                }
             }
-            else if (op == "-")
+            catch (Exception exc)
             {
-                return "=" + (op1 - op2);
-            }
-            else if (op == "*")
-            {
-                return "=" + (op1 * op2);
-            }
-            else
-            {
-                return "=" + (op1 / op2);
+                return "Error!";
             }
         }
 
