@@ -13,6 +13,7 @@ namespace MyCalculatorv1
 
         public MainWindow()
         {
+            calculator = new Calculator();
             InitializeComponent();
         }
 
@@ -24,67 +25,7 @@ namespace MyCalculatorv1
 
         private void Result_click(object sender, RoutedEventArgs e)
         {
-            tb.Text += GetResult();
-        }
-
-        private string GetResult()
-        {
-            try
-            {
-                int iOp = GetOperationIndex();
-
-                string op = tb.Text.Substring(iOp, 1);
-                double op1 = Convert.ToDouble(tb.Text.Substring(0, iOp));
-                double op2 = Convert.ToDouble(tb.Text.Substring(iOp + 1, tb.Text.Length - iOp - 1));
-
-                if (op == "+")
-                {
-                    return "=" + (op1 + op2);
-                }
-                else if (op == "-")
-                {
-                    return "=" + (op1 - op2);
-                }
-                else if (op == "*")
-                {
-                    return "=" + (op1 * op2);
-                }
-                else
-                {
-                    return "=" + (op1 / op2);
-                }
-            }
-            catch (Exception exc)
-            {
-                return "Error!";
-            }
-        }
-
-        private int GetOperationIndex()
-        {
-            int iOp = 0;
-            if (tb.Text.Contains("+"))
-            {
-                iOp = tb.Text.IndexOf("+");
-            }
-            else if (tb.Text.Contains("-"))
-            {
-                iOp = tb.Text.IndexOf("-");
-            }
-            else if (tb.Text.Contains("*"))
-            {
-                iOp = tb.Text.IndexOf("*");
-            }
-            else if (tb.Text.Contains("/"))
-            {
-                iOp = tb.Text.IndexOf("/");
-            }
-            else
-            {
-                //error
-            }
-
-            return iOp;
+            tb.Text += calculator.GetResult(tb.Text);
         }
 
         private void Off_Click_1(object sender, RoutedEventArgs e)
