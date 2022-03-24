@@ -23,7 +23,7 @@
 
             if (breakDuration != null && minuteDifference < breakDuration.TotalTimeInMinutes)
             {
-                throw new ArgumentException("Break cannot be longer that the time difference between start and end time.");
+                throw new TimesheetCalculationException("Break cannot be longer that the time difference between start and end time.");
             }
 
             return new TimesheetCalculationResult(new TimesheetTime(hours, minutes));

@@ -51,9 +51,9 @@ namespace TimesheetCalculator.Domain.Tests
         }
 
         [Fact]
-        public void Calculate_ShouldThrowArgumentException_IfBreakTimeIsMoreThanDifferenceInStartAndEndTime()
+        public void Calculate_ShouldThrowTimesheetCalculationException_IfBreakTimeIsMoreThanDifferenceInStartAndEndTime()
         {
-            var exception = Assert.Throws<ArgumentException>(() => _timesheetCalculator.Calculate(new TimesheetTime(), new TimesheetTime(), new TimesheetTime(0, 1)));
+            var exception = Assert.Throws<TimesheetCalculationException>(() => _timesheetCalculator.Calculate(new TimesheetTime(), new TimesheetTime(), new TimesheetTime(0, 1)));
             Assert.Equal("Break cannot be longer that the time difference between start and end time.", exception.Message);
         }
     }
