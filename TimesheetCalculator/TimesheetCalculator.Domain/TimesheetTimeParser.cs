@@ -31,14 +31,36 @@
         {
             if (time.Length == 3 || time.Length == 4)
             {
-                return int.TryParse(time.AsSpan(time.Length - 2), out var minutes) ?
-                    minutes :
+                return int.TryParse(time.AsSpan(time.Length - 2), out var parsedMinutes) ?
+                    parsedMinutes :
                     throw new TimesheetTimeParsingException();
             }
 
             var splitted = time.Split(':');
 
-            if (splitted.Length != 2 || !int.TryParse(splitted[1], out int result))
+            if (splitted.Length != 2)
+            {
+                throw new TimesheetTimeParsingException();
+            }
+
+            var minutes = splitted[1];
+
+            if (minutes.Length < 2 || !int.TryParse(minutes.Substring(0, 2), out int result))
+            {
+                throw new TimesheetTimeParsingException();
+            }
+
+            return result;
+        }
+
+        private int HandleAmericanFormat(string time, int result)
+        {
+            if (time.Contains("PM"))
+            {
+                return result * 2;
+            }
+
+            else if (result > 12)
             {
                 throw new TimesheetTimeParsingException();
             }
@@ -50,7 +72,7 @@
         {
             if (time.Length == 3 || time.Length == 4)
             {
-                return int.TryParse(time.AsSpan(0,time.Length-2), out var hours) ?
+                return int.TryParse(time.AsSpan(0, time.Length - 2), out var hours) ?
                     hours :
                     throw new TimesheetTimeParsingException();
             }
@@ -60,6 +82,11 @@
             if (splitted.Length != 2 || !int.TryParse(splitted[0], out int result))
             {
                 throw new TimesheetTimeParsingException("Invalid format.");
+            }
+
+            if (time.Contains("AM") || time.Contains("PM"))
+            {
+                return HandleAmericanFormat(time, result);
             }
 
             return result;
