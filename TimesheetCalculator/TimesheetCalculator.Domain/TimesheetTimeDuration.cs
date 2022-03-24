@@ -2,8 +2,14 @@
 {
     public class TimesheetTimeDuration
     {
-        public int Hours { get; set; }
-        public int Minutes { get; set; }
+        public TimesheetTimeDuration(int hours, int minutes)
+        {
+            Hours = hours;
+            Minutes = minutes;
+        }
+
+        public int Hours { get; }
+        public int Minutes { get; }
 
         public override string? ToString()
         {
