@@ -17,7 +17,18 @@
             var hours = endTime.Hours - startTime.Hours;
             var minutes = endTime.Minutes - startTime.Minutes;
 
-            return new TimesheetCalculationResult (new TimesheetTimeDuration(hours, minutes));
+            if (minutes < 0)
+            {
+                hours--;
+                minutes += 60;
+            }
+
+            if (hours < 0)
+            {
+                hours += 24;
+            }
+
+            return new TimesheetCalculationResult(new TimesheetTimeDuration(hours, minutes));
         }
     }
 }

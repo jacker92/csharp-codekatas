@@ -14,6 +14,9 @@ namespace TimesheetCalculator.Domain.Tests
 
         [Theory]
         [InlineData(0, 0, 1, 0, "01:00")]
+        [InlineData(0, 30, 1, 30, "01:00")]
+        [InlineData(0, 30, 1, 00, "00:30")]
+        [InlineData(23, 0, 01, 00, "02:00")]
         public void Calculate_ShouldCalculateTimeCorrectly(int startTimeHours, int startTimeMinutes, int endTimeHours, int endTimeMinutes, string expectedResult)
         {
             var result = _timesheetCalculator.Calculate(new TimesheetTime(startTimeHours, startTimeMinutes), new TimesheetTime(endTimeHours, endTimeMinutes));
