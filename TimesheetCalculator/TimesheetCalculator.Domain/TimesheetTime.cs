@@ -12,5 +12,11 @@
 
         public int Hours { get; }
         public int Minutes { get; }
+        public int TotalTimeInMinutes => Hours * 60 + Minutes;
+
+        public override string? ToString()
+        {
+            return $"{Hours:00}:{Minutes:00}";
+        }
     }
 }

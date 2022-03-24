@@ -2,11 +2,11 @@
 {
     public class TimesheetCalculationResult
     {
-        public TimesheetCalculationResult(TimesheetTimeDuration duration)
+        public TimesheetCalculationResult(TimesheetTime duration)
         {
             Duration = duration;
         }
 
-        public TimesheetTimeDuration Duration { get; }
+        public TimesheetTime Duration { get; }
     }
 }

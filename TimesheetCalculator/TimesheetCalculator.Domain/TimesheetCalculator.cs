@@ -2,7 +2,7 @@
 {
     public class TimesheetCalculator
     {
-        public TimesheetCalculationResult Calculate(TimesheetTime startTime, TimesheetTime endTime, TimesheetTimeDuration? breakDuration = null)
+        public TimesheetCalculationResult Calculate(TimesheetTime startTime, TimesheetTime endTime, TimesheetTime? breakDuration = null)
         {
             if (startTime is null)
             {
@@ -14,14 +14,19 @@
                 throw new ArgumentNullException(nameof(endTime));
             }
 
-            var minuteDifference = Math.Abs((endTime.Hours * 60 + endTime.Minutes) - (startTime.Hours * 60 + startTime.Minutes));
+            var minuteDifference = Math.Abs(endTime.TotalTimeInMinutes - startTime.TotalTimeInMinutes);
 
             var hours = minuteDifference / 60;
             var minutes = minuteDifference % 60;
 
             if (hours < 0) hours += 24;
 
-            return new TimesheetCalculationResult(new TimesheetTimeDuration(hours, minutes));
+            if (breakDuration != null && minuteDifference < breakDuration.TotalTimeInMinutes)
+            {
+                throw new ArgumentException("Break cannot be longer that the time difference between start and end time.");
+            }
+
+            return new TimesheetCalculationResult(new TimesheetTime(hours, minutes));
         }
     }
 }

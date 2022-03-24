@@ -29,6 +29,15 @@ namespace TimesheetCalculator.Domain.Tests
             Assert.Equal(expectedResult, result.Duration.ToString());
         }
 
+        [Theory]
+        [InlineData(0, 0, 0, 0, 0, 0, "00:00")]
+        public void Calculate_ShouldCalculateTimeCorrectlyWithBreak(int startTimeHours, int startTimeMinutes, int endTimeHours, int endTimeMinutes, int breakTimeHours, int breakTimeMinutes, string expectedResult)
+        {
+            var result = _timesheetCalculator.Calculate(new TimesheetTime(startTimeHours, startTimeMinutes), new TimesheetTime(endTimeHours, endTimeMinutes), new TimesheetTime(breakTimeHours, breakTimeMinutes));
+
+            Assert.Equal(expectedResult, result.Duration.ToString());
+        }
+
         [Fact]
         public void Calculate_ShouldThrowArgumentNullException_IfStartTimeIsNull()
         {
@@ -39,6 +48,13 @@ namespace TimesheetCalculator.Domain.Tests
         public void Calculate_ShouldThrowArgumentNullException_IfEndTimeIsNull()
         {
             Assert.Throws<ArgumentNullException>(() => _timesheetCalculator.Calculate(new TimesheetTime(), null));
+        }
+
+        [Fact]
+        public void Calculate_ShouldThrowArgumentException_IfBreakTimeIsMoreThanDifferenceInStartAndEndTime()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => _timesheetCalculator.Calculate(new TimesheetTime(), new TimesheetTime(), new TimesheetTime(0, 1)));
+            Assert.Equal("Break cannot be longer that the time difference between start and end time.", exception.Message);
         }
     }
 }
