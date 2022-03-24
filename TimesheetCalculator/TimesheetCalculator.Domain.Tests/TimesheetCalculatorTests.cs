@@ -31,6 +31,8 @@ namespace TimesheetCalculator.Domain.Tests
 
         [Theory]
         [InlineData(0, 0, 0, 0, 0, 0, "00:00")]
+        [InlineData(0, 0, 1, 0, 0, 0, "01:00")]
+        [InlineData(0, 0, 1, 0, 0, 30, "00:30")]
         public void Calculate_ShouldCalculateTimeCorrectlyWithBreak(int startTimeHours, int startTimeMinutes, int endTimeHours, int endTimeMinutes, int breakTimeHours, int breakTimeMinutes, string expectedResult)
         {
             var result = _timesheetCalculator.Calculate(new TimesheetTime(startTimeHours, startTimeMinutes), new TimesheetTime(endTimeHours, endTimeMinutes), new TimesheetTime(breakTimeHours, breakTimeMinutes));

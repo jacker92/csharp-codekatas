@@ -16,15 +16,20 @@
 
             var minuteDifference = Math.Abs(endTime.TotalTimeInMinutes - startTime.TotalTimeInMinutes);
 
-            var hours = minuteDifference / 60;
-            var minutes = minuteDifference % 60;
-
-            if (hours < 0) hours += 24;
-
             if (breakDuration != null && minuteDifference < breakDuration.TotalTimeInMinutes)
             {
                 throw new TimesheetCalculationException("Break cannot be longer that the time difference between start and end time.");
             }
+
+            if (breakDuration != null)
+            {
+                minuteDifference -= breakDuration.TotalTimeInMinutes;
+            }
+
+            var hours = minuteDifference / 60;
+            var minutes = minuteDifference % 60;
+
+            if (hours < 0) hours += 24;
 
             return new TimesheetCalculationResult(new TimesheetTime(hours, minutes));
         }
