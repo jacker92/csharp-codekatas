@@ -9,12 +9,8 @@
                 throw new ArgumentException($"'{nameof(time)}' cannot be null or whitespace.", nameof(time));
             }
 
-            var splitted = time.Split(':');
-
-            if (splitted.Length != 2 || !int.TryParse(splitted[0], out int hours) || !int.TryParse(splitted[1], out int minutes))
-            {
-                throw new TimesheetTimeParsingException("Invalid format.");
-            }
+            var hours = GetHours(time);
+            var minutes = GetMinutes(time);
 
             if (hours < 0 || hours > 24)
             {
@@ -27,6 +23,30 @@
             }
 
             return new TimesheetTime(hours, minutes);
+        }
+
+        private int GetMinutes(string time)
+        {
+            var splitted = time.Split(':');
+
+            if (splitted.Length != 2 || !int.TryParse(splitted[1], out int result))
+            {
+                throw new TimesheetTimeParsingException("Invalid format.");
+            }
+
+            return result;
+        }
+
+        private int GetHours(string time)
+        {
+            var splitted = time.Split(':');
+
+            if (splitted.Length != 2 || !int.TryParse(splitted[0], out int result))
+            {
+                throw new TimesheetTimeParsingException("Invalid format.");
+            }
+
+            return result;
         }
     }
 }
