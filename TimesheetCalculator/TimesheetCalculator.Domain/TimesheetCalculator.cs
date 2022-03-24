@@ -14,19 +14,12 @@
                 throw new ArgumentNullException(nameof(endTime));
             }
 
-            var hours = endTime.Hours - startTime.Hours;
-            var minutes = endTime.Minutes - startTime.Minutes;
+            var minuteDifference = Math.Abs((endTime.Hours * 60 + endTime.Minutes) - (startTime.Hours * 60 + startTime.Minutes));
 
-            if (minutes < 0)
-            {
-                hours--;
-                minutes += 60;
-            }
+            var hours = minuteDifference / 60;
+            var minutes = minuteDifference % 60;
 
-            if (hours < 0)
-            {
-                hours += 24;
-            }
+            if (hours < 0) hours += 24;
 
             return new TimesheetCalculationResult(new TimesheetTimeDuration(hours, minutes));
         }
