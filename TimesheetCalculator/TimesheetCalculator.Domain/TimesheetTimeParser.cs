@@ -55,11 +55,18 @@
 
         private int HandleAmericanFormat(string time, int result)
         {
-            if (time.Contains("PM"))
+            if (time.Contains("PM") && result == 12)
             {
-                return result * 2;
+                return result;
             }
-
+            else if (time.Contains("PM"))
+            {
+                return 24 - (12 - result);
+            }
+            else if (result == 12)
+            {
+                return 0;
+            }
             else if (result > 12)
             {
                 throw new TimesheetTimeParsingException();

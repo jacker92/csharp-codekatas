@@ -22,6 +22,7 @@ namespace TimesheetCalculator.Domain.Tests
         [InlineData("Hours are out of range.", "25:00")]
         [InlineData("Hours are out of range.", "13:12 PM")]
         [InlineData("Minutes are out of range.", "23:61")]
+        [InlineData("Minutes are out of range.", "999")]
         [InlineData("Invalid format.", "00")]
         [InlineData("Invalid format.", "01a12")]
         [InlineData("Invalid format.", "01;12")]
@@ -42,7 +43,12 @@ namespace TimesheetCalculator.Domain.Tests
         [InlineData("2059", 20,59)]
         [InlineData(" 2059 ", 20,59)]
         [InlineData("08:00 AM", 08,00)]
-        [InlineData("08:00 PM", 16,00)]
+        [InlineData("08:00 PM", 20,00)]
+        [InlineData("12:00 PM", 12,0)]
+        [InlineData("12:00 AM", 0,0)]
+        [InlineData("12:59 AM", 0,59)]
+        [InlineData("1:00 AM", 1,0)]
+        [InlineData("11:59 PM", 23,59)]
         public void Parse_ShouldReturnTimeInCorrectFormat(string time, int hours, int minutes)
         {
             var result = _timesheetTimeParser.Parse(time);
