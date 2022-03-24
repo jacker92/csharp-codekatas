@@ -2,7 +2,7 @@
 {
     public class TimesheetTimeParsingException : Exception
     {
-        public TimesheetTimeParsingException(string? message) : base(message)
+        public TimesheetTimeParsingException(string? message = "Invalid format.") : base(message)
         {
         }
     }
