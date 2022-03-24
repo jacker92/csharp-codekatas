@@ -2,7 +2,7 @@
 {
     public class TimesheetTimeParser
     {
-        public void Parse(string time)
+        public TimesheetTime Parse(string time)
         {
             if (string.IsNullOrWhiteSpace(time))
             {
@@ -25,6 +25,8 @@
             {
                 throw new TimesheetTimeParsingException("Minutes are out of range.");
             }
+
+            return new TimesheetTime(hours, minutes);
         }
     }
 }
