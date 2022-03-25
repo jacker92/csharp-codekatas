@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace PokerHands.Domain.Tests
@@ -47,6 +46,16 @@ namespace PokerHands.Domain.Tests
             var hand2 = new PokerHand(cards2);
 
             Assert.True(hand1 < hand2);
+        }
+
+        [Theory]
+        [ClassData(typeof(PokerHandCompareTestData))]
+        public void Comparing_ShouldReturnCorrectResult_Inverted(List<PlayingCard> cards1, List<PlayingCard> cards2)
+        {
+            var hand1 = new PokerHand(cards1);
+            var hand2 = new PokerHand(cards2);
+
+            Assert.True(hand2 > hand1);
         }
     }
 }
