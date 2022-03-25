@@ -1,4 +1,6 @@
-﻿namespace PokerHands.Domain
+﻿using System.Linq;
+
+namespace PokerHands.Domain
 {
     public class PokerHand
     {
@@ -76,7 +78,14 @@
             var hasThreeOfAKind = groupedCards.Any(x => x.Count == 3);
             var amountOfPairs = groupedCards.Where(x => x.Count == 2).Count();
 
-            if (hasThreeOfAKind)
+            var straightSequence = Enumerable.Range(Cards.MinBy(x => x.Value)!.Value, 5);
+            var areInSequence = Cards.Select(x => x.Value).SequenceEqual(straightSequence);
+
+            if (areInSequence)
+            {
+                return PokerHandRank.Straight;
+            }
+            else if (hasThreeOfAKind)
             {
                 return PokerHandRank.ThreeOfAKind;
             }

@@ -13,5 +13,6 @@
         OnePair,
         TwoPairs,
         ThreeOfAKind,
+        Straight,
     }
 }
