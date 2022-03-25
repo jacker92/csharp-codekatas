@@ -86,6 +86,16 @@ namespace PokerHands.Domain.Tests
                     new PlayingCard(Suit.Club, 1),
                 },PokerHandRank.HighestCardAce
             };
+
+            yield return new object[] {
+                new List<PlayingCard> {
+                    new PlayingCard(Suit.Club, 3),
+                    new PlayingCard(Suit.Club, 3),
+                    new PlayingCard(Suit.Club, 5),
+                    new PlayingCard(Suit.Club, 6),
+                    new PlayingCard(Suit.Club, 1),
+                },PokerHandRank.OnePair
+            };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

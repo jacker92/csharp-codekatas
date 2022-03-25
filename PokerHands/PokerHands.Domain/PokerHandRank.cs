@@ -10,5 +10,6 @@
         HighestCardQueen,
         HighestCardKing,
         HighestCardAce,
+        OnePair,
     }
 }

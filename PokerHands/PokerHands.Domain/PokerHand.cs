@@ -23,11 +23,21 @@
 
         private PokerHandRank CalculateRank()
         {
+            var maxSameValueCount = Cards.GroupBy(x => x.Value)
+                .Select(x => new { Key = x.Key, Count = x.Count() })
+                .MaxBy(x => x.Count)!
+                .Count;
+
+            if (maxSameValueCount == 2)
+            {
+                return PokerHandRank.OnePair;
+            }
+
             if (Cards.Any(x => x.Value == 1)) return PokerHandRank.HighestCardAce;
 
             var max = Cards.MaxBy(x => x.Value)!;
 
-            if(max.Value == 7) return PokerHandRank.HighestCardSeven;
+            if (max.Value == 7) return PokerHandRank.HighestCardSeven;
             if (max.Value == 8) return PokerHandRank.HighestCardEight;
             if (max.Value == 9) return PokerHandRank.HighestCardNine;
             if (max.Value == 10) return PokerHandRank.HighestCardTen;
