@@ -32,6 +32,11 @@ namespace PokerHands.Domain
 
             if (a.Rank == b.Rank)
             {
+                if (a.Cards.Count() == 5)
+                {
+                    return CompareTwoHandsWithSameRank(a, b);
+                }
+
                 return new PokerHand(a.Cards.Take(a.Cards.Count() - 1)) <
                        new PokerHand(b.Cards.Take(b.Cards.Count() - 1));
             }
@@ -53,6 +58,11 @@ namespace PokerHands.Domain
 
             if (a.Rank == b.Rank)
             {
+                if (a.Cards.Count() == 5)
+                {
+                    return !CompareTwoHandsWithSameRank(a, b);
+                }
+
                 return new PokerHand(a.Cards.Take(a.Cards.Count() - 1)) <
                        new PokerHand(b.Cards.Take(b.Cards.Count() - 1));
             }
@@ -73,7 +83,7 @@ namespace PokerHands.Domain
         private PokerHandRank CalculateRank()
         {
             var groupedCards = Cards.GroupBy(x => x.Value)
-                .Select(x => new { Key = x.Key, Count = x.Count() });
+                .Select(x => new { x.Key, Count = x.Count() });
 
             var hasThreeOfAKind = groupedCards.Any(x => x.Count == 3);
             var amountOfPairs = groupedCards.Where(x => x.Count == 2).Count();
@@ -109,6 +119,27 @@ namespace PokerHands.Domain
             if (max.Value == 11) return PokerHandRank.HighestCardJack;
             if (max.Value == 12) return PokerHandRank.HighestCardQueen;
             if (max.Value == 13) return PokerHandRank.HighestCardKing;
+
+            throw new Exception();
+        }
+
+        private static bool CompareTwoHandsWithSameRank(PokerHand a, PokerHand b)
+        {
+            var groupedCards = a.Cards.GroupBy(x => x.Value)
+               .Select(x => new { Key = x.Key, Count = x.Count() });
+
+            var secondGroupedCards = b.Cards.GroupBy(x => x.Value)
+         .Select(x => new { Key = x.Key, Count = x.Count() });
+
+            var pairs = groupedCards.Where(x => x.Count == 2);
+            var secondPairs = secondGroupedCards.Where(x => x.Count == 2);
+
+            switch (a.Rank)
+            {
+                case PokerHandRank.OnePair:
+                    return pairs.First().Key < secondPairs.First().Key;
+
+            }
 
             throw new Exception();
         }
