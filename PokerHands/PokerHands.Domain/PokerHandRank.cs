@@ -11,5 +11,6 @@
         HighestCardKing,
         HighestCardAce,
         OnePair,
+        TwoPairs,
     }
 }

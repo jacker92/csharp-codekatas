@@ -70,12 +70,16 @@
 
         private PokerHandRank CalculateRank()
         {
-            var maxSameValueCount = Cards.GroupBy(x => x.Value)
-                .Select(x => new { Key = x.Key, Count = x.Count() })
-                .MaxBy(x => x.Count)!
-                .Count;
+            var groupedCards = Cards.GroupBy(x => x.Value)
+                .Select(x => new { Key = x.Key, Count = x.Count() });
 
-            if (maxSameValueCount == 2)
+            var amountOfPairs = groupedCards.Where(x => x.Count == 2).Count();
+
+            if (amountOfPairs == 2)
+            {
+                return PokerHandRank.TwoPairs;
+            }
+            else if (amountOfPairs == 1)
             {
                 return PokerHandRank.OnePair;
             }
