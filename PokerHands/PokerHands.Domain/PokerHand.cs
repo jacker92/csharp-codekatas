@@ -73,9 +73,14 @@
             var groupedCards = Cards.GroupBy(x => x.Value)
                 .Select(x => new { Key = x.Key, Count = x.Count() });
 
+            var hasThreeOfAKind = groupedCards.Any(x => x.Count == 3);
             var amountOfPairs = groupedCards.Where(x => x.Count == 2).Count();
 
-            if (amountOfPairs == 2)
+            if (hasThreeOfAKind)
+            {
+                return PokerHandRank.ThreeOfAKind;
+            }
+            else if (amountOfPairs == 2)
             {
                 return PokerHandRank.TwoPairs;
             }

@@ -12,5 +12,6 @@
         HighestCardAce,
         OnePair,
         TwoPairs,
+        ThreeOfAKind,
     }
 }
