@@ -9,17 +9,64 @@
                 throw new ArgumentNullException(nameof(cards));
             }
 
-            if (cards.Count() != 5)
-            {
-                throw new ArgumentException("Pokerhand must have five cards.");
-            }
-
             Cards = cards;
         }
 
         public IEnumerable<PlayingCard> Cards { get; }
 
         public PokerHandRank Rank => CalculateRank();
+
+        public static bool operator <(PokerHand a, PokerHand b)
+        {
+            if (a == b)
+            {
+                return false;
+            }
+
+            if (a.Cards.Count() == 0)
+            {
+                return false;
+            }
+
+            if (a.Rank == b.Rank)
+            {
+                return new PokerHand(a.Cards.Take(a.Cards.Count() - 1)) <
+                       new PokerHand(b.Cards.Take(b.Cards.Count() - 1));
+            }
+
+            return a.Rank < b.Rank;
+        }
+
+        public static bool operator >(PokerHand a, PokerHand b)
+        {
+            if (a == b)
+            {
+                return false;
+            }
+
+            if (a.Cards.Count() == 0)
+            {
+                return false;
+            }
+
+            if (a.Rank == b.Rank)
+            {
+                return new PokerHand(a.Cards.Take(a.Cards.Count() - 1)) <
+                       new PokerHand(b.Cards.Take(b.Cards.Count() - 1));
+            }
+
+            return a.Rank > b.Rank;
+        }
+
+        public static bool operator ==(PokerHand a, PokerHand b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(PokerHand a, PokerHand b)
+        {
+            return !a.Equals(b);
+        }
 
         private PokerHandRank CalculateRank()
         {
@@ -46,6 +93,18 @@
             if (max.Value == 13) return PokerHandRank.HighestCardKing;
 
             throw new Exception();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PokerHand hand &&
+                   EqualityComparer<IEnumerable<PlayingCard>>.Default.Equals(Cards, hand.Cards) &&
+                   Rank == hand.Rank;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Cards, Rank);
         }
     }
 }

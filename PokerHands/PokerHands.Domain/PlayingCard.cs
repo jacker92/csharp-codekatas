@@ -16,6 +16,17 @@
         public Suit Suit { get; }
         public int Value { get; }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is PlayingCard card &&
+                   Value == card.Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Value);
+        }
+
         public override string? ToString()
         {
             return $"{GetValue()}{Suit.ToString().Substring(0, 1).ToUpper()}";

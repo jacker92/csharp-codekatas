@@ -14,22 +14,39 @@ namespace PokerHands.Domain.Tests
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(4)]
-        [InlineData(6)]
-        public void ShouldThrowArgumentException_WithTooManyCardsInCardsArray(int count)
-        {
-            var cards = Enumerable.Repeat(new PlayingCard(Suit.Diamond, 1), count).ToArray();
-            var exception = Assert.Throws<ArgumentException>(() => new PokerHand(cards));
-            Assert.Equal("Pokerhand must have five cards.", exception.Message);
-        }
-
-        [Theory]
         [ClassData(typeof(PokerHandTestData))]
         public void Rank_ShouldReturnCorrectResult(List<PlayingCard> cards, PokerHandRank expectedRank)
         {
             var hand = new PokerHand(cards);
             Assert.Equal(expectedRank, hand.Rank);
+        }
+
+        [Fact]
+        public void Comparing_ShouldReturnCorrectResult_WithTwoHandsThatAreEqual()
+        {
+            var cards = new List<PlayingCard>
+            {
+                new PlayingCard(Suit.Diamond, 1),
+                new PlayingCard(Suit.Diamond, 2),
+                new PlayingCard(Suit.Diamond, 3),
+                new PlayingCard(Suit.Diamond, 4),
+                new PlayingCard(Suit.Diamond, 5)
+            };
+
+            var hand1 = new PokerHand(cards);
+            var hand2 = new PokerHand(cards);
+
+            Assert.True(hand1 == hand2);
+        }
+
+        [Theory]
+        [ClassData(typeof(PokerHandCompareTestData))]
+        public void Comparing_ShouldReturnCorrectResult(List<PlayingCard> cards1, List<PlayingCard> cards2)
+        {
+            var hand1 = new PokerHand(cards1);
+            var hand2 = new PokerHand(cards2);
+
+            Assert.True(hand1 < hand2);
         }
     }
 }
