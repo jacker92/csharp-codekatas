@@ -4,7 +4,7 @@
     {
         public PlayingCard(Suit club, int value)
         {
-            if (value > 14 || value < 1)
+            if (value > 13 || value < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -24,6 +24,10 @@
         private string GetValue()
         {
             if (Value == 1) return "A";
+            if (Value == 10) return "T";
+            if (Value == 11) return "J";
+            if (Value == 12) return "Q";
+            if (Value == 13) return "K";
             return Value.ToString();
         }
     }
