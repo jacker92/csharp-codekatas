@@ -4,5 +4,11 @@
     {
         HighestCardSeven,
         HighestCardEight,
+        HighestCardNine,
+        HighestCardTen,
+        HighestCardJack,
+        HighestCardQueen,
+        HighestCardKing,
+        HighestCardAce,
     }
 }

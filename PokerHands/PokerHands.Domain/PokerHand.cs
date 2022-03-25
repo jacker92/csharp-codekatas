@@ -23,11 +23,19 @@
 
         private PokerHandRank CalculateRank()
         {
+            if (Cards.Any(x => x.Value == 1)) return PokerHandRank.HighestCardAce;
+
             var max = Cards.MaxBy(x => x.Value)!;
 
+            if(max.Value == 7) return PokerHandRank.HighestCardSeven;
             if (max.Value == 8) return PokerHandRank.HighestCardEight;
+            if (max.Value == 9) return PokerHandRank.HighestCardNine;
+            if (max.Value == 10) return PokerHandRank.HighestCardTen;
+            if (max.Value == 11) return PokerHandRank.HighestCardJack;
+            if (max.Value == 12) return PokerHandRank.HighestCardQueen;
+            if (max.Value == 13) return PokerHandRank.HighestCardKing;
 
-            return PokerHandRank.HighestCardSeven;
+            throw new Exception();
         }
     }
 }
