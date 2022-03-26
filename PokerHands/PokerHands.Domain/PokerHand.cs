@@ -113,11 +113,32 @@ namespace PokerHands.Domain
                 case PokerHandRank.TwoPairs:
                     return CompareTwoPairs(groupedCards, secondGroupedCards);
                 case PokerHandRank.OnePair:
-                    return pairs.First().Key < secondPairs.First().Key;
+                    return CompareOnePair(pairs, secondPairs);
 
             }
 
             throw new Exception();
+        }
+
+        private static bool CompareOnePair(IEnumerable<PokerHandHelper.GroupedCard> pairs, IEnumerable<PokerHandHelper.GroupedCard> secondPairs)
+        {
+            var pair = pairs.First().Key;
+            var firstPairIsPairOfAces = pair == 1;
+
+            var secondPair = secondPairs.First().Key;
+            var secondPairIsPairOfAces = secondPair == 1;
+
+            if (!firstPairIsPairOfAces && secondPairIsPairOfAces)
+            {
+                return true;
+            }
+
+            if(firstPairIsPairOfAces && !secondPairIsPairOfAces)
+            {
+                return false;
+            }
+
+            return pairs.First().Key < secondPairs.First().Key;
         }
 
         private static bool CompareTwoPairs(IEnumerable<PokerHandHelper.GroupedCard> groupedCards, IEnumerable<PokerHandHelper.GroupedCard> secondGroupedCards)
@@ -142,7 +163,7 @@ namespace PokerHands.Domain
             }
 
             var highCardResult = groupedCards.Single(x => x.Count == 1).Key < secondGroupedCards.Single(x => x.Count == 1).Key;
-           
+
             return highCardResult;
         }
 
