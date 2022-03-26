@@ -30,5 +30,20 @@
 
             return kilograms / Conversions.KilogramsToPounds;
         }
+
+        public double ConvertLitersToGallons(double liters, GallonTargetUnit targetUnit)
+        {
+            if (liters < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(liters));
+            }
+
+            if (targetUnit == GallonTargetUnit.UK)
+            {
+                return liters / Conversions.LitersToUKGallons;
+            }
+
+            return liters / Conversions.LitersToUSGallons;
+        }
     }
 }

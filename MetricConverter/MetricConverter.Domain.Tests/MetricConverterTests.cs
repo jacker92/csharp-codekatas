@@ -60,5 +60,22 @@ namespace MetricConverter.Domain.Tests
             var result = _metricConverter.ConvertKilogramToPound(kilograms);
             Assert.Equal(expectedPounds, result, 6);
         }
+
+        [Fact]
+        public void LitersToGallons_ShouldThrowArgumentOutOfRangeException_IfLitersIsLessThanZero()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => _metricConverter.ConvertLitersToGallons(-1, GallonTargetUnit.UK));
+        }
+
+        [Theory]
+        [InlineData(0, GallonTargetUnit.UK, 0)]
+        [InlineData(0, GallonTargetUnit.US, 0)]
+        [InlineData(4.54609, GallonTargetUnit.UK, 1)]
+        [InlineData(3.785411784, GallonTargetUnit.US, 1)]
+        public void LitersToGallons_ShouldReturnCorrectResult(double liters, GallonTargetUnit targetUnit, double expectedGallons)
+        {
+            var result = _metricConverter.ConvertLitersToGallons(liters, targetUnit);
+            Assert.Equal(expectedGallons, result,9);
+        }
     }
 }
