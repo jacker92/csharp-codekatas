@@ -110,6 +110,8 @@ namespace PokerHands.Domain
 
             switch (a.Rank)
             {
+                case PokerHandRank.TwoPairs:
+                    return groupedCards.Single(x => x.Count == 1).Key < secondGroupedCards.Single(x => x.Count == 1).Key;
                 case PokerHandRank.OnePair:
                     return pairs.First().Key < secondPairs.First().Key;
 
