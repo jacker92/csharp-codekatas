@@ -20,28 +20,7 @@ namespace PokerHands.Domain
 
         public static bool operator <(PokerHand a, PokerHand b)
         {
-            if (a == b)
-            {
-                return false;
-            }
-
-            if (a.Cards.Count() == 0)
-            {
-                return false;
-            }
-
-            if (a.Rank == b.Rank)
-            {
-                if (a.Cards.Count() == 5)
-                {
-                    return CompareTwoHandsWithSameRank(a, b);
-                }
-
-                return new PokerHand(a.Cards.Take(a.Cards.Count() - 1)) <
-                       new PokerHand(b.Cards.Take(b.Cards.Count() - 1));
-            }
-
-            return a.Rank < b.Rank;
+            return !(a.Rank > b.Rank);
         }
 
         public static bool operator >(PokerHand a, PokerHand b)
@@ -82,8 +61,7 @@ namespace PokerHands.Domain
 
         private PokerHandRank CalculateRank()
         {
-            var groupedCards = Cards.GroupBy(x => x.Value)
-                .Select(x => new { x.Key, Count = x.Count() });
+            var groupedCards = PokerHandHelper.GroupCards(Cards);
 
             var hasThreeOfAKind = groupedCards.Any(x => x.Count == 3);
             var amountOfPairs = groupedCards.Where(x => x.Count == 2).Count();
@@ -125,11 +103,8 @@ namespace PokerHands.Domain
 
         private static bool CompareTwoHandsWithSameRank(PokerHand a, PokerHand b)
         {
-            var groupedCards = a.Cards.GroupBy(x => x.Value)
-               .Select(x => new { Key = x.Key, Count = x.Count() });
-
-            var secondGroupedCards = b.Cards.GroupBy(x => x.Value)
-         .Select(x => new { Key = x.Key, Count = x.Count() });
+            var groupedCards = PokerHandHelper.GroupCards(a.Cards);
+            var secondGroupedCards = PokerHandHelper.GroupCards(b.Cards);
 
             var pairs = groupedCards.Where(x => x.Count == 2);
             var secondPairs = secondGroupedCards.Where(x => x.Count == 2);
