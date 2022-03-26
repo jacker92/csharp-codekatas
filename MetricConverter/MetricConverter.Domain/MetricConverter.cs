@@ -20,5 +20,15 @@
             }
             return celsius * 1.8 + 32;
         }
+
+        public double ConvertKilogramToPound(double kilograms)
+        {
+            if (kilograms < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(kilograms));
+            }
+
+            return kilograms / Conversions.KilogramsToPounds;
+        }
     }
 }

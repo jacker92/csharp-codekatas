@@ -44,5 +44,21 @@ namespace MetricConverter.Domain.Tests
             var result = _metricConverter.ConvertCelsiusToFahrenheit(celsius);
             Assert.Equal(expectedFahrenheit, result);
         }
+
+        [Fact]
+        public void KilogramToPound_ShouldThrowArgumentOutOfRangeException_IfKilogramIsLessThanZero()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => _metricConverter.ConvertKilogramToPound(-1));
+        }
+
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(5, 11.023113)]
+        [InlineData(100, 220.462262)]
+        public void KilogramToPound_ShouldReturnCorrectResult(double kilograms, double expectedPounds)
+        {
+            var result = _metricConverter.ConvertKilogramToPound(kilograms);
+            Assert.Equal(expectedPounds, result, 6);
+        }
     }
 }
