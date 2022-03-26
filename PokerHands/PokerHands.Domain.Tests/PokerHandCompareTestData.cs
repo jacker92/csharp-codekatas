@@ -398,6 +398,91 @@ namespace PokerHands.Domain.Tests
                     new PlayingCard(Suit.Club, 4),
                 }
             };
+
+            yield return new object[] {
+                new List<PlayingCard> {
+                    new PlayingCard(Suit.Heart, 8),
+                    new PlayingCard(Suit.Heart, 2),
+                    new PlayingCard(Suit.Heart, 3),
+                    new PlayingCard(Suit.Heart, 4),
+                    new PlayingCard(Suit.Heart, 5),
+                },
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Club, 1),
+                    new PlayingCard(Suit.Club, 5),
+                    new PlayingCard(Suit.Club, 6),
+                    new PlayingCard(Suit.Club, 3),
+                    new PlayingCard(Suit.Club, 4),
+                }
+            };
+
+            yield return new object[] {
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Heart, 8),
+                    new PlayingCard(Suit.Diamond, 2),
+                    new PlayingCard(Suit.Heart, 3),
+                    new PlayingCard(Suit.Heart, 4),
+                    new PlayingCard(Suit.Heart, 5),
+                },
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Club, 9),
+                    new PlayingCard(Suit.Diamond, 9),
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 2),
+                }
+            };
+
+            yield return new object[] {
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Heart, 2),
+                    new PlayingCard(Suit.Diamond, 2),
+                    new PlayingCard(Suit.Heart, 2),
+                    new PlayingCard(Suit.Heart, 3),
+                    new PlayingCard(Suit.Heart, 3),
+                },
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Club, 3),
+                    new PlayingCard(Suit.Diamond, 3),
+                    new PlayingCard(Suit.Club, 3),
+                    new PlayingCard(Suit.Club, 1),
+                    new PlayingCard(Suit.Club, 1),
+                }
+            };
+
+            yield return new object[] {
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Diamond, 2),
+                    new PlayingCard(Suit.Heart, 2),
+                    new PlayingCard(Suit.Heart, 2),
+                    new PlayingCard(Suit.Heart, 3),
+                    new PlayingCard(Suit.Heart, 3),
+                },
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Diamond, 4),
+                    new PlayingCard(Suit.Club, 4),
+                }
+            };
+
+            yield return new object[] {
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Diamond, 1),
+                    new PlayingCard(Suit.Club, 1),
+                },      
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Diamond, 1),
+                    new PlayingCard(Suit.Heart, 1),
+                    new PlayingCard(Suit.Heart, 1),
+                    new PlayingCard(Suit.Heart, 3),
+                    new PlayingCard(Suit.Heart, 3),
+                }
+            };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

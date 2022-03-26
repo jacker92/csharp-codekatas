@@ -4,7 +4,7 @@
     {
         public int Compare(PokerHand? a, PokerHand? b)
         {
-            if (a.Cards.Count() == 0)
+            if (!a.Cards.Any())
             {
                 return 0;
             }
