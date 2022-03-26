@@ -25,7 +25,7 @@ namespace PokerHands.Domain.Tests
                 },
             };
 
-            yield return new object[] {          
+            yield return new object[] {
                 new List<PlayingCard> {
                     new PlayingCard(Suit.Club, 1),
                     new PlayingCard(Suit.Club, 3),

@@ -11,7 +11,7 @@ namespace PokerHands.Domain
         internal static IEnumerable<GroupedCard> GroupCards(IEnumerable<PlayingCard> cards)
         {
             return cards.GroupBy(x => x.Value)
-               .Select(x => new GroupedCard { Key = x.Key, Count = x.Count() });
+               .Select(x => new GroupedCard { Key = x.Key, Count = x.Count(), Values = x.ToList()});
         }
 
         internal static bool CardsAreInSequence(IEnumerable<PlayingCard> cards)
@@ -29,6 +29,7 @@ namespace PokerHands.Domain
         {
             public int Key { get; set; }
             public int Count { get; set; }
+            public IEnumerable<PlayingCard> Values { get; set; }
         }
     }
 }

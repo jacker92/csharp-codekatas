@@ -65,26 +65,21 @@ namespace PokerHands.Domain
 
         private PokerHandRank CalculateRank()
         {
-            var groupedCards = PokerHandHelper.GroupCards(Cards);
+            var info = new PokerHandInfo(this);
 
-            var hasThreeOfAKind = groupedCards.Any(x => x.Count == 3);
-            var amountOfPairs = groupedCards.Where(x => x.Count == 2).Count();
-
-            var areInSequence = PokerHandHelper.CardsAreInSequence(Cards);
-
-            if (areInSequence)
+            if (info.CardsAreInSequence)
             {
                 return PokerHandRank.Straight;
             }
-            else if (hasThreeOfAKind)
+            else if (info.HasThreeOfAKind)
             {
                 return PokerHandRank.ThreeOfAKind;
             }
-            else if (amountOfPairs == 2)
+            else if (info.AmountOfPairs == 2)
             {
                 return PokerHandRank.TwoPairs;
             }
-            else if (amountOfPairs == 1)
+            else if (info.AmountOfPairs == 1)
             {
                 return PokerHandRank.OnePair;
             }
@@ -106,127 +101,93 @@ namespace PokerHands.Domain
 
         private static bool CompareTwoHandsWithSameRank(PokerHand a, PokerHand b)
         {
-            var groupedCards = PokerHandHelper.GroupCards(a.Cards);
-            var secondGroupedCards = PokerHandHelper.GroupCards(b.Cards);
-
-            var pairs = groupedCards.Where(x => x.Count == 2);
-            var secondPairs = secondGroupedCards.Where(x => x.Count == 2);
+            var firstInfo = new PokerHandInfo(a);
+            var secondInfo = new PokerHandInfo(b);
 
             switch (a.Rank)
             {
                 case PokerHandRank.ThreeOfAKind:
-                    return CompareThreeOfAKind(groupedCards, secondGroupedCards);
+                    return CompareThreeOfAKind(firstInfo, secondInfo);
                 case PokerHandRank.TwoPairs:
-                    return CompareTwoPairs(groupedCards, secondGroupedCards);
+                    return CompareTwoPairs(firstInfo, secondInfo);
                 case PokerHandRank.OnePair:
-                    return CompareOnePair(groupedCards, secondGroupedCards);
+                    return CompareOnePair(firstInfo, secondInfo);
 
             }
 
             throw new Exception();
         }
 
-        private static bool CompareThreeOfAKind(IEnumerable<PokerHandHelper.GroupedCard> groupedCards, IEnumerable<PokerHandHelper.GroupedCard> secondGroupedCards)
+        private static bool CompareThreeOfAKind(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
         {
-            var firstThreeOfAKind = groupedCards.First(x => x.Count == 3).Key;
-            var firstHasAces = firstThreeOfAKind == 1;
-            var secondThreeOfAKind = secondGroupedCards.First(x => x.Count == 3).Key;
-            var secondHasAces = secondThreeOfAKind == 1;
-
-            if (!firstHasAces && secondHasAces)
+            if (!firstInfo.HasThreeOfAKindAces && secondInfo.HasThreeOfAKindAces)
             {
                 return true;
             }
 
-            if (firstHasAces && !secondHasAces)
+            if (firstInfo.HasThreeOfAKindAces && !secondInfo.HasThreeOfAKindAces)
             {
                 return false;
             }
 
-            if (firstThreeOfAKind == secondThreeOfAKind)
+            if (firstInfo.ThreeOfAKindKey == secondInfo.ThreeOfAKindKey)
             {
-                var withoutPair = new PokerHand(groupedCards.Where(x => x.Count != 3)
-                    .Select(x => new PlayingCard(Suit.Spade, x.Key)));
+                var firstWithoutThreeIfAKindCards = new PokerHand(firstInfo.WithoutThreeOfAKindCards);
+                var secondWithoutThreeIfAKindCards = new PokerHand(secondInfo.WithoutThreeOfAKindCards);
 
-                var secondWithoutPair = new PokerHand(secondGroupedCards.Where(x => x.Count != 3)
-                    .Select(x => new PlayingCard(Suit.Spade, x.Key)));
+                return firstWithoutThreeIfAKindCards < secondWithoutThreeIfAKindCards;
+            }
+
+            return firstInfo.ThreeOfAKindKey < secondInfo.ThreeOfAKindKey;
+        }
+
+        private static bool CompareOnePair(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
+        {
+            if (!firstInfo.HasPairOfAces && secondInfo.HasPairOfAces)
+            {
+                return true;
+            }
+
+            if (firstInfo.HasPairOfAces && !secondInfo.HasPairOfAces)
+            {
+                return false;
+            }
+
+            if (firstInfo.Pairs.SequenceEqual(secondInfo.Pairs))
+            {
+                var withoutPair = new PokerHand(firstInfo.WithoutPairCards);
+                var secondWithoutPair = new PokerHand(secondInfo.WithoutPairCards);
 
                 return withoutPair < secondWithoutPair;
             }
 
-            return firstThreeOfAKind < secondThreeOfAKind;
+            return firstInfo.Pairs.First().Value < secondInfo.Pairs.First().Value;
         }
 
-        private static bool CompareOnePair(IEnumerable<PokerHandHelper.GroupedCard> groupedCards, IEnumerable<PokerHandHelper.GroupedCard> secondGroupedCards)
+        private static bool CompareTwoPairs(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
         {
-            var pairs = groupedCards.Where(x => x.Count == 2);
-            var secondPairs = secondGroupedCards.Where(x => x.Count == 2);
-
-            var pair = pairs.First().Key;
-            var firstPairIsPairOfAces = pair == 1;
-
-            var secondPair = secondPairs.First().Key;
-            var secondPairIsPairOfAces = secondPair == 1;
-
-            if (!firstPairIsPairOfAces && secondPairIsPairOfAces)
-            {
-                return true;
-            }
-
-            if (firstPairIsPairOfAces && !secondPairIsPairOfAces)
+            if (firstInfo.HasPairOfAces && !secondInfo.HasPairOfAces)
             {
                 return false;
             }
 
-            if (pair == secondPair)
-            {
-                var withoutPair = new PokerHand(groupedCards.Where(x => x.Count == 1)
-                    .Select(x => new PlayingCard(Suit.Spade, x.Key)));
-
-                var secondWithoutPair = new PokerHand(secondGroupedCards.Where(x => x.Count == 1)
-                    .Select(x => new PlayingCard(Suit.Spade, x.Key)));
-
-                return withoutPair < secondWithoutPair;
-            }
-
-            return pair < secondPair;
-        }
-
-        private static bool CompareTwoPairs(IEnumerable<PokerHandHelper.GroupedCard> groupedCards, IEnumerable<PokerHandHelper.GroupedCard> secondGroupedCards)
-        {
-            var pairs = groupedCards.Where(x => x.Count == 2);
-            var secondPairs = secondGroupedCards.Where(x => x.Count == 2);
-
-            var maxByFirst = pairs.MaxBy(x => x.Key)!.Key;
-            var maxBySecond = secondPairs.MaxBy(x => x.Key)!.Key;
-
-            var firstHasPairOfAces = pairs.Any(x => x.Key == 1);
-            var secondHasPairOfAces = secondPairs.Any(x => x.Key == 1);
-
-            var minByFirst = pairs.MinBy(x => x.Key)!.Key;
-            var minBySecond = secondPairs.MinBy(x => x.Key)!.Key;
-
-            if (firstHasPairOfAces && !secondHasPairOfAces)
-            {
-                return false;
-            }
-
-            if (!firstHasPairOfAces && secondHasPairOfAces)
+            if (!firstInfo.HasPairOfAces && secondInfo.HasPairOfAces)
             {
                 return true;
             }
 
-            if (maxByFirst != maxBySecond)
+            if (firstInfo.HigherPairKey != secondInfo.HigherPairKey)
             {
-                return maxByFirst < maxBySecond;
+                return firstInfo.HigherPairKey < secondInfo.HigherPairKey;
             }
 
-            if (minByFirst != minBySecond)
+            if (firstInfo.LowerPairKey != secondInfo.LowerPairKey)
             {
-                return minByFirst < minBySecond;
+                return firstInfo.LowerPairKey < secondInfo.LowerPairKey;
             }
 
-            var highCardResult = groupedCards.Single(x => x.Count == 1).Key < secondGroupedCards.Single(x => x.Count == 1).Key;
+            // TODO: Need to check if high card is ace, might return invalid result here
+            var highCardResult = firstInfo.WithoutPairCards.Single().Value < secondInfo.WithoutPairCards.Single().Value;
 
             return highCardResult;
         }
