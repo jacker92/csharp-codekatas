@@ -8,6 +8,8 @@ namespace FizzBuzzWhiz.Domain.Tests
         [InlineData(1, "1")]
         [InlineData(2, "2")]
         [InlineData(3, "Fizz")]
+        [InlineData(4, "4")]
+        [InlineData(5, "Buzz")]
         public void Process_ShouldReturnCorrectResult(int input, string expected)
         {
             var engine = new FizzBuzzEngine();
