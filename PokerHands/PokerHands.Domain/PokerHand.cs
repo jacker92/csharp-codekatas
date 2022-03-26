@@ -27,6 +27,7 @@ namespace PokerHands.Domain
         internal int HighestCardValue => Cards.MaxBy(x => x.Value)!.Value;
         internal IEnumerable<PokerHandHelper.GroupedCard> GroupedCards => PokerHandHelper.GroupCards(Cards);
         internal bool HasThreeOfAKind => GroupedCards.Any(x => x.Count == 3);
+        internal bool HasFourOfAKind => GroupedCards.Any(x => x.Count == 4);
         internal int AmountOfPairs => GroupedCards.Where(x => x.Count == 2).Count();
         internal bool HasStraight => PokerHandHelper.HasStraight(Cards);
         internal bool HasThreeOfAKindAces => ThreeOfAKindKey == 1;
@@ -63,7 +64,11 @@ namespace PokerHands.Domain
 
         private PokerHandRank CalculateRank()
         {
-            if (HasFullHouse)
+            if(HasFourOfAKind)
+            {
+                return PokerHandRank.FourOfAKind;
+            }
+            else if (HasFullHouse)
             {
                 return PokerHandRank.FullHouse;
             }
