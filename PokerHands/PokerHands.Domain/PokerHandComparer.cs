@@ -39,7 +39,7 @@ namespace PokerHands.Domain
                 case PokerHandRank.Flush:
                     return CompareFlush(a, b);
                 case PokerHandRank.Straight:
-                    return CompareStraight(a, b) ? -1 : 1;
+                    return CompareStraight(a, b);
                 case PokerHandRank.ThreeOfAKind:
                     return CompareThreeOfAKind(a, b) ? -1 : 1;
                 case PokerHandRank.TwoPairs:
@@ -95,19 +95,24 @@ namespace PokerHands.Domain
             return Compare(new PokerHand(firstInfo.WithoutCurrentHighestCard), new PokerHand(secondInfo.WithoutCurrentHighestCard));
         }
 
-        private static bool CompareStraight(PokerHand firstInfo, PokerHand secondInfo)
+        private int CompareStraight(PokerHand firstInfo, PokerHand secondInfo)
         {
             if (!firstInfo.HasHighestStraight && secondInfo.HasHighestStraight)
             {
-                return true;
+                return -1;
             }
 
             if (firstInfo.HasHighestStraight && !secondInfo.HasHighestStraight)
             {
-                return false;
+                return 1;
             }
 
-            return firstInfo.HighestCardValue < secondInfo.HighestCardValue;
+            if (firstInfo.HighestCardValue != secondInfo.HighestCardValue)
+            {
+                return firstInfo.HighestCardValue < secondInfo.HighestCardValue ? -1 : 1;
+            }
+
+            return Compare(new PokerHand(firstInfo.WithoutCurrentHighestCard), new PokerHand(secondInfo.WithoutCurrentHighestCard));
         }
 
         private static bool CompareThreeOfAKind(PokerHand firstInfo, PokerHand secondInfo)

@@ -100,7 +100,9 @@ namespace PokerHands.Domain
             if (max.Value == 12) return PokerHandRank.HighestCardQueen;
             if (max.Value == 13) return PokerHandRank.HighestCardKing;
 
-            throw new Exception();
+            // When comparing straights, highest card can be smaller than 7.
+            // In that case just return HighestCardSeven.
+            return PokerHandRank.HighestCardSeven;
         }
 
         public override bool Equals(object? obj)
