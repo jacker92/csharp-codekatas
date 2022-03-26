@@ -20,7 +20,11 @@ namespace PokerHands.Domain
 
         public static bool operator <(PokerHand a, PokerHand b)
         {
-            return !(a.Rank > b.Rank);
+            if (a == b)
+            {
+                return false;
+            }
+            return !(a > b);
         }
 
         public static bool operator >(PokerHand a, PokerHand b)
@@ -115,7 +119,7 @@ namespace PokerHands.Domain
                 case PokerHandRank.TwoPairs:
                     return CompareTwoPairs(groupedCards, secondGroupedCards);
                 case PokerHandRank.OnePair:
-                    return CompareOnePair(pairs, secondPairs);
+                    return CompareOnePair(groupedCards, secondGroupedCards);
 
             }
 
@@ -129,28 +133,63 @@ namespace PokerHands.Domain
             var secondThreeOfAKind = secondGroupedCards.First(x => x.Count == 3).Key;
             var secondHasAces = secondThreeOfAKind == 1;
 
+            if (!firstHasAces && secondHasAces)
+            {
+                return true;
+            }
+
             if (firstHasAces && !secondHasAces)
             {
                 return false;
             }
 
+            if (firstThreeOfAKind == secondThreeOfAKind)
+            {
+                var withoutPair = new PokerHand(groupedCards.Where(x => x.Count != 3)
+                    .Select(x => new PlayingCard(Suit.Spade, x.Key)));
+
+                var secondWithoutPair = new PokerHand(secondGroupedCards.Where(x => x.Count != 3)
+                    .Select(x => new PlayingCard(Suit.Spade, x.Key)));
+
+                return withoutPair < secondWithoutPair;
+            }
+
             return firstThreeOfAKind < secondThreeOfAKind;
         }
 
-        private static bool CompareOnePair(IEnumerable<PokerHandHelper.GroupedCard> pairs, IEnumerable<PokerHandHelper.GroupedCard> secondPairs)
+        private static bool CompareOnePair(IEnumerable<PokerHandHelper.GroupedCard> groupedCards, IEnumerable<PokerHandHelper.GroupedCard> secondGroupedCards)
         {
+            var pairs = groupedCards.Where(x => x.Count == 2);
+            var secondPairs = secondGroupedCards.Where(x => x.Count == 2);
+
             var pair = pairs.First().Key;
             var firstPairIsPairOfAces = pair == 1;
 
             var secondPair = secondPairs.First().Key;
             var secondPairIsPairOfAces = secondPair == 1;
 
+            if (!firstPairIsPairOfAces && secondPairIsPairOfAces)
+            {
+                return true;
+            }
+
             if (firstPairIsPairOfAces && !secondPairIsPairOfAces)
             {
                 return false;
             }
 
-            return pairs.First().Key < secondPairs.First().Key;
+            if (pair == secondPair)
+            {
+                var withoutPair = new PokerHand(groupedCards.Where(x => x.Count == 1)
+                    .Select(x => new PlayingCard(Suit.Spade, x.Key)));
+
+                var secondWithoutPair = new PokerHand(secondGroupedCards.Where(x => x.Count == 1)
+                    .Select(x => new PlayingCard(Suit.Spade, x.Key)));
+
+                return withoutPair < secondWithoutPair;
+            }
+
+            return pair < secondPair;
         }
 
         private static bool CompareTwoPairs(IEnumerable<PokerHandHelper.GroupedCard> groupedCards, IEnumerable<PokerHandHelper.GroupedCard> secondGroupedCards)
