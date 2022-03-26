@@ -43,7 +43,7 @@ namespace PokerHands.Domain
                 case PokerHandRank.ThreeOfAKind:
                     return CompareThreeOfAKind(a, b);
                 case PokerHandRank.TwoPairs:
-                    return CompareTwoPairs(a, b) ? -1 : 1;
+                    return CompareTwoPairs(a, b);
                 case PokerHandRank.OnePair:
                     return CompareOnePair(a, b);
 
@@ -161,29 +161,29 @@ namespace PokerHands.Domain
             return firstInfo.Pairs.First().Value < secondInfo.Pairs.First().Value ? -1 : 1;
         }
 
-        private static bool CompareTwoPairs(PokerHand firstInfo, PokerHand secondInfo)
+        private int CompareTwoPairs(PokerHand firstInfo, PokerHand secondInfo)
         {
-            if (firstInfo.HasPairOfAces && !secondInfo.HasPairOfAces)
-            {
-                return false;
-            }
-
             if (!firstInfo.HasPairOfAces && secondInfo.HasPairOfAces)
             {
-                return true;
+                return -1;
+            }
+
+            if (firstInfo.HasPairOfAces && !secondInfo.HasPairOfAces)
+            {
+                return 1;
             }
 
             if (firstInfo.HigherPairKey != secondInfo.HigherPairKey)
             {
-                return firstInfo.HigherPairKey < secondInfo.HigherPairKey;
+                return firstInfo.HigherPairKey < secondInfo.HigherPairKey ? -1 : 1;
             }
 
             if (firstInfo.LowerPairKey != secondInfo.LowerPairKey)
             {
-                return firstInfo.LowerPairKey < secondInfo.LowerPairKey;
+                return firstInfo.LowerPairKey < secondInfo.LowerPairKey ? -1 :1;
             }
 
-            return new PokerHand(firstInfo.WithoutPairCards) < new PokerHand(secondInfo.WithoutPairCards);
+            return Compare(new PokerHand(firstInfo.WithoutPairCards), new PokerHand(secondInfo.WithoutPairCards));
         }
     }
 }
