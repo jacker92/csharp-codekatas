@@ -2,9 +2,13 @@
 {
     public class FizzBuzzEngine
     {
-        public int Process(int input)
+        public string Process(int input)
         {
-            return 1;
+            if (input % 3 == 0)
+            {
+                return "Fizz";
+            }
+            return input.ToString();
         }
     }
 }
