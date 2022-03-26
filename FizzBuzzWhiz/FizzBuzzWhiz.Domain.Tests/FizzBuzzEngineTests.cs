@@ -6,10 +6,10 @@ namespace FizzBuzzWhiz.Domain.Tests
     {
         [Theory]
         [InlineData(1, "1")]
-        [InlineData(2, "2")]
-        [InlineData(3, "Fizz")]
+        [InlineData(2, "Whiz")]
+        [InlineData(3, "FizzWhiz")]
         [InlineData(4, "4")]
-        [InlineData(5, "Buzz")]
+        [InlineData(5, "BuzzWhiz")]
         [InlineData(6, "Fizz")]
         [InlineData(9, "Fizz")]
         [InlineData(10, "Buzz")]

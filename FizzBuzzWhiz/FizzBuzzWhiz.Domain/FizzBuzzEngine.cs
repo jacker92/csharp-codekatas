@@ -17,8 +17,13 @@ namespace FizzBuzzWhiz.Domain
                 builder.Append("Buzz");
             }
 
-            return string.IsNullOrEmpty(builder.ToString()) ? 
-                input.ToString() : 
+            if (input.IsPrime())
+            {
+                builder.Append("Whiz");
+            }
+
+            return string.IsNullOrEmpty(builder.ToString()) ?
+                input.ToString() :
                 builder.ToString();
         }
     }
