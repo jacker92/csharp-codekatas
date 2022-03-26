@@ -4,6 +4,8 @@ namespace PokerHands.Domain
 {
     public class PokerHand
     {
+        private static readonly PokerHandComparer _pokerHandComparer = new();
+
         public PokerHand(IEnumerable<PlayingCard> cards)
         {
             if (cards is null)
@@ -39,40 +41,19 @@ namespace PokerHands.Domain
 
         public static bool operator <(PokerHand a, PokerHand b)
         {
-            var comparingResult = CompareTo(a, b);
+            var comparingResult = _pokerHandComparer.Compare(a, b);
             return comparingResult == -1;
         }
 
         public static bool operator >(PokerHand a, PokerHand b)
         {
-            var comparingResult = CompareTo(a, b);
+            var comparingResult = _pokerHandComparer.Compare(a, b);
             return comparingResult == 1;
-        }
-
-        public static int CompareTo(PokerHand a, PokerHand b)
-        {
-            if (a.Cards.Count() == 0)
-            {
-                return 0;
-            }
-
-            if (a.Rank == b.Rank)
-            {
-                if (a.Cards.Count() == 5)
-                {
-                    return CompareTwoHandsWithSameRank(a, b);
-                }
-
-                return CompareTo(new PokerHand(a.Cards.Take(a.Cards.Count() - 1)),
-                       new PokerHand(b.Cards.Take(b.Cards.Count() - 1)));
-            }
-
-            return a.Rank > b.Rank ? 1 : -1;
         }
 
         public static bool operator ==(PokerHand a, PokerHand b)
         {
-            return CompareTo(a, b) == 0;
+            return _pokerHandComparer.Compare(a, b) == 0;
         }
 
         public static bool operator !=(PokerHand a, PokerHand b)
@@ -120,157 +101,6 @@ namespace PokerHands.Domain
             if (max.Value == 13) return PokerHandRank.HighestCardKing;
 
             throw new Exception();
-        }
-
-        private static int CompareTwoHandsWithSameRank(PokerHand a, PokerHand b)
-        {
-            switch (a.Rank)
-            {
-                case PokerHandRank.FullHouse:
-                    return CompareFullHouse(a, b);
-                case PokerHandRank.Flush:
-                    return CompareFlush(a, b);
-                case PokerHandRank.Straight:
-                    return CompareStraight(a, b) ? -1 : 1;
-                case PokerHandRank.ThreeOfAKind:
-                    return CompareThreeOfAKind(a, b) ? -1 : 1;
-                case PokerHandRank.TwoPairs:
-                    return CompareTwoPairs(a, b) ? -1 : 1;
-                case PokerHandRank.OnePair:
-                    return CompareOnePair(a, b);
-
-            }
-
-            throw new Exception();
-        }
-
-        private static int CompareFullHouse(PokerHand firstInfo, PokerHand secondInfo)
-        {
-            if (!firstInfo.HasThreeOfAKindAces && secondInfo.HasThreeOfAKindAces)
-            {
-                return -1;
-            }
-
-            if (firstInfo.HasThreeOfAKindAces && !secondInfo.HasThreeOfAKindAces)
-            {
-                return 1;
-            }
-
-            if (firstInfo.ThreeOfAKindKey == secondInfo.ThreeOfAKindKey)
-            {
-                var firstPokerHandInfo = new PokerHand(firstInfo.WithoutThreeOfAKindCards);
-                var secondPokerHandInfo = new PokerHand(secondInfo.WithoutThreeOfAKindCards);
-
-                return CompareOnePair(firstPokerHandInfo, secondPokerHandInfo);
-            }
-
-            return firstInfo.ThreeOfAKindKey < secondInfo.ThreeOfAKindKey ? 1 : -1;
-        }
-
-        private static int CompareFlush(PokerHand firstInfo, PokerHand secondInfo)
-        {
-            if (!firstInfo.HasAce && secondInfo.HasAce)
-            {
-                return -1;
-            }
-
-            if (firstInfo.HasAce && !secondInfo.HasAce)
-            {
-                return 1;
-            }
-
-            if (firstInfo.HighestCardValue != secondInfo.HighestCardValue)
-            {
-                return firstInfo.HighestCardValue < secondInfo.HighestCardValue ? -1 : 1;
-            }
-
-            return CompareTo(new PokerHand(firstInfo.WithoutCurrentHighestCard), new PokerHand(secondInfo.WithoutCurrentHighestCard));
-        }
-
-        private static bool CompareStraight(PokerHand firstInfo, PokerHand secondInfo)
-        {
-            if (!firstInfo.HasHighestStraight && secondInfo.HasHighestStraight)
-            {
-                return true;
-            }
-
-            if (firstInfo.HasHighestStraight && !secondInfo.HasHighestStraight)
-            {
-                return false;
-            }
-
-            return firstInfo.HighestCardValue < secondInfo.HighestCardValue;
-        }
-
-        private static bool CompareThreeOfAKind(PokerHand firstInfo, PokerHand secondInfo)
-        {
-            if (!firstInfo.HasThreeOfAKindAces && secondInfo.HasThreeOfAKindAces)
-            {
-                return true;
-            }
-
-            if (firstInfo.HasThreeOfAKindAces && !secondInfo.HasThreeOfAKindAces)
-            {
-                return false;
-            }
-
-            if (firstInfo.ThreeOfAKindKey == secondInfo.ThreeOfAKindKey)
-            {
-                var firstWithoutThreeIfAKindCards = new PokerHand(firstInfo.WithoutThreeOfAKindCards);
-                var secondWithoutThreeIfAKindCards = new PokerHand(secondInfo.WithoutThreeOfAKindCards);
-
-                return firstWithoutThreeIfAKindCards < secondWithoutThreeIfAKindCards;
-            }
-
-            return firstInfo.ThreeOfAKindKey < secondInfo.ThreeOfAKindKey;
-        }
-
-        private static int CompareOnePair(PokerHand firstInfo, PokerHand secondInfo)
-        {
-            if (!firstInfo.HasPairOfAces && secondInfo.HasPairOfAces)
-            {
-                return -1;
-            }
-
-            if (firstInfo.HasPairOfAces && !secondInfo.HasPairOfAces)
-            {
-                return 1;
-            }
-
-            if (firstInfo.Pairs.SequenceEqual(secondInfo.Pairs))
-            {
-                var withoutPair = new PokerHand(firstInfo.WithoutPairCards);
-                var secondWithoutPair = new PokerHand(secondInfo.WithoutPairCards);
-
-                return CompareTo(withoutPair, secondWithoutPair);
-            }
-
-            return firstInfo.Pairs.First().Value < secondInfo.Pairs.First().Value ? -1 : 1;
-        }
-
-        private static bool CompareTwoPairs(PokerHand firstInfo, PokerHand secondInfo)
-        {
-            if (firstInfo.HasPairOfAces && !secondInfo.HasPairOfAces)
-            {
-                return false;
-            }
-
-            if (!firstInfo.HasPairOfAces && secondInfo.HasPairOfAces)
-            {
-                return true;
-            }
-
-            if (firstInfo.HigherPairKey != secondInfo.HigherPairKey)
-            {
-                return firstInfo.HigherPairKey < secondInfo.HigherPairKey;
-            }
-
-            if (firstInfo.LowerPairKey != secondInfo.LowerPairKey)
-            {
-                return firstInfo.LowerPairKey < secondInfo.LowerPairKey;
-            }
-
-            return new PokerHand(firstInfo.WithoutPairCards) < new PokerHand(secondInfo.WithoutPairCards);
         }
 
         public override bool Equals(object? obj)

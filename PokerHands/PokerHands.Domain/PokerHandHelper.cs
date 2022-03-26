@@ -62,7 +62,7 @@
         {
             public int Key { get; set; }
             public int Count { get; set; }
-            public IEnumerable<PlayingCard> Values { get; set; }
+            public IEnumerable<PlayingCard>? Values { get; set; }
         }
     }
 }
