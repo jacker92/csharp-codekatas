@@ -28,5 +28,14 @@ namespace PokerHands.Domain.Tests
             var card = new PlayingCard(suit, value);
             Assert.Equal(expectedValue, card.ToString());
         }
+
+        [Fact]
+        public void GetHashCode_ShouldReturnDifferentResultsForDifferentCards()
+        {
+            var card = new PlayingCard(Suit.Heart, 1);
+            var card2 = new PlayingCard(Suit.Heart, 2);
+
+            Assert.NotEqual(card.GetHashCode(), card2.GetHashCode());
+        }
     }
 }

@@ -100,7 +100,7 @@ namespace PokerHands.Domain
             if (max.Value == 12) return PokerHandRank.HighestCardQueen;
             if (max.Value == 13) return PokerHandRank.HighestCardKing;
 
-            // When comparing straights, highest card can be smaller than 7.
+            // When doing recursive comparison on hands, highest card can be smaller than 7.
             // In that case just return HighestCardSeven.
             return PokerHandRank.HighestCardSeven;
         }
@@ -108,8 +108,7 @@ namespace PokerHands.Domain
         public override bool Equals(object? obj)
         {
             return obj is PokerHand hand &&
-                   EqualityComparer<IEnumerable<PlayingCard>>.Default.Equals(Cards, hand.Cards) &&
-                   Rank == hand.Rank;
+                   this == hand;
         }
 
         public override int GetHashCode()

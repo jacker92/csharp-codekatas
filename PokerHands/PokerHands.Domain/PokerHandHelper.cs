@@ -37,11 +37,6 @@
 
         internal static bool HasHighestStraightSequence(IEnumerable<PlayingCard> cards)
         {
-            if (!HasStraight(cards))
-            {
-                return false;
-            }
-
             var cardValues = cards.Select(x => x.Value)
              .OrderBy(x => x);
 

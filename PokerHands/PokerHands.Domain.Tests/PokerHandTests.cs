@@ -28,6 +28,8 @@ namespace PokerHands.Domain.Tests
             var hand2 = new PokerHand(cards2);
 
             Assert.True(hand1 == hand2);
+            Assert.False(hand1 != hand2);
+            Assert.True(hand1.Equals(hand2));
             Assert.False(hand1 < hand2);
             Assert.False(hand2 < hand1);
             Assert.False(hand1 > hand2);
@@ -52,6 +54,15 @@ namespace PokerHands.Domain.Tests
             var hand2 = new PokerHand(cards2);
 
             Assert.True(hand2 > hand1);
+        }
+
+        [Fact]
+        public void GetHashCode_ShouldReturnDifferentResultsForDifferentHands()
+        {
+            var hand = new PokerHand(new List<PlayingCard> { new PlayingCard(Suit.Heart, 1) });
+            var hand2 = new PokerHand(new List<PlayingCard> { new PlayingCard(Suit.Heart, 2) });
+
+            Assert.NotEqual(hand.GetHashCode(), hand2.GetHashCode());
         }
     }
 }
