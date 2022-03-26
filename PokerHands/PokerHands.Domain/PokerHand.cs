@@ -67,7 +67,7 @@ namespace PokerHands.Domain
         {
             var info = new PokerHandInfo(this);
 
-            if (info.CardsAreInSequence)
+            if (info.HasStraight)
             {
                 return PokerHandRank.Straight;
             }
@@ -106,6 +106,8 @@ namespace PokerHands.Domain
 
             switch (a.Rank)
             {
+                case PokerHandRank.Straight:
+                    return CompareStraight(firstInfo, secondInfo);
                 case PokerHandRank.ThreeOfAKind:
                     return CompareThreeOfAKind(firstInfo, secondInfo);
                 case PokerHandRank.TwoPairs:
@@ -116,6 +118,21 @@ namespace PokerHands.Domain
             }
 
             throw new Exception();
+        }
+
+        private static bool CompareStraight(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
+        {
+            if (!firstInfo.HasHighestStraight && secondInfo.HasHighestStraight)
+            {
+                return true;
+            }
+
+            if (firstInfo.HasHighestStraight && !secondInfo.HasHighestStraight)
+            {
+                return false;
+            }
+
+            return firstInfo.HighestCardValue < secondInfo.HighestCardValue;
         }
 
         private static bool CompareThreeOfAKind(PokerHandInfo firstInfo, PokerHandInfo secondInfo)

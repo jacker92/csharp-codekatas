@@ -5,10 +5,10 @@
         internal static IEnumerable<GroupedCard> GroupCards(IEnumerable<PlayingCard> cards)
         {
             return cards.GroupBy(x => x.Value)
-               .Select(x => new GroupedCard { Key = x.Key, Count = x.Count(), Values = x.ToList()});
+               .Select(x => new GroupedCard { Key = x.Key, Count = x.Count(), Values = x.ToList() });
         }
 
-        internal static bool CardsAreInSequence(IEnumerable<PlayingCard> cards)
+        internal static bool HasStraight(IEnumerable<PlayingCard> cards)
         {
             var sequence = GetSequenceStartingFrom(cards.MinBy(x => x.Value)!.Value)
                 .OrderBy(x => x);
@@ -18,6 +18,19 @@
 
             return cardValues.SequenceEqual(sequence) ||
                    cardValues.SequenceEqual(GetHighestStraightSequence());
+        }
+
+        internal static bool HasHighestStraightSequence(IEnumerable<PlayingCard> cards)
+        {
+            if (!HasStraight(cards))
+            {
+                return false;
+            }
+
+            var cardValues = cards.Select(x => x.Value)
+             .OrderBy(x => x);
+
+            return cardValues.SequenceEqual(GetHighestStraightSequence());
         }
 
         internal static IEnumerable<int> GetHighestStraightSequence()

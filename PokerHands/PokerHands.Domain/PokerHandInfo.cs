@@ -9,10 +9,12 @@
             _pokerHand = pokerHand;
         }
 
+        internal bool HasHighestStraight => PokerHandHelper.HasHighestStraightSequence(_pokerHand.Cards);
+        internal int HighestCardValue => _pokerHand.Cards.MaxBy(x => x.Value)!.Value;
         internal IEnumerable<PokerHandHelper.GroupedCard> GroupedCards => PokerHandHelper.GroupCards(_pokerHand.Cards);
         internal bool HasThreeOfAKind => GroupedCards.Any(x => x.Count == 3);
         internal int AmountOfPairs => GroupedCards.Where(x => x.Count == 2).Count();
-        internal bool CardsAreInSequence => PokerHandHelper.CardsAreInSequence(_pokerHand.Cards);
+        internal bool HasStraight => PokerHandHelper.HasStraight(_pokerHand.Cards);
         internal bool HasThreeOfAKindAces => ThreeOfAKindKey == 1;
         internal int? ThreeOfAKindKey => GroupedCards.FirstOrDefault(x => x.Count == 3)?.Key;
         internal IEnumerable<PlayingCard> WithoutThreeOfAKindCards => GroupedCards.Where(x => x.Count != 3).SelectMany(x => x.Values);
