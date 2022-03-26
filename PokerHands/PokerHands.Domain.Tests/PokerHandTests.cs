@@ -36,7 +36,7 @@ namespace PokerHands.Domain.Tests
             var hand2 = new PokerHand(cards);
 
             Assert.True(hand1 == hand2);
-            var res = hand1 < hand2;
+            Assert.False(hand1 < hand2);
             Assert.False(hand2 < hand1);
             Assert.False(hand1 > hand2);
             Assert.False(hand2 > hand1);
