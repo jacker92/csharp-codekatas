@@ -30,7 +30,7 @@ namespace PokerHands.Domain
         internal int AmountOfPairs => GroupedCards.Where(x => x.Count == 2).Count();
         internal bool HasStraight => PokerHandHelper.HasStraight(Cards);
         internal bool HasThreeOfAKindAces => ThreeOfAKindKey == 1;
-        internal int? ThreeOfAKindKey => GroupedCards.FirstOrDefault(x => x.Count == 3)?.Key;
+        internal int ThreeOfAKindKey => GroupedCards.First(x => x.Count == 3).Key;
         internal IEnumerable<PlayingCard> WithoutThreeOfAKindCards => GroupedCards.Where(x => x.Count != 3).SelectMany(x => x.Values);
         internal IEnumerable<PlayingCard> WithoutPairCards => GroupedCards.Where(x => x.Count != 2).SelectMany(x => x.Values);
         internal IEnumerable<PlayingCard> Pairs => GroupedCards.Where(x => x.Count == 2).SelectMany(x => x.Values);

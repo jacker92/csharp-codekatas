@@ -72,7 +72,7 @@ namespace PokerHands.Domain
                 return CompareOnePair(firstPokerHandInfo, secondPokerHandInfo);
             }
 
-            return firstInfo.ThreeOfAKindKey < secondInfo.ThreeOfAKindKey ? 1 : -1;
+            return firstInfo.ThreeOfAKindKey.CompareTo(secondInfo.ThreeOfAKindKey);
         }
 
         private int CompareFlush(PokerHand firstInfo, PokerHand secondInfo)
