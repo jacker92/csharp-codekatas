@@ -14,6 +14,17 @@ namespace PokerHands.Domain
                .Select(x => new GroupedCard { Key = x.Key, Count = x.Count() });
         }
 
+        internal static bool CardsAreInSequence(IEnumerable<PlayingCard> cards)
+        {
+            var sequence = GetSequenceStartingFrom(cards.MinBy(x => x.Value)!.Value);
+            return cards.Select(x => x.Value).SequenceEqual(sequence);
+        }
+
+        internal static IEnumerable<int> GetSequenceStartingFrom(int value)
+        {
+            return Enumerable.Range(value, 5);
+        }
+
         internal class GroupedCard
         {
             public int Key { get; set; }

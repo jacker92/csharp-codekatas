@@ -66,8 +66,7 @@ namespace PokerHands.Domain
             var hasThreeOfAKind = groupedCards.Any(x => x.Count == 3);
             var amountOfPairs = groupedCards.Where(x => x.Count == 2).Count();
 
-            var straightSequence = Enumerable.Range(Cards.MinBy(x => x.Value)!.Value, 5);
-            var areInSequence = Cards.Select(x => x.Value).SequenceEqual(straightSequence);
+            var areInSequence = PokerHandHelper.CardsAreInSequence(Cards);
 
             if (areInSequence)
             {
