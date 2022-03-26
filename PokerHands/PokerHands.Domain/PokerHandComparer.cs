@@ -41,7 +41,7 @@ namespace PokerHands.Domain
                 case PokerHandRank.Straight:
                     return CompareStraight(a, b);
                 case PokerHandRank.ThreeOfAKind:
-                    return CompareThreeOfAKind(a, b) ? -1 : 1;
+                    return CompareThreeOfAKind(a, b);
                 case PokerHandRank.TwoPairs:
                     return CompareTwoPairs(a, b) ? -1 : 1;
                 case PokerHandRank.OnePair:
@@ -115,27 +115,27 @@ namespace PokerHands.Domain
             return Compare(new PokerHand(firstInfo.WithoutCurrentHighestCard), new PokerHand(secondInfo.WithoutCurrentHighestCard));
         }
 
-        private static bool CompareThreeOfAKind(PokerHand firstInfo, PokerHand secondInfo)
+        private int CompareThreeOfAKind(PokerHand a, PokerHand b)
         {
-            if (!firstInfo.HasThreeOfAKindAces && secondInfo.HasThreeOfAKindAces)
+            if (!a.HasThreeOfAKindAces && b.HasThreeOfAKindAces)
             {
-                return true;
+                return -1;
             }
 
-            if (firstInfo.HasThreeOfAKindAces && !secondInfo.HasThreeOfAKindAces)
+            if (a.HasThreeOfAKindAces && !b.HasThreeOfAKindAces)
             {
-                return false;
+                return 1;
             }
 
-            if (firstInfo.ThreeOfAKindKey == secondInfo.ThreeOfAKindKey)
+            if (a.ThreeOfAKindKey != b.ThreeOfAKindKey)
             {
-                var firstWithoutThreeIfAKindCards = new PokerHand(firstInfo.WithoutThreeOfAKindCards);
-                var secondWithoutThreeIfAKindCards = new PokerHand(secondInfo.WithoutThreeOfAKindCards);
-
-                return firstWithoutThreeIfAKindCards < secondWithoutThreeIfAKindCards;
+                return a.ThreeOfAKindKey < b.ThreeOfAKindKey ? -1 : 1;
             }
 
-            return firstInfo.ThreeOfAKindKey < secondInfo.ThreeOfAKindKey;
+            var firstWithoutThreeIfAKindCards = new PokerHand(a.WithoutThreeOfAKindCards);
+            var secondWithoutThreeIfAKindCards = new PokerHand(b.WithoutThreeOfAKindCards);
+
+            return Compare(firstWithoutThreeIfAKindCards, secondWithoutThreeIfAKindCards);
         }
 
         private int CompareOnePair(PokerHand firstInfo, PokerHand secondInfo)
