@@ -133,7 +133,7 @@ namespace PokerHands.Domain
                 return true;
             }
 
-            if(firstPairIsPairOfAces && !secondPairIsPairOfAces)
+            if (firstPairIsPairOfAces && !secondPairIsPairOfAces)
             {
                 return false;
             }
@@ -149,8 +149,21 @@ namespace PokerHands.Domain
             var maxByFirst = pairs.MaxBy(x => x.Key)!.Key;
             var maxBySecond = secondPairs.MaxBy(x => x.Key)!.Key;
 
+            var firstHasPairOfAces = pairs.Any(x => x.Key == 1);
+            var secondHasPairOfAces = secondPairs.Any(x => x.Key == 1);
+
             var minByFirst = pairs.MinBy(x => x.Key)!.Key;
             var minBySecond = secondPairs.MinBy(x => x.Key)!.Key;
+
+            if (firstHasPairOfAces && !secondHasPairOfAces)
+            {
+                return false;
+            }
+
+            if (!firstHasPairOfAces && secondHasPairOfAces)
+            {
+                return true;
+            }
 
             if (maxByFirst != maxBySecond)
             {
