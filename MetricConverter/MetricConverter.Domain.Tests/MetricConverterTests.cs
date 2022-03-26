@@ -27,5 +27,15 @@ namespace MetricConverter.Domain.Tests
             var result = _metricConverter.ConvertKilometersToMiles(kilometers);
             Assert.Equal(expectedMiles, result);
         }
+
+        [Theory]
+        [InlineData(0, 32)]
+        [InlineData(30, 86)]
+        [InlineData(100, 212)]
+        public void CelsiusToFahrenheit_ShouldReturnCorrectResult(double celsius, double expectedFahrenheit)
+        {
+            var result = _metricConverter.ConvertCelsiusToFahrenheit(celsius);
+            Assert.Equal(expectedFahrenheit, result);
+        }
     }
 }
