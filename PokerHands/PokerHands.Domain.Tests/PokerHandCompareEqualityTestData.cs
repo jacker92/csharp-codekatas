@@ -115,6 +115,24 @@ namespace PokerHands.Domain.Tests
                     new PlayingCard(Suit.Heart, 3),
                 },
             };
+
+            yield return new object[] {
+                new List<PlayingCard> {
+                    new PlayingCard(Suit.Heart, 1),
+                    new PlayingCard(Suit.Club, 1),
+                    new PlayingCard(Suit.Club, 1),
+                    new PlayingCard(Suit.Club, 1),
+                    new PlayingCard(Suit.Club, 3),
+                },
+
+                   new List<PlayingCard> {
+                    new PlayingCard(Suit.Heart, 1),
+                    new PlayingCard(Suit.Diamond, 1),
+                    new PlayingCard(Suit.Heart, 1),
+                    new PlayingCard(Suit.Heart, 1),
+                    new PlayingCard(Suit.Heart, 3),
+                },
+            };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

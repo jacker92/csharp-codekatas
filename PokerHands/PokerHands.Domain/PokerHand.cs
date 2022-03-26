@@ -31,14 +31,19 @@ namespace PokerHands.Domain
         internal int AmountOfPairs => GroupedCards.Where(x => x.Count == 2).Count();
         internal bool HasStraight => PokerHandHelper.HasStraight(Cards);
         internal bool HasThreeOfAKindAces => ThreeOfAKindKey == 1;
+        internal bool HasFourOfAKindAces => FourOfAKindKey == 1;
         internal int ThreeOfAKindKey => GroupedCards.First(x => x.Count == 3).Key;
+        internal int FourOfAKindKey => GroupedCards.First(x => x.Count == 4).Key;
         internal IEnumerable<PlayingCard> WithoutThreeOfAKindCards => GroupedCards.Where(x => x.Count != 3).SelectMany(x => x.Values);
+        internal IEnumerable<PlayingCard> WithoutFourOfAKindCards => GroupedCards.Where(x => x.Count != 4).SelectMany(x => x.Values);
         internal IEnumerable<PlayingCard> WithoutPairCards => GroupedCards.Where(x => x.Count != 2).SelectMany(x => x.Values);
         internal IEnumerable<PlayingCard> Pairs => GroupedCards.Where(x => x.Count == 2).SelectMany(x => x.Values);
         internal bool HasPairOfAces => Pairs.Any(x => x.Value == 1);
         internal int HigherPairKey => Pairs.MaxBy(x => x.Value)!.Value;
         internal int LowerPairKey => Pairs.MinBy(x => x.Value)!.Value;
         internal IEnumerable<PlayingCard> WithoutCurrentHighestCard => Cards.OrderByDescending(x => x.Value).Take(Cards.Count() - 1);
+
+
 
         public static bool operator <(PokerHand a, PokerHand b)
         {

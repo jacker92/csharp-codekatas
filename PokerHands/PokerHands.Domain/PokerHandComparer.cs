@@ -27,6 +27,8 @@
         {
             switch (a.Rank)
             {
+                case PokerHandRank.FourOfAKind:
+                    return CompareFourOfAKind(a, b);
                 case PokerHandRank.FullHouse:
                     return CompareFullHouse(a, b);
                 case PokerHandRank.Flush:
@@ -39,10 +41,29 @@
                     return CompareTwoPairs(a, b);
                 case PokerHandRank.OnePair:
                     return CompareOnePair(a, b);
-
             }
 
             throw new Exception();
+        }
+
+        private int CompareFourOfAKind(PokerHand a, PokerHand b)
+        {
+            if (!a.HasFourOfAKindAces && b.HasFourOfAKindAces)
+            {
+                return -1;
+            }
+
+            if (a.HasFourOfAKindAces && !b.HasFourOfAKindAces)
+            {
+                return 1;
+            }
+
+            if (a.FourOfAKindKey == b.FourOfAKindKey)
+            {
+                return Compare(new PokerHand(a.WithoutFourOfAKindCards), new PokerHand(b.WithoutFourOfAKindCards));
+            }
+
+            return a.FourOfAKindKey.CompareTo(b.FourOfAKindKey);
         }
 
         private int CompareFullHouse(PokerHand firstInfo, PokerHand secondInfo)
