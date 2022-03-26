@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PokerHands.Domain
+﻿namespace PokerHands.Domain
 {
     public class PokerHandComparer : IComparer<PokerHand>
     {
@@ -27,7 +20,7 @@ namespace PokerHands.Domain
                        new PokerHand(b.Cards.Take(b.Cards.Count() - 1)));
             }
 
-            return a.Rank > b.Rank ? 1 : -1;
+            return a.Rank.CompareTo(b.Rank);
         }
 
         private int CompareTwoHandsWithSameRank(PokerHand a, PokerHand b)
@@ -89,7 +82,7 @@ namespace PokerHands.Domain
 
             if (firstInfo.HighestCardValue != secondInfo.HighestCardValue)
             {
-                return firstInfo.HighestCardValue < secondInfo.HighestCardValue ? -1 : 1;
+                return firstInfo.HighestCardValue.CompareTo(secondInfo.HighestCardValue);
             }
 
             return Compare(new PokerHand(firstInfo.WithoutCurrentHighestCard), new PokerHand(secondInfo.WithoutCurrentHighestCard));
@@ -109,7 +102,7 @@ namespace PokerHands.Domain
 
             if (firstInfo.HighestCardValue != secondInfo.HighestCardValue)
             {
-                return firstInfo.HighestCardValue < secondInfo.HighestCardValue ? -1 : 1;
+                return firstInfo.HighestCardValue.CompareTo(secondInfo.HighestCardValue);
             }
 
             return Compare(new PokerHand(firstInfo.WithoutCurrentHighestCard), new PokerHand(secondInfo.WithoutCurrentHighestCard));
@@ -129,7 +122,7 @@ namespace PokerHands.Domain
 
             if (a.ThreeOfAKindKey != b.ThreeOfAKindKey)
             {
-                return a.ThreeOfAKindKey < b.ThreeOfAKindKey ? -1 : 1;
+                return a.ThreeOfAKindKey.CompareTo(b.ThreeOfAKindKey);
             }
 
             var firstWithoutThreeIfAKindCards = new PokerHand(a.WithoutThreeOfAKindCards);
@@ -158,7 +151,7 @@ namespace PokerHands.Domain
                 return Compare(withoutPair, secondWithoutPair);
             }
 
-            return firstInfo.Pairs.First().Value < secondInfo.Pairs.First().Value ? -1 : 1;
+            return firstInfo.Pairs.First().Value.CompareTo(secondInfo.Pairs.First().Value);
         }
 
         private int CompareTwoPairs(PokerHand firstInfo, PokerHand secondInfo)
@@ -175,12 +168,12 @@ namespace PokerHands.Domain
 
             if (firstInfo.HigherPairKey != secondInfo.HigherPairKey)
             {
-                return firstInfo.HigherPairKey < secondInfo.HigherPairKey ? -1 : 1;
+                return firstInfo.HigherPairKey.CompareTo(secondInfo.HigherPairKey);
             }
 
             if (firstInfo.LowerPairKey != secondInfo.LowerPairKey)
             {
-                return firstInfo.LowerPairKey < secondInfo.LowerPairKey ? -1 :1;
+                return firstInfo.LowerPairKey.CompareTo(secondInfo.LowerPairKey);
             }
 
             return Compare(new PokerHand(firstInfo.WithoutPairCards), new PokerHand(secondInfo.WithoutPairCards));
