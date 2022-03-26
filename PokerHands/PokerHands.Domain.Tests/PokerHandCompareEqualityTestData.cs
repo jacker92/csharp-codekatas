@@ -20,7 +20,7 @@ namespace PokerHands.Domain.Tests
                     new PlayingCard(Suit.Club, 1),
                     new PlayingCard(Suit.Club, 2),
                     new PlayingCard(Suit.Club, 3),
-                    new PlayingCard(Suit.Club, 8),
+                    new PlayingCard(Suit.Club, 7),
                     new PlayingCard(Suit.Club, 5),
                 },
             };
@@ -37,7 +37,7 @@ namespace PokerHands.Domain.Tests
                    new List<PlayingCard> {
                     new PlayingCard(Suit.Heart, 1),
                     new PlayingCard(Suit.Heart, 2),
-                    new PlayingCard(Suit.Heart, 8),
+                    new PlayingCard(Suit.Heart, 7),
                     new PlayingCard(Suit.Heart, 4),
                     new PlayingCard(Suit.Heart, 5),
                 },

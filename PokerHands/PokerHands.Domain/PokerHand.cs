@@ -53,7 +53,7 @@ namespace PokerHands.Domain
 
         public static bool operator ==(PokerHand a, PokerHand b)
         {
-            return !(a > b) && !(b > a);
+            return CompareTo(a, b) == 0;
         }
 
         public static bool operator !=(PokerHand a, PokerHand b)
@@ -109,7 +109,7 @@ namespace PokerHands.Domain
             switch (a.Rank)
             {
                 case PokerHandRank.Flush:
-                    return 0;
+                    return CompareFlush(firstInfo, secondInfo);
                 case PokerHandRank.Straight:
                     return CompareStraight(firstInfo, secondInfo) ? -1 : 1;
                 case PokerHandRank.ThreeOfAKind:
@@ -122,6 +122,26 @@ namespace PokerHands.Domain
             }
 
             throw new Exception();
+        }
+
+        private static int CompareFlush(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
+        {
+            if (!firstInfo.HasAce && secondInfo.HasAce)
+            {
+                return -1;
+            }
+
+            if (firstInfo.HasAce && !secondInfo.HasAce)
+            {
+                return 1;
+            }
+
+            if (firstInfo.HighestCardValue != secondInfo.HighestCardValue)
+            {
+                return firstInfo.HighestCardValue < secondInfo.HighestCardValue ? -1 : 1;
+            }
+
+            return CompareTo(new PokerHand(firstInfo.WithoutCurrentHighestCard), new PokerHand (secondInfo.WithoutCurrentHighestCard));
         }
 
         private static bool CompareStraight(PokerHandInfo firstInfo, PokerHandInfo secondInfo)

@@ -9,7 +9,8 @@
             _pokerHand = pokerHand;
         }
 
-        public bool HasFlush => PokerHandHelper.HasFlush(_pokerHand.Cards);
+        internal bool HasFlush => PokerHandHelper.HasFlush(_pokerHand.Cards);
+        internal bool HasAce => _pokerHand.Cards.Any(x => x.Value == 1);
         internal bool HasHighestStraight => PokerHandHelper.HasHighestStraightSequence(_pokerHand.Cards);
         internal int HighestCardValue => _pokerHand.Cards.MaxBy(x => x.Value)!.Value;
         internal IEnumerable<PokerHandHelper.GroupedCard> GroupedCards => PokerHandHelper.GroupCards(_pokerHand.Cards);
@@ -24,5 +25,6 @@
         internal bool HasPairOfAces => Pairs.Any(x => x.Value == 1);
         internal int HigherPairKey => Pairs.MaxBy(x => x.Value)!.Value;
         internal int LowerPairKey => Pairs.MinBy(x => x.Value)!.Value;
+        internal IEnumerable<PlayingCard> WithoutCurrentHighestCard => _pokerHand.Cards.OrderByDescending(x => x.Value).Take(_pokerHand.Cards.Count() - 1);
     }
 }
