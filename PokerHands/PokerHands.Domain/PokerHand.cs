@@ -19,7 +19,8 @@ namespace PokerHands.Domain
         public IEnumerable<PlayingCard> Cards { get; }
 
         public PokerHandRank Rank => CalculateRank();
-
+        
+        internal bool HasStraightFlush => HasStraight && HasFlush;
         internal bool HasFullHouse => HasThreeOfAKind && AmountOfPairs == 1;
         internal bool HasFlush => PokerHandHelper.HasFlush(Cards);
         internal bool HasAce => Cards.Any(x => x.Value == 1);
@@ -69,7 +70,11 @@ namespace PokerHands.Domain
 
         private PokerHandRank CalculateRank()
         {
-            if(HasFourOfAKind)
+            if (HasStraightFlush)
+            {
+                return PokerHandRank.StraightFlush;
+            }
+            else if (HasFourOfAKind)
             {
                 return PokerHandRank.FourOfAKind;
             }

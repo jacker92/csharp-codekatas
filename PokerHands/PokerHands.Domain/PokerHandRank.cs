@@ -17,5 +17,6 @@
         Flush,
         FullHouse,
         FourOfAKind,
+        StraightFlush,
     }
 }
