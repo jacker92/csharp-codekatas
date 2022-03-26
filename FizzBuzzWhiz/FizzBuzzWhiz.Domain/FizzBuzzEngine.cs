@@ -1,20 +1,25 @@
-﻿namespace FizzBuzzWhiz.Domain
+﻿using System.Text;
+
+namespace FizzBuzzWhiz.Domain
 {
     public class FizzBuzzEngine
     {
         public string Process(int input)
         {
+            var builder = new StringBuilder();
             if (input % 3 == 0)
             {
-                return "Fizz";
+                builder.Append("Fizz");
             }
 
             if (input % 5 == 0)
             {
-                return "Buzz";
+                builder.Append("Buzz");
             }
 
-            return input.ToString();
+            return string.IsNullOrEmpty(builder.ToString()) ? 
+                input.ToString() : 
+                builder.ToString();
         }
     }
 }
