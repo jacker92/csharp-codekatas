@@ -107,6 +107,9 @@ namespace PokerHands.Domain
 
             var max = Cards.MaxBy(x => x.Value)!;
 
+            // When doing recursive comparison on hands, highest card can be smaller than 7.
+            if (max.Value == 5) return PokerHandRank.HighestCardFive;
+            if (max.Value == 6) return PokerHandRank.HighestCardSix;
             if (max.Value == 7) return PokerHandRank.HighestCardSeven;
             if (max.Value == 8) return PokerHandRank.HighestCardEight;
             if (max.Value == 9) return PokerHandRank.HighestCardNine;
@@ -115,8 +118,6 @@ namespace PokerHands.Domain
             if (max.Value == 12) return PokerHandRank.HighestCardQueen;
             if (max.Value == 13) return PokerHandRank.HighestCardKing;
 
-            // When doing recursive comparison on hands, highest card can be smaller than 7.
-            // In that case just return HighestCardSeven.
             return PokerHandRank.HighestCardSeven;
         }
 

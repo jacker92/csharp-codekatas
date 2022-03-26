@@ -2,6 +2,8 @@
 {
     public enum PokerHandRank
     {
+        HighestCardFive,
+        HighestCardSix,
         HighestCardSeven,
         HighestCardEight,
         HighestCardNine,
@@ -17,6 +19,6 @@
         Flush,
         FullHouse,
         FourOfAKind,
-        StraightFlush,
+        StraightFlush
     }
 }
