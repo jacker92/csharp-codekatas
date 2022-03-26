@@ -108,17 +108,21 @@ namespace PokerHands.Domain
             var max = Cards.MaxBy(x => x.Value)!;
 
             // When doing recursive comparison on hands, highest card can be smaller than 7.
-            if (max.Value == 5) return PokerHandRank.HighestCardFive;
-            if (max.Value == 6) return PokerHandRank.HighestCardSix;
-            if (max.Value == 7) return PokerHandRank.HighestCardSeven;
-            if (max.Value == 8) return PokerHandRank.HighestCardEight;
-            if (max.Value == 9) return PokerHandRank.HighestCardNine;
-            if (max.Value == 10) return PokerHandRank.HighestCardTen;
-            if (max.Value == 11) return PokerHandRank.HighestCardJack;
-            if (max.Value == 12) return PokerHandRank.HighestCardQueen;
-            if (max.Value == 13) return PokerHandRank.HighestCardKing;
-
-            return PokerHandRank.HighestCardSeven;
+            return max.Value switch
+            {
+                3 => PokerHandRank.HighestCardThree,
+                4 => PokerHandRank.HighestCardFour,
+                5 => PokerHandRank.HighestCardFive,
+                6 => PokerHandRank.HighestCardSix,
+                7 => PokerHandRank.HighestCardSeven,
+                8 => PokerHandRank.HighestCardEight,
+                9 => PokerHandRank.HighestCardNine,
+                10 => PokerHandRank.HighestCardTen,
+                11 => PokerHandRank.HighestCardJack,
+                12 => PokerHandRank.HighestCardQueen,
+                13 => PokerHandRank.HighestCardKing,
+                _ => PokerHandRank.HighestCardTwo
+            };
         }
 
         public override bool Equals(object? obj)

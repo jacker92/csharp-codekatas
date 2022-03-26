@@ -2,6 +2,9 @@
 {
     public enum PokerHandRank
     {
+        HighestCardTwo,
+        HighestCardThree,
+        HighestCardFour,
         HighestCardFive,
         HighestCardSix,
         HighestCardSeven,

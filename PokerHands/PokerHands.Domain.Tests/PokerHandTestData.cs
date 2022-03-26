@@ -9,6 +9,27 @@ namespace PokerHands.Domain.Tests
         {
             yield return new object[] {
                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Heart, 2)
+                },PokerHandRank.HighestCardTwo
+            };
+
+            yield return new object[] {
+                new List<PlayingCard> {
+                    new PlayingCard(Suit.Heart, 2),
+                    new PlayingCard(Suit.Club, 3)
+                },PokerHandRank.HighestCardThree
+            };
+
+            yield return new object[] {
+                new List<PlayingCard> {
+                    new PlayingCard(Suit.Heart, 2),
+                    new PlayingCard(Suit.Club, 3),
+                    new PlayingCard(Suit.Club, 4),
+                },PokerHandRank.HighestCardFour
+            };
+
+            yield return new object[] {
+                new List<PlayingCard> {
                     new PlayingCard(Suit.Heart, 2),
                     new PlayingCard(Suit.Club, 3),
                     new PlayingCard(Suit.Club, 5),

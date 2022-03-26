@@ -25,27 +25,17 @@
 
         private int CompareTwoHandsWithSameRank(PokerHand a, PokerHand b)
         {
-            switch (a.Rank)
+            return a.Rank switch
             {
-                case PokerHandRank.StraightFlush:
-                    return CompareStraightFlush(a, b);
-                case PokerHandRank.FourOfAKind:
-                    return CompareFourOfAKind(a, b);
-                case PokerHandRank.FullHouse:
-                    return CompareFullHouse(a, b);
-                case PokerHandRank.Flush:
-                    return CompareFlush(a, b);
-                case PokerHandRank.Straight:
-                    return CompareStraight(a, b);
-                case PokerHandRank.ThreeOfAKind:
-                    return CompareThreeOfAKind(a, b);
-                case PokerHandRank.TwoPairs:
-                    return CompareTwoPairs(a, b);
-                case PokerHandRank.OnePair:
-                    return CompareOnePair(a, b);
-            }
-
-            throw new Exception();
+                PokerHandRank.StraightFlush => CompareStraightFlush(a, b),
+                PokerHandRank.FourOfAKind => CompareFourOfAKind(a, b),
+                PokerHandRank.FullHouse => CompareFullHouse(a, b),
+                PokerHandRank.Flush => CompareFlush(a, b),
+                PokerHandRank.Straight => CompareStraight(a, b),
+                PokerHandRank.ThreeOfAKind => CompareThreeOfAKind(a, b),
+                PokerHandRank.TwoPairs => CompareTwoPairs(a, b),
+                _ => CompareOnePair(a, b),
+            };
         }
 
         private int CompareStraightFlush(PokerHand a, PokerHand b)
