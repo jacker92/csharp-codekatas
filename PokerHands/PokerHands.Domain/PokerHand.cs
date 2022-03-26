@@ -112,6 +112,8 @@ namespace PokerHands.Domain
 
             switch (a.Rank)
             {
+                case PokerHandRank.FullHouse:
+                    return CompareFullHouse(firstInfo, secondInfo);
                 case PokerHandRank.Flush:
                     return CompareFlush(firstInfo, secondInfo);
                 case PokerHandRank.Straight:
@@ -121,11 +123,34 @@ namespace PokerHands.Domain
                 case PokerHandRank.TwoPairs:
                     return CompareTwoPairs(firstInfo, secondInfo) ? -1 : 1;
                 case PokerHandRank.OnePair:
-                    return CompareOnePair(firstInfo, secondInfo) ? -1 : 1;
+                    return CompareOnePair(firstInfo, secondInfo);
 
             }
 
             throw new Exception();
+        }
+
+        private static int CompareFullHouse(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
+        {
+            if (!firstInfo.HasThreeOfAKindAces && secondInfo.HasThreeOfAKindAces)
+            {
+                return -1;
+            }
+
+            if (firstInfo.HasThreeOfAKindAces && !secondInfo.HasThreeOfAKindAces)
+            {
+                return 1;
+            }
+
+            if (firstInfo.ThreeOfAKindKey == secondInfo.ThreeOfAKindKey)
+            {
+                var firstPokerHandInfo = new PokerHandInfo(new PokerHand(firstInfo.WithoutThreeOfAKindCards));
+                var secondPokerHandInfo = new PokerHandInfo(new PokerHand(secondInfo.WithoutThreeOfAKindCards));
+
+                return CompareOnePair(firstPokerHandInfo, secondPokerHandInfo);
+            }
+
+            return firstInfo.ThreeOfAKindKey < secondInfo.ThreeOfAKindKey ? 1 : -1;
         }
 
         private static int CompareFlush(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
@@ -186,16 +211,16 @@ namespace PokerHands.Domain
             return firstInfo.ThreeOfAKindKey < secondInfo.ThreeOfAKindKey;
         }
 
-        private static bool CompareOnePair(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
+        private static int CompareOnePair(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
         {
             if (!firstInfo.HasPairOfAces && secondInfo.HasPairOfAces)
             {
-                return true;
+                return -1;
             }
 
             if (firstInfo.HasPairOfAces && !secondInfo.HasPairOfAces)
             {
-                return false;
+                return 1;
             }
 
             if (firstInfo.Pairs.SequenceEqual(secondInfo.Pairs))
@@ -203,10 +228,10 @@ namespace PokerHands.Domain
                 var withoutPair = new PokerHand(firstInfo.WithoutPairCards);
                 var secondWithoutPair = new PokerHand(secondInfo.WithoutPairCards);
 
-                return withoutPair < secondWithoutPair;
+                return CompareTo(withoutPair, secondWithoutPair);
             }
 
-            return firstInfo.Pairs.First().Value < secondInfo.Pairs.First().Value;
+            return firstInfo.Pairs.First().Value < secondInfo.Pairs.First().Value ? -1 : 1;
         }
 
         private static bool CompareTwoPairs(PokerHandInfo firstInfo, PokerHandInfo secondInfo)
