@@ -111,13 +111,39 @@ namespace PokerHands.Domain
             switch (a.Rank)
             {
                 case PokerHandRank.TwoPairs:
-                    return groupedCards.Single(x => x.Count == 1).Key < secondGroupedCards.Single(x => x.Count == 1).Key;
+                    return CompareTwoPairs(groupedCards, secondGroupedCards);
                 case PokerHandRank.OnePair:
                     return pairs.First().Key < secondPairs.First().Key;
 
             }
 
             throw new Exception();
+        }
+
+        private static bool CompareTwoPairs(IEnumerable<PokerHandHelper.GroupedCard> groupedCards, IEnumerable<PokerHandHelper.GroupedCard> secondGroupedCards)
+        {
+            var pairs = groupedCards.Where(x => x.Count == 2);
+            var secondPairs = secondGroupedCards.Where(x => x.Count == 2);
+
+            var maxByFirst = pairs.MaxBy(x => x.Key)!.Key;
+            var maxBySecond = secondPairs.MaxBy(x => x.Key)!.Key;
+
+            var minByFirst = pairs.MinBy(x => x.Key)!.Key;
+            var minBySecond = secondPairs.MinBy(x => x.Key)!.Key;
+
+            if (maxByFirst != maxBySecond)
+            {
+                return maxByFirst < maxBySecond;
+            }
+
+            if (minByFirst != minBySecond)
+            {
+                return minByFirst < minBySecond;
+            }
+
+            var highCardResult = groupedCards.Single(x => x.Count == 1).Key < secondGroupedCards.Single(x => x.Count == 1).Key;
+           
+            return highCardResult;
         }
 
         public override bool Equals(object? obj)
