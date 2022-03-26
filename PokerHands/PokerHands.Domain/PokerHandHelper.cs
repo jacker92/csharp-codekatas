@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PokerHands.Domain
+﻿namespace PokerHands.Domain
 {
     internal static class PokerHandHelper
     {
@@ -16,8 +10,19 @@ namespace PokerHands.Domain
 
         internal static bool CardsAreInSequence(IEnumerable<PlayingCard> cards)
         {
-            var sequence = GetSequenceStartingFrom(cards.MinBy(x => x.Value)!.Value);
-            return cards.Select(x => x.Value).SequenceEqual(sequence);
+            var sequence = GetSequenceStartingFrom(cards.MinBy(x => x.Value)!.Value)
+                .OrderBy(x => x);
+
+            var cardValues = cards.Select(x => x.Value)
+                .OrderBy(x => x);
+
+            return cardValues.SequenceEqual(sequence) ||
+                   cardValues.SequenceEqual(GetHighestStraightSequence());
+        }
+
+        internal static IEnumerable<int> GetHighestStraightSequence()
+        {
+            return new List<int> { 1, 10, 11, 12, 13 };
         }
 
         internal static IEnumerable<int> GetSequenceStartingFrom(int value)
