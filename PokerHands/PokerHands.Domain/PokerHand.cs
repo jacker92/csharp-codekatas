@@ -67,7 +67,11 @@ namespace PokerHands.Domain
         {
             var info = new PokerHandInfo(this);
 
-            if (info.HasStraight)
+            if (info.HasFlush)
+            {
+                return PokerHandRank.Flush;
+            }
+            else if (info.HasStraight)
             {
                 return PokerHandRank.Straight;
             }

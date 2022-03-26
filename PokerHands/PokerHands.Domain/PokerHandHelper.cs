@@ -8,8 +8,23 @@
                .Select(x => new GroupedCard { Key = x.Key, Count = x.Count(), Values = x.ToList() });
         }
 
+        internal static bool HasFlush(IEnumerable<PlayingCard> cards)
+        {
+            if (cards.Count() != 5)
+            {
+                return false;
+            }
+
+            return cards.DistinctBy(x => x.Suit).Count() == 1;
+        }
+
         internal static bool HasStraight(IEnumerable<PlayingCard> cards)
         {
+            if (cards.Count() != 5)
+            {
+                return false;
+            }
+
             var sequence = GetSequenceStartingFrom(cards.MinBy(x => x.Value)!.Value)
                 .OrderBy(x => x);
 

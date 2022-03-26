@@ -9,6 +9,7 @@
             _pokerHand = pokerHand;
         }
 
+        public bool HasFlush => PokerHandHelper.HasFlush(_pokerHand.Cards);
         internal bool HasHighestStraight => PokerHandHelper.HasHighestStraightSequence(_pokerHand.Cards);
         internal int HighestCardValue => _pokerHand.Cards.MaxBy(x => x.Value)!.Value;
         internal IEnumerable<PokerHandHelper.GroupedCard> GroupedCards => PokerHandHelper.GroupCards(_pokerHand.Cards);

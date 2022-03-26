@@ -14,5 +14,6 @@
         TwoPairs,
         ThreeOfAKind,
         Straight,
+        Flush,
     }
 }
