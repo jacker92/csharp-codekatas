@@ -20,20 +20,12 @@ namespace PokerHands.Domain.Tests
             Assert.Equal(expectedRank, hand.Rank);
         }
 
-        [Fact]
-        public void Comparing_ShouldReturnCorrectResult_WithTwoHandsThatAreEqual()
+        [Theory]
+        [ClassData(typeof(PokerHandCompareEqualityTestData))]
+        public void Comparing_ShouldReturnCorrectResult_WithTwoHandsThatAreEqual(List<PlayingCard> cards1, List<PlayingCard> cards2)
         {
-            var cards = new List<PlayingCard>
-            {
-                new PlayingCard(Suit.Diamond, 1),
-                new PlayingCard(Suit.Diamond, 2),
-                new PlayingCard(Suit.Diamond, 3),
-                new PlayingCard(Suit.Diamond, 4),
-                new PlayingCard(Suit.Diamond, 5)
-            };
-
-            var hand1 = new PokerHand(cards);
-            var hand2 = new PokerHand(cards);
+            var hand1 = new PokerHand(cards1);
+            var hand2 = new PokerHand(cards2);
 
             Assert.True(hand1 == hand2);
             Assert.False(hand1 < hand2);

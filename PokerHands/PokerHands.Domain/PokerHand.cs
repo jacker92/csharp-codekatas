@@ -20,47 +20,45 @@ namespace PokerHands.Domain
 
         public static bool operator <(PokerHand a, PokerHand b)
         {
-            if (a == b)
-            {
-                return false;
-            }
-            return !(a > b);
+            var comparingResult = CompareTo(a, b);
+            return comparingResult == -1;
         }
 
         public static bool operator >(PokerHand a, PokerHand b)
         {
-            if (a == b)
-            {
-                return false;
-            }
+            var comparingResult = CompareTo(a, b);
+            return comparingResult == 1;
+        }
 
+        public static int CompareTo(PokerHand a, PokerHand b)
+        {
             if (a.Cards.Count() == 0)
             {
-                return false;
+                return 0;
             }
 
             if (a.Rank == b.Rank)
             {
                 if (a.Cards.Count() == 5)
                 {
-                    return !CompareTwoHandsWithSameRank(a, b);
+                    return CompareTwoHandsWithSameRank(a, b);
                 }
 
-                return new PokerHand(a.Cards.Take(a.Cards.Count() - 1)) <
-                       new PokerHand(b.Cards.Take(b.Cards.Count() - 1));
+                return CompareTo(new PokerHand(a.Cards.Take(a.Cards.Count() - 1)),
+                       new PokerHand(b.Cards.Take(b.Cards.Count() - 1)));
             }
 
-            return a.Rank > b.Rank;
+            return a.Rank > b.Rank ? 1 : -1;
         }
 
         public static bool operator ==(PokerHand a, PokerHand b)
         {
-            return a.Equals(b);
+            return !(a > b) && !(b > a);
         }
 
         public static bool operator !=(PokerHand a, PokerHand b)
         {
-            return !a.Equals(b);
+            return !(a == b);
         }
 
         private PokerHandRank CalculateRank()
@@ -103,21 +101,23 @@ namespace PokerHands.Domain
             throw new Exception();
         }
 
-        private static bool CompareTwoHandsWithSameRank(PokerHand a, PokerHand b)
+        private static int CompareTwoHandsWithSameRank(PokerHand a, PokerHand b)
         {
             var firstInfo = new PokerHandInfo(a);
             var secondInfo = new PokerHandInfo(b);
 
             switch (a.Rank)
             {
+                case PokerHandRank.Flush:
+                    return 0;
                 case PokerHandRank.Straight:
-                    return CompareStraight(firstInfo, secondInfo);
+                    return CompareStraight(firstInfo, secondInfo) ? -1 : 1;
                 case PokerHandRank.ThreeOfAKind:
-                    return CompareThreeOfAKind(firstInfo, secondInfo);
+                    return CompareThreeOfAKind(firstInfo, secondInfo) ? -1 : 1;
                 case PokerHandRank.TwoPairs:
-                    return CompareTwoPairs(firstInfo, secondInfo);
+                    return CompareTwoPairs(firstInfo, secondInfo) ? -1 : 1;
                 case PokerHandRank.OnePair:
-                    return CompareOnePair(firstInfo, secondInfo);
+                    return CompareOnePair(firstInfo, secondInfo) ? -1 : 1;
 
             }
 
