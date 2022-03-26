@@ -129,6 +129,23 @@ namespace PokerHands.Domain.Tests
 
             yield return new object[] {
                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 4),
+                    new PlayingCard(Suit.Club, 4),
+                    new PlayingCard(Suit.Club, 12),
+                },
+                 new List<PlayingCard> {
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 2),
+                    new PlayingCard(Suit.Club, 4),
+                    new PlayingCard(Suit.Club, 4),
+                    new PlayingCard(Suit.Club, 1),
+                }
+            };
+
+            yield return new object[] {
+                new List<PlayingCard> {
                     new PlayingCard(Suit.Club, 3),
                     new PlayingCard(Suit.Club, 3),
                     new PlayingCard(Suit.Club, 4),

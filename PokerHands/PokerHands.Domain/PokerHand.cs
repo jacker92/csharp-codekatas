@@ -186,10 +186,7 @@ namespace PokerHands.Domain
                 return firstInfo.LowerPairKey < secondInfo.LowerPairKey;
             }
 
-            // TODO: Need to check if high card is ace, might return invalid result here
-            var highCardResult = firstInfo.WithoutPairCards.Single().Value < secondInfo.WithoutPairCards.Single().Value;
-
-            return highCardResult;
+            return new PokerHand(firstInfo.WithoutPairCards) < new PokerHand(secondInfo.WithoutPairCards);
         }
 
         public override bool Equals(object? obj)
