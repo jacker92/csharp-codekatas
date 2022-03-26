@@ -4,12 +4,12 @@
     {
         public int Compare(PokerHand? a, PokerHand? b)
         {
-            if (!a.Cards.Any())
+            if (a?.Cards == null || !a.Cards.Any())
             {
                 return 0;
             }
 
-            if (a.Rank == b.Rank)
+            if (a.Rank == b?.Rank)
             {
                 if (a.Cards.Count() == 5)
                 {
@@ -20,7 +20,7 @@
                        new PokerHand(b.Cards.Take(b.Cards.Count() - 1)));
             }
 
-            return a.Rank.CompareTo(b.Rank);
+            return a.Rank.CompareTo(b?.Rank);
         }
 
         private int CompareTwoHandsWithSameRank(PokerHand a, PokerHand b)
