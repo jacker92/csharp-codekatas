@@ -65,7 +65,11 @@ namespace PokerHands.Domain
         {
             var info = new PokerHandInfo(this);
 
-            if (info.HasFlush)
+            if (info.HasFullHouse)
+            {
+                return PokerHandRank.FullHouse;
+            }
+            else if (info.HasFlush)
             {
                 return PokerHandRank.Flush;
             }
@@ -141,7 +145,7 @@ namespace PokerHands.Domain
                 return firstInfo.HighestCardValue < secondInfo.HighestCardValue ? -1 : 1;
             }
 
-            return CompareTo(new PokerHand(firstInfo.WithoutCurrentHighestCard), new PokerHand (secondInfo.WithoutCurrentHighestCard));
+            return CompareTo(new PokerHand(firstInfo.WithoutCurrentHighestCard), new PokerHand(secondInfo.WithoutCurrentHighestCard));
         }
 
         private static bool CompareStraight(PokerHandInfo firstInfo, PokerHandInfo secondInfo)

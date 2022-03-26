@@ -15,5 +15,6 @@
         ThreeOfAKind,
         Straight,
         Flush,
+        FullHouse,
     }
 }

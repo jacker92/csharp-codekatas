@@ -9,6 +9,7 @@
             _pokerHand = pokerHand;
         }
 
+        internal bool HasFullHouse => HasThreeOfAKind && AmountOfPairs == 1;
         internal bool HasFlush => PokerHandHelper.HasFlush(_pokerHand.Cards);
         internal bool HasAce => _pokerHand.Cards.Any(x => x.Value == 1);
         internal bool HasHighestStraight => PokerHandHelper.HasHighestStraightSequence(_pokerHand.Cards);
