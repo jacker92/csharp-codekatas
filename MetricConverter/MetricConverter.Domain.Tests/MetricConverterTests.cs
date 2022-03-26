@@ -28,6 +28,13 @@ namespace MetricConverter.Domain.Tests
             Assert.Equal(expectedMiles, result);
         }
 
+        [Fact]
+        public void CelsiusToFahrenheit_ShouldThrowArgumentOutOfRangeException_WithTemperatureLessThanAbsoluteZero()
+        {
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => _metricConverter.ConvertCelsiusToFahrenheit(-274));
+            Assert.StartsWith("Argument cannot be less than absolute zero.", exception.Message);
+        }
+
         [Theory]
         [InlineData(0, 32)]
         [InlineData(30, 86)]
