@@ -27,6 +27,8 @@
         {
             switch (a.Rank)
             {
+                case PokerHandRank.StraightFlush:
+                    return CompareStraightFlush(a, b);
                 case PokerHandRank.FourOfAKind:
                     return CompareFourOfAKind(a, b);
                 case PokerHandRank.FullHouse:
@@ -44,6 +46,11 @@
             }
 
             throw new Exception();
+        }
+
+        private int CompareStraightFlush(PokerHand a, PokerHand b)
+        {
+            return CompareStraight(a, b);
         }
 
         private int CompareFourOfAKind(PokerHand a, PokerHand b)
