@@ -110,6 +110,8 @@ namespace PokerHands.Domain
 
             switch (a.Rank)
             {
+                case PokerHandRank.ThreeOfAKind:
+                    return CompareThreeOfAKind(groupedCards, secondGroupedCards);
                 case PokerHandRank.TwoPairs:
                     return CompareTwoPairs(groupedCards, secondGroupedCards);
                 case PokerHandRank.OnePair:
@@ -120,6 +122,21 @@ namespace PokerHands.Domain
             throw new Exception();
         }
 
+        private static bool CompareThreeOfAKind(IEnumerable<PokerHandHelper.GroupedCard> groupedCards, IEnumerable<PokerHandHelper.GroupedCard> secondGroupedCards)
+        {
+            var firstThreeOfAKind = groupedCards.First(x => x.Count == 3).Key;
+            var firstHasAces = firstThreeOfAKind == 1;
+            var secondThreeOfAKind = secondGroupedCards.First(x => x.Count == 3).Key;
+            var secondHasAces = secondThreeOfAKind == 1;
+
+            if (firstHasAces && !secondHasAces)
+            {
+                return false;
+            }
+
+            return firstThreeOfAKind < secondThreeOfAKind;
+        }
+
         private static bool CompareOnePair(IEnumerable<PokerHandHelper.GroupedCard> pairs, IEnumerable<PokerHandHelper.GroupedCard> secondPairs)
         {
             var pair = pairs.First().Key;
@@ -127,11 +144,6 @@ namespace PokerHands.Domain
 
             var secondPair = secondPairs.First().Key;
             var secondPairIsPairOfAces = secondPair == 1;
-
-            if (!firstPairIsPairOfAces && secondPairIsPairOfAces)
-            {
-                return true;
-            }
 
             if (firstPairIsPairOfAces && !secondPairIsPairOfAces)
             {
