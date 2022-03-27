@@ -6,20 +6,30 @@ namespace TodoList.Domain.Tests
 {
     public class TodoListTests
     {
+        private readonly TodoList _todoList;
+
+        public TodoListTests()
+        {
+            _todoList = new TodoList();
+        }
+
         [Fact]
         public void Add_ShouldThrowArgumentNullException_WithNullTodoItem()
         {
-            var todolist = new TodoList();
-            Assert.Throws<ArgumentNullException>(() => todolist.Add(null));
+            Assert.Throws<ArgumentNullException>(() => _todoList.Add(null));
         }
 
         [Fact]
         public void Items_ShouldContainOneItem_AfterOneTodoItemIsAdded()
         {
-            var todolist = new TodoList();
-            var item = new TodoItem();
-            todolist.Add(item);
-            var result = todolist.Items.Single();
+            var item = new TodoItem()
+            {
+                Task = "Todo item",
+                Date = DateTime.Now
+            };
+
+            _todoList.Add(item);
+            var result = _todoList.Items.Single();
 
             Assert.Equal(item, result);
         }
@@ -27,8 +37,7 @@ namespace TodoList.Domain.Tests
         [Fact]
         public void Items_ShouldBeEmpty()
         {
-            var todolist = new TodoList();
-            Assert.Empty(todolist.Items);
+            Assert.Empty(_todoList.Items);
         }
     }
 }
