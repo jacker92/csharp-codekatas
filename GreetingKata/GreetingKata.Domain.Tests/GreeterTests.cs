@@ -5,6 +5,13 @@ namespace GreetingKata.Domain.Tests
 {
     public class GreeterTests
     {
+        private readonly Greeter _greeter;
+
+        public GreeterTests()
+        {
+            _greeter = new Greeter();
+        }
+
         [Theory]
         [InlineData("Mike", "Hello, Mike")]
         [InlineData("Bob", "Hello, Bob")]
@@ -13,8 +20,7 @@ namespace GreetingKata.Domain.Tests
         [InlineData("MIKE", "HELLO MIKE!")]
         public void Greet_ShouldReturnCorrectResponse(string name, string expectedResponse)
         {
-            var greeter = new Greeter();
-            var response = greeter.Greet(name);
+            var response = _greeter.Greet(name);
             
             Assert.Equal(expectedResponse, response);   
         }
@@ -23,8 +29,7 @@ namespace GreetingKata.Domain.Tests
         [InlineData("Jill", "Jane", "Hello, Jill and Jane")]
         public void Greet_ShouldReturnCorrectResponseForArrayOfNames(string input1, string input2, string expectedResponse)
         {
-            var greeter = new Greeter();
-            var response = greeter.Greet(new string[] {input1, input2});
+            var response = _greeter.Greet(new string[] {input1, input2});
             Assert.Equal(response, expectedResponse);
         }
     }
