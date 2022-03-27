@@ -1,7 +1,20 @@
-﻿using TodoList.Domain;
+﻿using CommandLine;
+using TodoList.Domain;
 
 namespace TodoList.Console
 {
+    public class Options
+    {
+        [Value(0, Required = true, MetaName = "operation", HelpText = "Operation for the todo items")]
+        public string Operation { get; set; }
+
+        [Option('t', "name", Required = false, HelpText = "Task name")]
+        public string TaskName { get; set; }
+        
+        [Option('d', "date", Required = false, HelpText = "Task due date")]
+        public DateTime DueDate { get; set; }
+    }
+
     public class Application
     {
         private readonly IOutput _output;
@@ -15,22 +28,36 @@ namespace TodoList.Console
 
         public void Run(string[] args)
         {
-            if (args is null)
-            {
-                _output.WriteLine(Messages.InvalidArguments);
-                return;
-            }
+            var arguments = Parser.Default.ParseArguments<Options>(args);
 
-            if (args.First() == "?")
+            arguments.WithParsed(options =>
             {
-                _output.WriteLine(Messages.Instructions);
-                return;
-            }
+                RunWithParsedArguments(options);
+            })
+            .WithNotParsed(error =>
+            {
 
-            if (args[0] == "task")
-            {
-                _todoList.Add(new TodoItem { Task = args[2], Date = DateTime.Parse(args[4]) });
-            }
+            });
+        }
+
+        private void RunWithParsedArguments(Options obj)
+        {
+            //if (args is null)
+            //{
+            //    _output.WriteLine(Messages.InvalidArguments);
+            //    return;
+            //}
+
+            //if (args.First() == "?")
+            //{
+            //    _output.WriteLine(Messages.Instructions);
+            //    return;
+            //}
+
+            //if (args[0] == "task")
+            //{
+            //    _todoList.Add(new TodoItem { Task = args[2], Date = DateTime.Parse(args[4]) });
+            //}
         }
     }
 }
