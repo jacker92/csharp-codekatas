@@ -18,5 +18,14 @@ namespace GreetingKata.Domain.Tests
             
             Assert.Equal(expectedResponse, response);   
         }
+
+        [Theory]
+        [InlineData("Jill", "Jane", "Hello, Jill and Jane")]
+        public void Greet_ShouldReturnCorrectResponseForArrayOfNames(string input1, string input2, string expectedResponse)
+        {
+            var greeter = new Greeter();
+            var response = greeter.Greet(new string[] {input1, input2});
+            Assert.Equal(response, expectedResponse);
+        }
     }
 }
