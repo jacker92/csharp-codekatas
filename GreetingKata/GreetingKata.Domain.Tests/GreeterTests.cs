@@ -36,6 +36,7 @@ namespace GreetingKata.Domain.Tests
 
         [Theory]
         [InlineData("Amy", "Brian", "Charlotte", "Hello, Amy, Brian, and Charlotte")]
+        [InlineData("Amy", "BRIAN", "Charlotte", "Hello, Amy and Charlotte. AND HELLO BRIAN!")]
         public void Greet_ShouldReturnCorrectResponseForArrayOfThreeNames(string input1, string input2, string input3, string expectedResponse)
         {
             var response = _greeter.Greet(new string[] { input1, input2, input3 });

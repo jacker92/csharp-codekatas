@@ -1,10 +1,27 @@
-﻿namespace GreetingKata.Domain
+﻿using System.Text;
+
+namespace GreetingKata.Domain
 {
     public class Greeter
     {
         public string Greet(string[] names)
         {
-            return $"Hello, {string.Join(", ", names, 0, names.Length - 1)}{AddExtraComma(names)} and {names.Last()}";
+            var normalNames = names.Where(x => !x.All(c => char.IsUpper(c)))
+                .ToArray();
+
+            var shoutedNames = names.Where(x => x.All(c => char.IsUpper(c)))
+                .ToArray();
+
+            var builder = new StringBuilder();
+
+            builder.Append($"Hello, {string.Join(", ", normalNames, 0, normalNames.Length - 1)}{AddExtraComma(normalNames)} and {normalNames.Last()}");
+
+            if (shoutedNames.Length > 0)
+            {
+                builder.Append($". AND HELLO {shoutedNames.First()}!");
+            }
+
+            return builder.ToString();
         }
 
         public string Greet(string name)
