@@ -6,5 +6,6 @@
         ISeededCalculator Redo();
         int Result();
         ISeededCalculator Undo();
+        ISeededCalculator Minus(int toAdd);
     }
 }

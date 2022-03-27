@@ -23,6 +23,12 @@
             return this;
         }
 
+        public ISeededCalculator Minus(int toSubstract)
+        {
+            _values.Push(-toSubstract);
+            return this;
+        }
+
         public ISeededCalculator Undo()
         {
             if (_values.Any())

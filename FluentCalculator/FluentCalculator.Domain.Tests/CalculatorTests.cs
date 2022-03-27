@@ -58,6 +58,21 @@ namespace FluentCalculator.Domain.Tests
         }
 
         [Theory]
+        [InlineData(5, 10, -5)]
+        [InlineData(10, 0, 10)]
+        [InlineData(10, 5, 5)]
+        [InlineData(10, -20, 30)]
+        public void SeedMinus_ShouldReturnCorrectResult(int seed, int toSubstract, int expectedResult)
+        {
+            var result = _calculator
+             .Seed(seed)
+             .Minus(toSubstract)
+             .Result();
+
+            Assert.Equal(expectedResult, result);
+        }
+
+        [Theory]
         [InlineData(5)]
         [InlineData(0)]
         public void SeedPlusAndUndo_ShouldReturnSeed(int seed)
