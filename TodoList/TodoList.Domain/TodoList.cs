@@ -4,7 +4,12 @@ namespace TodoList.Domain
 {
     public class TodoList
     {
-        public List<TodoItem> Items { get; } = new List<TodoItem>();
+        private readonly List<TodoItem> _items;
+
+        public TodoList()
+        {
+            _items = new List<TodoItem>();
+        }
 
         public void Add(TodoItem item)
         {
@@ -13,7 +18,7 @@ namespace TodoList.Domain
                 throw new ArgumentNullException(nameof(item));
             }
 
-            Items.Add(item);
+            _items.Add(item);
         }
 
         public void Complete(Guid guid)
@@ -24,7 +29,7 @@ namespace TodoList.Domain
 
         public TodoItem GetById(Guid guid)
         {
-            var item = Items.SingleOrDefault(x => x.Id == guid);
+            var item = _items.SingleOrDefault(x => x.Id == guid);
 
             if (item == null)
             {
@@ -32,6 +37,11 @@ namespace TodoList.Domain
             }
 
             return item;
+        }
+
+        public IEnumerable<TodoItem> GetAll()
+        {
+            return _items;
         }
     }
 }

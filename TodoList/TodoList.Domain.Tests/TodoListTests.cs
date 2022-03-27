@@ -42,7 +42,7 @@ namespace TodoList.Domain.Tests
         }
 
         [Fact]
-        public void Items_ShouldContainOneItem_AfterOneTodoItemIsAdded()
+        public void GetAll_ShouldReturnOneItem_AfterOneTodoItemIsAdded()
         {
             var item = new TodoItem()
             {
@@ -51,15 +51,15 @@ namespace TodoList.Domain.Tests
             };
 
             _todoList.Add(item);
-            var result = _todoList.Items.Single();
+            var result = _todoList.GetAll().Single();
 
             Assert.Equal(item, result);
         }
 
         [Fact]
-        public void Items_ShouldBeEmpty()
+        public void GetAll_ShouldReturnEmptyCollectionByDefault()
         {
-            Assert.Empty(_todoList.Items);
+            Assert.Empty(_todoList.GetAll());
         }
 
         [Fact]
@@ -82,9 +82,7 @@ namespace TodoList.Domain.Tests
             _todoList.Add(item);
             _todoList.Complete(item.Id);
 
-            var foundItem = _todoList.Items.Single();
-
-            Assert.Equal(TodoItemStatus.Complete, foundItem.Status);
+            Assert.Equal(TodoItemStatus.Complete, item.Status);
         }
     }
 }
