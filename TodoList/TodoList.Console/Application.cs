@@ -14,6 +14,13 @@
             if (args is null)
             {
                 _output.WriteLine(Messages.InvalidArguments);
+                return;
+            }
+
+            if (args.First() == "?")
+            {
+                _output.WriteLine(Messages.Instructions);
+                return;
             }
         }
     }
