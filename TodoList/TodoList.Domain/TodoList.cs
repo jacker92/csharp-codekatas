@@ -1,15 +1,19 @@
-﻿namespace TodoList.Domain
+﻿using System.Collections;
+
+namespace TodoList.Domain
 {
     public class TodoList
     {
-        public void Add(object p)
+        public List<TodoItem> Items { get; } = new List<TodoItem>();
+
+        public void Add(TodoItem item)
         {
-            if (p is null)
+            if (item is null)
             {
-                throw new ArgumentNullException(nameof(p));
+                throw new ArgumentNullException(nameof(item));
             }
 
-            throw new NotImplementedException();
+            Items.Add(item);
         }
     }
 }
