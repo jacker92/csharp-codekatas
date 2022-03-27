@@ -3,8 +3,14 @@
     public class Calculator : ISeededCalculator
     {
         private int _seed;
-        private Stack<int> _values = new Stack<int>();
-        private Stack<int> _undoedValues = new Stack<int>();
+        private readonly Stack<int> _values;
+        private readonly Stack<int> _undoedValues;
+
+        public Calculator()
+        {
+            _values = new Stack<int>();
+            _undoedValues = new Stack<int>();
+        }
 
         public ISeededCalculator Seed(int value)
         {
@@ -45,6 +51,15 @@
             {
                 _values.Push(_undoedValues.Pop());
             }
+
+            return this;
+        }
+
+        public ISeededCalculator Save()
+        {
+            _seed += _values.Sum();
+            _values.Clear();
+            _undoedValues.Clear();
 
             return this;
         }

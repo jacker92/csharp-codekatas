@@ -145,5 +145,21 @@ namespace FluentCalculator.Domain.Tests
 
             Assert.Equal(15, result);
         }
+
+        [Theory]
+        [InlineData(5, 1, 6)]
+        [InlineData(0, 0, 0)]
+        [InlineData(10, 50, 60)]
+        public void SeedPlusSaveUndo_ShouldNotUndoSavedValue(int seed, int toAdd, int expectedResult)
+        {
+            var result = _calculator
+                .Seed(seed)
+                .Plus(toAdd)
+                .Save()
+                .Undo()
+                .Result();
+
+            Assert.Equal(expectedResult, result);
+        }
     }
 }
