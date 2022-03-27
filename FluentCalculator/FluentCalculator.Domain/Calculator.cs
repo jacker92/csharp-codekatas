@@ -2,22 +2,28 @@
 {
     public class Calculator
     {
-        private int _value;
+        private Stack<int> _stack = new Stack<int>();
 
         public Calculator Seed(int value)
         {
-            _value = value;
+            _stack.Push(value);
             return this;
         }
 
         public int Result()
         {
-            return _value;
+            return _stack.Sum();
         }
 
         public Calculator Plus(int toAdd)
         {
-            _value += toAdd;
+            _stack.Push(toAdd);
+            return this;
+        }
+
+        public Calculator Undo()
+        {
+            _stack.Pop();
             return this;
         }
     }

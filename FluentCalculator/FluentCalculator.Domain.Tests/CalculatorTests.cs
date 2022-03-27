@@ -56,5 +56,18 @@ namespace FluentCalculator.Domain.Tests
 
             Assert.Equal(expectedResult, result);
         }
+
+        [Theory]
+        [InlineData(5)]
+        public void SeedPlusAndUndo_ShouldReturnSeed(int seed)
+        {
+            var result = _calculator
+                .Seed(seed)
+                .Plus(seed)
+                .Undo()
+                .Result();
+
+            Assert.Equal(seed, result);
+        }
     }
 }
