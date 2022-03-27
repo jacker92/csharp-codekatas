@@ -27,10 +27,19 @@ namespace GreetingKata.Domain.Tests
 
         [Theory]
         [InlineData("Jill", "Jane", "Hello, Jill and Jane")]
-        public void Greet_ShouldReturnCorrectResponseForArrayOfNames(string input1, string input2, string expectedResponse)
+        public void Greet_ShouldReturnCorrectResponseForArrayOfTwoNames(string input1, string input2, string expectedResponse)
         {
             var response = _greeter.Greet(new string[] {input1, input2});
-            Assert.Equal(response, expectedResponse);
+            Assert.Equal(expectedResponse, response);
+        }
+
+
+        [Theory]
+        [InlineData("Amy", "Brian", "Charlotte", "Hello, Amy, Brian, and Charlotte")]
+        public void Greet_ShouldReturnCorrectResponseForArrayOfThreeNames(string input1, string input2, string input3, string expectedResponse)
+        {
+            var response = _greeter.Greet(new string[] { input1, input2, input3 });
+            Assert.Equal(expectedResponse, response);
         }
     }
 }
