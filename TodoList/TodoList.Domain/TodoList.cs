@@ -2,7 +2,7 @@
 
 namespace TodoList.Domain
 {
-    public class TodoList
+    public class TodoList : ITodoList
     {
         private readonly List<TodoItem> _items;
 
