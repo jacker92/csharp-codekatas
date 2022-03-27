@@ -19,7 +19,7 @@ namespace TodoList.Console.Tests
         {
             _application.Run(null);
 
-            _output.Verify(x => x.WriteLine("Invalid arguments, please enter ? for instructions."));
+            _output.Verify(x => x.WriteLine(Messages.InvalidArguments));
         }
 
         [Fact]
@@ -27,9 +27,8 @@ namespace TodoList.Console.Tests
         {
             _application.Run(new string[] {"?"});
 
-            _output.Verify(x => x.WriteLine(@"
-To add todo item: task -t 'task name' -d 'due date in format dd-mm-yyyy'
-To mark todo item as complete: -c 'task id'"));
+            _output.Verify(x => x.WriteLine(Messages.Instructions));
         }
+
     }
 }
