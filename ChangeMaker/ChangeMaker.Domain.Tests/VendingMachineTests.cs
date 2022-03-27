@@ -32,18 +32,20 @@ namespace ChangeMaker.Domain.Tests
             Assert.Equal(change3, result[2]);
         }
 
-        [Fact]
-        public void CalculateChange_WithFixedNumberOfDenominations_ShouldThrowDenominationNotFoundException_IfDenominationIsNotFound()
+        [Theory]
+        [InlineData(0, 1.01)]
+        [InlineData(3, 1.04)]
+        public void CalculateChange_WithFixedNumberOfDenominations_ShouldThrowDenominationNotFoundException_IfDenominationIsNotFound(int amountOfCoins, double tenderAmount)
         {
             var testDenominations = new List<Denomination>
             {
-                new Denomination(1, 0)
+                new Denomination(1, amountOfCoins)
             };
 
             var vendingMachine = new VendingMachine(testDenominations);
 
             var exception = Assert.Throws<DenominationNotFoundException>(() =>
-            vendingMachine.CalculateChange(1.00, 1.01));
+            vendingMachine.CalculateChange(1.00, tenderAmount));
 
             Assert.Equal("Denomination cannot be found.", exception.Message);
         }
