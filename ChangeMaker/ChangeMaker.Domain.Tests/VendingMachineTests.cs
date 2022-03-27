@@ -19,5 +19,17 @@ namespace ChangeMaker.Domain.Tests
         {
             Assert.Throws<ArgumentNullException>(() => new VendingMachine(null));
         }
+
+        [Fact]
+        public void CalculateChange_ShouldWork()
+        {
+            var vendingMachine = new VendingMachine(new int[] { 1, 5, 10, 25 });
+            var result = vendingMachine.CalculateChange(1.25, 2.00);
+
+            Assert.Equal(3, result.Length);
+            Assert.Equal(25, result[0]);
+            Assert.Equal(25, result[1]);
+            Assert.Equal(25, result[2]);
+        }
     }
 }
