@@ -15,5 +15,17 @@ namespace TodoList.Domain
 
             Items.Add(item);
         }
+
+        public void Complete(Guid guid)
+        {
+            var item = Items.SingleOrDefault(x => x.Id == guid);
+
+            if (item == null)
+            {
+                throw new TodoItemNotFoundException(guid);
+            }
+
+            item.Status = TodoItemStatus.Complete;
+        }
     }
 }
