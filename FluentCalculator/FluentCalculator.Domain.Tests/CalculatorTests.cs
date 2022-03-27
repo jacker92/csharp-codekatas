@@ -59,6 +59,7 @@ namespace FluentCalculator.Domain.Tests
 
         [Theory]
         [InlineData(5)]
+        [InlineData(0)]
         public void SeedPlusAndUndo_ShouldReturnSeed(int seed)
         {
             var result = _calculator
@@ -68,6 +69,22 @@ namespace FluentCalculator.Domain.Tests
                 .Result();
 
             Assert.Equal(seed, result);
+        }
+
+        [Theory]
+        [InlineData(5, 1, 6)]
+        [InlineData(0, 0, 0)]
+        [InlineData(10, 50, 60)]
+        public void SeedPlusAndUndoAndRedo_ShouldReturnAdditionResult(int seed, int toAdd, int expectedResult)
+        {
+            var result = _calculator
+                .Seed(seed)
+                .Plus(toAdd)
+                .Undo()
+                .Redo()
+                .Result();
+
+            Assert.Equal(expectedResult, result);
         }
     }
 }
