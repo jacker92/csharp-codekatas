@@ -20,6 +20,28 @@ namespace TodoList.Domain.Tests
         }
 
         [Fact]
+        public void GetById_ShouldThrowTodoItemNotFoundException_IfNoMatchingItemIsFound()
+        {
+            Assert.Throws<TodoItemNotFoundException>(() => _todoList.GetById(Guid.NewGuid()));
+        }
+
+        [Fact]
+        public void GetById_ShouldReturnMatchingItem()
+        {
+            var item = new TodoItem()
+            {
+                Task = "Todo item",
+                Date = DateTime.Now
+            };
+
+            _todoList.Add(item);
+            var result =  _todoList.GetById(item.Id);
+
+            Assert.Equal(item, result);
+
+        }
+
+        [Fact]
         public void Items_ShouldContainOneItem_AfterOneTodoItemIsAdded()
         {
             var item = new TodoItem()

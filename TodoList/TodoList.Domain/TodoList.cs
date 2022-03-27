@@ -18,6 +18,12 @@ namespace TodoList.Domain
 
         public void Complete(Guid guid)
         {
+            var item = GetById(guid);
+            item.Status = TodoItemStatus.Complete;
+        }
+
+        public TodoItem GetById(Guid guid)
+        {
             var item = Items.SingleOrDefault(x => x.Id == guid);
 
             if (item == null)
@@ -25,7 +31,7 @@ namespace TodoList.Domain
                 throw new TodoItemNotFoundException(guid);
             }
 
-            item.Status = TodoItemStatus.Complete;
+            return item;
         }
     }
 }
