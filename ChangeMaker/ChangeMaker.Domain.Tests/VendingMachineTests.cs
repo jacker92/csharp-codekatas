@@ -7,9 +7,15 @@ namespace ChangeMaker.Domain.Tests
     public class VendingMachineTests
     {
         [Fact]
-        public void ShouldThrowArgumentNullException_IfNullCoinDenominationsIsGiven()
+        public void ShouldThrowArgumentNullException_IfNullArrayOfCoinDenominationsIsGiven()
         {
             Assert.Throws<ArgumentNullException>(() => new VendingMachine(default(int[])));
+        }
+
+        [Fact]
+        public void ShouldThrowArgumentNullException_IfNullCoinDenominationsIsGiven()
+        {
+            Assert.Throws<ArgumentNullException>(() => new VendingMachine(default(Denomination[])));
         }
 
         [Theory]
@@ -31,11 +37,13 @@ namespace ChangeMaker.Domain.Tests
         [InlineData(1.97, 2.00, 1, 1, 1)]
         public void CalculateChange_WithFixedNumberOfDenominations_ShouldWork(double purchaseAmount, double tenderAmount, double change1, double change2, double change3)
         {
-            var testDenominations = new List<Denomination>();
-            testDenominations.Add(new Denomination(1, 0));
-            testDenominations.Add(new Denomination(5, 0));
-            testDenominations.Add(new Denomination(10, 0));
-            testDenominations.Add(new Denomination(25, 0));
+            var testDenominations = new List<Denomination>
+            {
+                new Denomination(1, 3),
+                new Denomination(5, 0),
+                new Denomination(10, 0),
+                new Denomination(25, 3)
+            };
 
             var vendingMachine = new VendingMachine(testDenominations);
 

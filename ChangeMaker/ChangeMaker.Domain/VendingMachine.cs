@@ -7,6 +7,11 @@
 
         public VendingMachine(IEnumerable<Denomination> denominations)
         {
+            if (denominations is null)
+            {
+                throw new ArgumentNullException(nameof(denominations));
+            }
+
             _denominations = denominations
                 .OrderByDescending(x => x.Coin)
                 .ToArray();
@@ -50,7 +55,7 @@
 
             while (change > 0)
             {
-                var result = _denominations.First(x => x.Coin <= change);
+                var result = _denominations!.First(x => x.Coin <= change);
                 coins.Add(result.Coin);
                 change -= result.Coin;
             }
