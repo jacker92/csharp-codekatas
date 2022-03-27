@@ -4,7 +4,7 @@ namespace FluentCalculator.Domain.Tests
 {
     public class CalculatorTests
     {
-        private readonly Calculator _calculator;    
+        private readonly Calculator _calculator;
         public CalculatorTests()
         {
             _calculator = new Calculator();
@@ -129,6 +129,21 @@ namespace FluentCalculator.Domain.Tests
                 .Result();
 
             Assert.Equal(seed, result);
+        }
+
+        [Fact]
+        public void SeedPlusMinusUndoRedo_ShouldReturnCorrectResult()
+        {
+            var result = _calculator
+                 .Seed(10)
+                 .Plus(5)
+                 .Minus(2)
+                 .Undo()
+                 .Undo()
+                 .Redo()
+                 .Result();
+
+            Assert.Equal(15, result);
         }
     }
 }
