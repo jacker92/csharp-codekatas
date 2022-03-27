@@ -1,12 +1,12 @@
 ﻿namespace FluentCalculator.Domain
 {
-    public class Calculator
+    public class Calculator : ISeededCalculator
     {
         private int _seed;
         private Stack<int> _values = new Stack<int>();
         private Stack<int> _undoedValues = new Stack<int>();
 
-        public Calculator Seed(int value)
+        public ISeededCalculator Seed(int value)
         {
             _seed = value;
             return this;
@@ -17,13 +17,13 @@
             return _seed + _values.Sum();
         }
 
-        public Calculator Plus(int toAdd)
+        public ISeededCalculator Plus(int toAdd)
         {
             _values.Push(toAdd);
             return this;
         }
 
-        public Calculator Undo()
+        public ISeededCalculator Undo()
         {
             if (_values.Any())
             {
@@ -33,7 +33,7 @@
             return this;
         }
 
-        public Calculator Redo()
+        public ISeededCalculator Redo()
         {
             if (_undoedValues.Any())
             {
