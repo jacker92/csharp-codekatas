@@ -86,5 +86,34 @@ namespace FluentCalculator.Domain.Tests
 
             Assert.Equal(expectedResult, result);
         }
+
+        [Theory]
+        [InlineData(5)]
+        [InlineData(10)]
+        public void Undo_ShouldNotThrowException_EvenIfNothingToUndo(int seed)
+        {
+            var result = _calculator
+                .Seed(seed)
+                .Undo()
+                .Undo()
+                .Result();
+
+            Assert.Equal(seed, result);
+        }
+
+
+        [Theory]
+        [InlineData(5)]
+        [InlineData(10)]
+        public void Redo_ShouldNotThrowException_EvenIfNothingToRedo(int seed)
+        {
+            var result = _calculator
+                .Seed(seed)
+                .Redo()
+                .Redo()
+                .Result();
+
+            Assert.Equal(seed, result);
+        }
     }
 }
