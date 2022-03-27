@@ -40,5 +40,21 @@ namespace FluentCalculator.Domain.Tests
 
             Assert.Equal(expectedResult, result);
         }
+
+        [Theory]
+        [InlineData(5, 10, 25)]
+        [InlineData(10, 0, 10)]
+        [InlineData(10, 5, 20)]
+        [InlineData(10, -20, -30)]
+        public void SeedAndPlusTwice_ShouldReturnSeedValue(int seed, int toAdd, int expectedResult)
+        {
+            var result = _calculator
+                .Seed(seed)
+                .Plus(toAdd)
+                .Plus(toAdd)
+                .Result();
+
+            Assert.Equal(expectedResult, result);
+        }
     }
 }
