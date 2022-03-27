@@ -9,6 +9,8 @@ namespace GreetingKata.Domain.Tests
         [InlineData("Mike", "Hello, Mike")]
         [InlineData("Bob", "Hello, Bob")]
         [InlineData(null, "Hello, my friend")]
+        [InlineData("BOB", "HELLO BOB!")]
+        [InlineData("MIKE", "HELLO MIKE!")]
         public void Greet_ShouldReturnCorrectResponse(string name, string expectedResponse)
         {
             var greeter = new Greeter();
@@ -16,6 +18,5 @@ namespace GreetingKata.Domain.Tests
             
             Assert.Equal(expectedResponse, response);   
         }
-
     }
 }
