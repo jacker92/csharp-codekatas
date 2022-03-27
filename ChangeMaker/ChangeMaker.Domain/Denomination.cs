@@ -9,6 +9,6 @@
         }
 
         public int Coin { get; }
-        public int Amount { get; }
+        public int Amount { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace ChangeMaker.Domain.Tests
         [Theory]
         [InlineData(1.25, 2.00, 25, 25, 25)]
         [InlineData(1.97, 2.00, 1, 1, 1)]
-        public void CalculateChange_ShouldWork(double purchaseAmount, double tenderAmount, double change1, double change2, double change3 )
+        public void CalculateChange_ShouldWork(double purchaseAmount, double tenderAmount, double change1, double change2, double change3)
         {
             var vendingMachine = new VendingMachine(CountryDemoninations.USDollar);
             var result = vendingMachine.CalculateChange(purchaseAmount, tenderAmount);
@@ -30,6 +30,22 @@ namespace ChangeMaker.Domain.Tests
             Assert.Equal(change1, result[0]);
             Assert.Equal(change2, result[1]);
             Assert.Equal(change3, result[2]);
+        }
+
+        [Fact]
+        public void CalculateChange_WithFixedNumberOfDenominations_ShouldThrowDenominationNotFoundException_IfDenominationIsNotFound()
+        {
+            var testDenominations = new List<Denomination>
+            {
+                new Denomination(1, 0)
+            };
+
+            var vendingMachine = new VendingMachine(testDenominations);
+
+            var exception = Assert.Throws<DenominationNotFoundException>(() =>
+            vendingMachine.CalculateChange(1.00, 1.01));
+
+            Assert.Equal("Denomination cannot be found.", exception.Message);
         }
 
         [Theory]

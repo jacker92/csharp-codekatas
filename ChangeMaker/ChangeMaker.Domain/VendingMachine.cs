@@ -55,8 +55,16 @@
 
             while (change > 0)
             {
-                var result = _denominations!.First(x => x.Coin <= change);
+                var result = _denominations!.FirstOrDefault(x => x.Coin <= change && x.Amount > 0);
+
+                if (result is null)
+                {
+                    throw new DenominationNotFoundException();
+                }
+
                 coins.Add(result.Coin);
+                result.Amount--;
+
                 change -= result.Coin;
             }
 
