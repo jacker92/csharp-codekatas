@@ -14,5 +14,11 @@
         {
             return _value;
         }
+
+        public Calculator Plus(int toAdd)
+        {
+            _value += toAdd;
+            return this;
+        }
     }
 }
