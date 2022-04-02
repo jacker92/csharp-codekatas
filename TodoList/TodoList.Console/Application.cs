@@ -1,19 +1,28 @@
 ﻿using CommandLine;
-using System.Text;
 using TodoList.Domain;
 
 namespace TodoList.Console
 {
-    public class Options
+    [Verb("task", HelpText = "Add task to todo list.")]
+    public class AddOptions
     {
-        [Value(0, Required = true, MetaName = "operation", HelpText = "Operation for the todo items")]
-        public string Operation { get; set; }
-
-        [Option('t', "name", Required = false, HelpText = "Task name")]
+        [Option('t', "name", Required = true, HelpText = "Task name")]
         public string TaskName { get; set; }
-        
+
         [Option('d', "date", Required = false, HelpText = "Task due date")]
         public DateTime DueDate { get; set; }
+    }
+
+    [Verb("list", HelpText = "List task specifying the status of the take.")]
+    public class ListOptions
+    {
+
+    }
+
+    [Verb("complete", isDefault: true, HelpText = "Set task status as complete")]
+    public class SetAsCompleteOptions
+    {
+
     }
 
     public class Application
@@ -40,16 +49,16 @@ namespace TodoList.Console
             Run(possibleHelpText, arguments);
         }
 
-        private static ParserResult<Options> ParseArguments(string[] args, StringWriter stringWriter)
+        private static ParserResult<AddOptions> ParseArguments(string[] args, StringWriter stringWriter)
         {
             var parser = new Parser(config => config.HelpWriter = stringWriter);
-            var arguments = parser.ParseArguments<Options>(args);
+            var arguments = parser.ParseArguments<AddOptions>(args);
             return arguments;
         }
 
-        private void Run(StringWriter stringWriter, ParserResult<Options> arguments)
+        private void Run(StringWriter stringWriter, ParserResult<AddOptions> arguments)
         {
-            arguments.WithParsed(options => RunWithParsedArguments(options))
+            arguments.WithParsed(options => RunAdd(options))
                      .WithNotParsed(error => HandleError(stringWriter, error));
         }
 
@@ -61,13 +70,9 @@ namespace TodoList.Console
             }
         }
 
-        private void RunWithParsedArguments(Options obj)
+        private void RunAdd(AddOptions obj)
         {
-
-            //if (args[0] == "task")
-            //{
-            //    _todoList.Add(new TodoItem { Task = args[2], Date = DateTime.Parse(args[4]) });
-            //}
+            _todoList.Add(new TodoItem { Task = obj.TaskName, Date = obj.DueDate });
         }
     }
 }
