@@ -42,5 +42,13 @@ namespace TodoList.Console.Tests
             _todoList.Verify(x => x.Add(It.Is<TodoItem>(x => x.Task == "application" && x.Date == DateTime.Parse("12-12-2021"))));
         }
 
+        [Fact]
+        public void Run_ShouldNtAddItemToTodoList_IfNameIsMissing()
+        {
+            _application.Run(new string[] { "task", "-d", "12-12-2021" });
+
+            _todoList.Verify(x => x.Add(It.IsAny<TodoItem>()), Times.Never);
+        }
+
     }
 }
