@@ -65,9 +65,13 @@ namespace TodoList.Console
 
         private int HandleError(StringWriter stringWriter, IEnumerable<Error> error)
         {
-            if (error.IsHelp())
+            if (error.IsHelp() || error.IsVersion())
             {
                 _output.WriteLine(stringWriter.ToString());
+            }
+            else
+            {
+                _output.WriteError(stringWriter.ToString());
             }
 
             return (int)ApplicationExitCode.Error;

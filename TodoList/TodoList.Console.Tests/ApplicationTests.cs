@@ -36,6 +36,22 @@ namespace TodoList.Console.Tests
         }
 
         [Fact]
+        public void Run_ShouldReturnVersionInfo_IfDashDashVersionIsGiven()
+        {
+            _application.Run(new string[] { "--version" });
+
+            _output.Verify(x => x.WriteLine(It.Is<string>(x => x.Contains("testhost 16.11.0"))));
+        }
+
+        [Fact]
+        public void Run_ShouldWriteError_WithInvalidArguments()
+        {
+            _application.Run(new string[] { "-asdf" });
+
+            _output.Verify(x => x.WriteError(It.Is<string>(x => x.Contains("Verb '-asdf' is not recognized."))));
+        }
+
+        [Fact]
         public void Run_ShouldAddItemToTodoList()
         {
             _application.Run(new string[] { "task", "-t", "application", "-d", "12-12-2021" });

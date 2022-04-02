@@ -2,7 +2,12 @@
 {
     public class Output : IOutput
     {
-        public void WriteLine(string s)
+        public void WriteError(string error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteLine(string content)
         {
 
         }
