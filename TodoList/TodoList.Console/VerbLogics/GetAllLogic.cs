@@ -4,7 +4,7 @@ using TodoList.Domain;
 
 namespace TodoList.Console.VerbLogics
 {
-    public class GetAllLogic : VerbLogic<GetAllOptions>
+    public class GetAllLogic : IGetAllLogic
     {
         private readonly IOutput _output;
         private readonly ITodoList _todoList;
@@ -15,7 +15,7 @@ namespace TodoList.Console.VerbLogics
             _todoList = todoList;
         }
 
-        public override int Run(GetAllOptions options)
+        public int Run(GetAllOptions options)
         {
             var items = GetItems(options);
             var builder = new StringBuilder();

@@ -3,7 +3,7 @@ using TodoList.Domain;
 
 namespace TodoList.Console.VerbLogics
 {
-    public class AddVerbLogic : VerbLogic<AddOptions>
+    public class AddVerbLogic : IAddVerbLogic
     {
         private readonly ITodoList _todoList;
 
@@ -12,7 +12,7 @@ namespace TodoList.Console.VerbLogics
             _todoList = todoList;
         }
 
-        public override int Run(AddOptions options)
+        public int Run(AddOptions options)
         {
             _todoList.Add(new TodoItem { Task = options.TaskName, Date = options.DueDate });
 

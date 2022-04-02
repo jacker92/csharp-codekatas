@@ -9,10 +9,10 @@ namespace TodoList.Console
     public class Application
     {
         private readonly IOutput _output;
-        private readonly VerbLogic<AddOptions> _addLogic;
-        private readonly VerbLogic<GetAllOptions> _getAllLogic;
+        private readonly IAddVerbLogic _addLogic;
+        private readonly IGetAllLogic _getAllLogic;
 
-        public Application(IOutput output, VerbLogic<AddOptions> addLogic, VerbLogic<GetAllOptions> getAllLogic)
+        public Application(IOutput output, IAddVerbLogic addLogic, IGetAllLogic getAllLogic)
         {
             _output = output;
             _addLogic = addLogic;

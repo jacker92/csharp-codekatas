@@ -1,5 +1,6 @@
-﻿using System;
-using TodoList.Console.VerbLogics;
+﻿using Ninject;
+using System;
+using System.Reflection;
 
 namespace TodoList.Console
 {
@@ -7,11 +8,11 @@ namespace TodoList.Console
     {
         public static void Main(string[] args)
         {
-            var output = new Output();
-            var todolist = new Domain.TodoList();
-            var addLogic = new AddVerbLogic(todolist);
-            var getAllLogic = new GetAllLogic(output, todolist);
-            var application = new Application(output, addLogic, getAllLogic);
+            var kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+
+            var application = kernel.Get<Application>();
+
             application.Run(args);
         }
     }
