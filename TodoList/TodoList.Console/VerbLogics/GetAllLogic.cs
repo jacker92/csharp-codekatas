@@ -1,7 +1,8 @@
 ﻿using System.Text;
+using TodoList.Console.CommandLineOptions;
 using TodoList.Domain;
 
-namespace TodoList.Console
+namespace TodoList.Console.VerbLogics
 {
     public class GetAllLogic : VerbLogic<GetAllOptions>
     {

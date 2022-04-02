@@ -1,6 +1,7 @@
-﻿using TodoList.Domain;
+﻿using TodoList.Console.CommandLineOptions;
+using TodoList.Domain;
 
-namespace TodoList.Console
+namespace TodoList.Console.VerbLogics
 {
     public class AddVerbLogic : VerbLogic<AddOptions>
     {

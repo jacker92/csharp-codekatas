@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace TodoList.Console
+namespace TodoList.Console.CommandLineOptions
 {
     [Verb("task", HelpText = "Add task to todo list.")]
     public class AddOptions

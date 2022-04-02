@@ -1,4 +1,4 @@
-﻿namespace TodoList.Console
+﻿namespace TodoList.Console.CommandLineOptions
 {
     public enum TodoItemConsoleStatus
     {

@@ -1,4 +1,4 @@
-﻿namespace TodoList.Console
+﻿namespace TodoList.Console.VerbLogics
 {
     public abstract class VerbLogic<T> where T : class
     {

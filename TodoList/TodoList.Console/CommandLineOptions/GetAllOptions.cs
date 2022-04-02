@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace TodoList.Console
+namespace TodoList.Console.CommandLineOptions
 {
     [Verb("list", HelpText = "Lists tasks.")]
     public class GetAllOptions

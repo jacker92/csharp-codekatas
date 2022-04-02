@@ -1,5 +1,7 @@
 ﻿using CommandLine;
 using System.Text;
+using TodoList.Console.CommandLineOptions;
+using TodoList.Console.VerbLogics;
 using TodoList.Domain;
 
 namespace TodoList.Console
