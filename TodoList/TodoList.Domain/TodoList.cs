@@ -32,6 +32,13 @@
         public void Complete(Guid guid)
         {
             var item = GetById(guid);
+            var childTasks = _items.Where(x => x.ParentId == guid);
+
+            if (childTasks.Any(x => x.Status != TodoItemStatus.Complete))
+            {
+                throw new InvalidOperationException("You cannot complete parent task as it has open child tasks");
+            }
+
             item.Status = TodoItemStatus.Complete;
         }
 

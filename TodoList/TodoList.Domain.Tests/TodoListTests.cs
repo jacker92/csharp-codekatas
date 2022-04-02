@@ -164,5 +164,27 @@ namespace TodoList.Domain.Tests
 
             Assert.Equal(TodoItemStatus.Complete, item.Status);
         }
+
+        [Fact]
+        public void Complete_ShouldThrowInvalidOperationException_IfParentTaskIsTriedToComplete_ButItHasChildTasksNotCompleted()
+        {
+            var item = new TodoItem
+            {
+                Task = "parent"
+            };
+
+            _todoList.Add(item);
+
+            var item2 = new TodoItem
+            {
+                Task = "Child",
+                ParentId = item.Id
+            };
+
+            _todoList.Add(item2);
+
+            var exception = Assert.Throws<InvalidOperationException>(() => _todoList.Complete(item.Id));
+            Assert.Equal("You cannot complete parent task as it has open child tasks", exception.Message);
+        }
     }
 }
