@@ -69,6 +69,14 @@ namespace TodoList.Console.Tests
         }
 
         [Fact]
+        public void Run_ShouldAddItemToTodoList_WithParentTask()
+        {
+            _application.Run(new string[] { "task", "-t", "application", "-d", "12-12-2021", "-p", "1432966e-b0f0-4cc3-9269-8bfe65159896" });
+
+            _todoList.Verify(x => x.Add(It.Is<TodoItem>(x => x.Task == "application" && x.Date == DateTime.Parse("12-12-2021") && x.ParentId == Guid.Parse("1432966e-b0f0-4cc3-9269-8bfe65159896"))));
+        }
+
+        [Fact]
         public void Run_ShouldNotAddItemToTodoList_IfNameIsMissing()
         {
             _application.Run(new string[] { "task", "-d", "12-12-2021" });

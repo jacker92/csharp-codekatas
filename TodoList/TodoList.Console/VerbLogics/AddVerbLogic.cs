@@ -14,7 +14,7 @@ namespace TodoList.Console.VerbLogics
 
         public int Run(AddOptions options)
         {
-            _todoList.Add(new TodoItem { Task = options.TaskName, Date = options.DueDate });
+            _todoList.Add(new TodoItem { Task = options.TaskName, Date = options.DueDate, ParentId = options.ParentId });
 
             return (int)ApplicationExitCode.Ok;
         }

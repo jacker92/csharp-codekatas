@@ -21,9 +21,9 @@ namespace TodoList.Console
             var stringWriter = new StringWriter();
             var parser = new Parser(config => config.HelpWriter = stringWriter);
 
-           parser.ParseArguments(args ?? Array.Empty<string>(), types)
-                .WithParsed(Run)
-                .WithNotParsed(errors => HandleErrors(stringWriter, errors));
+            parser.ParseArguments(args ?? Array.Empty<string>(), types)
+                 .WithParsed(Run)
+                 .WithNotParsed(errors => HandleErrors(stringWriter, errors));
         }
 
         private void HandleErrors(StringWriter stringWriter, IEnumerable<Error> errors)
@@ -46,7 +46,14 @@ namespace TodoList.Console
 
         private void Run(object obj)
         {
-            _verbLogicRunner.Run(obj);
+            try
+            {
+                _verbLogicRunner.Run(obj);
+            }
+            catch (Exception e)
+            {
+                _output.WriteError(e.Message);
+            }
         }
     }
 }

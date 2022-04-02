@@ -9,6 +9,9 @@ namespace TodoList.Console.CommandLineOptions
         public string TaskName { get; set; }
 
         [Option('d', "date", Required = false, HelpText = "Task due date")]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
+
+        [Option('p', "parent", Required = false, HelpText = "Parent task")]
+        public Guid? ParentId { get; set; }
     }
 }

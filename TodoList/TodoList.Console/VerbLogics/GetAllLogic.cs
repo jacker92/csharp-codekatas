@@ -56,7 +56,7 @@ namespace TodoList.Console.VerbLogics
             return
 @$"Id: {item.Id}
 Task: {item.Task}
-Due: {item.Date.ToString("dd-MM-yyyy")}
+Due: {item.Date?.ToString("dd-MM-yyyy")}
 ";
         }
 

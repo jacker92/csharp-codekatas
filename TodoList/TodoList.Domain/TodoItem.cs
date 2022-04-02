@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Task { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public TodoItemStatus Status { get; set; } = TodoItemStatus.Incomplete;
         public Guid? ParentId { get; set; }
 
