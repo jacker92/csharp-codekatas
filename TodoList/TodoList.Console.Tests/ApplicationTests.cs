@@ -51,10 +51,12 @@ namespace TodoList.Console.Tests
             _todoList.Verify(x => x.Add(It.IsAny<TodoItem>()), Times.Never);
         }
 
-        [Fact]
-        public void Run_ShouldListTodoListItems()
+        [Theory]
+        [InlineData("App", "12-12-2018")]
+        [InlineData("Complete Application", "01-04-2018")]
+        public void Run_ShouldListTodoListItems(string taskName, string dueDate)
         {
-            var todoItem = new TodoItem { Task = "Complete Application", Date = DateTime.Parse("01-04-2018") };
+            var todoItem = new TodoItem { Task = taskName, Date = DateTime.Parse(dueDate) };
 
             _todoList.Setup(x => x.GetAll())
                     .Returns(new List<TodoItem> { todoItem });
@@ -65,8 +67,8 @@ namespace TodoList.Console.Tests
 
             var expected =
 @$"Id: {todoItem.Id}
-Task: Complete Application
-Due: 01-04-2018
+Task: {todoItem.Task}
+Due: {todoItem.Date:dd-MM-yyyy}
 ";
 
             _output.Verify(x => x.WriteLine(expected), Times.Once);
