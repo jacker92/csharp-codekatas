@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using System.Reflection;
 using TodoList.Console.CommandLineOptions;
 using TodoList.Console.VerbLogics;
 
@@ -32,19 +33,19 @@ namespace TodoList.Console
 
         private void ParseArgumentsAndInvoke(string[] args)
         {
+            var types = LoadVerbs();
+
             var stringWriter = new StringWriter();
             var parser = new Parser(config => config.HelpWriter = stringWriter);
-            var arguments = parser.ParseArguments<AddOptions, GetAllOptions, SetAsCompleteOptions>(args)
-                .MapResult(
-                (AddOptions options) => _addLogic.Run(options),
-                (GetAllOptions options) => _getAllLogic.Run(options),
-                (SetAsCompleteOptions options) => _setAsCompleteLogic.Run(options),
-                errors => HandleError(stringWriter, errors));
+
+            var arguments = parser.ParseArguments(args, types)
+                .WithParsed(Run)
+                .WithNotParsed(errors => HandleErrors(stringWriter, errors));
         }
 
-        private int HandleError(StringWriter stringWriter, IEnumerable<Error> error)
+        private void HandleErrors(StringWriter stringWriter, IEnumerable<Error> errors)
         {
-            if (error.IsHelp() || error.IsVersion())
+            if (errors.IsHelp() || errors.IsVersion())
             {
                 _output.WriteLine(stringWriter.ToString());
             }
@@ -52,8 +53,28 @@ namespace TodoList.Console
             {
                 _output.WriteError(stringWriter.ToString());
             }
+        }
 
-            return (int)ApplicationExitCode.Error;
+        private static Type[] LoadVerbs()
+        {
+            return Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => t.GetCustomAttribute<VerbAttribute>() != null).ToArray();
+        }
+
+        private void Run(object obj)
+        {
+            switch (obj)
+            {
+                case AddOptions a:
+                    _addLogic.Run(a);
+                    break;
+                case GetAllOptions g:
+                    _getAllLogic.Run(g);
+                    break;
+                case SetAsCompleteOptions s:
+                    _setAsCompleteLogic.Run(s);
+                    break;
+            }
         }
     }
 }
