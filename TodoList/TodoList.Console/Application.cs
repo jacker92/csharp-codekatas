@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using System.Text;
 using TodoList.Domain;
 
 namespace TodoList.Console
@@ -28,31 +29,40 @@ namespace TodoList.Console
 
         public void Run(string[] args)
         {
-            var arguments = Parser.Default.ParseArguments<Options>(args);
-
-            arguments.WithParsed(options =>
+            if (args is null)
             {
-                RunWithParsedArguments(options);
-            })
-            .WithNotParsed(error =>
-            {
+                _output.WriteLine(Messages.InvalidArguments);
+                return;
+            }
 
-            });
+            var possibleHelpText = new StringWriter();
+            var arguments = ParseArguments(args, possibleHelpText);
+            Run(possibleHelpText, arguments);
+        }
+
+        private static ParserResult<Options> ParseArguments(string[] args, StringWriter stringWriter)
+        {
+            var parser = new Parser(config => config.HelpWriter = stringWriter);
+            var arguments = parser.ParseArguments<Options>(args);
+            return arguments;
+        }
+
+        private void Run(StringWriter stringWriter, ParserResult<Options> arguments)
+        {
+            arguments.WithParsed(options => RunWithParsedArguments(options))
+                     .WithNotParsed(error => HandleError(stringWriter, error));
+        }
+
+        private void HandleError(StringWriter stringWriter, IEnumerable<Error> error)
+        {
+            if (error.IsHelp())
+            {
+                _output.WriteLine(stringWriter.ToString());
+            }
         }
 
         private void RunWithParsedArguments(Options obj)
         {
-            //if (args is null)
-            //{
-            //    _output.WriteLine(Messages.InvalidArguments);
-            //    return;
-            //}
-
-            //if (args.First() == "?")
-            //{
-            //    _output.WriteLine(Messages.Instructions);
-            //    return;
-            //}
 
             //if (args[0] == "task")
             //{

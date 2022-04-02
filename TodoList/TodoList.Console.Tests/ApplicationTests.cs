@@ -27,11 +27,11 @@ namespace TodoList.Console.Tests
         }
 
         [Fact]
-        public void Run_ShouldReturnInstructions_IfQuestionMarkIsGiven()
+        public void Run_ShouldReturnInstructions_IfDashDashHelpIsGiven()
         {
-            _application.Run(new string[] {"?"});
+            _application.Run(new string[] {"--help"});
 
-            _output.Verify(x => x.WriteLine(Messages.Instructions));
+            _output.Verify(x => x.WriteLine(It.Is<string>(x => x.Contains("© Microsoft Corporation. All rights reserved."))));
         }
 
         [Fact]
