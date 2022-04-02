@@ -1,6 +1,6 @@
-﻿using Ninject.Modules;
+﻿using Ninject.Extensions.Conventions;
+using Ninject.Modules;
 using TodoList.Console.VerbLogics;
-using Ninject.Extensions.Conventions;
 
 namespace TodoList.Console
 {

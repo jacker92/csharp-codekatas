@@ -35,7 +35,7 @@ namespace TodoList.Domain.Tests
             };
 
             _todoList.Add(item);
-            var result =  _todoList.GetById(item.Id);
+            var result = _todoList.GetById(item.Id);
 
             Assert.Equal(item, result);
 
