@@ -13,6 +13,7 @@ namespace TodoList.Console.Tests
         private readonly Mock<ITodoList> _todoList;
         private readonly AddVerbLogic _addVerbLogic;
         private readonly GetAllLogic _getAllLogic;
+        private readonly SetAsCompleteLogic _setAsCompleteLogic;
         private readonly Application _application;
 
         public ApplicationTests()
@@ -21,7 +22,8 @@ namespace TodoList.Console.Tests
             _todoList = new Mock<ITodoList>();
             _addVerbLogic = new AddVerbLogic(_todoList.Object);
             _getAllLogic = new GetAllLogic(_output.Object, _todoList.Object);
-            _application = new Application(_output.Object, _addVerbLogic, _getAllLogic);
+            _setAsCompleteLogic = new SetAsCompleteLogic(_todoList.Object);
+            _application = new Application(_output.Object, _addVerbLogic, _getAllLogic, _setAsCompleteLogic);
         }
 
         [Fact]
@@ -53,7 +55,7 @@ namespace TodoList.Console.Tests
         {
             _application.Run(new string[] { "-asdf" });
 
-            _output.Verify(x => x.WriteError(It.Is<string>(x => x.Contains("Verb '-asdf' is not recognized."))));
+            _output.Verify(x => x.WriteError(It.Is<string>(x => x.Contains(" Option 'a' is unknown."))));
         }
 
         [Fact]
@@ -119,6 +121,18 @@ Due: {todoItem.Date:dd-MM-yyyy}
             _application.Run(new string[] { "list", "-s", "Incomplete" });
 
             _todoList.Verify(x => x.GetAll(TodoItemStatus.Incomplete), Times.Once);
+        }
+
+        [Fact]
+        public void Run_ShouldComplete_WhenAskedToCompleteTodoItem()
+        {
+            var todoItem = new TodoItem { Task = "test", Date = DateTime.Parse("12-12-2018") };
+
+            _todoList.Setup(x => x.Complete(todoItem.Id));
+
+            _application.Run(new string[] { "-c", todoItem.Id.ToString() });
+
+            _todoList.Verify(x => x.Complete(todoItem.Id), Times.Once);
         }
 
     }

@@ -9,12 +9,14 @@ namespace TodoList.Console
         private readonly IOutput _output;
         private readonly IVerbLogic<AddOptions> _addLogic;
         private readonly IVerbLogic<GetAllOptions> _getAllLogic;
+        private readonly IVerbLogic<SetAsCompleteOptions> _setAsCompleteLogic;
 
-        public Application(IOutput output, IVerbLogic<AddOptions> addLogic, IVerbLogic<GetAllOptions> getAllLogic)
+        public Application(IOutput output, IVerbLogic<AddOptions> addLogic, IVerbLogic<GetAllOptions> getAllLogic, IVerbLogic<SetAsCompleteOptions> setAsCompleteLogic)
         {
             _output = output;
             _addLogic = addLogic;
             _getAllLogic = getAllLogic;
+            _setAsCompleteLogic = setAsCompleteLogic;
         }
 
         public void Run(string[] args)
@@ -32,10 +34,11 @@ namespace TodoList.Console
         {
             var stringWriter = new StringWriter();
             var parser = new Parser(config => config.HelpWriter = stringWriter);
-            var arguments = parser.ParseArguments<AddOptions, GetAllOptions>(args)
+            var arguments = parser.ParseArguments<AddOptions, GetAllOptions, SetAsCompleteOptions>(args)
                 .MapResult(
                 (AddOptions options) => _addLogic.Run(options),
                 (GetAllOptions options) => _getAllLogic.Run(options),
+                (SetAsCompleteOptions options) => _setAsCompleteLogic.Run(options),
                 errors => HandleError(stringWriter, errors));
         }
 
