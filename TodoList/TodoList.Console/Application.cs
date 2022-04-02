@@ -1,44 +1,27 @@
 ﻿using CommandLine;
 using System.Reflection;
-using TodoList.Console.CommandLineOptions;
-using TodoList.Console.VerbLogics;
 
 namespace TodoList.Console
 {
     public class Application
     {
         private readonly IOutput _output;
-        private readonly IVerbLogic<AddOptions> _addLogic;
-        private readonly IVerbLogic<GetAllOptions> _getAllLogic;
-        private readonly IVerbLogic<SetAsCompleteOptions> _setAsCompleteLogic;
+        private readonly IVerbLogicRunner _verbLogicRunner;
 
-        public Application(IOutput output, IVerbLogic<AddOptions> addLogic, IVerbLogic<GetAllOptions> getAllLogic, IVerbLogic<SetAsCompleteOptions> setAsCompleteLogic)
+        public Application(IOutput output, IVerbLogicRunner verbLogicRunner)
         {
             _output = output;
-            _addLogic = addLogic;
-            _getAllLogic = getAllLogic;
-            _setAsCompleteLogic = setAsCompleteLogic;
+            _verbLogicRunner = verbLogicRunner;
         }
 
         public void Run(string[] args)
-        {
-            if (args is null)
-            {
-                _output.WriteLine(Messages.InvalidArguments);
-                return;
-            }
-
-            ParseArgumentsAndInvoke(args);
-        }
-
-        private void ParseArgumentsAndInvoke(string[] args)
         {
             var types = LoadVerbs();
 
             var stringWriter = new StringWriter();
             var parser = new Parser(config => config.HelpWriter = stringWriter);
 
-            var arguments = parser.ParseArguments(args, types)
+           parser.ParseArguments(args ?? Array.Empty<string>(), types)
                 .WithParsed(Run)
                 .WithNotParsed(errors => HandleErrors(stringWriter, errors));
         }
@@ -63,18 +46,7 @@ namespace TodoList.Console
 
         private void Run(object obj)
         {
-            switch (obj)
-            {
-                case AddOptions a:
-                    _addLogic.Run(a);
-                    break;
-                case GetAllOptions g:
-                    _getAllLogic.Run(g);
-                    break;
-                case SetAsCompleteOptions s:
-                    _setAsCompleteLogic.Run(s);
-                    break;
-            }
+            _verbLogicRunner.Run(obj);
         }
     }
 }

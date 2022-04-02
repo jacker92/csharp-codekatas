@@ -4,7 +4,7 @@
     {
         public void WriteError(string error)
         {
-            throw new NotImplementedException();
+
         }
 
         public void WriteLine(string content)

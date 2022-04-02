@@ -14,7 +14,8 @@ namespace TodoList.Console.Tests
         private readonly AddVerbLogic _addVerbLogic;
         private readonly GetAllLogic _getAllLogic;
         private readonly SetAsCompleteLogic _setAsCompleteLogic;
-        private readonly Application _application;
+        private readonly VerbLogicRunner _verbLogicRunner;
+        private readonly Application _application; 
 
         public ApplicationTests()
         {
@@ -23,7 +24,8 @@ namespace TodoList.Console.Tests
             _addVerbLogic = new AddVerbLogic(_todoList.Object);
             _getAllLogic = new GetAllLogic(_output.Object, _todoList.Object);
             _setAsCompleteLogic = new SetAsCompleteLogic(_todoList.Object);
-            _application = new Application(_output.Object, _addVerbLogic, _getAllLogic, _setAsCompleteLogic);
+            _verbLogicRunner = new VerbLogicRunner(_addVerbLogic, _getAllLogic, _setAsCompleteLogic);
+            _application = new Application(_output.Object, _verbLogicRunner);
         }
 
         [Fact]
@@ -31,7 +33,7 @@ namespace TodoList.Console.Tests
         {
             _application.Run(null);
 
-            _output.Verify(x => x.WriteLine(Messages.InvalidArguments));
+            _output.Verify(x => x.WriteError(It.Is<string>(y => y.Contains("ERROR(S):"))));
         }
 
         [Fact]
