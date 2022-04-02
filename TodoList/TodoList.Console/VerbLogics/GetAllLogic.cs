@@ -20,29 +20,30 @@ namespace TodoList.Console.VerbLogics
             var items = GetItems(options);
             var groupByParent = items.GroupBy(x => x.ParentId);
             var builder = new StringBuilder();
-            foreach (var item in groupByParent.Where(x => x.Key != null))
+            foreach (var item in groupByParent.OrderByDescending(x => x.Key))
             {
-                var parent = items.SingleOrDefault(x => x.Id == item.Key);
+                if (item.Key == null)
+                {
+                    foreach (var result in item.ToList()
+                        .Where(i => !groupByParent.Any(x => x.Key == i.Id))
+                        .Select(x => AddValues(x)))
+                    {
+                        builder.Append(result);
+                    }
 
-                AddValues(builder, parent);
+                    continue;
+                }
+
+                var parent = items.Single(x => x.Id == item.Key);
+
+                builder.Append(AddValues(parent));
                 foreach (var child in item.ToList())
                 {
                     builder.AppendLine("> Child Task <");
-                    AddValues(builder, child);
+                    builder.Append(AddValues(child));
                 }
 
                 builder.AppendLine();
-            }
-
-            foreach (var item in groupByParent.Where(x => x.Key == null))
-            {
-                foreach (var i in item.ToList())
-                {
-                    if (!groupByParent.Any(x => x.Key == i.Id))
-                    {
-                        AddValues(builder, i);
-                    }
-                }
             }
 
             _output.WriteLine(builder.ToString());
@@ -50,11 +51,13 @@ namespace TodoList.Console.VerbLogics
             return (int)ApplicationExitCode.Ok;
         }
 
-        private static void AddValues(StringBuilder builder, TodoItem? item)
+        private static string AddValues(TodoItem item)
         {
-            builder.AppendLine($"Id: {item.Id}");
-            builder.AppendLine($"Task: {item.Task}");
-            builder.AppendLine($"Due: {item.Date.ToString("dd-MM-yyyy")}");
+            return
+@$"Id: {item.Id}
+Task: {item.Task}
+Due: {item.Date.ToString("dd-MM-yyyy")}
+";
         }
 
         private IEnumerable<TodoItem> GetItems(GetAllOptions options)
