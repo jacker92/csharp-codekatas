@@ -2,6 +2,7 @@
 using TodoList.Console.CommandLineOptions;
 using TodoList.Console.VerbLogics;
 using TodoList.Domain;
+using Ninject.Extensions.Conventions;
 
 namespace TodoList.Console
 {
@@ -9,10 +10,30 @@ namespace TodoList.Console
     {
         public override void Load()
         {
-            Bind<ITodoList>().To<Domain.TodoList>();
-            Bind<IOutput>().To<Output>();
-            Bind<IVerbLogic<AddOptions>>().To<AddVerbLogic>();
-            Bind<IVerbLogic<GetAllOptions>>().To<GetAllLogic>();
+            BindWithDefaultConventions();
+            BindVerbLogic();
+        }
+
+        private void BindWithDefaultConventions()
+        {
+            Kernel.Bind(x =>
+            {
+                x.FromAssembliesMatching($"{nameof(TodoList)}*.dll")
+                .SelectAllClasses()
+                .WhichAreNotGeneric()
+                .BindDefaultInterface();
+            });
+        }
+
+        private void BindVerbLogic()
+        {
+            Kernel.Bind(x =>
+            {
+                x.FromThisAssembly()
+                 .SelectAllClasses()
+                 .InheritedFrom(typeof(IVerbLogic<>))
+                 .BindSingleInterface();
+            });
         }
     }
 }
