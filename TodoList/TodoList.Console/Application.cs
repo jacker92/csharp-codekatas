@@ -1,30 +1,9 @@
 ﻿using CommandLine;
+using System.Text;
 using TodoList.Domain;
 
 namespace TodoList.Console
 {
-    [Verb("task", HelpText = "Add task to todo list.")]
-    public class AddOptions
-    {
-        [Option('t', "name", Required = true, HelpText = "Task name")]
-        public string TaskName { get; set; }
-
-        [Option('d', "date", Required = false, HelpText = "Task due date")]
-        public DateTime DueDate { get; set; }
-    }
-
-    [Verb("list", HelpText = "List task specifying the status of the take.")]
-    public class ListOptions
-    {
-
-    }
-
-    [Verb("complete", isDefault: true, HelpText = "Set task status as complete")]
-    public class SetAsCompleteOptions
-    {
-
-    }
-
     public class Application
     {
         private readonly IOutput _output;
@@ -44,35 +23,51 @@ namespace TodoList.Console
                 return;
             }
 
-            var possibleHelpText = new StringWriter();
-            var arguments = ParseArguments(args, possibleHelpText);
-            Run(possibleHelpText, arguments);
+            ParseArgumentsAndInvoke(args);
         }
 
-        private static ParserResult<AddOptions> ParseArguments(string[] args, StringWriter stringWriter)
+        private void ParseArgumentsAndInvoke(string[] args)
         {
+            var stringWriter = new StringWriter();
             var parser = new Parser(config => config.HelpWriter = stringWriter);
-            var arguments = parser.ParseArguments<AddOptions>(args);
-            return arguments;
+            var arguments = parser.ParseArguments<AddOptions, GetAllOptions>(args)
+                .MapResult(
+                (AddOptions options) => RunAdd(options),
+                (GetAllOptions options) => RunGetAll(options),
+                errors => HandleError(stringWriter, errors));
         }
 
-        private void Run(StringWriter stringWriter, ParserResult<AddOptions> arguments)
+        private int RunGetAll(GetAllOptions options)
         {
-            arguments.WithParsed(options => RunAdd(options))
-                     .WithNotParsed(error => HandleError(stringWriter, error));
+            var items = _todoList.GetAll();
+            var builder = new StringBuilder();
+            foreach (var item in items)
+            {
+                builder.AppendLine($"Id: {item.Id}");
+                builder.AppendLine($"Task: {item.Task}");
+                builder.AppendLine($"Due: {item.Date.ToString("dd-MM-yyyy")}");
+            }
+
+            _output.WriteLine(builder.ToString());
+
+            return (int)ApplicationExitCode.Ok;
         }
 
-        private void HandleError(StringWriter stringWriter, IEnumerable<Error> error)
+        private int HandleError(StringWriter stringWriter, IEnumerable<Error> error)
         {
             if (error.IsHelp())
             {
                 _output.WriteLine(stringWriter.ToString());
             }
+
+            return (int)ApplicationExitCode.Error;
         }
 
-        private void RunAdd(AddOptions obj)
+        private int RunAdd(AddOptions obj)
         {
             _todoList.Add(new TodoItem { Task = obj.TaskName, Date = obj.DueDate });
+
+            return (int)ApplicationExitCode.Ok;
         }
     }
 }
