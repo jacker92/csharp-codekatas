@@ -74,5 +74,31 @@ Due: {todoItem.Date:dd-MM-yyyy}
             _output.Verify(x => x.WriteLine(expected), Times.Once);
         }
 
+        [Fact]
+        public void Run_ShouldListAllTodoListItems_WhenAskedWithAllStatus()
+        {
+            var todoItem = new TodoItem { Task = "test", Date = DateTime.Parse("12-12-2018") };
+
+            _todoList.Setup(x => x.GetAll())
+                    .Returns(new List<TodoItem> { todoItem });
+
+            _application.Run(new string[] { "list", "-s", "All" });
+
+            _todoList.Verify(x => x.GetAll(), Times.Once);
+        }
+
+        [Fact]
+        public void Run_ShouldListAllTodoListItems_WhenAskedWithIncompleteStatus()
+        {
+            var todoItem = new TodoItem { Task = "test", Date = DateTime.Parse("12-12-2018") };
+
+            _todoList.Setup(x => x.GetAll())
+                    .Returns(new List<TodoItem> { todoItem });
+
+            _application.Run(new string[] { "list", "-s", "Incomplete" });
+
+            _todoList.Verify(x => x.GetAll(TodoItemStatus.Incomplete), Times.Once);
+        }
+
     }
 }

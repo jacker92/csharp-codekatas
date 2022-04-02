@@ -39,7 +39,7 @@ namespace TodoList.Console
 
         private int RunGetAll(GetAllOptions options)
         {
-            var items = _todoList.GetAll();
+            IEnumerable<TodoItem> items = GetItems(options);
             var builder = new StringBuilder();
             foreach (var item in items)
             {
@@ -51,6 +51,16 @@ namespace TodoList.Console
             _output.WriteLine(builder.ToString());
 
             return (int)ApplicationExitCode.Ok;
+        }
+
+        private IEnumerable<TodoItem> GetItems(GetAllOptions options)
+        {
+            if (options.Status == TodoItemConsoleStatus.All)
+            {
+                return _todoList.GetAll();
+            }
+
+            return _todoList.GetAll(TodoItemStatus.Incomplete);
         }
 
         private int HandleError(StringWriter stringWriter, IEnumerable<Error> error)

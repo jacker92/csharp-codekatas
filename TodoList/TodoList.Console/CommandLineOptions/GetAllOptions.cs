@@ -2,9 +2,10 @@
 
 namespace TodoList.Console
 {
-    [Verb("list", HelpText = "List task specifying the status of the take.")]
+    [Verb("list", HelpText = "Lists tasks.")]
     public class GetAllOptions
     {
-
+        [Option('s', "status", Default = TodoItemConsoleStatus.All, HelpText = "Task status")]
+        public TodoItemConsoleStatus Status { get; set; }
     }
 }
