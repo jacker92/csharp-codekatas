@@ -3,7 +3,7 @@ using TodoList.Domain;
 
 namespace TodoList.Console.VerbLogics
 {
-    public class AddVerbLogic : IAddVerbLogic
+    public class AddVerbLogic : IVerbLogic<AddOptions>
     {
         private readonly ITodoList _todoList;
 

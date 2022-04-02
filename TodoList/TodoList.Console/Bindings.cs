@@ -1,4 +1,5 @@
 ﻿using Ninject.Modules;
+using TodoList.Console.CommandLineOptions;
 using TodoList.Console.VerbLogics;
 using TodoList.Domain;
 
@@ -10,8 +11,8 @@ namespace TodoList.Console
         {
             Bind<ITodoList>().To<Domain.TodoList>();
             Bind<IOutput>().To<Output>();
-            Bind<IAddVerbLogic>().To<AddVerbLogic>();
-            Bind<IGetAllLogic>().To<GetAllLogic>();
+            Bind<IVerbLogic<AddOptions>>().To<AddVerbLogic>();
+            Bind<IVerbLogic<GetAllOptions>>().To<GetAllLogic>();
         }
     }
 }

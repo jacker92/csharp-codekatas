@@ -4,7 +4,7 @@ using TodoList.Domain;
 
 namespace TodoList.Console.VerbLogics
 {
-    public class GetAllLogic : IGetAllLogic
+    public class GetAllLogic : IVerbLogic<GetAllOptions>
     {
         private readonly IOutput _output;
         private readonly ITodoList _todoList;
