@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace TodoList.Domain
+﻿namespace TodoList.Domain
 {
     public class TodoList : ITodoList
     {

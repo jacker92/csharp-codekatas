@@ -1,7 +1,5 @@
 ﻿using Ninject.Modules;
-using TodoList.Console.CommandLineOptions;
 using TodoList.Console.VerbLogics;
-using TodoList.Domain;
 using Ninject.Extensions.Conventions;
 
 namespace TodoList.Console
