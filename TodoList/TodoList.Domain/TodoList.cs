@@ -43,5 +43,10 @@ namespace TodoList.Domain
         {
             return _items;
         }
+
+        public IEnumerable<TodoItem> GetAll(TodoItemStatus status)
+        {
+            return _items.Where(x => x.Status == status);
+        }
     }
 }

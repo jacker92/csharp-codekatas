@@ -63,6 +63,43 @@ namespace TodoList.Domain.Tests
         }
 
         [Fact]
+        public void GetAll_WithStatus_ShouldReturnEmptyCollectionByDefault()
+        {
+            Assert.Empty(_todoList.GetAll(TodoItemStatus.Complete));
+        }
+
+        [Fact]
+        public void GetAll_WithStatus_ShouldReturnOneItem_AfterOneTodoItemIsAdded_AndStatusMatches()
+        {
+            var item = new TodoItem()
+            {
+                Task = "Todo item",
+                Date = DateTime.Now
+            };
+
+            _todoList.Add(item);
+            var result = _todoList.GetAll(TodoItemStatus.Incomplete).Single();
+
+            Assert.Equal(item, result);
+        }
+
+        [Fact]
+        public void GetAll_WithStatus_ShouldReturnEmptyCollection_AfterOneTodoItemIsAdded_ButStatusDoesNotMatch()
+        {
+            var item = new TodoItem()
+            {
+                Task = "Todo item",
+                Date = DateTime.Now
+            };
+
+            _todoList.Add(item);
+            var result = _todoList.GetAll(TodoItemStatus.Complete);
+
+            Assert.Empty(result);
+        }
+
+
+        [Fact]
         public void Complete_ShouldThrowTodoItemNotFoundException_IfItemIsNotFoundByGuid()
         {
             var guid = Guid.NewGuid();
