@@ -113,6 +113,41 @@ Due: {todoItem.Date:dd-MM-yyyy}
         }
 
         [Fact]
+        public void Run_ShouldListAllTodoListItems_WithChildTasksUnderParentTasks()
+        {
+            var todoItem = new TodoItem { Task = "Parent", Date = DateTime.Parse("12-12-2018") };
+            var todoItem2 = new TodoItem { Task = "testChild", Date = DateTime.Parse("12-12-2018"), ParentId = todoItem.Id };
+            var todoItem3 = new TodoItem { Task = "testChild2", Date = DateTime.Parse("12-12-2018"), ParentId = todoItem.Id };
+            var todoItem4 = new TodoItem { Task = "testChild3", Date = DateTime.Parse("12-12-2018") };
+
+            _todoList.Setup(x => x.GetAll())
+                    .Returns(new List<TodoItem> { todoItem, todoItem2, todoItem3, todoItem4 });
+
+            _application.Run(new string[] { "list", "-s", "All" });
+
+            _todoList.Verify(x => x.GetAll(), Times.Once);
+            var expected =
+                @$"Id: {todoItem.Id}
+Task: {todoItem.Task}
+Due: {todoItem.Date:dd-MM-yyyy}
+> Child Task <
+Id: {todoItem2.Id}
+Task: {todoItem2.Task}
+Due: {todoItem2.Date:dd-MM-yyyy}
+> Child Task <
+Id: {todoItem3.Id}
+Task: {todoItem3.Task}
+Due: {todoItem3.Date:dd-MM-yyyy}
+
+Id: {todoItem4.Id}
+Task: {todoItem4.Task}
+Due: {todoItem4.Date:dd-MM-yyyy}
+";
+
+            _output.Verify(x => x.WriteLine(expected));
+        }
+
+        [Fact]
         public void Run_ShouldListAllTodoListItems_WhenAskedWithIncompleteStatus()
         {
             var todoItem = new TodoItem { Task = "test", Date = DateTime.Parse("12-12-2018") };
