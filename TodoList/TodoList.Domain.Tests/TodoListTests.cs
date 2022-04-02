@@ -20,6 +20,49 @@ namespace TodoList.Domain.Tests
         }
 
         [Fact]
+        public void Add_ShouldThrowArgumentException_WithTodoItemThatHasNonexistingParent()
+        {
+            var item = new TodoItem
+            {
+                ParentId = Guid.NewGuid(),
+                Task = "todo"
+            };
+
+            var exception = Assert.Throws<ArgumentException>(() => _todoList.Add(item));
+            Assert.Equal("Parent task invalid", exception.Message);
+        }
+
+        [Fact]
+        public void Add_ShouldThrowArgumentException_WithTodoItemThatHasEmptyTaskName()
+        {
+            var item = new TodoItem
+            {
+            };
+
+            var exception = Assert.Throws<ArgumentException>(() => _todoList.Add(item));
+            Assert.Equal("Task name null or empty", exception.Message);
+        }
+
+        [Fact]
+        public void Add_ShouldWork_WithTodoItemThatHasExistingParent()
+        {
+            var item = new TodoItem
+            {
+                Task = "parent"
+            };
+
+            _todoList.Add(item);
+
+            var item2 = new TodoItem
+            {
+                Task = "Child",
+                ParentId = item.Id
+            };
+
+            _todoList.Add(item2);
+        }
+
+        [Fact]
         public void GetById_ShouldThrowTodoItemNotFoundException_IfNoMatchingItemIsFound()
         {
             Assert.Throws<TodoItemNotFoundException>(() => _todoList.GetById(Guid.NewGuid()));

@@ -16,6 +16,16 @@
                 throw new ArgumentNullException(nameof(item));
             }
 
+            if (string.IsNullOrWhiteSpace(item.Task))
+            {
+                throw new ArgumentException("Task name null or empty");
+            }
+
+            if (item.ParentId.HasValue && !_items.Any(x => x.Id == item.ParentId.Value))
+            {
+                throw new ArgumentException("Parent task invalid");
+            }
+
             _items.Add(item);
         }
 
