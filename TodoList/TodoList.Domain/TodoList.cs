@@ -46,6 +46,7 @@
             }
 
             item.Status = TodoItemStatus.Complete;
+            _repository.Save(_items);
         }
 
         public TodoItem GetById(Guid guid)

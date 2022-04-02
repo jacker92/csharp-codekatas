@@ -1,5 +1,6 @@
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -166,6 +167,7 @@ namespace TodoList.Domain.Tests
             _todoList.Complete(item.Id);
 
             Assert.Equal(TodoItemStatus.Complete, item.Status);
+            _repository.Verify(x => x.Save(It.Is<IEnumerable<TodoItem>>(x => x.Contains(item))), Times.Exactly(2));
         }
 
         [Fact]
