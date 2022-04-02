@@ -10,13 +10,17 @@ namespace TodoList.Console.Tests
     {
         private readonly Mock<IOutput> _output;
         private readonly Mock<ITodoList> _todoList;
+        private readonly AddVerbLogic _addVerbLogic;
+        private readonly GetAllLogic _getAllLogic;
         private readonly Application _application;
 
         public ApplicationTests()
         {
             _output = new Mock<IOutput>();
             _todoList = new Mock<ITodoList>();
-            _application = new Application(_output.Object, _todoList.Object);
+            _addVerbLogic = new AddVerbLogic(_todoList.Object);
+            _getAllLogic = new GetAllLogic(_output.Object, _todoList.Object);
+            _application = new Application(_output.Object, _addVerbLogic, _getAllLogic);
         }
 
         [Fact]

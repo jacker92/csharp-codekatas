@@ -7,12 +7,14 @@ namespace TodoList.Console
     public class Application
     {
         private readonly IOutput _output;
-        private readonly ITodoList _todoList;
+        private readonly VerbLogic<AddOptions> _addLogic;
+        private readonly VerbLogic<GetAllOptions> _getAllLogic;
 
-        public Application(IOutput output, ITodoList todoList)
+        public Application(IOutput output, VerbLogic<AddOptions> addLogic, VerbLogic<GetAllOptions> getAllLogic)
         {
             _output = output;
-            _todoList = todoList;
+            _addLogic = addLogic;
+            _getAllLogic = getAllLogic;
         }
 
         public void Run(string[] args)
@@ -32,35 +34,9 @@ namespace TodoList.Console
             var parser = new Parser(config => config.HelpWriter = stringWriter);
             var arguments = parser.ParseArguments<AddOptions, GetAllOptions>(args)
                 .MapResult(
-                (AddOptions options) => RunAdd(options),
-                (GetAllOptions options) => RunGetAll(options),
+                (AddOptions options) => _addLogic.Run(options),
+                (GetAllOptions options) => _getAllLogic.Run(options),
                 errors => HandleError(stringWriter, errors));
-        }
-
-        private int RunGetAll(GetAllOptions options)
-        {
-            IEnumerable<TodoItem> items = GetItems(options);
-            var builder = new StringBuilder();
-            foreach (var item in items)
-            {
-                builder.AppendLine($"Id: {item.Id}");
-                builder.AppendLine($"Task: {item.Task}");
-                builder.AppendLine($"Due: {item.Date.ToString("dd-MM-yyyy")}");
-            }
-
-            _output.WriteLine(builder.ToString());
-
-            return (int)ApplicationExitCode.Ok;
-        }
-
-        private IEnumerable<TodoItem> GetItems(GetAllOptions options)
-        {
-            if (options.Status == TodoItemConsoleStatus.All)
-            {
-                return _todoList.GetAll();
-            }
-
-            return _todoList.GetAll(TodoItemStatus.Incomplete);
         }
 
         private int HandleError(StringWriter stringWriter, IEnumerable<Error> error)
@@ -75,13 +51,6 @@ namespace TodoList.Console
             }
 
             return (int)ApplicationExitCode.Error;
-        }
-
-        private int RunAdd(AddOptions obj)
-        {
-            _todoList.Add(new TodoItem { Task = obj.TaskName, Date = obj.DueDate });
-
-            return (int)ApplicationExitCode.Ok;
         }
     }
 }
