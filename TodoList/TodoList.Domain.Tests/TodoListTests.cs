@@ -1,3 +1,4 @@
+using Moq;
 using System;
 using System.Linq;
 using Xunit;
@@ -6,11 +7,13 @@ namespace TodoList.Domain.Tests
 {
     public class TodoListTests
     {
+        private readonly Mock<ITodoListRepository> _repository;
         private readonly TodoList _todoList;
 
         public TodoListTests()
         {
-            _todoList = new TodoList();
+            _repository = new Mock<ITodoListRepository>();
+            _todoList = new TodoList(_repository.Object);
         }
 
         [Fact]

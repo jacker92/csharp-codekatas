@@ -3,10 +3,15 @@
     public class TodoList : ITodoList
     {
         private readonly List<TodoItem> _items;
+        private readonly ITodoListRepository _repository;
 
-        public TodoList()
+        public TodoList(ITodoListRepository repository)
         {
             _items = new List<TodoItem>();
+            _repository = repository;
+            _items = _repository
+                .GetAll()
+                .ToList();
         }
 
         public void Add(TodoItem item)
@@ -27,6 +32,7 @@
             }
 
             _items.Add(item);
+            _repository.Save(_items);
         }
 
         public void Complete(Guid guid)
