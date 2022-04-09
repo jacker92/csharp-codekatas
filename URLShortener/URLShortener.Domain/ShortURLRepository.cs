@@ -24,15 +24,16 @@
             return correspondingUrl;
         }
 
-        public string AccessUrl(string url)
+        public UrlStatistics AccessUrl(string url)
         {
             Urls[url].TimesAccessed++;
-            return Urls[url].ShortUrl;
+            return Urls[url];
         }
 
-        public void CreateNewEntry(string url, string shortenedUrl)
+        public UrlStatistics CreateNewEntry(string url, string shortenedUrl)
         {
-            Urls[url] =  _urlStatisticsFactory.Create(url, shortenedUrl);
+            Urls[url] = _urlStatisticsFactory.Create(url, shortenedUrl);
+            return Urls[url];
         }
 
         public UrlStatistics GetByLongUrl(string url)

@@ -175,11 +175,14 @@ namespace URLShortener.Domain.Tests
             statistics.TimesAccessed.Should().Be(2);
         }
 
-        [Fact(Skip = "Not implemented")]
+        [Fact]
         public void GetStatistics_ShouldReturnCorrectStatistics_ForShortUrl()
         {
-            var result = _urlShortener.GetShortUrl("https://google.fi");
-            var statistics = _urlShortener.GetStatistics(result);
+            var shortUrl = _urlShortener.GetShortUrl("https://google.fi");
+            var statistics = _urlShortener.GetStatistics(shortUrl);
+            statistics.LongUrl.Should().Be("https://google.fi");
+            statistics.ShortUrl.Should().Be(shortUrl);
+            statistics.TimesAccessed.Should().Be(1);
         }
     }
 }

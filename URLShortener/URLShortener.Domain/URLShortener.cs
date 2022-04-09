@@ -19,7 +19,7 @@
 
             ShortURLHelper.Validate(url);
 
-            return GetShortenedUrlForLongUrl(url);
+            return GetShortenedUrlForLongUrl(url).ShortUrl;
         }
 
         public string Translate(string url)
@@ -33,7 +33,7 @@
 
             if (!ShortURLHelper.IsShortUrl(url, _baseUrl))
             {
-                return GetShortenedUrlForLongUrl(url);
+                return GetShortenedUrlForLongUrl(url).ShortUrl;
             }
 
             return _shortUrlRepository.GetByShortenedUrl(url).ShortUrl;
@@ -48,10 +48,15 @@
 
             ShortURLHelper.Validate(url);
 
-            return _shortUrlRepository.GetByLongUrl(url);
+            if (!ShortURLHelper.IsShortUrl(url, _baseUrl))
+            {
+                return _shortUrlRepository.GetByLongUrl(url);
+            }
+
+            return _shortUrlRepository.GetByShortenedUrl(url);
         }
 
-        private string GetShortenedUrlForLongUrl(string url)
+        private UrlStatistics GetShortenedUrlForLongUrl(string url)
         {
             if (_shortUrlRepository.ContainsByLongUrl(url))
             {
@@ -60,9 +65,9 @@
 
             var shortenedUrl = ShortURLHelper.GenerateShortenedUrl(_baseUrl);
 
-            _shortUrlRepository.CreateNewEntry(url, shortenedUrl);
+            var newEntry = _shortUrlRepository.CreateNewEntry(url, shortenedUrl);
 
-            return shortenedUrl;
+            return newEntry;
         }
     }
 }
