@@ -41,6 +41,13 @@
             return _shortUrlRepository.GetByLongUrl(url);
         }
 
+        public string GenerateLog(string url)
+        {
+            ShortURLHelper.Validate(url);
+
+            return null;
+        }
+
         private UrlStatistics GetOrCreateShortenedUrlForLongUrl(string url)
         {
             if (_shortUrlRepository.ContainsByLongUrl(url))

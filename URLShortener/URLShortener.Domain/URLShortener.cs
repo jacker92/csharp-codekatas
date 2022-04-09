@@ -39,12 +39,14 @@
             return _urlShortenerService.GetStatistics(url);
         }
 
-        public void Log(string url)
+        public string Log(string url)
         {
             if (url is null)
             {
                 throw new ArgumentNullException(nameof(url));
             }
+
+            return _urlShortenerService.GenerateLog(url);
         }
     }
 }

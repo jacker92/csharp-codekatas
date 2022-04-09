@@ -204,10 +204,13 @@ namespace URLShortener.Domain.Tests
             Assert.Throws<ArgumentNullException>(() => _urlShortener.Log(null));
         }
 
-        //[Fact]
-        //public void Log_ShouldReturnExpectedLogOutput()
-        //{
-        //    var output = _urlShortener.Log("https:");
-        //}
+        [Theory]
+        [InlineData("asdf")]
+        [InlineData("4141")]
+        [InlineData("http://")]
+        public void Log_ShouldThrowUriFormatException_IfLongUrlIsNotValidUrl(string url)
+        {
+            Assert.Throws<UriFormatException>(() => _urlShortener.Log(url));
+        }
     }
 }
