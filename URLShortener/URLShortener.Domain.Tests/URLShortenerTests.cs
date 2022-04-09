@@ -212,5 +212,26 @@ namespace URLShortener.Domain.Tests
         {
             Assert.Throws<UriFormatException>(() => _urlShortener.Log(url));
         }
+
+        [Fact]
+        public void Log_ShouldGenerateCorrectLogOutput()
+        {
+            var date = DateTime.UtcNow;
+            _dateTimeProvider.Setup(x => x.DateTimeNow).Returns(date);
+
+            var shortUrl = _urlShortener.GetShortUrl("https://google.fi");
+            var statistics = _urlShortener.GetStatistics(shortUrl);
+            var log = _urlShortener.Log(shortUrl);
+            string expected = GetExpectedLog(statistics);
+            log.Should().Be(expected);
+        }
+
+        private static string GetExpectedLog(UrlStatistics statistics)
+        {
+            var expected = $"#Log info for url: {statistics.LongUrl}({statistics.ShortUrl})#\n";
+            expected += $"Number of accesses: {statistics.TimesAccessed.Count}\n";
+            expected += $"Access #1: {statistics.TimesAccessed.First().Timestamp:G}\n";
+            return expected;
+        }
     }
 }

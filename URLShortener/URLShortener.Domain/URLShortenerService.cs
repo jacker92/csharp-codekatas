@@ -45,7 +45,9 @@
         {
             ShortURLHelper.Validate(url);
 
-            return null;
+            var statistics = GetStatistics(url);
+
+            return LogOutputGeneratorService.Generate(statistics);
         }
 
         private UrlStatistics GetOrCreateShortenedUrlForLongUrl(string url)
