@@ -17,7 +17,7 @@
                 throw new ArgumentNullException(nameof(url));
             }
 
-            Validate(url);
+            ShortURLHelper.Validate(url);
 
             return GetShortenedUrlForLongUrl(url);
         }
@@ -29,9 +29,9 @@
                 throw new ArgumentNullException(nameof(url));
             }
 
-            Validate(url);
+            ShortURLHelper.Validate(url);
 
-            if (!IsShortUrl(url))
+            if (!ShortURLHelper.IsShortUrl(url, _baseUrl))
             {
                 return GetShortenedUrlForLongUrl(url);
             }
@@ -46,7 +46,7 @@
                 throw new ArgumentNullException(nameof(url));
             }
 
-            Validate(url);
+            ShortURLHelper.Validate(url);
 
             if (!_shortUrlRepository.Urls.ContainsKey(url))
             {
@@ -64,36 +64,11 @@
                 return _shortUrlRepository.Urls[url].ShortUrl;
             }
 
-            var shortenedUrl = GenerateShortenedUrl();
+            var shortenedUrl = ShortURLHelper.GenerateShortenedUrl(_baseUrl);
 
-            CreateUrlStatistics(url, shortenedUrl);
+            _shortUrlRepository.CreateNewEntry(url, shortenedUrl);
 
             return shortenedUrl;
-        }
-
-        private static bool IsShortUrl(string url)
-        {
-            return url.StartsWith(_baseUrl);
-        }
-
-        private void CreateUrlStatistics(string url, string shortenedUrl)
-        {
-            _shortUrlRepository.Urls[url] = new UrlStatistics
-            {
-                LongUrl = url,
-                ShortUrl = shortenedUrl,
-                TimesAccessed = 1
-            };
-        }
-
-        private static string GenerateShortenedUrl()
-        {
-            return _baseUrl + RandomStringGenerator.Generate(7);
-        }
-
-        private static void Validate(string url)
-        {
-            _ = new Uri(url);
         }
     }
 }
