@@ -3,6 +3,12 @@
     public class URLShortener
     {
         private const string _baseUrl = "https://short.url/";
+        private readonly Dictionary<string, string> _urls;
+
+        public URLShortener()
+        {
+            _urls = new Dictionary<string, string>();
+        }
 
         public string GetShortUrl(string url)
         {
@@ -11,9 +17,17 @@
                 throw new ArgumentNullException(nameof(url));
             }
 
-            Validate(url);
+            if (_urls.ContainsKey(url))
+            {
+                return _urls[url];
+            }
 
-            return GenerateShortenedUrl();
+            Validate(url);
+            var shortenedUrl = GenerateShortenedUrl();
+
+            _urls[url] = shortenedUrl;
+
+            return shortenedUrl;
         }
 
         private static string GenerateShortenedUrl()

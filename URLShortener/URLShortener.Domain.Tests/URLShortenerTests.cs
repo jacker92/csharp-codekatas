@@ -45,5 +45,14 @@ namespace URLShortener.Domain.Tests
 
             result.Should().NotBe(result2);
         }
+
+        [Fact]
+        public void GetShortUrl_ShouldReturnSameShortenedUrl_ForSameUrl()
+        {
+            var result = _urlShortener.GetShortUrl("https://www.google.fi");
+            var result2 = _urlShortener.GetShortUrl("https://www.google.fi");
+
+            result.Should().Be(result2);
+        }
     }
 }
