@@ -72,5 +72,10 @@
         {
             _ = new Uri(url);
         }
+
+        public void GetStatistics(string url)
+        {
+            throw new ShortenedUrlNotFoundException(url);
+        }
     }
 }

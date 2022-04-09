@@ -95,5 +95,12 @@ namespace URLShortener.Domain.Tests
 
             result.Should().Be(result2).And.Be(result3);
         }
+
+        [Fact]
+        public void GetStatistics_ShouldThrowShortenedUrlNotFoundException_IfUrlWasNotFound()
+        {
+            var exception = Assert.Throws<ShortenedUrlNotFoundException>(() => _urlShortener.GetStatistics("https://google.fi"));
+            exception.Message.Should().Be("No statistics found for url: https://google.fi");
+        }
     }
 }
