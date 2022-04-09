@@ -73,8 +73,15 @@
             _ = new Uri(url);
         }
 
-        public void GetStatistics(string url)
+        public UrlStatistics GetStatistics(string url)
         {
+            if (url is null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            Validate(url);
+
             throw new ShortenedUrlNotFoundException(url);
         }
     }

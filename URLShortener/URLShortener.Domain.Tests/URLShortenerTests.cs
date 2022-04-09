@@ -96,11 +96,34 @@ namespace URLShortener.Domain.Tests
             result.Should().Be(result2).And.Be(result3);
         }
 
+
+        [Fact]
+        public void GetStatistics_ShouldThrowArgumentNullException_IfUrlIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _urlShortener.GetStatistics(null));
+        }
+
+        [Theory]
+        [InlineData("asdf")]
+        [InlineData("4141")]
+        [InlineData("http://")]
+        public void GetStatistics_ShouldThrowUriFormatException_IfUrlIsNotValidUrl(string url)
+        {
+            Assert.Throws<UriFormatException>(() => _urlShortener.GetStatistics(url));
+        }
+
         [Fact]
         public void GetStatistics_ShouldThrowShortenedUrlNotFoundException_IfUrlWasNotFound()
         {
             var exception = Assert.Throws<ShortenedUrlNotFoundException>(() => _urlShortener.GetStatistics("https://google.fi"));
             exception.Message.Should().Be("No statistics found for url: https://google.fi");
         }
+
+        //[Fact]
+        //public void GetStatistics_ShouldReturnCorrectStatistics_ForShortenedUrl()
+        //{
+        //    var result = _urlShortener.GetShortUrl("https://google.fi");
+        //    var statistics = _urlShortener.GetStatistics(result);
+        //}
     }
 }
