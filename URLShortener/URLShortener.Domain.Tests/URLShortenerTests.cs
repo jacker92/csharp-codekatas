@@ -120,10 +120,27 @@ namespace URLShortener.Domain.Tests
         }
 
         [Fact]
-        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl()
+        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl_WithAccessedOnce()
         {
-            var result = _urlShortener.GetShortUrl("https://google.fi");
+            var shortUrl = _urlShortener.GetShortUrl("https://google.fi");
             var statistics = _urlShortener.GetStatistics("https://google.fi");
+
+            statistics.LongUrl.Should().Be("https://google.fi");
+            statistics.ShortUrl.Should().Be(shortUrl);
+            statistics.TimesAccessed.Should().Be(1);
+        }
+
+        [Fact]
+        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl_WithAccessedTwice()
+        {
+            _urlShortener.GetShortUrl("https://google.fi");
+            var shortUrl = _urlShortener.GetShortUrl("https://google.fi");
+
+            var statistics = _urlShortener.GetStatistics("https://google.fi");
+
+            statistics.LongUrl.Should().Be("https://google.fi");
+            statistics.ShortUrl.Should().Be(shortUrl);
+            statistics.TimesAccessed.Should().Be(2);
         }
 
         [Fact(Skip = "Not implemented")]
