@@ -197,5 +197,17 @@ namespace URLShortener.Domain.Tests
             statistics.TimesAccessed.Should().HaveCount(1);
             statistics.TimesAccessed.First().Timestamp.Should().Be(date);
         }
+
+        [Fact]
+        public void Log_ShouldThrowArgumentNullException_WithNullUrl()
+        {
+            Assert.Throws<ArgumentNullException>(() => _urlShortener.Log(null));
+        }
+
+        //[Fact]
+        //public void Log_ShouldReturnExpectedLogOutput()
+        //{
+        //    var output = _urlShortener.Log("https:");
+        //}
     }
 }
