@@ -128,7 +128,7 @@ namespace URLShortener.Domain.Tests
         }
 
         [Fact]
-        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl_WithAccessedOnce()
+        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl_WithAccessedOnce_ByGetShortUrl()
         {
             var shortUrl = _urlShortener.GetShortUrl("https://google.fi");
             var statistics = _urlShortener.GetStatistics("https://google.fi");
@@ -139,10 +139,34 @@ namespace URLShortener.Domain.Tests
         }
 
         [Fact]
-        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl_WithAccessedTwice()
+        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl_WithAccessedOnce_ByTranslate()
+        {
+            var shortUrl = _urlShortener.Translate("https://google.fi");
+            var statistics = _urlShortener.GetStatistics("https://google.fi");
+
+            statistics.LongUrl.Should().Be("https://google.fi");
+            statistics.ShortUrl.Should().Be(shortUrl);
+            statistics.TimesAccessed.Should().Be(1);
+        }
+
+        [Fact]
+        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl_WithAccessedTwice_ByGetShortUrl()
         {
             _urlShortener.GetShortUrl("https://google.fi");
             var shortUrl = _urlShortener.GetShortUrl("https://google.fi");
+
+            var statistics = _urlShortener.GetStatistics("https://google.fi");
+
+            statistics.LongUrl.Should().Be("https://google.fi");
+            statistics.ShortUrl.Should().Be(shortUrl);
+            statistics.TimesAccessed.Should().Be(2);
+        }
+
+        [Fact]
+        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl_WithAccessedTwice_ByTranslate()
+        {
+            _urlShortener.Translate("https://google.fi");
+            var shortUrl = _urlShortener.Translate("https://google.fi");
 
             var statistics = _urlShortener.GetStatistics("https://google.fi");
 
