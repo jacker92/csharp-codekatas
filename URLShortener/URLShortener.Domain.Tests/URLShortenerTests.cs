@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Moq;
 using System;
 using System.Linq;
 using Xunit;
@@ -8,10 +9,12 @@ namespace URLShortener.Domain.Tests
     public class URLShortenerTests
     {
         private readonly URLShortener _urlShortener;
+        private readonly Mock<IDateTimeProvider> _dateTimeProvider;
 
         public URLShortenerTests()
         {
-            _urlShortener = new URLShortener();
+            _dateTimeProvider = new Mock<IDateTimeProvider>();
+            _urlShortener = new URLShortener(_dateTimeProvider.Object);
         }
 
         [Fact]
