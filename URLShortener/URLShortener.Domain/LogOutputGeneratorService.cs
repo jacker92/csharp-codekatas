@@ -7,7 +7,7 @@ namespace URLShortener.Domain
         public static string Generate(UrlStatistics statistics)
         {
             var builder = new StringBuilder();
-            builder.Append($"#Log info for url: {statistics.LongUrl}({statistics.ShortUrl})#\n");
+            builder.Append($"#Log info for url: {statistics.LongUrl} ({statistics.ShortUrl})#\n");
             builder.Append($"Number of accesses: {statistics.TimesAccessed.Count}\n");
 
             for (int i = 1; i <= statistics.TimesAccessed.Count; i++)

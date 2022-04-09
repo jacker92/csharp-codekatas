@@ -228,7 +228,7 @@ namespace URLShortener.Domain.Tests
 
         private static string GetExpectedLog(UrlStatistics statistics)
         {
-            var expected = $"#Log info for url: {statistics.LongUrl}({statistics.ShortUrl})#\n";
+            var expected = $"#Log info for url: {statistics.LongUrl} ({statistics.ShortUrl})#\n";
             expected += $"Number of accesses: {statistics.TimesAccessed.Count}\n";
             expected += $"Access #1: {statistics.TimesAccessed.First().Timestamp:G}\n";
             return expected;
