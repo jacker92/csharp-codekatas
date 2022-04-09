@@ -30,6 +30,16 @@
             return shortenedUrl;
         }
 
+        public void Translate(string url)
+        {
+            if (url is null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            Validate(url);
+        }
+
         private void SaveUrl(string url, string shortenedUrl)
         {
             _urls[url] = shortenedUrl;

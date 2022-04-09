@@ -54,5 +54,20 @@ namespace URLShortener.Domain.Tests
 
             result.Should().Be(result2);
         }
+
+        [Fact]
+        public void Translate_ShouldThrowArgumentNullException_IfUrlIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _urlShortener.Translate(null));
+        }
+
+        [Theory]
+        [InlineData("asdf")]
+        [InlineData("4141")]
+        [InlineData("http://")]
+        public void Translate_ShouldThrowUriFormatException_IfUrlIsNotValidUrl(string url)
+        {
+            Assert.Throws<UriFormatException>(() => _urlShortener.Translate(url));
+        }
     }
 }
