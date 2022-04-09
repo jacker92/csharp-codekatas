@@ -36,7 +36,7 @@
                 return GetShortenedUrlForLongUrl(url);
             }
 
-            return GetExistingShortenedUrl(url);
+            return _shortUrlRepository.GetExistingEntryByShortenedUrl(url).ShortUrl;
         }
 
         public UrlStatistics GetStatistics(string url)
@@ -54,17 +54,6 @@
             }
 
             return _shortUrlRepository.Urls[url];
-        }
-
-        private string GetExistingShortenedUrl(string url)
-        {
-            var correspondingUrl = _shortUrlRepository.Urls.SingleOrDefault(x => x.Value.ShortUrl == url).Value;
-            if (correspondingUrl == null)
-            {
-                throw new ShortenedUrlNotFoundException($"No match found for short url: {url}");
-            }
-
-            return correspondingUrl.ShortUrl;
         }
 
         private string GetShortenedUrlForLongUrl(string url)
