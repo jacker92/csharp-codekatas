@@ -10,11 +10,15 @@ namespace URLShortener.Domain.Tests
     {
         private readonly URLShortener _urlShortener;
         private readonly Mock<IDateTimeProvider> _dateTimeProvider;
+        private readonly URLStatisticsFactory _urlStatisticsFactory;
+        private readonly ShortURLRepository _shortURLRepository;    
 
         public URLShortenerTests()
         {
             _dateTimeProvider = new Mock<IDateTimeProvider>();
-            _urlShortener = new URLShortener(_dateTimeProvider.Object);
+            _urlStatisticsFactory = new URLStatisticsFactory(_dateTimeProvider.Object);
+            _shortURLRepository = new ShortURLRepository(_dateTimeProvider.Object, _urlStatisticsFactory);
+            _urlShortener = new URLShortener(_shortURLRepository);
         }
 
         [Fact]

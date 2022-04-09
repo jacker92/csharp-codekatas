@@ -3,15 +3,11 @@
     public class URLShortener
     {
         private const string _baseUrl = "https://short.url/";
-        private readonly IDateTimeProvider _dateTimeProvider;
         private readonly ShortURLRepository _shortUrlRepository;
-        private readonly URLStatisticsFactory _urlStatisticsFactory;
 
-        public URLShortener(IDateTimeProvider dateTimeProvider)
+        public URLShortener(ShortURLRepository shortUrlRepository)
         {
-            _dateTimeProvider = dateTimeProvider;
-            _urlStatisticsFactory = new URLStatisticsFactory(_dateTimeProvider);
-            _shortUrlRepository = new ShortURLRepository(_dateTimeProvider, _urlStatisticsFactory);
+            _shortUrlRepository = shortUrlRepository;
         }
 
         public string GetShortUrl(string url)
