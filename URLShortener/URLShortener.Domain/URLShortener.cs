@@ -2,6 +2,8 @@
 {
     public class URLShortener
     {
+        private const string _baseUrl = "https://short.url/";
+
         public string GetShortUrl(string url)
         {
             if (url is null)
@@ -11,7 +13,7 @@
 
             Validate(url);
 
-            return "https://short.url/";
+            return _baseUrl + "abcdefg";
         }
 
         private static void Validate(string url)

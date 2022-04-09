@@ -1,5 +1,6 @@
 using FluentAssertions;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace URLShortener.Domain.Tests
@@ -33,6 +34,7 @@ namespace URLShortener.Domain.Tests
         {
             var result = _urlShortener.GetShortUrl("https://www.google.fi");
             result.Should().StartWith("https://short.url/");
+            result.Split("/").Last().Length.Should().Be(7, "identifiable part should be 7 characters long");
         }
     }
 }
