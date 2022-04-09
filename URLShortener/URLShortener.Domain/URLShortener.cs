@@ -9,7 +9,7 @@
         public URLShortener(IDateTimeProvider dateTimeProvider)
         {
             _dateTimeProvider = dateTimeProvider;
-            _shortUrlRepository = new ShortURLRepository();
+            _shortUrlRepository = new ShortURLRepository(_dateTimeProvider);
         }
 
         public string GetShortUrl(string url)

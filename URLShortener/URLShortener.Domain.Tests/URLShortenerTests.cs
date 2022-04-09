@@ -138,7 +138,7 @@ namespace URLShortener.Domain.Tests
 
             statistics.LongUrl.Should().Be("https://google.fi");
             statistics.ShortUrl.Should().Be(shortUrl);
-            statistics.TimesAccessed.Should().Be(1);
+            statistics.TimesAccessed.Should().HaveCount(1);
         }
 
         [Fact]
@@ -149,7 +149,7 @@ namespace URLShortener.Domain.Tests
 
             statistics.LongUrl.Should().Be("https://google.fi");
             statistics.ShortUrl.Should().Be(shortUrl);
-            statistics.TimesAccessed.Should().Be(1);
+            statistics.TimesAccessed.Should().HaveCount(1);
         }
 
         [Fact]
@@ -162,7 +162,7 @@ namespace URLShortener.Domain.Tests
 
             statistics.LongUrl.Should().Be("https://google.fi");
             statistics.ShortUrl.Should().Be(shortUrl);
-            statistics.TimesAccessed.Should().Be(2);
+            statistics.TimesAccessed.Should().HaveCount(2);
         }
 
         [Fact]
@@ -175,17 +175,21 @@ namespace URLShortener.Domain.Tests
 
             statistics.LongUrl.Should().Be("https://google.fi");
             statistics.ShortUrl.Should().Be(shortUrl);
-            statistics.TimesAccessed.Should().Be(2);
+            statistics.TimesAccessed.Should().HaveCount(2);
         }
 
         [Fact]
         public void GetStatistics_ShouldReturnCorrectStatistics_ForShortUrl()
         {
+            var date = DateTime.UtcNow;
+            _dateTimeProvider.Setup(x => x.DateTimeNow).Returns(date);
+
             var shortUrl = _urlShortener.GetShortUrl("https://google.fi");
             var statistics = _urlShortener.GetStatistics(shortUrl);
             statistics.LongUrl.Should().Be("https://google.fi");
             statistics.ShortUrl.Should().Be(shortUrl);
-            statistics.TimesAccessed.Should().Be(1);
+            statistics.TimesAccessed.Should().HaveCount(1);
+            statistics.TimesAccessed.First().Timestamp.Should().Be(date);
         }
     }
 }

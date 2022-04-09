@@ -4,11 +4,13 @@
     {
         private readonly Dictionary<string, UrlStatistics> _urls;
         private readonly URLStatisticsFactory _urlStatisticsFactory;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public ShortURLRepository()
+        public ShortURLRepository(IDateTimeProvider dateTimeProvider)
         {
             _urls = new Dictionary<string, UrlStatistics>();
-            _urlStatisticsFactory = new URLStatisticsFactory();
+            _dateTimeProvider = dateTimeProvider;
+            _urlStatisticsFactory = new URLStatisticsFactory(_dateTimeProvider);
         }
 
         public Dictionary<string, UrlStatistics> Urls => _urls;
@@ -44,7 +46,7 @@
         public UrlStatistics AccessByLongUrl(string url)
         {
             var result = GetByLongUrl(url);
-            Urls[url].TimesAccessed++;
+            Urls[url].TimesAccessed.Add(new LogEntry { Timestamp = _dateTimeProvider.DateTimeNow });
             return result;
         }
 
