@@ -36,7 +36,7 @@
                 return GetShortenedUrlForLongUrl(url);
             }
 
-            return _shortUrlRepository.GetExistingEntryByShortenedUrl(url).ShortUrl;
+            return _shortUrlRepository.GetByShortenedUrl(url).ShortUrl;
         }
 
         public UrlStatistics GetStatistics(string url)
@@ -60,8 +60,7 @@
         {
             if (_shortUrlRepository.ContainsByLongUrl(url))
             {
-                _shortUrlRepository.Urls[url].TimesAccessed++;
-                return _shortUrlRepository.Urls[url].ShortUrl;
+                return _shortUrlRepository.AccessUrl(url);
             }
 
             var shortenedUrl = ShortURLHelper.GenerateShortenedUrl(_baseUrl);

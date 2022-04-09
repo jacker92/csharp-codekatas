@@ -13,7 +13,7 @@
 
         public Dictionary<string, UrlStatistics> Urls => _urls;
 
-        public UrlStatistics GetExistingEntryByShortenedUrl(string shortenedUrl)
+        public UrlStatistics GetByShortenedUrl(string shortenedUrl)
         {
             var correspondingUrl = Urls.SingleOrDefault(x => x.Value.ShortUrl == shortenedUrl).Value;
             if (correspondingUrl == null)
@@ -22,6 +22,12 @@
             }
 
             return correspondingUrl;
+        }
+
+        public string AccessUrl(string url)
+        {
+            Urls[url].TimesAccessed++;
+            return Urls[url].ShortUrl;
         }
 
         public void CreateNewEntry(string url, string shortenedUrl)
