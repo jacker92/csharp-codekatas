@@ -13,6 +13,11 @@
 
             Validate(url);
 
+            return GenerateShortenedUrl();
+        }
+
+        private static string GenerateShortenedUrl()
+        {
             return _baseUrl + RandomStringGenerator.Generate(7);
         }
 
