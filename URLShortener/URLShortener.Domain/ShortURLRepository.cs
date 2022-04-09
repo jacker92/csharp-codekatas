@@ -28,5 +28,15 @@
         {
             Urls[url] =  _urlStatisticsFactory.Create(url, shortenedUrl);
         }
+
+        public UrlStatistics GetByLongUrl(string url)
+        {
+            return Urls[url];
+        }
+
+        public bool ContainsByLongUrl(string url)
+        {
+            return Urls.ContainsKey(url);
+        }
     }
 }

@@ -48,17 +48,17 @@
 
             ShortURLHelper.Validate(url);
 
-            if (!_shortUrlRepository.Urls.ContainsKey(url))
+            if (!_shortUrlRepository.ContainsByLongUrl(url))
             {
                 throw new ShortenedUrlNotFoundException($"No statistics found for url: {url}");
             }
 
-            return _shortUrlRepository.Urls[url];
+            return _shortUrlRepository.GetByLongUrl(url);
         }
 
         private string GetShortenedUrlForLongUrl(string url)
         {
-            if (_shortUrlRepository.Urls.ContainsKey(url))
+            if (_shortUrlRepository.ContainsByLongUrl(url))
             {
                 _shortUrlRepository.Urls[url].TimesAccessed++;
                 return _shortUrlRepository.Urls[url].ShortUrl;
