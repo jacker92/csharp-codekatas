@@ -2,7 +2,7 @@
 {
     public class URLShortener
     {
-        public void GetShortUrl(string url)
+        public string GetShortUrl(string url)
         {
             if (url is null)
             {
@@ -10,6 +10,8 @@
             }
 
             Validate(url);
+
+            return "https://short.url/";
         }
 
         private static void Validate(string url)

@@ -27,5 +27,12 @@ namespace URLShortener.Domain.Tests
         {
             Assert.Throws<UriFormatException>(() => _urlShortener.GetShortUrl(url));
         }
+
+        [Fact]
+        public void GetShortUrl_ShouldReturnShortenedUrl()
+        {
+            var result = _urlShortener.GetShortUrl("https://www.google.fi");
+            result.Should().StartWith("https://short.url/");
+        }
     }
 }
