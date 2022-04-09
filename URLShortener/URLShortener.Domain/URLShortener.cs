@@ -9,7 +9,12 @@
                 throw new ArgumentNullException(nameof(url));
             }
 
-            new Uri(url);
+            Validate(url);
+        }
+
+        private static void Validate(string url)
+        {
+            _ = new Uri(url);
         }
     }
 }

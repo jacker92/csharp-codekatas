@@ -21,10 +21,11 @@ namespace URLShortener.Domain.Tests
 
         [Theory]
         [InlineData("asdf")]
+        [InlineData("4141")]
+        [InlineData("http://")]
         public void GetShortUrl_ShouldThrowUriFormatException_IfLongUrlIsNotValidUrl(string url)
         {
-            var exception = Assert.Throws<UriFormatException>(() => _urlShortener.GetShortUrl(url));
-            exception.Message.Should().BeEquivalentTo("Invalid URI: The format of the URI could not be determined.");
+            Assert.Throws<UriFormatException>(() => _urlShortener.GetShortUrl(url));
         }
     }
 }
