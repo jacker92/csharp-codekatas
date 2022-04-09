@@ -6,11 +6,11 @@
         private readonly URLStatisticsFactory _urlStatisticsFactory;
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        public ShortURLRepository(IDateTimeProvider dateTimeProvider)
+        public ShortURLRepository(IDateTimeProvider dateTimeProvider, URLStatisticsFactory urlStatisticsFactory)
         {
             _urls = new Dictionary<string, UrlStatistics>();
             _dateTimeProvider = dateTimeProvider;
-            _urlStatisticsFactory = new URLStatisticsFactory(_dateTimeProvider);
+            _urlStatisticsFactory = urlStatisticsFactory;
         }
 
         public Dictionary<string, UrlStatistics> Urls => _urls;
