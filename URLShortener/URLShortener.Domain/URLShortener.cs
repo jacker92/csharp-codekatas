@@ -4,7 +4,12 @@
     {
         public void GetShortUrl(string url)
         {
-            throw new ArgumentNullException();
+            if (url is null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            new Uri(url);
         }
     }
 }
