@@ -48,11 +48,6 @@
 
             ShortURLHelper.Validate(url);
 
-            if (!_shortUrlRepository.ContainsByLongUrl(url))
-            {
-                throw new ShortenedUrlNotFoundException($"No statistics found for url: {url}");
-            }
-
             return _shortUrlRepository.GetByLongUrl(url);
         }
 

@@ -37,6 +37,11 @@
 
         public UrlStatistics GetByLongUrl(string url)
         {
+            if (!ContainsByLongUrl(url))
+            {
+                throw new ShortenedUrlNotFoundException($"No statistics found for url: {url}");
+            }
+
             return Urls[url];
         }
 
