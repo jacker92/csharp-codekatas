@@ -60,8 +60,7 @@
         {
             if (_shortUrlRepository.ContainsByLongUrl(url))
             {
-                _shortUrlRepository.IncrementAccessCount(url);
-                return _shortUrlRepository.GetByLongUrl(url);
+                return _shortUrlRepository.AccessByLongUrl(url);
             }
 
             return _shortUrlRepository.CreateNewEntry(url, _baseUrl);

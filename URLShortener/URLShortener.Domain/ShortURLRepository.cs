@@ -24,11 +24,6 @@
             return correspondingUrl;
         }
 
-        public void IncrementAccessCount(string url)
-        {
-            Urls[url].TimesAccessed++;
-        }
-
         public UrlStatistics CreateNewEntry(string url, string baseUrl)
         {
             var shortenedUrl = ShortURLHelper.GenerateShortenedUrl(baseUrl);
@@ -44,6 +39,13 @@
             }
 
             return Urls[url];
+        }
+
+        public UrlStatistics AccessByLongUrl(string url)
+        {
+            var result = GetByLongUrl(url);
+            Urls[url].TimesAccessed++;
+            return result;
         }
 
         public bool ContainsByLongUrl(string url)
