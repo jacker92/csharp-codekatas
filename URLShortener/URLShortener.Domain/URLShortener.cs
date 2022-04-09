@@ -33,9 +33,13 @@
 
             if (IsShortUrl(url))
             {
-                return url;
-                //var correspondingUrl = _urls.SingleOrDefault(x => x.Value.ShortUrl == url).Value;
-                //return correspondingUrl.ShortUrl;
+                var correspondingUrl = _urls.SingleOrDefault(x => x.Value.ShortUrl == url).Value;
+                if(correspondingUrl == null)
+                {
+                    throw new ShortenedUrlNotFoundException($"No match found for short url: {url}");
+                }
+
+                return correspondingUrl.ShortUrl;
             }
 
             return GetShortenedUrl(url);
@@ -52,7 +56,7 @@
 
             if (!_urls.ContainsKey(url))
             {
-                throw new ShortenedUrlNotFoundException(url);
+                throw new ShortenedUrlNotFoundException($"No statistics found for url: {url}");
             }
 
             return _urls[url];

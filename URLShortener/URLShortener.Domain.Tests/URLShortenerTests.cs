@@ -79,9 +79,17 @@ namespace URLShortener.Domain.Tests
         }
 
         [Fact]
-        public void Translate_ShouldReturnSameShortUrl_ForShortUrl()
+        public void Translate_ShouldThrowShortenedUrlNotFoundException_ForShortUrlNotFound()
         {
             var shortUrl = "https://short.url/abcd123";
+            var exception = Assert.Throws<ShortenedUrlNotFoundException>(() => _urlShortener.Translate(shortUrl));
+            exception.Message.Should().Be($"No match found for short url: {shortUrl}");
+        }
+
+        [Fact]
+        public void Translate_ShouldReturnSameShortUrl_ForShortUrl()
+        {
+            var shortUrl = _urlShortener.GetShortUrl("https://google.fi");
             var result = _urlShortener.Translate(shortUrl);
             result.Should().Be(shortUrl);
         }
