@@ -77,5 +77,23 @@ namespace URLShortener.Domain.Tests
             result.Should().StartWith("https://short.url/");
             result.Split("/").Last().Length.Should().Be(7, "identifiable part should be 7 characters long");
         }
+
+        [Fact]
+        public void Translate_ShouldReturnSameShortUrl_ForShortUrl()
+        {
+            var shortUrl = "https://short.url/abcd123";
+            var result = _urlShortener.Translate(shortUrl);
+            result.Should().Be(shortUrl);
+        }
+
+        [Fact]
+        public void Translate_ShouldReturnSameShortenedUrl_ForSameUrl()
+        {
+            var result = _urlShortener.Translate("https://www.google.fi");
+            var result2 = _urlShortener.Translate("https://www.google.fi");
+            var result3 = _urlShortener.Translate(result);
+
+            result.Should().Be(result2).And.Be(result3);
+        }
     }
 }

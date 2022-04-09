@@ -17,17 +17,9 @@
                 throw new ArgumentNullException(nameof(url));
             }
 
-            if (_urls.ContainsKey(url))
-            {
-                return _urls[url];
-            }
-
             Validate(url);
-            var shortenedUrl = GenerateShortenedUrl();
 
-            SaveUrl(url, shortenedUrl);
-
-            return shortenedUrl;
+            return GetShortenedUrl(url);
         }
 
         public string Translate(string url)
@@ -39,9 +31,31 @@
 
             Validate(url);
 
+            if (IsShortUrl(url))
+            {
+                return url;
+            }
+
+            return GetShortenedUrl(url);
+        }
+
+        private string GetShortenedUrl(string url)
+        {
+            if (_urls.ContainsKey(url))
+            {
+                return _urls[url];
+            }
+
             var shortenedUrl = GenerateShortenedUrl();
 
+            SaveUrl(url, shortenedUrl);
+
             return shortenedUrl;
+        }
+
+        private static bool IsShortUrl(string url)
+        {
+            return url.StartsWith(_baseUrl);
         }
 
         private void SaveUrl(string url, string shortenedUrl)
