@@ -119,11 +119,18 @@ namespace URLShortener.Domain.Tests
             exception.Message.Should().Be("No statistics found for url: https://google.fi");
         }
 
-        //[Fact]
-        //public void GetStatistics_ShouldReturnCorrectStatistics_ForShortenedUrl()
-        //{
-        //    var result = _urlShortener.GetShortUrl("https://google.fi");
-        //    var statistics = _urlShortener.GetStatistics(result);
-        //}
+        [Fact]
+        public void GetStatistics_ShouldReturnCorrectStatistics_ForLongUrl()
+        {
+            var result = _urlShortener.GetShortUrl("https://google.fi");
+            var statistics = _urlShortener.GetStatistics("https://google.fi");
+        }
+
+        [Fact(Skip = "Not implemented")]
+        public void GetStatistics_ShouldReturnCorrectStatistics_ForShortUrl()
+        {
+            var result = _urlShortener.GetShortUrl("https://google.fi");
+            var statistics = _urlShortener.GetStatistics(result);
+        }
     }
 }

@@ -82,7 +82,12 @@
 
             Validate(url);
 
-            throw new ShortenedUrlNotFoundException(url);
+            if (!_urls.ContainsKey(url))
+            {
+                throw new ShortenedUrlNotFoundException(url);
+            }
+
+            return new UrlStatistics();
         }
     }
 }
