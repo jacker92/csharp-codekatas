@@ -13,15 +13,7 @@
 
             Validate(url);
 
-            return _baseUrl + RandomString(7);
-        }
-
-        private static string RandomString(int length)
-        {
-            var random = new Random();
-            const string chars = "abcedfghijklmnopqrstuvwxyz0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+            return _baseUrl + RandomStringGenerator.Generate(7);
         }
 
         private static void Validate(string url)
