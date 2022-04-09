@@ -25,9 +25,14 @@
             Validate(url);
             var shortenedUrl = GenerateShortenedUrl();
 
-            _urls[url] = shortenedUrl;
+            SaveUrl(url, shortenedUrl);
 
             return shortenedUrl;
+        }
+
+        private void SaveUrl(string url, string shortenedUrl)
+        {
+            _urls[url] = shortenedUrl;
         }
 
         private static string GenerateShortenedUrl()
