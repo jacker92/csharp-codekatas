@@ -43,8 +43,6 @@
 
         public string GenerateLog(string url)
         {
-            ShortURLHelper.Validate(url);
-
             var statistics = GetStatistics(url);
 
             return LogOutputGeneratorService.Generate(statistics);
