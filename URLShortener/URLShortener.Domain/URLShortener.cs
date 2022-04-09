@@ -19,7 +19,7 @@
 
             ShortURLHelper.Validate(url);
 
-            return GetShortenedUrlForLongUrl(url).ShortUrl;
+            return GetOrCreateShortenedUrlForLongUrl(url).ShortUrl;
         }
 
         public string Translate(string url)
@@ -31,12 +31,12 @@
 
             ShortURLHelper.Validate(url);
 
-            if (!ShortURLHelper.IsShortUrl(url, _baseUrl))
+            if (ShortURLHelper.IsShortUrl(url, _baseUrl))
             {
-                return GetShortenedUrlForLongUrl(url).ShortUrl;
+                return _shortUrlRepository.GetByShortenedUrl(url).ShortUrl;
             }
 
-            return _shortUrlRepository.GetByShortenedUrl(url).ShortUrl;
+            return GetOrCreateShortenedUrlForLongUrl(url).ShortUrl;
         }
 
         public UrlStatistics GetStatistics(string url)
@@ -48,15 +48,15 @@
 
             ShortURLHelper.Validate(url);
 
-            if (!ShortURLHelper.IsShortUrl(url, _baseUrl))
+            if (ShortURLHelper.IsShortUrl(url, _baseUrl))
             {
-                return _shortUrlRepository.GetByLongUrl(url);
+                return _shortUrlRepository.GetByShortenedUrl(url);
             }
 
-            return _shortUrlRepository.GetByShortenedUrl(url);
+            return _shortUrlRepository.GetByLongUrl(url);
         }
 
-        private UrlStatistics GetShortenedUrlForLongUrl(string url)
+        private UrlStatistics GetOrCreateShortenedUrlForLongUrl(string url)
         {
             if (_shortUrlRepository.ContainsByLongUrl(url))
             {
@@ -64,11 +64,7 @@
                 return _shortUrlRepository.GetByLongUrl(url);
             }
 
-            var shortenedUrl = ShortURLHelper.GenerateShortenedUrl(_baseUrl);
-
-            var newEntry = _shortUrlRepository.CreateNewEntry(url, shortenedUrl);
-
-            return newEntry;
+            return _shortUrlRepository.CreateNewEntry(url, _baseUrl);
         }
     }
 }

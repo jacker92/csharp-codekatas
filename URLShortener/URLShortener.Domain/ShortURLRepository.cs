@@ -29,8 +29,9 @@
             Urls[url].TimesAccessed++;
         }
 
-        public UrlStatistics CreateNewEntry(string url, string shortenedUrl)
+        public UrlStatistics CreateNewEntry(string url, string baseUrl)
         {
+            var shortenedUrl = ShortURLHelper.GenerateShortenedUrl(baseUrl);
             Urls[url] = _urlStatisticsFactory.Create(url, shortenedUrl);
             return Urls[url];
         }
