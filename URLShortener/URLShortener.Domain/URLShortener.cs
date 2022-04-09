@@ -2,12 +2,11 @@
 {
     public class URLShortener
     {
-        private const string _baseUrl = "https://short.url/";
-        private readonly ShortURLRepository _shortUrlRepository;
+        private readonly URLShortenerService _urlShortenerService;
 
-        public URLShortener(ShortURLRepository shortUrlRepository)
+        public URLShortener(URLShortenerService urlShortenerService)
         {
-            _shortUrlRepository = shortUrlRepository;
+            _urlShortenerService = urlShortenerService;
         }
 
         public string GetShortUrl(string url)
@@ -17,9 +16,7 @@
                 throw new ArgumentNullException(nameof(url));
             }
 
-            ShortURLHelper.Validate(url);
-
-            return GetOrCreateShortenedUrlForLongUrl(url).ShortUrl;
+            return _urlShortenerService.GetShortUrl(url);
         }
 
         public string Translate(string url)
@@ -29,14 +26,7 @@
                 throw new ArgumentNullException(nameof(url));
             }
 
-            ShortURLHelper.Validate(url);
-
-            if (ShortURLHelper.IsShortUrl(url, _baseUrl))
-            {
-                return _shortUrlRepository.GetByShortenedUrl(url).ShortUrl;
-            }
-
-            return GetOrCreateShortenedUrlForLongUrl(url).ShortUrl;
+            return _urlShortenerService.Translate(url);
         }
 
         public UrlStatistics GetStatistics(string url)
@@ -46,24 +36,7 @@
                 throw new ArgumentNullException(nameof(url));
             }
 
-            ShortURLHelper.Validate(url);
-
-            if (ShortURLHelper.IsShortUrl(url, _baseUrl))
-            {
-                return _shortUrlRepository.GetByShortenedUrl(url);
-            }
-
-            return _shortUrlRepository.GetByLongUrl(url);
-        }
-
-        private UrlStatistics GetOrCreateShortenedUrlForLongUrl(string url)
-        {
-            if (_shortUrlRepository.ContainsByLongUrl(url))
-            {
-                return _shortUrlRepository.AccessByLongUrl(url);
-            }
-
-            return _shortUrlRepository.CreateNewEntry(url, _baseUrl);
+            return _urlShortenerService.GetStatistics(url);
         }
     }
 }
