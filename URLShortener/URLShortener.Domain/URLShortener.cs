@@ -3,11 +3,11 @@
     public class URLShortener
     {
         private const string _baseUrl = "https://short.url/";
-        private readonly Dictionary<string, UrlStatistics> _urls;
+        private readonly ShortURLRepository _shortUrlRepository;
 
         public URLShortener()
         {
-            _urls = new Dictionary<string, UrlStatistics>();
+            _shortUrlRepository = new ShortURLRepository();
         }
 
         public string GetShortUrl(string url)
@@ -19,7 +19,7 @@
 
             Validate(url);
 
-            return GetShortenedUrl(url);
+            return GetShortenedUrlForLongUrl(url);
         }
 
         public string Translate(string url)
@@ -31,18 +31,12 @@
 
             Validate(url);
 
-            if (IsShortUrl(url))
+            if (!IsShortUrl(url))
             {
-                var correspondingUrl = _urls.SingleOrDefault(x => x.Value.ShortUrl == url).Value;
-                if(correspondingUrl == null)
-                {
-                    throw new ShortenedUrlNotFoundException($"No match found for short url: {url}");
-                }
-
-                return correspondingUrl.ShortUrl;
+                return GetShortenedUrlForLongUrl(url);
             }
 
-            return GetShortenedUrl(url);
+            return GetExistingShortenedUrl(url);
         }
 
         public UrlStatistics GetStatistics(string url)
@@ -54,25 +48,36 @@
 
             Validate(url);
 
-            if (!_urls.ContainsKey(url))
+            if (!_shortUrlRepository.Urls.ContainsKey(url))
             {
                 throw new ShortenedUrlNotFoundException($"No statistics found for url: {url}");
             }
 
-            return _urls[url];
+            return _shortUrlRepository.Urls[url];
         }
 
-        private string GetShortenedUrl(string url)
+        private string GetExistingShortenedUrl(string url)
         {
-            if (_urls.ContainsKey(url))
+            var correspondingUrl = _shortUrlRepository.Urls.SingleOrDefault(x => x.Value.ShortUrl == url).Value;
+            if (correspondingUrl == null)
             {
-                _urls[url].TimesAccessed++;
-                return _urls[url].ShortUrl;
+                throw new ShortenedUrlNotFoundException($"No match found for short url: {url}");
+            }
+
+            return correspondingUrl.ShortUrl;
+        }
+
+        private string GetShortenedUrlForLongUrl(string url)
+        {
+            if (_shortUrlRepository.Urls.ContainsKey(url))
+            {
+                _shortUrlRepository.Urls[url].TimesAccessed++;
+                return _shortUrlRepository.Urls[url].ShortUrl;
             }
 
             var shortenedUrl = GenerateShortenedUrl();
 
-            SaveUrl(url, shortenedUrl);
+            CreateUrlStatistics(url, shortenedUrl);
 
             return shortenedUrl;
         }
@@ -82,9 +87,9 @@
             return url.StartsWith(_baseUrl);
         }
 
-        private void SaveUrl(string url, string shortenedUrl)
+        private void CreateUrlStatistics(string url, string shortenedUrl)
         {
-            _urls[url] = new UrlStatistics
+            _shortUrlRepository.Urls[url] = new UrlStatistics
             {
                 LongUrl = url,
                 ShortUrl = shortenedUrl,
