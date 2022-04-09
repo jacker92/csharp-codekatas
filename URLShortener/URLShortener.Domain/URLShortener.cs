@@ -30,7 +30,7 @@
             return shortenedUrl;
         }
 
-        public void Translate(string url)
+        public string Translate(string url)
         {
             if (url is null)
             {
@@ -38,6 +38,10 @@
             }
 
             Validate(url);
+
+            var shortenedUrl = GenerateShortenedUrl();
+
+            return shortenedUrl;
         }
 
         private void SaveUrl(string url, string shortenedUrl)

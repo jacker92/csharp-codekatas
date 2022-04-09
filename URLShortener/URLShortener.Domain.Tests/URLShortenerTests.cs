@@ -69,5 +69,13 @@ namespace URLShortener.Domain.Tests
         {
             Assert.Throws<UriFormatException>(() => _urlShortener.Translate(url));
         }
+
+        [Fact]
+        public void Translate_ShouldReturnShortenedUrl_ForLongUrl()
+        {
+            var result = _urlShortener.Translate("https://www.google.fi");
+            result.Should().StartWith("https://short.url/");
+            result.Split("/").Last().Length.Should().Be(7, "identifiable part should be 7 characters long");
+        }
     }
 }
