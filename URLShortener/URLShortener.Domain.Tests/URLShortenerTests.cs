@@ -36,5 +36,14 @@ namespace URLShortener.Domain.Tests
             result.Should().StartWith("https://short.url/");
             result.Split("/").Last().Length.Should().Be(7, "identifiable part should be 7 characters long");
         }
+
+        [Fact]
+        public void GetShortUrl_ShouldReturnDifferentShortenedUrlsForTwoDifferentUrls()
+        {
+            var result = _urlShortener.GetShortUrl("https://www.google.fi");
+            var result2 = _urlShortener.GetShortUrl("https://www.yahoo.fi");
+
+            result.Should().NotBe(result2);
+        }
     }
 }
