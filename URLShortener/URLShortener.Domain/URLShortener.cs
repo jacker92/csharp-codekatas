@@ -60,7 +60,8 @@
         {
             if (_shortUrlRepository.ContainsByLongUrl(url))
             {
-                return _shortUrlRepository.AccessUrl(url);
+                _shortUrlRepository.IncrementAccessCount(url);
+                return _shortUrlRepository.GetByLongUrl(url);
             }
 
             var shortenedUrl = ShortURLHelper.GenerateShortenedUrl(_baseUrl);

@@ -24,10 +24,9 @@
             return correspondingUrl;
         }
 
-        public UrlStatistics AccessUrl(string url)
+        public void IncrementAccessCount(string url)
         {
             Urls[url].TimesAccessed++;
-            return Urls[url];
         }
 
         public UrlStatistics CreateNewEntry(string url, string shortenedUrl)
