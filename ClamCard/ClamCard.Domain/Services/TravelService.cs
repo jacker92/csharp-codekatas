@@ -9,7 +9,7 @@ namespace ClamCard.Domain.Services
 
         public TravelService()
         {
-            _fareCalculationService = new FareCalculationService();
+            _fareCalculationService = new FareCalculationService(new JourneyFareCalculationService());
         }
 
         public void Travel(User user, Journey journey)
@@ -17,7 +17,6 @@ namespace ClamCard.Domain.Services
             var card = user.ClamCard;
 
             var fare = _fareCalculationService.CalculateCost(journey, card);
-
 
             if (fare > 0)
             {

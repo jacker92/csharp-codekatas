@@ -19,7 +19,8 @@ namespace ClamCard.Domain.UnitTests
         [Fact]
         public void Constructor_ShouldThrowArgumentException_WithEmptyName()
         {
-            Assert.Throws<ArgumentException>(() => new User(string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => new User(string.Empty));
+            Assert.Equal($"'name' cannot be null or whitespace. (Parameter 'name')", exception.Message);
         }
 
         [Fact]

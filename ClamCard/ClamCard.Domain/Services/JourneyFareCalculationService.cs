@@ -3,7 +3,7 @@ using ClamCard.Domain.Models;
 
 namespace ClamCard.Domain.Services
 {
-    public class JourneyFareCalculationService
+    public class JourneyFareCalculationService : IJourneyFareCalculationService
     {
         private readonly FareFactory _fareFactory;
 
