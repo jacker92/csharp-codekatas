@@ -10,9 +10,11 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         private readonly ClamCard _clamCard;
         private readonly double _startingBalance;
         private readonly TravelService _travelService;
+        private readonly DateTime _startingDate;
 
         public UserBehaviorScenariosStepDefinitions()
         {
+            _startingDate = DateTime.Parse("1.1.2000");
             _user = new User("Michael");
             _startingBalance = 100;
             _clamCard = new ClamCard(_startingBalance);
@@ -28,7 +30,7 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         [Given(@"Michael travels from Asterisk to Aldgate")]
         public void GivenMichaelTravelsFromAsteriskToAldgate()
         {
-            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A }, End = new Station { Name = "Aldgate", Zone = Zone.A } });
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A, Date = _startingDate }, End = new Station { Name = "Aldgate", Zone = Zone.A, Date = _startingDate } });
         }
 
         [Then(@"Michael will be charged \$(.*) for his first journey")]
@@ -41,13 +43,13 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         [Given(@"Michael travels from Asterisk to Barbican")]
         public void GivenMichaelTravelsFromAsteriskToBarbican()
         {
-            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A }, End = new Station { Name = "Barbican", Zone = Zone.B } });
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A, Date = _startingDate }, End = new Station { Name = "Barbican", Zone = Zone.B, Date = _startingDate } });
         }
 
         [Given(@"Michael travels from Asterisk to Balham")]
         public void GivenMichaelTravelsFromAsteriskToBalham()
         {
-            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A }, End = new Station { Name = "Balham", Zone = Zone.B } });
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A, Date = _startingDate }, End = new Station { Name = "Balham", Zone = Zone.B, Date = _startingDate } });
         }
 
         [Then(@"a further \$(.*) for his second journey")]
@@ -60,19 +62,19 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         [Given(@"Michael travels from Barbican to Balham")]
         public void GivenMichaelTravelsFromBarbicanToBalham()
         {
-            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Barbican", Zone = Zone.B }, End = new Station { Name = "Balham", Zone = Zone.B } });
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Barbican", Zone = Zone.B , Date = _startingDate }, End = new Station { Name = "Balham", Zone = Zone.B, Date = _startingDate } });
         }
 
         [Given(@"Michael travels from Balham to Bison")]
         public void GivenMichaelTravelsFromBalhamToBison()
         {
-            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Balham", Zone = Zone.B }, End = new Station { Name = "Bison", Zone = Zone.B } });
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Balham", Zone = Zone.B, Date = _startingDate }, End = new Station { Name = "Bison", Zone = Zone.B, Date = _startingDate } });
         }
 
         [Given(@"Michael travels from Bison to Asterisk")]
         public void GivenMichaelTravelsFromBisonToAsterisk()
         {
-            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Bison", Zone = Zone.B }, End = new Station { Name = "Asterix", Zone = Zone.A } });
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Bison", Zone = Zone.B, Date = _startingDate }, End = new Station { Name = "Asterix", Zone = Zone.A, Date = _startingDate } });
         }
 
         [Then(@"a further \$(.*) for his third journey")]
@@ -92,19 +94,19 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         [Given(@"Michael travels from Aldgate to Angel")]
         public void GivenMichaelTravelsFromAldgateToAngel()
         {
-            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Aldgate", Zone = Zone.A }, End = new Station { Name = "Angel", Zone = Zone.A } });
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Aldgate", Zone = Zone.A, Date = _startingDate }, End = new Station { Name = "Angel", Zone = Zone.A, Date = _startingDate } });
         }
 
         [Given(@"Michael travels from Angel to Antelope")]
         public void GivenMichaelTravelsFromAngelToAntelope()
         {
-            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Angel", Zone = Zone.A }, End = new Station { Name = "Antilope", Zone = Zone.A } });
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Angel", Zone = Zone.A, Date = _startingDate }, End = new Station { Name = "Antilope", Zone = Zone.A, Date = _startingDate } });
         }
 
         [Given(@"Michael travels from Antelope to Asterisk")]
         public void GivenMichaelTravelsFromAntelopeToAsterisk()
         {
-            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Antilope", Zone = Zone.A }, End = new Station { Name = "Asterisk", Zone = Zone.A } });
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Antilope", Zone = Zone.A, Date = _startingDate }, End = new Station { Name = "Asterisk", Zone = Zone.A, Date = _startingDate } });
         }
     }
 }
