@@ -13,5 +13,16 @@
         }
 
         public string Name { get; }
+        public double Balance { get; private set; }
+
+        public void Deposit(double amount)
+        {
+            if (amount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount));
+            }
+
+            Balance += amount;
+        }
     }
 }
