@@ -13,5 +13,16 @@
         }
 
         public string Name { get; }
+        public ClamCard ClamCard { get; private set; }
+
+        public void AddClamCard(ClamCard clamCard)
+        {
+            if (clamCard is null)
+            {
+                throw new ArgumentNullException(nameof(clamCard));
+            }
+
+            ClamCard = clamCard;
+        }
     }
 }

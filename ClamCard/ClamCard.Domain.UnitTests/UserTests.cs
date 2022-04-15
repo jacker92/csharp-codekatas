@@ -26,6 +26,31 @@ namespace ClamCard.Domain.Tests
             Assert.Equal(_username, _user.Name);
         }
 
-     
+        [Fact]
+        public void ShouldNotHaveClamCardByDefault()
+        {
+            Assert.Null(_user.ClamCard);
+        }
+
+        [Fact]
+        public void AddClamCard_ShouldThrowArgumentNullException_WithNullClamCard()
+        {
+            Assert.Throws<ArgumentNullException>(() => _user.AddClamCard(null));
+        }
+
+        [Fact]
+        public void AddClamCard_ShouldCorreclyAssignClamCard()
+        {
+            var clamCard = new ClamCard();
+            _user.AddClamCard(clamCard);
+
+            Assert.Equal(clamCard, _user.ClamCard);
+        }
+
+        //[Fact]
+        //public void AddClamCard_ShouldClamCardAlreadyExistException_IfUserAlreadyHasAClamCard()
+        //{
+        //    _user
+        //}
     }
 }
