@@ -24,5 +24,15 @@
 
             Balance += amount;
         }
+
+        public void Withdraw(double amount)
+        {
+            if (amount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount));
+            }
+
+            throw new InsufficientBalanceException(amount);
+        }
     }
 }

@@ -47,5 +47,29 @@ namespace ClamCard.Domain.Tests
 
             Assert.Equal(10, _user.Balance);
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void Withdraw_ShouldThrowArgumentOutOfRangeException_IfAmountToWithdrawIsZeroOrNegative(double amount)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => _user.Withdraw(amount));
+        }
+
+        [Theory]
+        [InlineData(1)]
+        public void Withdraw_ShouldThrowInsufficientBalanceException_IfTriedToWithdraw_ButNotEnoughBalance(double amount)
+        {
+            var exception = Assert.Throws<InsufficientBalanceException>(() => _user.Withdraw(amount));
+            Assert.Equal($"Cannot withdraw amount {amount} because user does not have enough balance.", exception.Message);
+        }
+
+        //[Fact]
+        //public void Withdraw_ShouldDecreaseBalance_BySetAmount()
+        //{
+        //    _user.Withdraw(10);
+
+        //    Assert.Equal(10, _user.Balance);
+        //}
     }
 }
