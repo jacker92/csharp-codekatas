@@ -32,9 +32,10 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         }
 
         [Then(@"Michael will be charged \$(.*) for his first journey")]
-        public void ThenMichaelWillBeChargedForHisFirstJourney(double changedAmount)
+        public void ThenMichaelWillBeChargedForHisFirstJourney(double chargedAmount)
         {
-            Assert.Equal(_startingBalance - changedAmount, _clamCard.Balance);
+            _clamCard.TravellingHistory.First().Cost.Should().Be(chargedAmount);
+            _clamCard.Balance.Should().Be(_startingBalance - _clamCard.TravellingHistory.Sum(x => x.Cost));
         }
 
         [Given(@"Michael travels from Asterisk to Barbican")]
@@ -43,5 +44,17 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
             _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A }, End = new Station { Name = "Barbican", Zone = Zone.B } });
         }
 
+        [Given(@"Michael travels from Asterisk to Balham")]
+        public void GivenMichaelTravelsFromAsteriskToBalham()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A }, End = new Station { Name = "Balham", Zone = Zone.B } });
+        }
+
+        [Then(@"a further \$(.*) for his second journey")]
+        public void ThenAFurtherForHisSecondJourney(double chargedAmount)
+        {
+            _clamCard.TravellingHistory[1].Cost.Should().Be(chargedAmount);
+            _clamCard.Balance.Should().Be(_startingBalance - _clamCard.TravellingHistory.Sum(x => x.Cost));
+        }
     }
 }

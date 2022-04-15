@@ -29,6 +29,7 @@
             var card = user.ClamCard;
             var fare = _fareCalculationService.CalculateCost(journey);
             card.Withdraw(fare);
+            card.TravellingHistory.Add(new JourneyLogEntry { Journey = journey, Cost = fare });
         }
     }
 }

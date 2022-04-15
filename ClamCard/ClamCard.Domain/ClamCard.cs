@@ -8,6 +8,7 @@
         }
 
         public double Balance { get; private set; }
+        public IList<JourneyLogEntry> TravellingHistory { get; } = new List<JourneyLogEntry>();
 
         public void Deposit(double amount)
         {
