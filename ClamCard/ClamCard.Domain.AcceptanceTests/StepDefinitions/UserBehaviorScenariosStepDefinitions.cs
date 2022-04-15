@@ -32,9 +32,16 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         }
 
         [Then(@"Michael will be charged \$(.*) for his first journey")]
-        public void ThenMichaelWillBeChargedForHisFirstJourney(double p0)
+        public void ThenMichaelWillBeChargedForHisFirstJourney(double changedAmount)
         {
-            Assert.Equal(_startingBalance - p0, _clamCard.Balance);
+            Assert.Equal(_startingBalance - changedAmount, _clamCard.Balance);
         }
+
+        [Given(@"Michael travels from Asterisk to Barbican")]
+        public void GivenMichaelTravelsFromAsteriskToBarbican()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A }, End = new Station { Name = "Barbican", Zone = Zone.B } });
+        }
+
     }
 }
