@@ -16,6 +16,13 @@ namespace ClamCard.Domain.Services
         public double CalculateCost(Journey journey, Models.ClamCard clamCard)
         {
             var journeyFare = _journeyFareCalculationService.Calculate(journey);
+
+            var currentMontlySum = GetCurrentMonthlySum(journey, clamCard);
+            if (currentMontlySum + journeyFare.MaxSingleCost > journeyFare.MonthlyMax)
+            {
+                return journeyFare.MonthlyMax - currentMontlySum;
+            }
+
             var currentWeeklySum = GetCurrentWeeklySum(journey, clamCard);
             if (currentWeeklySum + journeyFare.MaxSingleCost > journeyFare.WeeklyMax)
             {
@@ -29,6 +36,11 @@ namespace ClamCard.Domain.Services
             }
 
             return journeyFare.MaxSingleCost;
+        }
+
+        private static double GetCurrentMonthlySum(Journey journey, Models.ClamCard clamCard)
+        {
+            return clamCard.TravellingHistory.Where(x => DateTimeHelpers.BetweenInclusive(x.Journey.End.Date.Date, journey.Start.Date.Date.AddMonths(-1), x.Journey.End.Date.Date)).Sum(x => x.Cost);
         }
 
         private static double GetCurrentDailySum(Journey journey, Models.ClamCard card)

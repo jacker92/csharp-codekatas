@@ -24,7 +24,8 @@ namespace ClamCard.Domain.Services
             {
                 MaxSingleCost = Math.Max(startZoneCost.Single, endZoneCost.Single),
                 DailyMax = Math.Max(startZoneCost.Day, endZoneCost.Day),
-                WeeklyMax = Math.Max(startZoneCost.Week, endZoneCost.Week)
+                WeeklyMax = Math.Max(startZoneCost.Week, endZoneCost.Week),
+                MonthlyMax = Math.Max(startZoneCost.Month, endZoneCost.Month),
             };
         }
     }

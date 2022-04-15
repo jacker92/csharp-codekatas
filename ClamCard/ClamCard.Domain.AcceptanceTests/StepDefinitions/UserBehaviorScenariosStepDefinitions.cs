@@ -1,7 +1,5 @@
 using ClamCard.Domain.Models;
 using ClamCard.Domain.Services;
-using System;
-using TechTalk.SpecFlow;
 
 namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
 {
@@ -18,7 +16,7 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         {
             _startingDate = DateTime.Parse("1.1.2000");
             _user = new User("Michael");
-            _startingBalance = 100;
+            _startingBalance = 10000;
             _clamCard = new Models.ClamCard(_startingBalance);
             _travelService = new TravelService();
         }
@@ -132,5 +130,14 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
             _clamCard.Balance.Should().Be(_startingBalance - chargedAmount);
         }
 
+        [Given(@"Michael travels for a week reaching weekly cap on zone A")]
+        public void GivenMichaelTravelsForAWeekReachingWeeklyCapOnZoneA()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                GivenMichaelTravelsReachingDailyCapOnZoneA();
+                GivenMichaelSleepsForDay(1);
+            }
+        }
     }
 }
