@@ -1,4 +1,5 @@
 ﻿using ClamCard.Domain.Models;
+using System.Diagnostics;
 
 namespace ClamCard.Domain.Services
 {
@@ -16,6 +17,7 @@ namespace ClamCard.Domain.Services
             var card = user.ClamCard;
 
             var fare = _fareCalculationService.CalculateCost(journey, card);
+
 
             if (fare > 0)
             {

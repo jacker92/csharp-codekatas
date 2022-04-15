@@ -123,6 +123,14 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
             GivenMichaelTravelsFromAntelopeToAsterisk();
         }
 
+        [Given(@"Michael travels reaching daily cap on zone B")]
+        public void GivenMichaelTravelsReachingDailyCapOnZoneB()
+        {
+            GivenMichaelTravelsFromAsteriskToBalham();
+            GivenMichaelTravelsFromAsteriskToBarbican();
+            GivenMichaelTravelsFromAsteriskToBalham();
+        }
+
         [Then(@"Michael will be charged \$(.*) in total")]
         public void ThenMichaelWillBeChargedInTotal(double chargedAmount)
         {
@@ -136,6 +144,16 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
             for (int i = 0; i < 7; i++)
             {
                 GivenMichaelTravelsReachingDailyCapOnZoneA();
+                GivenMichaelSleepsForDay(1);
+            }
+        }
+
+        [Given(@"Michael travels for a week reaching weekly cap on zone B")]
+        public void GivenMichaelTravelsForAWeekReachingWeeklyCapOnZoneB()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                GivenMichaelTravelsReachingDailyCapOnZoneB();
                 GivenMichaelSleepsForDay(1);
             }
         }
