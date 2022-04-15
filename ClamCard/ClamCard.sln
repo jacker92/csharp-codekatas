@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClamCard.Domain", "ClamCard.Domain\ClamCard.Domain.csproj", "{61566E79-513F-4375-9991-3CDB4EB219DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClamCard.Domain", "ClamCard.Domain\ClamCard.Domain.csproj", "{61566E79-513F-4375-9991-3CDB4EB219DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClamCard.Domain.Tests", "ClamCard.Domain.Tests\ClamCard.Domain.Tests.csproj", "{7A7D74E8-CD78-4277-B4D2-61C992B385C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClamCard.Domain.UnitTests", "ClamCard.Domain.UnitTests\ClamCard.Domain.UnitTests.csproj", "{7A7D74E8-CD78-4277-B4D2-61C992B385C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClamCard.Domain.AcceptanceTests", "ClamCard.Domain.AcceptanceTests\ClamCard.Domain.AcceptanceTests.csproj", "{27CE90AD-EBB2-45F3-AAAC-A054C7FA3332}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7A7D74E8-CD78-4277-B4D2-61C992B385C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A7D74E8-CD78-4277-B4D2-61C992B385C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A7D74E8-CD78-4277-B4D2-61C992B385C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27CE90AD-EBB2-45F3-AAAC-A054C7FA3332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27CE90AD-EBB2-45F3-AAAC-A054C7FA3332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27CE90AD-EBB2-45F3-AAAC-A054C7FA3332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27CE90AD-EBB2-45F3-AAAC-A054C7FA3332}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -20,4 +20,8 @@
     <Folder Include="Support\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ClamCard.Domain\ClamCard.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
