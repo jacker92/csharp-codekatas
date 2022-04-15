@@ -3,6 +3,10 @@ using Xunit;
 
 namespace ClamCard.Domain.Tests
 {
+    public class ClamCardTests
+    {
+
+    }
     public class UserTests
     {
         private readonly string _username;
