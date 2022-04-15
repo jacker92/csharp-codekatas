@@ -1,56 +1,34 @@
-﻿using ClamCard.Domain.Factories;
-using ClamCard.Domain.Helpers;
+﻿using ClamCard.Domain.Helpers;
 using ClamCard.Domain.Models;
+using ClamCard.Domain.Models.Fares;
 
 namespace ClamCard.Domain.Services
 {
     public class FareCalculationService
     {
-        private readonly FareFactory _fareFactory;
+        private readonly JourneyFareCalculationService _journeyFareCalculationService;
+
         public FareCalculationService()
         {
-            _fareFactory = new FareFactory();
+            _journeyFareCalculationService = new JourneyFareCalculationService();
         }
+
         public double CalculateCost(Journey journey, Models.ClamCard clamCard)
         {
-            var startZoneCost = _fareFactory.GetFareFor(journey.Start.Zone);
-            var endZoneCost = _fareFactory.GetFareFor(journey.End.Zone);
-            var max = Math.Max(startZoneCost.Single, endZoneCost.Single);
-
-            var dailyMax = Math.Max(startZoneCost.Day, endZoneCost.Day);
-            var weeklyMax = Math.Max(startZoneCost.Week, endZoneCost.Week);
-
-            return CalculateJourneyCost(max, dailyMax, weeklyMax, journey, clamCard);
-        }
-
-        private double CalculateJourneyCost(double max, double dailyMax, double weeklyMax, Journey journey, Models.ClamCard clamCard)
-        {
-            var currentDailySum = GetCurrentDailySum(journey, clamCard);
+            var journeyFare = _journeyFareCalculationService.Calculate(journey);
             var currentWeeklySum = GetCurrentWeeklySum(journey, clamCard);
-
-            bool hasExistingJourneys = HasExistingJourneys(clamCard);
-            bool currentJourneyOnSameDateAsLastJourney = CurrentJourneyIsOnSameDateAsLastJourney(journey, clamCard);
-
-            if (hasExistingJourneys)
+            if (currentWeeklySum + journeyFare.MaxSingleCost > journeyFare.WeeklyMax)
             {
-                var currentJourneyCanUseWeeklyPool = CurrentJourneyCanUseWeeklyPool(journey, clamCard);
-                if (currentJourneyCanUseWeeklyPool && currentWeeklySum + max > weeklyMax)
-                {
-                    return weeklyMax - currentWeeklySum;
-                }
+                return journeyFare.WeeklyMax - currentWeeklySum;
             }
 
-            if (currentJourneyOnSameDateAsLastJourney && currentDailySum + max > dailyMax)
+            var currentDailySum = GetCurrentDailySum(journey, clamCard);
+            if (currentDailySum + journeyFare.MaxSingleCost > journeyFare.DailyMax)
             {
-                return dailyMax - currentDailySum;
+                return journeyFare.DailyMax - currentDailySum;
             }
 
-            return max;
-        }
-
-        private bool CurrentJourneyCanUseWeeklyPool(Journey journey, Models.ClamCard clamCard)
-        {
-            return journey.Start.Date.Date.AddDays(-7) <= clamCard.TravellingHistory.Last().Journey.End.Date.Date;
+            return journeyFare.MaxSingleCost;
         }
 
         private static double GetCurrentDailySum(Journey journey, Models.ClamCard card)
@@ -61,15 +39,6 @@ namespace ClamCard.Domain.Services
         private static double GetCurrentWeeklySum(Journey journey, Models.ClamCard card)
         {
             return card.TravellingHistory.Where(x => DateTimeHelpers.BetweenInclusive(x.Journey.End.Date.Date, journey.Start.Date.Date.AddDays(-7), x.Journey.End.Date.Date)).Sum(x => x.Cost);
-        }
-
-        private static bool HasExistingJourneys(Models.ClamCard clamCard)
-        {
-            return clamCard.TravellingHistory.Count() > 0;
-        }
-        private static bool CurrentJourneyIsOnSameDateAsLastJourney(Journey journey, Models.ClamCard clamCard)
-        {
-            return clamCard.TravellingHistory.LastOrDefault()?.Journey?.End?.Date.Date == journey.Start.Date.Date;
         }
     }
 }
