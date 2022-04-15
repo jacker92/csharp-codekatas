@@ -11,5 +11,7 @@
         public double Week => 40;
 
         public double Month => 145;
+
+        public double SingleReturn => 2;
     }
 }

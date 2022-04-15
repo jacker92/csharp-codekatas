@@ -17,25 +17,42 @@ namespace ClamCard.Domain.Services
         {
             var journeyFare = _journeyFareCalculationService.Calculate(journey);
 
+            var singleCost = CalculateSingleCost(journey, clamCard, journeyFare);
+
             var currentMontlySum = GetCurrentMonthlySum(journey, clamCard);
-            if (currentMontlySum + journeyFare.MaxSingleCost > journeyFare.MonthlyMax)
+            if (currentMontlySum + singleCost > journeyFare.MonthlyMax)
             {
                 return journeyFare.MonthlyMax - currentMontlySum;
             }
 
             var currentWeeklySum = GetCurrentWeeklySum(journey, clamCard);
-            if (currentWeeklySum + journeyFare.MaxSingleCost > journeyFare.WeeklyMax)
+            if (currentWeeklySum + singleCost > journeyFare.WeeklyMax)
             {
                 return journeyFare.WeeklyMax - currentWeeklySum;
             }
 
             var currentDailySum = GetCurrentDailySum(journey, clamCard);
-            if (currentDailySum + journeyFare.MaxSingleCost > journeyFare.DailyMax)
+            if (currentDailySum + singleCost > journeyFare.DailyMax)
             {
                 return journeyFare.DailyMax - currentDailySum;
             }
 
-            return journeyFare.MaxSingleCost;
+            return singleCost;
+        }
+
+        private double CalculateSingleCost(Journey journey, Models.ClamCard clamCard, JourneyFare journeyFare)
+        {
+            var lastJourney = clamCard.TravellingHistory.LastOrDefault()?.Journey;
+
+            if (lastJourney == null)
+            {
+                return journeyFare.MaxSingleCost;
+            }
+
+            var isReturnJourney = lastJourney.End.Name == journey.Start.Name &&
+                 lastJourney.Start.Name == journey.End.Name;
+
+            return isReturnJourney ? journeyFare.ReturnMax : journeyFare.MaxSingleCost;
         }
 
         private static double GetCurrentMonthlySum(Journey journey, Models.ClamCard clamCard)

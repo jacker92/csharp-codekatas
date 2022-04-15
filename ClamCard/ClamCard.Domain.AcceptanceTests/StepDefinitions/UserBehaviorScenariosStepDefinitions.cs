@@ -157,5 +157,17 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
                 GivenMichaelSleepsForDay(1);
             }
         }
+
+        [Given(@"Michael travels from Barbican to Asterisk")]
+        public void GivenMichaelTravelsFromBarbicanToAsterisk()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Barbican", Zone = Zone.B, Date = _startingDate }, End = new Station { Name = "Asterisk", Zone = Zone.A, Date = _startingDate } });
+        }
+
+        [Given(@"Michael travels from Balham to Asterisk")]
+        public void GivenMichaelTravelsFromBalhamToAsterisk()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Balham", Zone = Zone.B, Date = _startingDate }, End = new Station { Name = "Asterisk", Zone = Zone.A, Date = _startingDate } });
+        }
     }
 }

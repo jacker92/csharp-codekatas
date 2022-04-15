@@ -13,5 +13,7 @@ namespace ClamCard.Domain.Models.Fares
         public double Week => 47;
 
         public double Month => 165;
+
+        public double SingleReturn => 2.5;
     }
 }

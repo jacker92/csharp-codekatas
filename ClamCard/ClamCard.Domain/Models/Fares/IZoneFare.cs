@@ -7,5 +7,6 @@
         double Day { get; }
         double Week { get; }
         double Month { get; }
+        double SingleReturn { get; }
     }
 }
