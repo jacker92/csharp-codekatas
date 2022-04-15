@@ -23,8 +23,8 @@
             var currentDailySum = GetCurrentDailySum(journey, clamCard);
             var currentWeeklySum = GetCurrentWeeklySum(journey, clamCard);
 
-            bool currentJourneyOnSameDateAsLastJourney = CurrentJourneyIsOnSameDateAsLastJourney(journey, clamCard);
             bool hasExistingJourneys = HasExistingJourneys(clamCard);
+            bool currentJourneyOnSameDateAsLastJourney = CurrentJourneyIsOnSameDateAsLastJourney(journey, clamCard);
 
             if (hasExistingJourneys && !currentJourneyOnSameDateAsLastJourney)
             {
@@ -46,7 +46,7 @@
 
         private static double GetCurrentWeeklySum(Journey journey, ClamCard card)
         {
-            return card.TravellingHistory.Where(x => x.Journey.End.Date.Date >= journey.Start.Date.Date.AddDays(-7) && x.Journey.End.Date.Date <= journey.Start.Date.Date).Sum(x => x.Cost);
+            return card.TravellingHistory.Where(x => DateTimeHelpers.Between(x.Journey.End.Date.Date, journey.Start.Date.Date.AddDays(-7), x.Journey.End.Date.Date)).Sum(x => x.Cost);
         }
 
         private static bool HasExistingJourneys(ClamCard clamCard)

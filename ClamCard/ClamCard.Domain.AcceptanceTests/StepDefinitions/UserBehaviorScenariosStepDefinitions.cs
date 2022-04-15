@@ -114,6 +114,5 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         {
             _startingDate = _startingDate.AddDays(daysToSleep);
         }
-
     }
 }
