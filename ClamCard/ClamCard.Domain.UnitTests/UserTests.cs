@@ -47,10 +47,12 @@ namespace ClamCard.Domain.Tests
             Assert.Equal(clamCard, _user.ClamCard);
         }
 
-        //[Fact]
-        //public void AddClamCard_ShouldClamCardAlreadyExistException_IfUserAlreadyHasAClamCard()
-        //{
-        //    _user
-        //}
+        [Fact]
+        public void AddClamCard_ShouldClamCardAlreadyExistsException_IfUserAlreadyHasAClamCard()
+        {
+            var clamCard = new ClamCard();
+            _user.AddClamCard(clamCard);
+            Assert.Throws<ClamCardAlreadyExistsException>(() => _user.AddClamCard(clamCard));
+        }
     }
 }

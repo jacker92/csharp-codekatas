@@ -22,6 +22,11 @@
                 throw new ArgumentNullException(nameof(clamCard));
             }
 
+            if (ClamCard != null)
+            {
+                throw new ClamCardAlreadyExistsException();
+            }
+
             ClamCard = clamCard;
         }
     }
