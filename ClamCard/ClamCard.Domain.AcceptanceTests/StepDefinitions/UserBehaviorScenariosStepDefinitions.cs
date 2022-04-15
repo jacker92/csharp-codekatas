@@ -116,5 +116,21 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         {
             _startingDate = _startingDate.AddDays(daysToSleep);
         }
+
+        [Given(@"Michael travels reaching daily cap on zone A")]
+        public void GivenMichaelTravelsReachingDailyCapOnZoneA()
+        {
+            GivenMichaelTravelsFromAngelToAntelope();
+            GivenMichaelTravelsFromAldgateToAngel();
+            GivenMichaelTravelsFromAntelopeToAsterisk();
+        }
+
+        [Then(@"Michael will be charged \$(.*) in total")]
+        public void ThenMichaelWillBeChargedInTotal(double chargedAmount)
+        {
+            _clamCard.Balance.Should().Be(_startingBalance - _clamCard.TravellingHistory.Sum(x => x.Cost));
+            _clamCard.Balance.Should().Be(_startingBalance - chargedAmount);
+        }
+
     }
 }

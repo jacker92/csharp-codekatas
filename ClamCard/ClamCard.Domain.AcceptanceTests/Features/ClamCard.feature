@@ -50,3 +50,21 @@ Scenario: Multiple Journeys Zone A on two different days
 	And a further $2.50 for his second journey
 	And a further $2 for his third journey
 	And a further $2.5 for his fourth journey
+
+Scenario: Multiple Journeys Zone A on two different days reaching weekly cap
+	Given Michael has an Clam Card
+	And Michael travels reaching daily cap on zone A
+	And Michael sleeps for 1 day
+	And Michael travels reaching daily cap on zone A
+	And Michael sleeps for 1 day
+	And Michael travels reaching daily cap on zone A
+	And Michael sleeps for 1 day
+	And Michael travels reaching daily cap on zone A
+	And Michael sleeps for 1 day
+	And Michael travels reaching daily cap on zone A
+	And Michael sleeps for 1 day
+	And Michael travels reaching daily cap on zone A
+	And Michael sleeps for 1 day
+	And Michael travels reaching daily cap on zone A
+	Then Michael will be charged $40 in total
+
