@@ -32,7 +32,12 @@
                 throw new ArgumentOutOfRangeException(nameof(amount));
             }
 
-            throw new InsufficientBalanceException(amount);
+            if (Balance - amount < 0)
+            {
+                throw new InsufficientBalanceException(amount);
+            }
+
+            Balance -= amount;
         }
     }
 }
