@@ -389,14 +389,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Multiple Journeys Zone A on different days reaching weekly cap")]
+        [Xunit.SkippableFactAttribute(DisplayName="Multiple Journeys including Zone B on two different days")]
         [Xunit.TraitAttribute("FeatureTitle", "User behavior scenarios")]
-        [Xunit.TraitAttribute("Description", "Multiple Journeys Zone A on different days reaching weekly cap")]
-        public virtual void MultipleJourneysZoneAOnDifferentDaysReachingWeeklyCap()
+        [Xunit.TraitAttribute("Description", "Multiple Journeys including Zone B on two different days")]
+        public virtual void MultipleJourneysIncludingZoneBOnTwoDifferentDays()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple Journeys Zone A on different days reaching weekly cap", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple Journeys including Zone B on two different days", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 54
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -421,60 +421,45 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("Michael has an Clam Card", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 56
- testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Michael travels from Asterisk to Barbican", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 57
- testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Michael travels from Barbican to Balham", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 58
- testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Michael travels from Balham to Bison", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 59
  testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 60
- testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Michael travels from Bison to Asterisk", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 61
- testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("Michael will be charged $3 for his first journey", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 62
- testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("a further $3 for his second journey", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 63
- testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("a further $2 for his third journey", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 64
- testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 65
- testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 66
- testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 67
- testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 68
- testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 69
- testRunner.Then("Michael will be charged $40 in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("a further $3 for his fourth journey", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Multiple Journeys Zone A on different days reaching monthly cap")]
+        [Xunit.SkippableFactAttribute(DisplayName="Multiple Journeys Zone A on different days reaching weekly cap")]
         [Xunit.TraitAttribute("FeatureTitle", "User behavior scenarios")]
-        [Xunit.TraitAttribute("Description", "Multiple Journeys Zone A on different days reaching monthly cap")]
-        public virtual void MultipleJourneysZoneAOnDifferentDaysReachingMonthlyCap()
+        [Xunit.TraitAttribute("Description", "Multiple Journeys Zone A on different days reaching weekly cap")]
+        public virtual void MultipleJourneysZoneAOnDifferentDaysReachingWeeklyCap()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple Journeys Zone A on different days reaching monthly cap", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 71
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple Journeys Zone A on different days reaching weekly cap", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 66
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -494,31 +479,108 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 72
+#line 67
  testRunner.Given("Michael has an Clam Card", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
+#line 68
+ testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 69
+ testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 70
+ testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 71
+ testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 72
+ testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
 #line 73
- testRunner.And("Michael travels for a week reaching weekly cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 74
- testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 75
- testRunner.And("Michael travels for a week reaching weekly cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 76
- testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 77
- testRunner.And("Michael travels for a week reaching weekly cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 78
  testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
+#line 78
+ testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
 #line 79
- testRunner.And("Michael travels for a week reaching weekly cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 80
+ testRunner.And("Michael travels reaching daily cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 81
+ testRunner.Then("Michael will be charged $40 in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Multiple Journeys Zone A on different days reaching monthly cap")]
+        [Xunit.TraitAttribute("FeatureTitle", "User behavior scenarios")]
+        [Xunit.TraitAttribute("Description", "Multiple Journeys Zone A on different days reaching monthly cap")]
+        public virtual void MultipleJourneysZoneAOnDifferentDaysReachingMonthlyCap()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple Journeys Zone A on different days reaching monthly cap", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 83
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 84
+ testRunner.Given("Michael has an Clam Card", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 85
+ testRunner.And("Michael travels for a week reaching weekly cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 86
+ testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 87
+ testRunner.And("Michael travels for a week reaching weekly cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 88
+ testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 89
+ testRunner.And("Michael travels for a week reaching weekly cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 90
+ testRunner.And("Michael sleeps for 1 day", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 91
+ testRunner.And("Michael travels for a week reaching weekly cap on zone A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 93
  testRunner.Then("Michael will be charged $145 in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

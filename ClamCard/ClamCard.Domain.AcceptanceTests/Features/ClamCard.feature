@@ -51,6 +51,18 @@ Scenario: Multiple Journeys Zone A on two different days
 	And a further $2 for his third journey
 	And a further $2.5 for his fourth journey
 
+Scenario: Multiple Journeys including Zone B on two different days
+	Given Michael has an Clam Card
+	And Michael travels from Asterisk to Barbican
+	And Michael travels from Barbican to Balham
+	And Michael travels from Balham to Bison
+	And Michael sleeps for 1 day
+	And Michael travels from Bison to Asterisk
+	Then Michael will be charged $3 for his first journey
+	And a further $3 for his second journey
+	And a further $2 for his third journey
+	And a further $3 for his fourth journey
+
 Scenario: Multiple Journeys Zone A on different days reaching weekly cap
 	Given Michael has an Clam Card
 	And Michael travels reaching daily cap on zone A
