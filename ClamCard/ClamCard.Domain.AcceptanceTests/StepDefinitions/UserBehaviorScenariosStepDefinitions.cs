@@ -89,5 +89,22 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
             _clamCard.Balance.Should().Be(_startingBalance - _clamCard.TravellingHistory.Sum(x => x.Cost));
         }
 
+        [Given(@"Michael travels from Aldgate to Angel")]
+        public void GivenMichaelTravelsFromAldgateToAngel()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Aldgate", Zone = Zone.A }, End = new Station { Name = "Angel", Zone = Zone.A } });
+        }
+
+        [Given(@"Michael travels from Angel to Antelope")]
+        public void GivenMichaelTravelsFromAngelToAntelope()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Angel", Zone = Zone.A }, End = new Station { Name = "Antilope", Zone = Zone.A } });
+        }
+
+        [Given(@"Michael travels from Antelope to Asterisk")]
+        public void GivenMichaelTravelsFromAntelopeToAsterisk()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Antilope", Zone = Zone.A }, End = new Station { Name = "Asterisk", Zone = Zone.A } });
+        }
     }
 }

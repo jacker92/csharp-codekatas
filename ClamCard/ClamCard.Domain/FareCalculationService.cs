@@ -15,6 +15,11 @@
             var max = Math.Max(startZoneCost.Single, endZoneCost.Single);
             var dailyMax = Math.Max(startZoneCost.Day, endZoneCost.Day);
 
+            return CalculateJourneyCost(currentDailySum, max, dailyMax);
+        }
+
+        private static double CalculateJourneyCost(double currentDailySum, double max, double dailyMax)
+        {
             if (currentDailySum + max > dailyMax)
             {
                 return dailyMax - currentDailySum;
