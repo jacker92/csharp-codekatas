@@ -56,5 +56,38 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
             _clamCard.TravellingHistory[1].Cost.Should().Be(chargedAmount);
             _clamCard.Balance.Should().Be(_startingBalance - _clamCard.TravellingHistory.Sum(x => x.Cost));
         }
+
+        [Given(@"Michael travels from Barbican to Balham")]
+        public void GivenMichaelTravelsFromBarbicanToBalham()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Barbican", Zone = Zone.B }, End = new Station { Name = "Balham", Zone = Zone.B } });
+        }
+
+        [Given(@"Michael travels from Balham to Bison")]
+        public void GivenMichaelTravelsFromBalhamToBison()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Balham", Zone = Zone.B }, End = new Station { Name = "Bison", Zone = Zone.B } });
+        }
+
+        [Given(@"Michael travels from Bison to Asterisk")]
+        public void GivenMichaelTravelsFromBisonToAsterisk()
+        {
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Bison", Zone = Zone.B }, End = new Station { Name = "Asterix", Zone = Zone.A } });
+        }
+
+        [Then(@"a further \$(.*) for his third journey")]
+        public void ThenAFurtherForHisThirdJourney(double chargedAmount)
+        {
+            _clamCard.TravellingHistory[2].Cost.Should().Be(chargedAmount);
+            _clamCard.Balance.Should().Be(_startingBalance - _clamCard.TravellingHistory.Sum(x => x.Cost));
+        }
+
+        [Then(@"a further \$(.*) for his fourth journey")]
+        public void ThenAFurtherForHisFourthJourney(double chargedAmount)
+        {
+            _clamCard.TravellingHistory[3].Cost.Should().Be(chargedAmount);
+            _clamCard.Balance.Should().Be(_startingBalance - _clamCard.TravellingHistory.Sum(x => x.Cost));
+        }
+
     }
 }
