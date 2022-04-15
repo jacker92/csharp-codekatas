@@ -2,14 +2,14 @@
 {
     public class ZoneBFare : IZoneFare
     {
-        public Zone Zone => throw new NotImplementedException();
+        public Zone Zone => Zone.B;
 
-        public double Single => throw new NotImplementedException();
+        public double Single => 3;
 
-        public double Day => throw new NotImplementedException();
+        public double Day => 8;
 
-        public double Week => throw new NotImplementedException();
+        public double Week => 47;
 
-        public double Month => throw new NotImplementedException();
+        public double Month => 165;
     }
 }
