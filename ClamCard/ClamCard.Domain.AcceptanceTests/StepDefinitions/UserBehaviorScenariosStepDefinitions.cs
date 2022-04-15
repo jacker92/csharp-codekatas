@@ -10,7 +10,7 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         private readonly ClamCard _clamCard;
         private readonly double _startingBalance;
         private readonly TravelService _travelService;
-        private readonly DateTime _startingDate;
+        private DateTime _startingDate;
 
         public UserBehaviorScenariosStepDefinitions()
         {
@@ -108,5 +108,12 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         {
             _travelService.Travel(_user, new Journey { Start = new Station { Name = "Antilope", Zone = Zone.A, Date = _startingDate }, End = new Station { Name = "Asterisk", Zone = Zone.A, Date = _startingDate } });
         }
+
+        [Given(@"Michael sleeps for (.*) day")]
+        public void GivenMichaelSleepsForDay(int daysToSleep)
+        {
+            _startingDate = _startingDate.AddDays(daysToSleep);
+        }
+
     }
 }

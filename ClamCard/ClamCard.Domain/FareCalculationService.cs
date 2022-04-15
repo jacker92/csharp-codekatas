@@ -7,7 +7,7 @@
         {
             _fareFactory = new FareFactory();
         }
-        public double CalculateCost(Journey journey, double currentDailySum)
+        public double CalculateCost(Journey journey, ClamCard clamCard)
         {
             var startZoneCost = _fareFactory.GetFareFor(journey.Start.Zone);
             var endZoneCost = _fareFactory.GetFareFor(journey.End.Zone);
@@ -15,17 +15,47 @@
             var max = Math.Max(startZoneCost.Single, endZoneCost.Single);
             var dailyMax = Math.Max(startZoneCost.Day, endZoneCost.Day);
 
-            return CalculateJourneyCost(currentDailySum, max, dailyMax);
+            return CalculateJourneyCost(max, dailyMax, journey, clamCard);
         }
 
-        private static double CalculateJourneyCost(double currentDailySum, double max, double dailyMax)
+        private double CalculateJourneyCost(double max, double dailyMax, Journey journey, ClamCard clamCard)
         {
-            if (currentDailySum + max > dailyMax)
+            var currentDailySum = GetCurrentDailySum(journey, clamCard);
+            var currentWeeklySum = GetCurrentWeeklySum(journey, clamCard);
+
+            bool currentJourneyOnSameDateAsLastJourney = CurrentJourneyIsOnSameDateAsLastJourney(journey, clamCard);
+            bool hasExistingJourneys = HasExistingJourneys(clamCard);
+
+            if (hasExistingJourneys && !currentJourneyOnSameDateAsLastJourney)
+            {
+                return max;
+            }
+
+            if (currentJourneyOnSameDateAsLastJourney && currentDailySum + max > dailyMax)
             {
                 return dailyMax - currentDailySum;
             }
 
             return max;
+        }
+
+        private static double GetCurrentDailySum(Journey journey, ClamCard card)
+        {
+            return card.TravellingHistory.Where(x => x.Journey.End.Date.Date == journey.Start.Date.Date).Sum(x => x.Cost);
+        }
+
+        private static double GetCurrentWeeklySum(Journey journey, ClamCard card)
+        {
+            return card.TravellingHistory.Where(x => x.Journey.End.Date.Date >= journey.Start.Date.Date.AddDays(-7) && x.Journey.End.Date.Date <= journey.Start.Date.Date).Sum(x => x.Cost);
+        }
+
+        private static bool HasExistingJourneys(ClamCard clamCard)
+        {
+            return clamCard.TravellingHistory.Count() > 0;
+        }
+        private static bool CurrentJourneyIsOnSameDateAsLastJourney(Journey journey, ClamCard clamCard)
+        {
+            return clamCard.TravellingHistory.LastOrDefault()?.Journey?.End?.Date.Date == journey.Start.Date.Date;
         }
     }
 }
