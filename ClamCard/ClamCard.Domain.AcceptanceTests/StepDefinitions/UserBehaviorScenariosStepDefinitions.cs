@@ -9,12 +9,14 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         private readonly User _user;
         private readonly ClamCard _clamCard;
         private readonly double _startingBalance;
+        private readonly TravelService _travelService;
 
         public UserBehaviorScenariosStepDefinitions()
         {
             _user = new User("Michael");
             _startingBalance = 100;
             _clamCard = new ClamCard(_startingBalance);
+            _travelService = new TravelService();
         }
 
         [Given(@"Michael has an Clam Card")]
@@ -26,7 +28,7 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         [Given(@"Michael travels from Asterisk to Aldgate")]
         public void GivenMichaelTravelsFromAsteriskToAldgate()
         {
-            throw new PendingStepException();
+            _travelService.Travel(_user, new Journey { Start = new Station { Name = "Asterisk", Zone = Zone.A }, End = new Station { Name = "Aldgate", Zone = Zone.A } });
         }
 
         [Then(@"Michael will be charged \$(.*) for his first journey")]
