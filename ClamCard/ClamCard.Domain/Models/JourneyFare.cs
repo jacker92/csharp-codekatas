@@ -1,4 +1,4 @@
-﻿namespace ClamCard.Domain.Services
+﻿namespace ClamCard.Domain.Models
 {
     public class JourneyFare
     {
