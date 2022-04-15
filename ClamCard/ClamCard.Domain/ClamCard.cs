@@ -2,6 +2,11 @@
 {
     public class ClamCard
     {
+        public ClamCard(double balance = 0)
+        {
+            Balance = balance;
+        }
+
         public double Balance { get; private set; }
 
         public void Deposit(double amount)

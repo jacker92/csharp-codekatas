@@ -7,16 +7,20 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
     public class UserBehaviorScenariosStepDefinitions
     {
         private readonly User _user;
+        private readonly ClamCard _clamCard;
+        private readonly double _startingBalance;
 
         public UserBehaviorScenariosStepDefinitions()
         {
             _user = new User("Michael");
+            _startingBalance = 100;
+            _clamCard = new ClamCard(_startingBalance);
         }
 
         [Given(@"Michael has an Clam Card")]
         public void GivenMichaelHasAnClamCard()
         {
-            throw new PendingStepException();
+            _user.AddClamCard(_clamCard);
         }
 
         [Given(@"Michael travels from Asterisk to Aldgate")]
@@ -26,9 +30,9 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
         }
 
         [Then(@"Michael will be charged \$(.*) for his first journey")]
-        public void ThenMichaelWillBeChargedForHisFirstJourney(Decimal p0)
+        public void ThenMichaelWillBeChargedForHisFirstJourney(double p0)
         {
-            throw new PendingStepException();
+            Assert.Equal(_startingBalance - p0, _clamCard.Balance);
         }
     }
 }

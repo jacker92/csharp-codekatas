@@ -18,6 +18,13 @@ namespace ClamCard.Domain.Tests
             Assert.Equal(0, _clamCard.Balance);
         }
 
+        [Fact]
+        public void Constructor_ShouldSet100Balance_IfExplicitlySet()
+        {
+            var clamCard  = new ClamCard(100);
+            Assert.Equal(100, clamCard.Balance);
+        }
+
         [Theory]
         [InlineData(0)]
         [InlineData(-1)]
