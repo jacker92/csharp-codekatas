@@ -1,4 +1,7 @@
-﻿namespace ClamCard.Domain
+﻿using ClamCard.Domain.Models;
+using ClamCard.Domain.Models.Fares;
+
+namespace ClamCard.Domain.Factories
 {
     public class FareFactory
     {

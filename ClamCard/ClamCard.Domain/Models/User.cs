@@ -1,4 +1,6 @@
-﻿namespace ClamCard.Domain
+﻿using ClamCard.Domain.Exceptions;
+
+namespace ClamCard.Domain.Models
 {
     public class User
     {

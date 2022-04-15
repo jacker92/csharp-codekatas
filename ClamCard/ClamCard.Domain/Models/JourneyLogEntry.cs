@@ -1,4 +1,4 @@
-﻿namespace ClamCard.Domain
+﻿namespace ClamCard.Domain.Models
 {
     public class JourneyLogEntry
     {

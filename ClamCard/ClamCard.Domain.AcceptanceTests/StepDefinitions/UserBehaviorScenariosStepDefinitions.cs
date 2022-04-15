@@ -1,3 +1,5 @@
+using ClamCard.Domain.Models;
+using ClamCard.Domain.Services;
 using System;
 using TechTalk.SpecFlow;
 
@@ -7,7 +9,7 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
     public class UserBehaviorScenariosStepDefinitions
     {
         private readonly User _user;
-        private readonly ClamCard _clamCard;
+        private readonly Models.ClamCard _clamCard;
         private readonly double _startingBalance;
         private readonly TravelService _travelService;
         private DateTime _startingDate;
@@ -17,7 +19,7 @@ namespace ClamCard.Domain.AcceptanceTests.StepDefinitions
             _startingDate = DateTime.Parse("1.1.2000");
             _user = new User("Michael");
             _startingBalance = 100;
-            _clamCard = new ClamCard(_startingBalance);
+            _clamCard = new Models.ClamCard(_startingBalance);
             _travelService = new TravelService();
         }
 

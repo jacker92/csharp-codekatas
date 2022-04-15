@@ -1,7 +1,9 @@
+using ClamCard.Domain.Exceptions;
+using ClamCard.Domain.Models;
 using System;
 using Xunit;
 
-namespace ClamCard.Domain.Tests
+namespace ClamCard.Domain.UnitTests
 {
     public class UserTests
     {
@@ -41,7 +43,7 @@ namespace ClamCard.Domain.Tests
         [Fact]
         public void AddClamCard_ShouldCorreclyAssignClamCard()
         {
-            var clamCard = new ClamCard();
+            var clamCard = new Models.ClamCard();
             _user.AddClamCard(clamCard);
 
             Assert.Equal(clamCard, _user.ClamCard);
@@ -50,7 +52,7 @@ namespace ClamCard.Domain.Tests
         [Fact]
         public void AddClamCard_ShouldClamCardAlreadyExistsException_IfUserAlreadyHasAClamCard()
         {
-            var clamCard = new ClamCard();
+            var clamCard = new Models.ClamCard();
             _user.AddClamCard(clamCard);
             Assert.Throws<ClamCardAlreadyExistsException>(() => _user.AddClamCard(clamCard));
         }

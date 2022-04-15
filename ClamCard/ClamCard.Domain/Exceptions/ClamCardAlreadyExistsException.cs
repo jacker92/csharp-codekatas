@@ -1,4 +1,4 @@
-﻿namespace ClamCard.Domain
+﻿namespace ClamCard.Domain.Exceptions
 {
     public class ClamCardAlreadyExistsException : Exception
     {

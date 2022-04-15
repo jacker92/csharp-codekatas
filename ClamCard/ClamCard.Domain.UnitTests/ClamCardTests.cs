@@ -1,15 +1,16 @@
-﻿using System;
+﻿using ClamCard.Domain.Exceptions;
+using System;
 using Xunit;
 
-namespace ClamCard.Domain.Tests
+namespace ClamCard.Domain.UnitTests
 {
     public class ClamCardTests
     {
-        private readonly ClamCard _clamCard;
+        private readonly Models.ClamCard _clamCard;
 
         public ClamCardTests()
         {
-            _clamCard = new ClamCard();
+            _clamCard = new Models.ClamCard();
         }
 
         [Fact]
@@ -21,7 +22,7 @@ namespace ClamCard.Domain.Tests
         [Fact]
         public void Constructor_ShouldSet100Balance_IfExplicitlySet()
         {
-            var clamCard  = new ClamCard(100);
+            var clamCard = new Models.ClamCard(100);
             Assert.Equal(100, clamCard.Balance);
         }
 

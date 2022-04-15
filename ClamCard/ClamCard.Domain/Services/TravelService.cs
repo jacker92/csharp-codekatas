@@ -1,4 +1,6 @@
-﻿namespace ClamCard.Domain
+﻿using ClamCard.Domain.Models;
+
+namespace ClamCard.Domain.Services
 {
     public class TravelService
     {
