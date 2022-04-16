@@ -1,6 +1,8 @@
-﻿using Ninject.Extensions.Conventions;
+﻿using Microsoft.EntityFrameworkCore;
+using Ninject.Extensions.Conventions;
 using Ninject.Modules;
 using SocialNetwork.Console.VerbLogics;
+using SocialNetwork.Infrastructure;
 
 namespace SocialNetwork.Console
 {
@@ -38,6 +40,8 @@ namespace SocialNetwork.Console
         private void BindWithoutDefaultConventions()
         {
             Bind<IOutput>().To<ConsoleOutput>();
+            var dbContext = new AppDbContextFactory().CreateDbContext(null);
+            Bind<IApplicationDbContext>().ToConstant(dbContext);
         }
     }
 }
