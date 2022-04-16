@@ -1,5 +1,7 @@
-﻿using Ninject.Extensions.Conventions;
+﻿using AutoMapper;
+using Ninject.Extensions.Conventions;
 using Ninject.Modules;
+using SocialNetwork.Application;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Infrastructure;
 
@@ -41,6 +43,7 @@ namespace SocialNetwork.Console
             Bind<IOutput>().To<ConsoleOutput>();
             var dbContext = new AppDbContextFactory().CreateDbContext(null);
             Bind<IApplicationDbContext>().ToConstant(dbContext);
+            Bind<IMapper>().ToConstant(new MapperFactory().Create());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Domain;
 using SocialNetwork.Domain.Requests;
 using SocialNetwork.Infrastructure;
@@ -8,10 +9,12 @@ namespace SocialNetwork.Application.Repositories
     public class PostRepository : IPostRepository
     {
         private readonly IApplicationDbContext _applicationDbContext;
+        private readonly IMapper _mapper;
 
-        public PostRepository(IApplicationDbContext dbContext)
+        public PostRepository(IApplicationDbContext dbContext, IMapper mapper)
         {
             _applicationDbContext = dbContext;
+            _mapper = mapper;
         }
 
         public void Create(Post post)
@@ -22,7 +25,7 @@ namespace SocialNetwork.Application.Repositories
 
         public void Create(IEnumerable<CreatePostRequest> posts)
         {
-            var postsList = posts.Select(x => new Post { User = x.User, Content = x.Content, Created = x.Created });
+            var postsList = _mapper.Map<IEnumerable<Post>>(posts);
             _applicationDbContext.Posts.AddRange(postsList);
             _applicationDbContext.SaveChanges();
         }

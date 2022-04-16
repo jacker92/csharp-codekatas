@@ -1,5 +1,7 @@
 using AutoFixture;
+using AutoMapper;
 using Moq;
+using SocialNetwork.Application;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
@@ -23,6 +25,7 @@ namespace SocialNetwork.Console.Tests
         private readonly FollowLogic _followLogic;
         private readonly WallLogic _wallLogic;
         private readonly Application _application;
+        private readonly IMapper _mapper;
 
         private User _testUser1;
         private User _testUser2;
@@ -30,8 +33,9 @@ namespace SocialNetwork.Console.Tests
         public ApplicationTests()
         {
             _output = new Mock<IOutput>();
+            _mapper = new MapperFactory().Create();
             var context = new AppDbContextFactory().CreateInMemoryDbContext();
-            _postRepository = new PostRepository(context);
+            _postRepository = new PostRepository(context, _mapper);
             _userRepository = new UserRepository(context);
             _timelineLogic = new TimelineLogic(_output.Object, _postRepository, _userRepository);
             _postLogic = new PostLogic(_output.Object, _postRepository, _userRepository);
