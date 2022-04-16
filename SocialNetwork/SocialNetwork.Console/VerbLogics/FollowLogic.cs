@@ -3,6 +3,7 @@ using SocialNetwork.Console.CommandLineOptions;
 
 namespace SocialNetwork.Console.VerbLogics
 {
+
     public class FollowLogic : IVerbLogic<FollowOptions>
     {
         private readonly IUserRepository _userRepository;

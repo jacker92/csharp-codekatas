@@ -18,6 +18,7 @@ namespace SocialNetwork.Console.Tests
         private readonly Mock<IUserRepository> _userRepository;
         private readonly TimelineLogic _timelineLogic;
         private readonly FollowLogic _followLogic;
+        private readonly WallLogic _wallLogic;
         private readonly Application _application;
 
         public ApplicationTests()
@@ -28,7 +29,8 @@ namespace SocialNetwork.Console.Tests
             _timelineLogic = new TimelineLogic(_output.Object, _postRepository.Object, _userRepository.Object);
             _postLogic = new PostLogic(_output.Object, _postRepository.Object, _userRepository.Object);
             _followLogic = new FollowLogic(_userRepository.Object, _output.Object);
-            _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic);
+            _wallLogic = new WallLogic(_userRepository.Object, _postRepository.Object, _output.Object);
+            _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
         }
 
@@ -119,6 +121,41 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteLine($"Subscribed to user's {userToView.Name} timeline."));
 
             _userRepository.Verify(x => x.Update(It.Is<User>(x => x == invokedByUser && x.Subscriptions.Contains(userToView))));
+        }
+
+        [Theory, AutoMoqData]
+        public void Run_Wall_ShouldBeEmpty_ByDefault(User invokedByUser)
+        {
+            _userRepository.Setup(x => x.CreateIfNotExists(invokedByUser.Name))
+             .Returns(invokedByUser);
+
+            _application.Run(new string[] { invokedByUser.Name, "/wall" });
+
+            _output.Verify(x => x.WriteLine($"{invokedByUser.Name} has not yet subscribed to any user's posts."));
+        }
+
+        [Theory, AutoMoqData]
+        public void Run_Wall_ShouldShowAllUsersPostThatUserHasSubscribed(User invokedByUser, User userToView, IEnumerable<Post> posts)
+        {
+            invokedByUser.Subscriptions.Add(userToView);
+
+            _userRepository.Setup(x => x.CreateIfNotExists(invokedByUser.Name))
+                .Returns(invokedByUser);
+
+            _userRepository.Setup(x => x.CreateIfNotExists(userToView.Name))
+                .Returns(userToView);
+
+            _postRepository.Setup(x => x.GetPosts(userToView))
+                .Returns(posts);
+
+            _application.Run(new string[] { invokedByUser.Name, "/wall" });
+
+            _output.Verify(x => x.WriteLine($"Showing {invokedByUser.Name}'s wall:"));
+
+            foreach (var post in posts)
+            {
+                _output.Verify(x => x.WriteLine(post.Content));
+            }
         }
     }
 }
