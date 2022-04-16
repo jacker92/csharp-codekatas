@@ -68,10 +68,10 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteError("Name is required!"));
         }
 
-        [Theory, AutoMoqData]
-        public void Run_ShouldReturnErrorMessage_IfInvalidVerbIsGiven(string user)
+        [Fact]
+        public void Run_ShouldReturnErrorMessage_IfInvalidVerbIsGiven()
         {
-            _application.Run(new string[] { user, "/test" });
+            _application.Run(new string[] { _testUser1.Name, "/test" });
 
             _output.Verify(x => x.WriteError(It.Is<string>(x => x.Contains("Verb '/test' is not recognized."))));
         }
@@ -125,29 +125,24 @@ namespace SocialNetwork.Console.Tests
             Assert.Equal(_testUser2.Name, updatedUser.Subscriptions[0].Name);
         }
 
-        [Theory, AutoMoqData]
-        public void Run_Wall_ShouldBeEmpty_ByDefault(string invokedBy)
+        [Fact]
+        public void Run_Wall_ShouldBeEmpty_ByDefault()
         {
-            var invokedByUser = _userRepository.CreateIfNotExists(invokedBy);
+            _application.Run(new string[] { _testUser1.Name, "/wall" });
 
-            _application.Run(new string[] { invokedBy, "/wall" });
-
-            _output.Verify(x => x.WriteLine($"{invokedBy} has not yet subscribed to any user's posts."));
+            _output.Verify(x => x.WriteLine($"{_testUser1.Name} has not yet subscribed to any user's posts."));
         }
 
         [Theory, AutoMoqData]
-        public void Run_Wall_ShouldShowAllUsersPostThatUserHasSubscribed(string invokedBy, string toView, IEnumerable<string> posts)
+        public void Run_Wall_ShouldShowAllUsersPostThatUserHasSubscribed(IEnumerable<string> posts)
         {
-            var invokedByUser = _userRepository.CreateIfNotExists(invokedBy);
-            var userToView = _userRepository.CreateIfNotExists(toView);
-    
-            AddPostsForUser(posts, userToView);
+            AddPostsForUser(posts, _testUser2);
 
-            invokedByUser.Subscriptions.Add(userToView);
+            _testUser1.Subscriptions.Add(_testUser2);
 
-            _application.Run(new string[] { invokedBy, "/wall" });
+            _application.Run(new string[] { _testUser1.Name, "/wall" });
 
-            _output.Verify(x => x.WriteLine($"Showing {invokedBy}'s wall:"));
+            _output.Verify(x => x.WriteLine($"Showing {_testUser1.Name}'s wall:"));
 
             foreach (var post in posts)
             {
