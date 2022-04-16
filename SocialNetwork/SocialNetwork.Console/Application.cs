@@ -1,6 +1,5 @@
 ﻿using CommandLine;
 using CommandLine.Text;
-using SocialNetwork.Console.CommandLineOptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -11,7 +11,7 @@ namespace SocialNetwork.Console
             var consoleOutput = new ConsoleOutput();
             var postsRepository = new PostRepository();
             var userRepository = new UserRepository();
-            var verbLogicRunner = new VerbLogicRunner(new PostLogic(consoleOutput, postsRepository, userRepository));
+            var verbLogicRunner = new VerbLogicRunner(new PostLogic(consoleOutput, postsRepository, userRepository), new TimelineLogic(consoleOutput));
             var application = new Application(consoleOutput, verbLogicRunner);
 
             application.Run(args);
