@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.Console
+﻿namespace SocialNetwork.Console.VerbLogics
 {
     public interface IVerbLogic<T> where T : class
     {
