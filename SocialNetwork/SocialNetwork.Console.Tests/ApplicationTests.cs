@@ -7,12 +7,22 @@ namespace SocialNetwork.Console.Tests
     public class ApplicationTests
     {
         private readonly Mock<IOutput> _output;
+        private readonly Mock<IVerbLogicRunner> _verbLogicRunner;
         private readonly Application _application;
 
         public ApplicationTests()
         {
             _output = new Mock<IOutput>();
-            _application = new Application(_output.Object);
+            _verbLogicRunner = new Mock<IVerbLogicRunner>();
+            _application = new Application(_output.Object, _verbLogicRunner.Object);
+        }
+
+        [Fact]
+        public void ShouldReturnErrorMessage_IfNullArgumentListIsGiven()
+        {
+            _application.Run(null);
+
+            _output.Verify(x => x.WriteError("No arguments were given!"));
         }
 
         [Fact]
@@ -20,7 +30,7 @@ namespace SocialNetwork.Console.Tests
         {
             _application.Run(Array.Empty<string>());
 
-            _output.Verify(x => x.Write("Name is required!"));
+            _output.Verify(x => x.WriteError("Name is required!"));
         }
 
 
@@ -29,7 +39,7 @@ namespace SocialNetwork.Console.Tests
         {
             _application.Run(new string[] {" "});
 
-            _output.Verify(x => x.Write("Name is required!"));
+            _output.Verify(x => x.WriteError("Name is required!"));
         }
 
         [Fact]
@@ -37,7 +47,7 @@ namespace SocialNetwork.Console.Tests
         {
             _application.Run(new string[] { "Alice /test" });
 
-            _output.Verify(x => x.Write("Invalid verb is given!"));
+            _output.Verify(x => x.WriteError(It.Is<string>(x => x.Contains("No verb selected."))));
         }
     }
 }

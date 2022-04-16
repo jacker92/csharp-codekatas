@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialNetwork.Console.VerbLogics;
+using System;
 
 namespace SocialNetwork.Console
 {
@@ -7,7 +8,8 @@ namespace SocialNetwork.Console
         static void Main(string[] args)
         {
             var consoleOutput = new ConsoleOutput();
-            var application = new Application(consoleOutput);
+            var verbLogicRunner = new VerbLogicRunner(new PostLogic(consoleOutput));
+            var application = new Application(consoleOutput, verbLogicRunner);
 
             application.Run(args);
         }

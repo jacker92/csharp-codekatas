@@ -2,9 +2,14 @@
 {
     public class ConsoleOutput : IOutput
     {
-        public void Write(string message)
+        public void WriteLine(string message)
         {
-            throw new System.NotImplementedException();
+            System.Console.WriteLine(message);
+        }
+
+        public void WriteError(string message)
+        {
+            System.Console.WriteLine(message);
         }
     }
 }

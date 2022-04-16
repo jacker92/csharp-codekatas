@@ -1,0 +1,24 @@
+﻿using SocialNetwork.Console.CommandLineOptions;
+
+namespace SocialNetwork.Console
+{
+    public class VerbLogicRunner : IVerbLogicRunner
+    {
+        private readonly IVerbLogic<PostOptions> _postLogic;
+
+        public VerbLogicRunner(IVerbLogic<PostOptions> postLogic)
+        {
+            _postLogic = postLogic;
+        }
+
+        public void Run(object obj)
+        {
+            switch (obj)
+            {
+                case PostOptions p:
+                    _postLogic.Run(p);
+                    break;
+            }
+        }
+    }
+}
