@@ -1,6 +1,7 @@
 ﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain;
+using SocialNetwork.Domain.Requests;
 using SocialNetwork.Domain.Responses;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,8 @@ namespace SocialNetwork.Console.VerbLogics
 
         public int Run(WallOptions options, string userName)
         {
-            var user = _userRepository.CreateIfNotExists(userName);
+            var request = new CreateUserRequest { Name = userName };
+            var user = _userRepository.CreateIfNotExists(request);
             var mentions = _postRepository.GetAll().Where(x => x.Content.Contains($"@{userName}"));
 
             if (!user.Subscriptions.Any() && !mentions.Any())

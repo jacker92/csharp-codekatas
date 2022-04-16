@@ -1,5 +1,6 @@
 ﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
+using SocialNetwork.Domain.Requests;
 using System.Linq;
 
 namespace SocialNetwork.Console.VerbLogics
@@ -19,8 +20,12 @@ namespace SocialNetwork.Console.VerbLogics
 
         public int Run(TimelineOptions options, string userName)
         {
-            _userRepository.CreateIfNotExists(userName);
-            var user = _userRepository.CreateIfNotExists(options.UserName);
+            var request = new CreateUserRequest { Name = userName };
+            _userRepository.CreateIfNotExists(request);
+
+            request = new CreateUserRequest { Name = options.UserName };
+            _userRepository.CreateIfNotExists(request);
+
             var posts = _postRepository.GetByUserName(options.UserName);
 
             if (!posts.Any())

@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Domain;
+using SocialNetwork.Domain.Requests;
 using SocialNetwork.Infrastructure;
 
 namespace SocialNetwork.Application.Repositories
@@ -7,22 +9,24 @@ namespace SocialNetwork.Application.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly IApplicationDbContext _applicationDbContext;
+        private readonly IMapper _mapper;
 
-        public UserRepository(IApplicationDbContext applicationDbContext)
+        public UserRepository(IApplicationDbContext applicationDbContext, IMapper mapper)
         {
             _applicationDbContext = applicationDbContext;
+            _mapper = mapper;
         }
 
-        public User CreateIfNotExists(string userName)
+        public User CreateIfNotExists(CreateUserRequest createUserRequest)
         {
-            var existing = GetByName(userName);
+            var existing = GetByName(createUserRequest.Name);
 
             if (existing != null)
             {
                 return existing;
             }
 
-            var user = new User { Name = userName };
+            var user = _mapper.Map<User>(createUserRequest);
 
             var result = _applicationDbContext.Users.Add(user);
             _applicationDbContext.SaveChanges();

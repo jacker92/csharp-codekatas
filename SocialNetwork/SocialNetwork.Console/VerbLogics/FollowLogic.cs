@@ -1,5 +1,6 @@
 ﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
+using SocialNetwork.Domain.Requests;
 
 namespace SocialNetwork.Console.VerbLogics
 {
@@ -17,8 +18,8 @@ namespace SocialNetwork.Console.VerbLogics
 
         public int Run(FollowOptions options, string userName)
         {
-            var user = _userRepository.CreateIfNotExists(userName);
-            var userToFollow = _userRepository.CreateIfNotExists(options.UserToFollow);
+            var user = _userRepository.CreateIfNotExists(new CreateUserRequest { Name = userName});
+            var userToFollow = _userRepository.CreateIfNotExists(new CreateUserRequest { Name = options.UserToFollow });
 
             user.Subscriptions.Add(userToFollow);
 

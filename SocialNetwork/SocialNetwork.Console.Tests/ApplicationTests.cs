@@ -36,7 +36,7 @@ namespace SocialNetwork.Console.Tests
             _mapper = new MapperFactory().Create();
             var context = new AppDbContextFactory().CreateInMemoryDbContext();
             _postRepository = new PostRepository(context, _mapper);
-            _userRepository = new UserRepository(context);
+            _userRepository = new UserRepository(context, _mapper);
             _timelineLogic = new TimelineLogic(_output.Object, _postRepository, _userRepository);
             _postLogic = new PostLogic(_output.Object, _postRepository, _userRepository);
             _followLogic = new FollowLogic(_userRepository, _output.Object);
@@ -50,8 +50,8 @@ namespace SocialNetwork.Console.Tests
         private void InitializeTestUsers()
         {
             var fixture = new Fixture();
-            _testUser1 = _userRepository.CreateIfNotExists(fixture.Create<string>());
-            _testUser2 = _userRepository.CreateIfNotExists(fixture.Create<string>());
+            _testUser1 = _userRepository.CreateIfNotExists(fixture.Create<CreateUserRequest>());
+            _testUser2 = _userRepository.CreateIfNotExists(fixture.Create<CreateUserRequest>());
         }
 
         [Fact]

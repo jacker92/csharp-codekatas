@@ -16,14 +16,27 @@ namespace SocialNetwork.Application
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<CreatePostRequest, Post>().ForMember(x => x.Id, opt => opt.Ignore());
-                cfg.CreateMap<Post, GetPostResponse>();
+                Posts(cfg);
+                Users(cfg);
             });
 
             configuration.AssertConfigurationIsValid();
             var mapper = configuration.CreateMapper();
 
             return mapper;
+        }
+
+        private static void Users(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<CreateUserRequest, User>()
+            .ForMember(x => x.Id, opt => opt.Ignore())
+            .ForMember(x => x.Subscriptions, opt => opt.Ignore());
+        }
+
+        private static void Posts(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<CreatePostRequest, Post>().ForMember(x => x.Id, opt => opt.Ignore());
+            cfg.CreateMap<Post, GetPostResponse>();
         }
     }
 }
