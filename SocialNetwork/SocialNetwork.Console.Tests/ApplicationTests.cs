@@ -91,7 +91,16 @@ namespace SocialNetwork.Console.Tests
 
             Assert.Single(result);
             Assert.Equal(result.Single().Content, postContent);
-            Assert.Equal(result.Single().User, _testUser1);
+            Assert.Equal(result.Single().User.Id, _testUser1.Id);
+        }
+
+        [Fact]
+        public void Run_Post_WithMention_ShouldBeVisibleAtWall()
+        {
+            _application.Run(new string[] { _testUser1.Name, "/post", $"Hello @{_testUser2.Name}" });
+            _application.Run(new string[] { _testUser2.Name, "/wall" });
+
+            _output.Verify(x => x.WriteLine($"Hello @{_testUser2.Name}"));
         }
 
         [Fact]

@@ -22,8 +22,9 @@ namespace SocialNetwork.Console.VerbLogics
         public int Run(WallOptions options, string userName)
         {
             var user = _userRepository.CreateIfNotExists(userName);
+            var mentions = _postRepository.GetAll().Where(x => x.Content.Contains($"@{userName}"));
 
-            if (!user.Subscriptions.Any())
+            if (!user.Subscriptions.Any() && !mentions.Any())
             {
                 _output.WriteLine($"{userName} has not yet subscribed to any user's posts.");
                 return 0;
@@ -35,6 +36,14 @@ namespace SocialNetwork.Console.VerbLogics
             {
                 var subscribedPosts = _postRepository.GetByUserName(sub.Name);
                 posts.AddRange(subscribedPosts);
+            }
+
+            foreach (var mention in mentions)
+            {
+                if (!posts.Contains(mention))
+                {
+                    posts.Add(mention);
+                }
             }
 
             foreach (var post in posts.OrderByDescending(x => x.Created))

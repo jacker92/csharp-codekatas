@@ -1,4 +1,5 @@
-﻿using SocialNetwork.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Domain;
 using SocialNetwork.Domain.Requests;
 using SocialNetwork.Infrastructure;
 
@@ -26,9 +27,18 @@ namespace SocialNetwork.Application.Repositories
             _applicationDbContext.SaveChanges();
         }
 
+        public IEnumerable<Post> GetAll()
+        {
+            return _applicationDbContext.Posts
+                .AsNoTracking();
+        }
+
         public IEnumerable<Post> GetByUserName(string user)
         {
-            return _applicationDbContext.Posts.Where(x => x.User.Name == user).ToList();
+            return _applicationDbContext.Posts
+                .Include(x => x.User)
+                .Where(x => x.User.Name == user)
+                .AsNoTracking();
         }
     }
 }
