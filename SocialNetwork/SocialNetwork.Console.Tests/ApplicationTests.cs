@@ -1,3 +1,4 @@
+using AutoFixture;
 using Moq;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.VerbLogics;
@@ -22,6 +23,9 @@ namespace SocialNetwork.Console.Tests
         private readonly WallLogic _wallLogic;
         private readonly Application _application;
 
+        private readonly User _testUser1;
+        private readonly User _testUser2;
+
         public ApplicationTests()
         {
             _output = new Mock<IOutput>();
@@ -34,6 +38,10 @@ namespace SocialNetwork.Console.Tests
             _wallLogic = new WallLogic(_userRepository, _postRepository, _output.Object);
             _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
+
+            var fixture = new Fixture();
+            _testUser1 = _userRepository.CreateIfNotExists(fixture.Create<string>());
+            _testUser2 = _userRepository.CreateIfNotExists(fixture.Create<string>());
         }
 
         [Fact]
@@ -91,16 +99,13 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<string> posts, string invokedBy, string toView)
+        public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<string> posts)
         {
-            var invokedByUser = _userRepository.CreateIfNotExists(invokedBy);
-            var userToView = _userRepository.CreateIfNotExists(toView);
+            AddPostsForUser(posts, _testUser2);
 
-            AddPostsForUser(posts, userToView);
+            _application.Run(new string[] { _testUser1.Name, "/timeline", _testUser2.Name });
 
-            _application.Run(new string[] { invokedBy, "/timeline", toView });
-
-            _output.Verify(x => x.WriteLine($"{toView}'s timeline:"));
+            _output.Verify(x => x.WriteLine($"{_testUser2.Name}'s timeline:"));
 
             foreach (var post in posts)
             {
@@ -108,19 +113,16 @@ namespace SocialNetwork.Console.Tests
             }
         }
 
-        [Theory, AutoMoqData]
-        public void Run_FollowUser_ShouldAddUserToSubscriptionList(string invokedBy, string toView)
+        [Fact]
+        public void Run_FollowUser_ShouldAddUserToSubscriptionList()
         {
-            var invokedByUser = _userRepository.CreateIfNotExists(invokedBy);
-            var userToView = _userRepository.CreateIfNotExists(toView);
+            _application.Run(new string[] { _testUser1.Name, "/follow", _testUser2.Name });
 
-            _application.Run(new string[] { invokedBy, "/follow", toView });
+            var updatedUser = _userRepository.GetByName(_testUser1.Name);
 
-            var updatedUser = _userRepository.GetByName(invokedBy);
-
-            _output.Verify(x => x.WriteLine($"Subscribed to user's {toView} timeline."));
+            _output.Verify(x => x.WriteLine($"Subscribed to user's {_testUser2.Name} timeline."));
             Assert.Single(updatedUser.Subscriptions);
-            Assert.Equal(toView, updatedUser.Subscriptions[0].Name);
+            Assert.Equal(_testUser2.Name, updatedUser.Subscriptions[0].Name);
         }
 
         [Theory, AutoMoqData]
