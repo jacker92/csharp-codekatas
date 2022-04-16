@@ -37,7 +37,7 @@ namespace SocialNetwork.Console.VerbLogics
                 posts.AddRange(subscribedPosts);
             }
 
-            foreach (var post in posts)
+            foreach (var post in posts.OrderByDescending(x => x.Created))
             {
                 _output.WriteLine(post.Content);
             }

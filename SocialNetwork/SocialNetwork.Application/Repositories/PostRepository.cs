@@ -18,9 +18,10 @@ namespace SocialNetwork.Application.Repositories
             _applicationDbContext.SaveChanges();
         }
 
-        public void Create(IEnumerable<Post> posts)
+        public void Create(IEnumerable<CreatePostRequest> posts)
         {
-            _applicationDbContext.Posts.AddRange(posts);
+            var postsList = posts.Select(x => new Post { User = x.User, Content = x.Content, Created = x.Created });
+            _applicationDbContext.Posts.AddRange(postsList);
             _applicationDbContext.SaveChanges();
         }
 

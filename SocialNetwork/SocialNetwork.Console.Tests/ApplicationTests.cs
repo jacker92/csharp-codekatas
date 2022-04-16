@@ -102,7 +102,7 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<string> posts)
+        public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<CreatePostRequest> posts)
         {
             AddPostsForUser(posts, _testUser2);
 
@@ -112,7 +112,7 @@ namespace SocialNetwork.Console.Tests
 
             foreach (var post in posts)
             {
-                _output.Verify(x => x.WriteLine(post));
+                _output.Verify(x => x.WriteLine(post.Content));
             }
         }
 
@@ -137,19 +137,21 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_Wall_ShouldShowAllUsersPostThatUserHasSubscribed(IEnumerable<string> posts)
+        public void Run_Wall_ShouldShowAllUsersPostInOrderByCreationDate(IEnumerable<CreatePostRequest> postRequests)
         {
-            AddPostsForUser(posts, _testUser2);
+            AddPostsForUser(postRequests, _testUser2);
             _testUser1.Subscriptions.Add(_testUser2);
+
+            var posts = _postRepository.GetByUserName(_testUser2.Name).OrderByDescending(x => x.Created).ToList();
+
+            int callOrder = 0;
+            _output.Setup(x => x.WriteLine(posts[0].Content)).Callback(() => Assert.Equal(0, callOrder++));
+            _output.Setup(x => x.WriteLine(posts[1].Content)).Callback(() => Assert.Equal(1, callOrder++));
+            _output.Setup(x => x.WriteLine(posts[2].Content)).Callback(() => Assert.Equal(2, callOrder++));
 
             _application.Run(new string[] { _testUser1.Name, "/wall" });
 
             _output.Verify(x => x.WriteLine($"Showing {_testUser1.Name}'s wall:"));
-
-            foreach (var post in posts)
-            {
-                _output.Verify(x => x.WriteLine(post));
-            }
         }
 
         [Theory, AutoMoqData]
@@ -174,10 +176,14 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteLine(It.Is<string>(x => x.Contains("--help              Display this help screen."))));
         }
 
-        private void AddPostsForUser(IEnumerable<string> postMessages, User user)
+        private void AddPostsForUser(IEnumerable<CreatePostRequest> postRequests, User user)
         {
-            var posts = postMessages.Select(x => new Post { Content = x, User = user });
-            _postRepository.Create(posts);
+            foreach (var postRequest in postRequests)
+            {
+                postRequest.User = user;
+            }
+
+            _postRepository.Create(postRequests);
         }
     }
 }
