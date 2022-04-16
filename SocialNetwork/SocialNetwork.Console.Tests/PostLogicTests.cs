@@ -29,7 +29,7 @@ namespace SocialNetwork.Console.Tests
             _postLogic = new PostLogic(_output.Object, _postRepository.Object, _userRepository.Object);
         }
 
-        [Theory, AutoData]
+        [Theory, AutoMoqData]
         public void Run_ShouldPostMessageToUserTimeline(PostOptions postOptions, User user)
         {
             _userRepository.Setup(x => x.CreateIfNotExists(user.Name))

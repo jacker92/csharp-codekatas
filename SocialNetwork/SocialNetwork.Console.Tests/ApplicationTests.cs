@@ -1,4 +1,3 @@
-using AutoFixture;
 using AutoFixture.Xunit2;
 using Moq;
 using SocialNetwork.Application;
@@ -71,7 +70,7 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteLine("Alice's timeline does not contain any posts."));
         }
 
-        [Theory, AutoData]
+        [Theory, AutoMoqData]
         public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<Post> posts, User invokedByUser, User userToView)
         {
             _userRepository.Setup(x => x.CreateIfNotExists(invokedByUser.Name))
