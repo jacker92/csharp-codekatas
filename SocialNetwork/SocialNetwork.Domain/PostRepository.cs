@@ -2,7 +2,7 @@
 {
     public class PostRepository : IPostRepository
     {
-        public void Save(Post post)
+        public void Create(Post post)
         {
 
         }

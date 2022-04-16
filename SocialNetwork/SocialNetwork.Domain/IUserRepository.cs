@@ -2,6 +2,6 @@
 {
     public interface IUserRepository
     {
-        void Save(User user);
+        void CreateIfNotExists(User user);
     }
 }

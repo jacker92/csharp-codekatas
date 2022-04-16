@@ -2,6 +2,6 @@
 {
     public interface IPostRepository
     {
-        void Save(Post post);
+        void Create(Post post);
     }
 }

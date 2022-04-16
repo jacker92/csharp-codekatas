@@ -2,9 +2,9 @@
 {
     public class UserRepository : IUserRepository
     {
-        public void Save(User user)
+        public void CreateIfNotExists(User user)
         {
-            throw new NotImplementedException();
+           
         }
     }
 }

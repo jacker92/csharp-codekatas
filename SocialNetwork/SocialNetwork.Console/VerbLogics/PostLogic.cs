@@ -19,10 +19,10 @@ namespace SocialNetwork.Console.VerbLogics
         public int Run(PostOptions options, string userName)
         {
             var user = new User() { Name = userName };
-            _userRepository.Save(user);
+            _userRepository.CreateIfNotExists(user);
 
             var post = new Post { Content = options.Message, User = user };
-            _postRepository.Save(post);
+            _postRepository.Create(post);
 
             return 0;
         }

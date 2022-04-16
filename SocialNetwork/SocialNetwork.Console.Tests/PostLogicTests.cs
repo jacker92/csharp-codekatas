@@ -36,11 +36,11 @@ namespace SocialNetwork.Console.Tests
             var userName = _fixture.Create<string>();
 
             _postLogic.Run(postOptions, userName);
-            _postRepository.Verify(x => x.Save(It.Is<Post>(x =>
+            _postRepository.Verify(x => x.Create(It.Is<Post>(x =>
             x.Content == postOptions.Message &&
             x.User.Name == userName)));
 
-            _userRepository.Verify(x => x.Save(It.Is<User>(x => x.Name == userName)));
+            _userRepository.Verify(x => x.CreateIfNotExists(It.Is<User>(x => x.Name == userName)));
         }
     }
 }
