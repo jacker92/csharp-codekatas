@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Domain;
-using System.Diagnostics.CodeAnalysis;
 
 namespace SocialNetwork.Infrastructure
 {

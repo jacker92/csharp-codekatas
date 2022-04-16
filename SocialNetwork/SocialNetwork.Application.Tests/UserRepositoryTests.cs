@@ -1,9 +1,5 @@
-using AutoFixture.Xunit2;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.Tests;
-using SocialNetwork.Domain;
 using SocialNetwork.Infrastructure;
 using System.Linq;
 using Xunit;
@@ -34,7 +30,7 @@ namespace SocialNetwork.Application.Tests
         {
             var user = _userRepository.CreateIfNotExists(userName);
             user.Name = userNameToUpdate;
-             _userRepository.Update(user);
+            _userRepository.Update(user);
 
             var updatedUser = _applicationDbContext.Users.Single();
             Assert.Equal(userNameToUpdate, updatedUser.Name);

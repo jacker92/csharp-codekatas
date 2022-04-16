@@ -140,7 +140,6 @@ namespace SocialNetwork.Console.Tests
         public void Run_Wall_ShouldShowAllUsersPostThatUserHasSubscribed(IEnumerable<string> posts)
         {
             AddPostsForUser(posts, _testUser2);
-
             _testUser1.Subscriptions.Add(_testUser2);
 
             _application.Run(new string[] { _testUser1.Name, "/wall" });

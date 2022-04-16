@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Ninject.Extensions.Conventions;
+﻿using Ninject.Extensions.Conventions;
 using Ninject.Modules;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Infrastructure;
