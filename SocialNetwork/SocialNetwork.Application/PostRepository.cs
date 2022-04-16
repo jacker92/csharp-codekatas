@@ -1,7 +1,5 @@
 ﻿using SocialNetwork.Domain;
 using SocialNetwork.Infrastructure;
-using System.Text;
-using System.Text.Json;
 
 namespace SocialNetwork.Application
 {
@@ -16,11 +14,13 @@ namespace SocialNetwork.Application
 
         public void Create(Post post)
         {
+            _applicationDbContext.Posts.Add(post);
+            _applicationDbContext.SaveChanges();
         }
 
         public IEnumerable<Post> GetPosts(User user)
         {
-            throw new NotImplementedException();
+            return _applicationDbContext.Posts.ToList();
         }
     }
 }

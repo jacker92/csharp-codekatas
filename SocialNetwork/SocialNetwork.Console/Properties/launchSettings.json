@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "SocialNetwork.Console": {
+      "commandName": "Project"
+    }
+  }
+}
