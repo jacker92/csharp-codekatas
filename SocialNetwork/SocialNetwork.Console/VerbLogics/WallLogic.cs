@@ -31,9 +31,9 @@ namespace SocialNetwork.Console.VerbLogics
 
             _output.WriteLine($"Showing {userName}'s wall:");
             var posts = new List<Post>();
-            foreach (var subs in user.Subscriptions)
+            foreach (var sub in user.Subscriptions)
             {
-                var subscribedPosts = _postRepository.GetPosts(subs);
+                var subscribedPosts = _postRepository.GetByUserName(sub.Name);
                 posts.AddRange(subscribedPosts);
             }
 

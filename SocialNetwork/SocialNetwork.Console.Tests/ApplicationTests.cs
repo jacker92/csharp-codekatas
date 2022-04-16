@@ -2,8 +2,10 @@ using Moq;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
+using SocialNetwork.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace SocialNetwork.Console.Tests
@@ -13,8 +15,8 @@ namespace SocialNetwork.Console.Tests
         private readonly Mock<IOutput> _output;
         private readonly VerbLogicRunner _verbLogicRunner;
         private readonly PostLogic _postLogic;
-        private readonly Mock<IPostRepository> _postRepository;
-        private readonly Mock<IUserRepository> _userRepository;
+        private readonly PostRepository _postRepository;
+        private readonly UserRepository _userRepository;
         private readonly TimelineLogic _timelineLogic;
         private readonly FollowLogic _followLogic;
         private readonly WallLogic _wallLogic;
@@ -23,12 +25,13 @@ namespace SocialNetwork.Console.Tests
         public ApplicationTests()
         {
             _output = new Mock<IOutput>();
-            _postRepository = new Mock<IPostRepository>();
-            _userRepository = new Mock<IUserRepository>();
-            _timelineLogic = new TimelineLogic(_output.Object, _postRepository.Object, _userRepository.Object);
-            _postLogic = new PostLogic(_output.Object, _postRepository.Object, _userRepository.Object);
-            _followLogic = new FollowLogic(_userRepository.Object, _output.Object);
-            _wallLogic = new WallLogic(_userRepository.Object, _postRepository.Object, _output.Object);
+            var context = new AppDbContextFactory().CreateInMemoryDbContext();
+            _postRepository = new PostRepository(context);
+            _userRepository = new UserRepository(context);
+            _timelineLogic = new TimelineLogic(_output.Object, _postRepository, _userRepository);
+            _postLogic = new PostLogic(_output.Object, _postRepository, _userRepository);
+            _followLogic = new FollowLogic(_userRepository, _output.Object);
+            _wallLogic = new WallLogic(_userRepository, _postRepository, _output.Object);
             _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
         }
@@ -66,13 +69,17 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_Post_ShouldCreatePostMessage(Post post, User user)
+        public void Run_Post_ShouldCreatePostMessage(string postContent, string userToCreate)
         {
-            SetupUserRepositoryUser(user);
+            var user = _userRepository.CreateIfNotExists(userToCreate);
 
-            _application.Run(new string[] { user.Name, "/post", post.Content });
+            _application.Run(new string[] { userToCreate, "/post", postContent });
 
-            _postRepository.Verify(x => x.Create(It.Is<Post>(x => x.Content == post.Content && x.User.Name == user.Name)));
+            var result = _postRepository.GetByUserName(userToCreate);
+
+            Assert.Single(result);
+            Assert.Equal(result.Single().Content, postContent);
+            Assert.Equal(result.Single().User, user);
         }
 
         [Theory, AutoMoqData]
@@ -84,61 +91,65 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<Post> posts, User invokedByUser, User userToView)
+        public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<string> posts, string invokedBy, string toView)
         {
-            SetupUserRepositoryUser(invokedByUser);
-            SetupUserRepositoryUser(userToView);
-            SetupPostRepositoryPosts(posts, userToView);
+            var invokedByUser = _userRepository.CreateIfNotExists(invokedBy);
+            var userToView = _userRepository.CreateIfNotExists(toView);
 
-            _application.Run(new string[] { invokedByUser.Name, "/timeline", userToView.Name });
+            AddPostsForUser(posts, userToView);
 
-            _output.Verify(x => x.WriteLine($"{userToView.Name}'s timeline:"));
+            _application.Run(new string[] { invokedBy, "/timeline", toView });
+
+            _output.Verify(x => x.WriteLine($"{toView}'s timeline:"));
 
             foreach (var post in posts)
             {
-                _output.Verify(x => x.WriteLine(post.Content));
+                _output.Verify(x => x.WriteLine(post));
             }
         }
 
         [Theory, AutoMoqData]
-        public void Run_FollowUser_ShouldAddUserToSubscriptionList(User invokedByUser, User userToView)
+        public void Run_FollowUser_ShouldAddUserToSubscriptionList(string invokedBy, string toView)
         {
-            SetupUserRepositoryUser(invokedByUser);
-            SetupUserRepositoryUser(userToView);
+            var invokedByUser = _userRepository.CreateIfNotExists(invokedBy);
+            var userToView = _userRepository.CreateIfNotExists(toView);
 
-            _application.Run(new string[] { invokedByUser.Name, "/follow", userToView.Name });
+            _application.Run(new string[] { invokedBy, "/follow", toView });
 
-            _output.Verify(x => x.WriteLine($"Subscribed to user's {userToView.Name} timeline."));
+            var updatedUser = _userRepository.GetByName(invokedBy);
 
-            _userRepository.Verify(x => x.Update(It.Is<User>(x => x == invokedByUser && x.Subscriptions.Contains(userToView))));
+            _output.Verify(x => x.WriteLine($"Subscribed to user's {toView} timeline."));
+            Assert.Single(updatedUser.Subscriptions);
+            Assert.Equal(toView, updatedUser.Subscriptions[0].Name);
         }
 
         [Theory, AutoMoqData]
-        public void Run_Wall_ShouldBeEmpty_ByDefault(User invokedByUser)
+        public void Run_Wall_ShouldBeEmpty_ByDefault(string invokedBy)
         {
-            SetupUserRepositoryUser(invokedByUser);
+            var invokedByUser = _userRepository.CreateIfNotExists(invokedBy);
 
-            _application.Run(new string[] { invokedByUser.Name, "/wall" });
+            _application.Run(new string[] { invokedBy, "/wall" });
 
-            _output.Verify(x => x.WriteLine($"{invokedByUser.Name} has not yet subscribed to any user's posts."));
+            _output.Verify(x => x.WriteLine($"{invokedBy} has not yet subscribed to any user's posts."));
         }
 
         [Theory, AutoMoqData]
-        public void Run_Wall_ShouldShowAllUsersPostThatUserHasSubscribed(User invokedByUser, User userToView, IEnumerable<Post> posts)
+        public void Run_Wall_ShouldShowAllUsersPostThatUserHasSubscribed(string invokedBy, string toView, IEnumerable<string> posts)
         {
+            var invokedByUser = _userRepository.CreateIfNotExists(invokedBy);
+            var userToView = _userRepository.CreateIfNotExists(toView);
+    
+            AddPostsForUser(posts, userToView);
+
             invokedByUser.Subscriptions.Add(userToView);
 
-            SetupUserRepositoryUser(invokedByUser);
-            SetupUserRepositoryUser(userToView);
-            SetupPostRepositoryPosts(posts, userToView);
+            _application.Run(new string[] { invokedBy, "/wall" });
 
-            _application.Run(new string[] { invokedByUser.Name, "/wall" });
-
-            _output.Verify(x => x.WriteLine($"Showing {invokedByUser.Name}'s wall:"));
+            _output.Verify(x => x.WriteLine($"Showing {invokedBy}'s wall:"));
 
             foreach (var post in posts)
             {
-                _output.Verify(x => x.WriteLine(post.Content));
+                _output.Verify(x => x.WriteLine(post));
             }
         }
 
@@ -164,16 +175,15 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteLine(It.Is<string>(x => x.Contains("--help              Display this help screen."))));
         }
 
-        private void SetupPostRepositoryPosts(IEnumerable<Post> posts, User userToView)
+        private void AddPostsForUser(IEnumerable<string> postMessages, User user)
         {
-            _postRepository.Setup(x => x.GetPosts(userToView))
-             .Returns(posts);
+            var posts = postMessages.Select(x => new Post { Content = x, User = user });
+            _postRepository.Create(posts);
         }
 
-        private void SetupUserRepositoryUser(User user)
+        private void CreateUser(string user)
         {
-            _userRepository.Setup(x => x.CreateIfNotExists(user.Name))
-                                        .Returns(user);
+            _userRepository.CreateIfNotExists(user);
         }
     }
 }

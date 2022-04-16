@@ -14,6 +14,13 @@ namespace SocialNetwork.Application.Repositories
 
         public User CreateIfNotExists(string userName)
         {
+            var existing = GetByName(userName);
+
+            if (existing != null)
+            {
+                return existing;
+            }
+
             var user = new User { Name = userName };
 
             var result = _applicationDbContext.Users.Add(user);
@@ -26,6 +33,11 @@ namespace SocialNetwork.Application.Repositories
             var result = _applicationDbContext.Users.Update(user);
             _applicationDbContext.SaveChanges();
             return result.Entity;
+        }
+
+        public User GetByName(string name)
+        {
+            return _applicationDbContext.Users.SingleOrDefault(x => x.Name == name)!;
         }
     }
 }

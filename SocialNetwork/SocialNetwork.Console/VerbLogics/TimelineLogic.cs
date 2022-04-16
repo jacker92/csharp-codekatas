@@ -21,7 +21,7 @@ namespace SocialNetwork.Console.VerbLogics
         {
             _userRepository.CreateIfNotExists(userName);
             var user = _userRepository.CreateIfNotExists(options.UserName);
-            var posts = _postRepository.GetPosts(user);
+            var posts = _postRepository.GetByUserName(options.UserName);
 
             if (!posts.Any())
             {
