@@ -15,5 +15,14 @@ namespace SocialNetwork.Infrastructure
 
             return new AppDbContext(optionsBuilder.Options);
         }
+
+        public AppDbContext CreateInMemoryDbContext()
+        {
+            var dbOptions = new DbContextOptionsBuilder<AppDbContext>()
+           .UseInMemoryDatabase(databaseName: "IntegrationTest")
+           .Options;
+
+            return new AppDbContext(dbOptions);
+        }
     }
 }

@@ -15,10 +15,7 @@ namespace SocialNetwork.Application.Tests
         private readonly AppDbContext _applicationDbContext;
         public UserRepositoryTests()
         {
-            var dbOptions = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "IntegrationTest")
-            .Options;
-            _applicationDbContext = new AppDbContext(dbOptions);
+             _applicationDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
             _userRepository = new UserRepository(_applicationDbContext);
         }
 
