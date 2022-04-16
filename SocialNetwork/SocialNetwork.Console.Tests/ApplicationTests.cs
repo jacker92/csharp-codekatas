@@ -23,8 +23,8 @@ namespace SocialNetwork.Console.Tests
         private readonly WallLogic _wallLogic;
         private readonly Application _application;
 
-        private readonly User _testUser1;
-        private readonly User _testUser2;
+        private User _testUser1;
+        private User _testUser2;
 
         public ApplicationTests()
         {
@@ -39,6 +39,11 @@ namespace SocialNetwork.Console.Tests
             _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
 
+            InitializeTestUsers();
+        }
+
+        private void InitializeTestUsers()
+        {
             var fixture = new Fixture();
             _testUser1 = _userRepository.CreateIfNotExists(fixture.Create<string>());
             _testUser2 = _userRepository.CreateIfNotExists(fixture.Create<string>());
@@ -77,25 +82,23 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_Post_ShouldCreatePostMessage(string postContent, string userToCreate)
+        public void Run_Post_ShouldCreatePostMessage(string postContent)
         {
-            var user = _userRepository.CreateIfNotExists(userToCreate);
+            _application.Run(new string[] { _testUser1.Name, "/post", postContent });
 
-            _application.Run(new string[] { userToCreate, "/post", postContent });
-
-            var result = _postRepository.GetByUserName(userToCreate);
+            var result = _postRepository.GetByUserName(_testUser1.Name);
 
             Assert.Single(result);
             Assert.Equal(result.Single().Content, postContent);
-            Assert.Equal(result.Single().User, user);
+            Assert.Equal(result.Single().User, _testUser1);
         }
 
-        [Theory, AutoMoqData]
-        public void Run_Timeline_ShouldBeEmpty_ByDefault(string invokedByUser, string userToView)
+        [Fact]
+        public void Run_Timeline_ShouldBeEmpty_ByDefault()
         {
-            _application.Run(new string[] { invokedByUser, "/timeline", userToView });
+            _application.Run(new string[] { _testUser1.Name, "/timeline", _testUser2.Name });
 
-            _output.Verify(x => x.WriteLine($"{userToView}'s timeline does not contain any posts."));
+            _output.Verify(x => x.WriteLine($"{_testUser2.Name}'s timeline does not contain any posts."));
         }
 
         [Theory, AutoMoqData]
@@ -151,7 +154,7 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_ShouldWriteError_IfApplicationThrowsError(string userName, string message)
+        public void Run_ShouldWriteError_IfApplicationThrowsError(string message)
         {
             var verbLogicRunner = new Mock<IVerbLogicRunner>();
             verbLogicRunner.Setup(x => x.Run(It.IsAny<object>(), It.IsAny<string>()))
@@ -159,15 +162,15 @@ namespace SocialNetwork.Console.Tests
 
             var application = new Application(_output.Object, verbLogicRunner.Object);
 
-            application.Run(new string[] { userName, "/post", message });
+            application.Run(new string[] { _testUser1.Name, "/post", message });
 
             _output.Verify(x => x.WriteError(message));
         }
 
-        [Theory, AutoMoqData]
-        public void Run_ShouldWriteHelp_IfHelpIsRequested(string userName)
+        [Fact]
+        public void Run_ShouldWriteHelp_IfHelpIsRequested()
         {
-            _application.Run(new string[] { userName, "/post", "--help" });
+            _application.Run(new string[] { _testUser1.Name, "/post", "--help" });
 
             _output.Verify(x => x.WriteLine(It.Is<string>(x => x.Contains("--help              Display this help screen."))));
         }
