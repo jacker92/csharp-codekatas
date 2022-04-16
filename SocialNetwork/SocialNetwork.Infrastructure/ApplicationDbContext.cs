@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace SocialNetwork.Infrastructure
 {
     [ExcludeFromCodeCoverage]
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }

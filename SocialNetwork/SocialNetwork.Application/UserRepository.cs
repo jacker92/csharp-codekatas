@@ -5,9 +5,9 @@ namespace SocialNetwork.Application
 {
     public class UserRepository : IUserRepository
     {
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IApplicationDbContext _applicationDbContext;
 
-        public UserRepository(ApplicationDbContext applicationDbContext)
+        public UserRepository(IApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
         }

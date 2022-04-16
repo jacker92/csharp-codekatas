@@ -5,9 +5,9 @@ namespace SocialNetwork.Application
 {
     public class PostRepository : IPostRepository
     {
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IApplicationDbContext _applicationDbContext;
 
-        public PostRepository(ApplicationDbContext dbContext)
+        public PostRepository(IApplicationDbContext dbContext)
         {
             _applicationDbContext = dbContext;
         }
