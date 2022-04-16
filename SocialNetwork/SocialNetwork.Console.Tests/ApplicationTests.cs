@@ -11,18 +11,18 @@ namespace SocialNetwork.Console.Tests
         private readonly Mock<IOutput> _output;
         private readonly VerbLogicRunner _verbLogicRunner;
         private readonly PostLogic _postLogic;
-        private readonly PostRepository _postRepository;
-        private readonly UserRepository _userRepository;
+        private readonly Mock<IPostRepository> _postRepository;
+        private readonly Mock<IUserRepository> _userRepository;
         private readonly TimelineLogic _timelineLogic;
         private readonly Application _application;
 
         public ApplicationTests()
         {
             _output = new Mock<IOutput>();
-            _postRepository = new PostRepository();
-            _userRepository = new UserRepository();
+            _postRepository = new Mock<IPostRepository>();
+            _userRepository = new Mock<IUserRepository>();
             _timelineLogic = new TimelineLogic(_output.Object);
-            _postLogic = new PostLogic(_output.Object, _postRepository, _userRepository);
+            _postLogic = new PostLogic(_output.Object, _postRepository.Object, _userRepository.Object);
             _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
         }
@@ -42,7 +42,6 @@ namespace SocialNetwork.Console.Tests
 
             _output.Verify(x => x.WriteError("Name is required!"));
         }
-
 
         [Fact]
         public void Run_ShouldReturnErrorMessage_IfNameIsWhitespace()
