@@ -32,8 +32,14 @@ namespace SocialNetwork.Application.Tests
         {
             var request = new CreateUserRequest { Name = userName };
             var user = _userRepository.CreateIfNotExists(request);
-            user.Name = userNameToUpdate;
-            _userRepository.Update(user);
+
+            var updateUserRequest = new UpdateUserRequest
+            {
+                Id = user.Id,
+                Name = userNameToUpdate
+            };
+
+            _userRepository.Update(updateUserRequest);
 
             var updatedUser = _applicationDbContext.Users.Single();
             Assert.Equal(userNameToUpdate, updatedUser.Name);

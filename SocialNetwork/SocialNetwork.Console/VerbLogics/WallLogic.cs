@@ -37,7 +37,7 @@ namespace SocialNetwork.Console.VerbLogics
             var posts = new List<GetPostResponse>();
             foreach (var sub in user.Subscriptions)
             {
-                var subscribedPosts = _postRepository.GetByUserName(sub.Name);
+                var subscribedPosts = _postRepository.GetByUserId(sub);
                 posts.AddRange(subscribedPosts);
             }
 

@@ -40,6 +40,16 @@ namespace SocialNetwork.Application.Repositories
             return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
         }
 
+        public IEnumerable<GetPostResponse> GetByUserId(int userId)
+        {
+            var posts = _applicationDbContext.Posts
+               .Include(x => x.User)
+               .Where(x => x.User.Id == userId)
+               .AsNoTracking();
+
+            return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
+        }
+
         public IEnumerable<GetPostResponse> GetByUserName(string user)
         {
             var posts = _applicationDbContext.Posts

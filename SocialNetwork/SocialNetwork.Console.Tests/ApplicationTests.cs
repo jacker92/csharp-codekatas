@@ -6,6 +6,7 @@ using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
 using SocialNetwork.Domain.Requests;
+using SocialNetwork.Domain.Responses;
 using SocialNetwork.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,8 @@ namespace SocialNetwork.Console.Tests
         private readonly Application _application;
         private readonly IMapper _mapper;
 
-        private User _testUser1;
-        private User _testUser2;
+        private CreateUserResponse _testUser1;
+        private CreateUserResponse _testUser2;
 
         public ApplicationTests()
         {
@@ -118,7 +119,7 @@ namespace SocialNetwork.Console.Tests
         [Theory, AutoMoqData]
         public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<CreatePostRequest> posts)
         {
-            AddPostsForUser(posts, _testUser2);
+            AddPostsForUser(posts, _testUser2.Id);
 
             _application.Run(new string[] { _testUser1.Name, "/timeline", _testUser2.Name });
 
@@ -139,7 +140,7 @@ namespace SocialNetwork.Console.Tests
 
             _output.Verify(x => x.WriteLine($"Subscribed to user's {_testUser2.Name} timeline."));
             Assert.Single(updatedUser.Subscriptions);
-            Assert.Equal(_testUser2.Name, updatedUser.Subscriptions[0].Name);
+            Assert.Equal(_testUser2.Id, updatedUser.Subscriptions.First().Id);
         }
 
         [Fact]
@@ -153,8 +154,9 @@ namespace SocialNetwork.Console.Tests
         [Theory, AutoMoqData]
         public void Run_Wall_ShouldShowAllUsersPostInOrderByCreationDate(IEnumerable<CreatePostRequest> postRequests)
         {
-            AddPostsForUser(postRequests, _testUser2);
-            _testUser1.Subscriptions.Add(_testUser2);
+            AddPostsForUser(postRequests, _testUser2.Id);
+
+            _userRepository.Update(new UpdateUserRequest { Subscriptions = new List<int> { _testUser2.Id }, Id = _testUser1.Id, Name = _testUser1.Name });
 
             var posts = _postRepository.GetByUserName(_testUser2.Name).OrderByDescending(x => x.Created).ToList();
 
@@ -190,11 +192,11 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteLine(It.Is<string>(x => x.Contains("--help              Display this help screen."))));
         }
 
-        private void AddPostsForUser(IEnumerable<CreatePostRequest> postRequests, User user)
+        private void AddPostsForUser(IEnumerable<CreatePostRequest> postRequests, int userId)
         {
             foreach (var postRequest in postRequests)
             {
-                postRequest.User = user;
+                postRequest.UserId = userId;
             }
 
             _postRepository.Create(postRequests);

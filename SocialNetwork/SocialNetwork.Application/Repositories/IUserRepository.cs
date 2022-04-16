@@ -1,11 +1,12 @@
 ﻿using SocialNetwork.Domain;
 using SocialNetwork.Domain.Requests;
+using SocialNetwork.Domain.Responses;
 
 namespace SocialNetwork.Application.Repositories
 {
     public interface IUserRepository
     {
-        User CreateIfNotExists(CreateUserRequest createUserRequest);
-        User Update(User user);
+        CreateUserResponse CreateIfNotExists(CreateUserRequest createUserRequest);
+        UpdateUserResponse Update(UpdateUserRequest request);
     }
 }

@@ -23,7 +23,7 @@ namespace SocialNetwork.Console.VerbLogics
             var request = new CreateUserRequest { Name = userName };
             var user = _userRepository.CreateIfNotExists(request);
 
-            var post = new CreatePostRequest { Content = options.Message, User = user };
+            var post = new CreatePostRequest { Content = options.Message, UserId = user.Id };
             _postRepository.Create(post);
 
             return 0;
