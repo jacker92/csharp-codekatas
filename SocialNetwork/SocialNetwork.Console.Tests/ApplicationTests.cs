@@ -61,9 +61,9 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_ShouldReturnErrorMessage_IfInvalidVerbIsGiven(User user)
+        public void Run_ShouldReturnErrorMessage_IfInvalidVerbIsGiven(string user)
         {
-            _application.Run(new string[] { user.Name, "/test" });
+            _application.Run(new string[] { user, "/test" });
 
             _output.Verify(x => x.WriteError(It.Is<string>(x => x.Contains("Verb '/test' is not recognized."))));
         }
@@ -83,11 +83,11 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_Timeline_ShouldBeEmpty_ByDefault(User invokedByUser, User userToView)
+        public void Run_Timeline_ShouldBeEmpty_ByDefault(string invokedByUser, string userToView)
         {
-            _application.Run(new string[] { invokedByUser.Name, "/timeline", userToView.Name });
+            _application.Run(new string[] { invokedByUser, "/timeline", userToView });
 
-            _output.Verify(x => x.WriteLine($"{userToView.Name}'s timeline does not contain any posts."));
+            _output.Verify(x => x.WriteLine($"{userToView}'s timeline does not contain any posts."));
         }
 
         [Theory, AutoMoqData]
@@ -179,11 +179,6 @@ namespace SocialNetwork.Console.Tests
         {
             var posts = postMessages.Select(x => new Post { Content = x, User = user });
             _postRepository.Create(posts);
-        }
-
-        private void CreateUser(string user)
-        {
-            _userRepository.CreateIfNotExists(user);
         }
     }
 }
