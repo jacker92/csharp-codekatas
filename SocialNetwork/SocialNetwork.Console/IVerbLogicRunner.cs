@@ -2,6 +2,6 @@
 {
     public interface IVerbLogicRunner
     {
-        void Run(object obj);
+        void Run(object options, string userName);
     }
 }

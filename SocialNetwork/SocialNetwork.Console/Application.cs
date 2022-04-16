@@ -41,7 +41,7 @@ namespace SocialNetwork.Console
             var parserResult = parser.ParseArguments(args.Skip(1), types);
 
             parserResult
-                 .WithParsed(Run)
+                 .WithParsed(x => Run(x, name))
                  .WithNotParsed(errors => HandleErrors(errors, parserResult));
         }
 
@@ -75,11 +75,11 @@ namespace SocialNetwork.Console
                 .Where(t => t.GetCustomAttribute<VerbAttribute>() != null).ToArray();
         }
 
-        private void Run(object obj)
+        private void Run(object options, string userName)
         {
             try
             {
-                _verbLogicRunner.Run(obj);
+                _verbLogicRunner.Run(options, userName);
             }
             catch (Exception e)
             {

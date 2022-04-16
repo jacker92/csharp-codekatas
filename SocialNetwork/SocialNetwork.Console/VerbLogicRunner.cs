@@ -11,12 +11,12 @@ namespace SocialNetwork.Console
             _postLogic = postLogic;
         }
 
-        public void Run(object obj)
+        public void Run(object options, string userName)
         {
-            switch (obj)
+            switch (options)
             {
                 case PostOptions p:
-                    _postLogic.Run(p);
+                    _postLogic.Run(p, userName);
                     break;
             }
         }
