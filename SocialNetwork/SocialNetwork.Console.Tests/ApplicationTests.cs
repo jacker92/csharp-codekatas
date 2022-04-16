@@ -157,6 +157,14 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteError(message));
         }
 
+        [Theory, AutoMoqData]
+        public void Run_ShouldWriteHelp_IfHelpIsRequested(string userName)
+        {
+            _application.Run(new string[] { userName, "/post", "--help" });
+
+            _output.Verify(x => x.WriteLine(It.Is<string>(x => x.Contains("--help              Display this help screen."))));
+        }
+
         private void SetupPostRepositoryPosts(IEnumerable<Post> posts, User userToView)
         {
             _postRepository.Setup(x => x.GetPosts(userToView))
