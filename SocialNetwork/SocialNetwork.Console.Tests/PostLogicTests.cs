@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using AutoFixture;
+using Moq;
+using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
 using System;
@@ -16,6 +18,7 @@ namespace SocialNetwork.Console.Tests
         private readonly Mock<IPostRepository> _postRepository;
         private readonly Mock<IUserRepository> _userRepository;
         private readonly PostLogic _postLogic;
+        private readonly Fixture _fixture;
 
         public PostLogicTests()
         {
@@ -23,16 +26,18 @@ namespace SocialNetwork.Console.Tests
             _postRepository = new Mock<IPostRepository>();
             _userRepository = new Mock<IUserRepository>();
             _postLogic = new PostLogic(_output.Object, _postRepository.Object, _userRepository.Object);
+            _fixture = new Fixture();
         }
 
         [Fact]
         public void Run_ShouldPostMessageToUserTimeline()
         {
-            var message = "hello";
-            var userName = "user";
-            _postLogic.Run(new CommandLineOptions.PostOptions { Message = message }, userName);
+            var postOptions = _fixture.Create<PostOptions>();
+            var userName = _fixture.Create<string>();
+
+            _postLogic.Run(postOptions, userName);
             _postRepository.Verify(x => x.Save(It.Is<Post>(x =>
-            x.Content == message &&
+            x.Content == postOptions.Message &&
             x.User.Name == userName)));
 
             _userRepository.Verify(x => x.Save(It.Is<User>(x => x.Name == userName)));
