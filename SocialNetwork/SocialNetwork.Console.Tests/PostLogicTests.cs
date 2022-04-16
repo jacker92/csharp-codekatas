@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
 using Moq;
-using SocialNetwork.Application;
+using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;

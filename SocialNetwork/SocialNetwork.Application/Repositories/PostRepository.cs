@@ -1,7 +1,7 @@
 ﻿using SocialNetwork.Domain;
 using SocialNetwork.Infrastructure;
 
-namespace SocialNetwork.Application
+namespace SocialNetwork.Application.Repositories
 {
     public class PostRepository : IPostRepository
     {

@@ -1,5 +1,5 @@
 using Moq;
-using SocialNetwork.Application;
+using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
 using SocialNetwork.Infrastructure;

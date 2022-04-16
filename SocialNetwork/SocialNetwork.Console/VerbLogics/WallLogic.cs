@@ -1,4 +1,4 @@
-﻿using SocialNetwork.Application;
+﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain;
 using System.Collections.Generic;

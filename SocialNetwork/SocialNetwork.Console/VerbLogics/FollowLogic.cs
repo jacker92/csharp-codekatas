@@ -1,4 +1,4 @@
-﻿using SocialNetwork.Application;
+﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
 
 namespace SocialNetwork.Console.VerbLogics

@@ -1,6 +1,6 @@
 ﻿using SocialNetwork.Domain;
 
-namespace SocialNetwork.Application
+namespace SocialNetwork.Application.Repositories
 {
     public interface IPostRepository
     {
