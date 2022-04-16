@@ -1,23 +1,28 @@
-﻿using SocialNetwork.Application;
-using SocialNetwork.Console.VerbLogics;
+﻿using Ninject;
+using SocialNetwork.Application;
 using SocialNetwork.Domain;
 using SocialNetwork.Infrastructure;
 using System;
+using System.Reflection;
 
 namespace SocialNetwork.Console
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var consoleOutput = new ConsoleOutput();
-            var dbContext = new ApplicationDbContext();
-            var postsRepository = new PostRepository(dbContext);
-            var userRepository = new UserRepository(dbContext);
-            var verbLogicRunner = new VerbLogicRunner(new PostLogic(consoleOutput, postsRepository, userRepository), new TimelineLogic(consoleOutput, postsRepository, userRepository));
-            var application = new Application(consoleOutput, verbLogicRunner);
+            var kernel = CreateKernel();
+
+            var application = kernel.Get<Application>();
 
             application.Run(args);
+        }
+
+        private static StandardKernel CreateKernel()
+        {
+            var kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            return kernel;
         }
     }
 }

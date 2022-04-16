@@ -1,0 +1,43 @@
+﻿using Ninject.Modules;
+using Ninject.Extensions.Conventions;
+using SocialNetwork.Console.VerbLogics;
+
+namespace SocialNetwork.Console
+{
+    public class Bindings : NinjectModule
+    {
+        public override void Load()
+        {
+            BindWithDefaultConventions();
+            BindVerbLogic();
+            BindWithoutDefaultConventions();
+        }
+
+        private void BindWithDefaultConventions()
+        {
+            Kernel.Bind(x =>
+            {
+                x.FromAssembliesMatching($"{nameof(SocialNetwork)}*.dll")
+                .SelectAllClasses()
+                .WhichAreNotGeneric()
+                .BindDefaultInterface();
+            });
+        }
+
+        private void BindVerbLogic()
+        {
+            Kernel.Bind(x =>
+            {
+                x.FromThisAssembly()
+                 .SelectAllClasses()
+                 .InheritedFrom(typeof(IVerbLogic<>))
+                 .BindSingleInterface();
+            });
+        }
+
+        private void BindWithoutDefaultConventions()
+        {
+            Bind<IOutput>().To<ConsoleOutput>();
+        }
+    }
+}
