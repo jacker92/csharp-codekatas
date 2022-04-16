@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SocialNetwork.Application\SocialNetwork.Application.csproj" />
+    <ProjectReference Include="..\SocialNetwork.Console.Tests\SocialNetwork.Console.Tests.csproj" />
   </ItemGroup>
 
 </Project>

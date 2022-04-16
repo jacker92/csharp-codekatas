@@ -19,7 +19,7 @@ namespace SocialNetwork.Infrastructure
         public AppDbContext CreateInMemoryDbContext()
         {
             var dbOptions = new DbContextOptionsBuilder<AppDbContext>()
-           .UseInMemoryDatabase(databaseName: "IntegrationTest")
+           .UseInMemoryDatabase(Guid.NewGuid().ToString())
            .Options;
 
             return new AppDbContext(dbOptions);
