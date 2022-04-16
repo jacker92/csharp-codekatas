@@ -3,6 +3,7 @@ using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
+using SocialNetwork.Domain.Requests;
 using Xunit;
 
 namespace SocialNetwork.Console.Tests
@@ -30,7 +31,7 @@ namespace SocialNetwork.Console.Tests
 
             _postLogic.Run(postOptions, user.Name);
 
-            _postRepository.Verify(x => x.Create(It.Is<Post>(x =>
+            _postRepository.Verify(x => x.Create(It.Is<CreatePostRequest>(x =>
             x.Content == postOptions.Message &&
             x.User.Name == user.Name)));
 

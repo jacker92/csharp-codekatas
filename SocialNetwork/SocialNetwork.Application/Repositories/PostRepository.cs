@@ -17,15 +17,16 @@ namespace SocialNetwork.Application.Repositories
             _mapper = mapper;
         }
 
-        public void Create(Post post)
+        public void Create(CreatePostRequest createPostRequest)
         {
+            var post = _mapper.Map<Post>(createPostRequest);
             _applicationDbContext.Posts.Add(post);
             _applicationDbContext.SaveChanges();
         }
 
-        public void Create(IEnumerable<CreatePostRequest> posts)
+        public void Create(IEnumerable<CreatePostRequest> createPostRequests)
         {
-            var postsList = _mapper.Map<IEnumerable<Post>>(posts);
+            var postsList = _mapper.Map<IEnumerable<Post>>(createPostRequests);
             _applicationDbContext.Posts.AddRange(postsList);
             _applicationDbContext.SaveChanges();
         }

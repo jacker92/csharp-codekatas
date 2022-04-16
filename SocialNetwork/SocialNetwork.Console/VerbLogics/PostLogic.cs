@@ -1,6 +1,7 @@
 ﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain;
+using SocialNetwork.Domain.Requests;
 
 namespace SocialNetwork.Console.VerbLogics
 {
@@ -21,7 +22,7 @@ namespace SocialNetwork.Console.VerbLogics
         {
             var user = _userRepository.CreateIfNotExists(userName);
 
-            var post = new Post { Content = options.Message, User = user };
+            var post = new CreatePostRequest { Content = options.Message, User = user };
             _postRepository.Create(post);
 
             return 0;
