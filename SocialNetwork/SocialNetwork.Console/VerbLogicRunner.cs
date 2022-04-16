@@ -7,7 +7,7 @@ namespace SocialNetwork.Console
     {
         private readonly IVerbLogic<PostOptions> _postLogic;
         private readonly IVerbLogic<TimelineOptions> _timelineLogic;
-        private readonly IVerbLogic<FollowOptions> _followLogic;   
+        private readonly IVerbLogic<FollowOptions> _followLogic;
         private readonly IVerbLogic<WallOptions> _wallLogic;
 
         public VerbLogicRunner(IVerbLogic<PostOptions> postLogic, IVerbLogic<TimelineOptions> timelineLogic, IVerbLogic<FollowOptions> followLogic, IVerbLogic<WallOptions> wallLogic)

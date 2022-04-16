@@ -1,8 +1,4 @@
 ﻿using Ninject;
-using SocialNetwork.Application;
-using SocialNetwork.Domain;
-using SocialNetwork.Infrastructure;
-using System;
 
 namespace SocialNetwork.Console
 {

@@ -20,7 +20,7 @@ namespace SocialNetwork.Console.VerbLogics
         public int Run(TimelineOptions options, string userName)
         {
             _userRepository.CreateIfNotExists(userName);
-            var user =  _userRepository.CreateIfNotExists(options.UserName);
+            var user = _userRepository.CreateIfNotExists(options.UserName);
             var posts = _postRepository.GetPosts(user);
 
             if (!posts.Any())

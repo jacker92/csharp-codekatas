@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SocialNetwork.Console.Tests
@@ -13,6 +9,6 @@ namespace SocialNetwork.Console.Tests
         public void MainTest()
         {
             Program.Main(Array.Empty<string>());
-        } 
+        }
     }
 }

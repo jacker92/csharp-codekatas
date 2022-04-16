@@ -2,7 +2,6 @@ using Moq;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
-using SocialNetwork.Infrastructure;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -152,7 +151,7 @@ namespace SocialNetwork.Console.Tests
 
             var application = new Application(_output.Object, verbLogicRunner.Object);
 
-            application.Run(new string[] { userName, "/post", message});
+            application.Run(new string[] { userName, "/post", message });
 
             _output.Verify(x => x.WriteError(message));
         }

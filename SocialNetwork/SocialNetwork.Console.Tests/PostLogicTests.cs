@@ -1,15 +1,8 @@
-﻿using AutoFixture;
-using AutoFixture.Xunit2;
-using Moq;
+﻿using Moq;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SocialNetwork.Console.Tests

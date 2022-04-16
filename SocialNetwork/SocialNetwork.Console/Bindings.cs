@@ -1,5 +1,5 @@
-﻿using Ninject.Modules;
-using Ninject.Extensions.Conventions;
+﻿using Ninject.Extensions.Conventions;
+using Ninject.Modules;
 using SocialNetwork.Console.VerbLogics;
 
 namespace SocialNetwork.Console
