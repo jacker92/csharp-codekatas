@@ -1,4 +1,5 @@
-﻿using SocialNetwork.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Domain;
 using SocialNetwork.Infrastructure;
 
 namespace SocialNetwork.Application.Repositories
@@ -37,7 +38,9 @@ namespace SocialNetwork.Application.Repositories
 
         public User GetByName(string name)
         {
-            return _applicationDbContext.Users.SingleOrDefault(x => x.Name == name)!;
+            return _applicationDbContext.Users
+                .Include(x => x.Subscriptions)
+                .SingleOrDefault(x => x.Name == name)!;
         }
     }
 }

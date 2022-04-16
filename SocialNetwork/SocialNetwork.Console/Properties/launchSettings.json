@@ -2,7 +2,7 @@
   "profiles": {
     "SocialNetwork.Console": {
       "commandName": "Project",
-      "commandLineArgs": "Juuso /post \"Terve vaan...\""
+      "commandLineArgs": "Mark /wall"
     }
   }
 }
