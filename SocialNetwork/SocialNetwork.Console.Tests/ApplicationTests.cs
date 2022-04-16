@@ -3,6 +3,7 @@ using Moq;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
+using SocialNetwork.Domain.Requests;
 using SocialNetwork.Infrastructure;
 using System;
 using System.Collections.Generic;

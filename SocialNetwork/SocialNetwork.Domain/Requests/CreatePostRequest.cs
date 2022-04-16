@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.Domain
+﻿namespace SocialNetwork.Domain.Requests
 {
     public class CreatePostRequest
     {

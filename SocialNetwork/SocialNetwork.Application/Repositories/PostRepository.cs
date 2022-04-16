@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Domain;
+using SocialNetwork.Domain.Requests;
 using SocialNetwork.Infrastructure;
 
 namespace SocialNetwork.Application.Repositories
