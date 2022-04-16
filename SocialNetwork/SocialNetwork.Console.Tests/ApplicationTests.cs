@@ -17,6 +17,7 @@ namespace SocialNetwork.Console.Tests
         private readonly Mock<IPostRepository> _postRepository;
         private readonly Mock<IUserRepository> _userRepository;
         private readonly TimelineLogic _timelineLogic;
+        private readonly FollowLogic _followLogic;
         private readonly Application _application;
 
         public ApplicationTests()
@@ -26,7 +27,8 @@ namespace SocialNetwork.Console.Tests
             _userRepository = new Mock<IUserRepository>();
             _timelineLogic = new TimelineLogic(_output.Object, _postRepository.Object, _userRepository.Object);
             _postLogic = new PostLogic(_output.Object, _postRepository.Object, _userRepository.Object);
-            _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic);
+            _followLogic = new FollowLogic(_userRepository.Object, _output.Object);
+            _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
         }
 
@@ -62,6 +64,17 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteError(It.Is<string>(x => x.Contains("Verb '/test' is not recognized."))));
         }
 
+        [Theory, AutoMoqData]
+        public void Run_Post_ShouldCreatePostMessage(Post post, User user)
+        {
+            _userRepository.Setup(x => x.CreateIfNotExists(user.Name))
+                                        .Returns(user);
+
+            _application.Run(new string[] { user.Name, "/post", post.Content });
+
+            _postRepository.Verify(x => x.Create(It.Is<Post>(x => x.Content == post.Content && x.User.Name == user.Name)));
+        }
+
         [Fact]
         public void Run_Timeline_ShouldBeEmpty_ByDefault()
         {
@@ -90,6 +103,22 @@ namespace SocialNetwork.Console.Tests
             {
                 _output.Verify(x => x.WriteLine(post.Content));
             }
+        }
+
+        [Theory, AutoMoqData]
+        public void Run_FollowUser_ShouldAddUserToSubscriptionList(User invokedByUser, User userToView)
+        {
+            _userRepository.Setup(x => x.CreateIfNotExists(invokedByUser.Name))
+                .Returns(invokedByUser);
+
+            _userRepository.Setup(x => x.CreateIfNotExists(userToView.Name))
+                .Returns(userToView);
+
+            _application.Run(new string[] { invokedByUser.Name, "/follow", userToView.Name });
+
+            _output.Verify(x => x.WriteLine($"Subscribed to user's {userToView.Name} timeline."));
+
+            _userRepository.Verify(x => x.Update(It.Is<User>(x => x == invokedByUser && x.Subscriptions.Contains(userToView))));
         }
     }
 }

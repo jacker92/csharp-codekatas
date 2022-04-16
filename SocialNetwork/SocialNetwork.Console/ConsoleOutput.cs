@@ -1,5 +1,8 @@
-﻿namespace SocialNetwork.Console
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SocialNetwork.Console
 {
+    [ExcludeFromCodeCoverage]
     public class ConsoleOutput : IOutput
     {
         public void WriteLine(string message)

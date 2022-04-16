@@ -16,5 +16,12 @@ namespace SocialNetwork.Application
         {
             return new User { Name = userName };
         }
+
+        public User Update(User user)
+        {
+            var result = _applicationDbContext.Users.Update(user);
+            _applicationDbContext.SaveChanges();
+            return result.Entity;
+        }
     }
 }
