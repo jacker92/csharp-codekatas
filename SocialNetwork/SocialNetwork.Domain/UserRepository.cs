@@ -2,9 +2,9 @@
 {
     public class UserRepository : IUserRepository
     {
-        public void CreateIfNotExists(User user)
+        public User CreateIfNotExists(string userName)
         {
-           
+            return new User { Name = userName };
         }
     }
 }

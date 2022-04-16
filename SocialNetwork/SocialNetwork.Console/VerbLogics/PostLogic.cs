@@ -18,8 +18,7 @@ namespace SocialNetwork.Console.VerbLogics
 
         public int Run(PostOptions options, string userName)
         {
-            var user = new User() { Name = userName };
-            _userRepository.CreateIfNotExists(user);
+            var user = _userRepository.CreateIfNotExists(userName);
 
             var post = new Post { Content = options.Message, User = user };
             _postRepository.Create(post);

@@ -6,5 +6,10 @@
         {
 
         }
+
+        public IEnumerable<Post> GetPosts(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
