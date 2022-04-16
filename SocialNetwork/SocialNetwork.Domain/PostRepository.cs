@@ -1,6 +1,6 @@
 ﻿namespace SocialNetwork.Domain
 {
-    public class PostsRepository : IPostsRepository
+    public class PostRepository : IPostRepository
     {
         public void Save(Post post)
         {

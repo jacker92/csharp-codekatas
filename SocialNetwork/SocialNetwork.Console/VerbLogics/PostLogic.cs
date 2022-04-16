@@ -6,9 +6,9 @@ namespace SocialNetwork.Console.VerbLogics
     public class PostLogic : IVerbLogic<PostOptions>
     {
         private readonly IOutput _output;
-        private readonly IPostsRepository _postsRepository;
+        private readonly IPostRepository _postsRepository;
 
-        public PostLogic(IOutput output, IPostsRepository postsRepository)
+        public PostLogic(IOutput output, IPostRepository postsRepository)
         {
             _output = output;
             _postsRepository = postsRepository;

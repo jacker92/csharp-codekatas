@@ -13,13 +13,13 @@ namespace SocialNetwork.Console.Tests
     public class PostLogicTests
     {
         private readonly Mock<IOutput> _output;
-        private readonly Mock<IPostsRepository> _postsRepository;
+        private readonly Mock<IPostRepository> _postsRepository;
         private readonly PostLogic _postLogic;
 
         public PostLogicTests()
         {
             _output = new Mock<IOutput>();
-            _postsRepository = new Mock<IPostsRepository>();
+            _postsRepository = new Mock<IPostRepository>();
             _postLogic = new PostLogic(_output.Object, _postsRepository.Object);
         }
 

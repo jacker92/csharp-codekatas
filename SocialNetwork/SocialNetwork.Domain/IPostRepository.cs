@@ -1,6 +1,6 @@
 ﻿namespace SocialNetwork.Domain
 {
-    public interface IPostsRepository
+    public interface IPostRepository
     {
         void Save(Post post);
     }

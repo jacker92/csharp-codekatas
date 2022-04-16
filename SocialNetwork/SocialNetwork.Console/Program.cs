@@ -9,7 +9,7 @@ namespace SocialNetwork.Console
         static void Main(string[] args)
         {
             var consoleOutput = new ConsoleOutput();
-            var postsRepository = new PostsRepository();
+            var postsRepository = new PostRepository();
             var verbLogicRunner = new VerbLogicRunner(new PostLogic(consoleOutput, postsRepository));
             var application = new Application(consoleOutput, verbLogicRunner);
 
