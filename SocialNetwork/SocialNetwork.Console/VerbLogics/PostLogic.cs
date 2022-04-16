@@ -6,18 +6,24 @@ namespace SocialNetwork.Console.VerbLogics
     public class PostLogic : IVerbLogic<PostOptions>
     {
         private readonly IOutput _output;
-        private readonly IPostRepository _postsRepository;
+        private readonly IPostRepository _postRepository;
+        private readonly IUserRepository _userRepository;
 
-        public PostLogic(IOutput output, IPostRepository postsRepository)
+        public PostLogic(IOutput output, IPostRepository postRepository, IUserRepository userRepository)
         {
             _output = output;
-            _postsRepository = postsRepository;
+            _postRepository = postRepository;
+            _userRepository = userRepository;
         }
 
         public int Run(PostOptions options, string userName)
         {
-            var post = new Post { Content = options.Message, User = new User() { Name = userName } };
-            _postsRepository.Save(post);
+            var user = new User() { Name = userName };
+            _userRepository.Save(user);
+
+            var post = new Post { Content = options.Message, User = user };
+            _postRepository.Save(post);
+
             return 0;
         }
     }
