@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Domain;
 using SocialNetwork.Domain.Requests;
+using SocialNetwork.Domain.Responses;
 using SocialNetwork.Infrastructure;
 
 namespace SocialNetwork.Application.Repositories
@@ -31,18 +32,22 @@ namespace SocialNetwork.Application.Repositories
             _applicationDbContext.SaveChanges();
         }
 
-        public IEnumerable<Post> GetAll()
+        public IEnumerable<GetPostResponse> GetAll()
         {
-            return _applicationDbContext.Posts
+            var posts = _applicationDbContext.Posts
                 .AsNoTracking();
+
+            return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
         }
 
-        public IEnumerable<Post> GetByUserName(string user)
+        public IEnumerable<GetPostResponse> GetByUserName(string user)
         {
-            return _applicationDbContext.Posts
+            var posts = _applicationDbContext.Posts
                 .Include(x => x.User)
                 .Where(x => x.User.Name == user)
                 .AsNoTracking();
+
+            return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
         }
     }
 }

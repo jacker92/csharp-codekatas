@@ -1,6 +1,7 @@
 ﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain;
+using SocialNetwork.Domain.Responses;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,7 +32,7 @@ namespace SocialNetwork.Console.VerbLogics
             }
 
             _output.WriteLine($"Showing {userName}'s wall:");
-            var posts = new List<Post>();
+            var posts = new List<GetPostResponse>();
             foreach (var sub in user.Subscriptions)
             {
                 var subscribedPosts = _postRepository.GetByUserName(sub.Name);

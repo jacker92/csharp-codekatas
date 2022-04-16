@@ -95,7 +95,7 @@ namespace SocialNetwork.Console.Tests
 
             Assert.Single(result);
             Assert.Equal(result.Single().Content, postContent);
-            Assert.Equal(result.Single().User.Id, _testUser1.Id);
+            Assert.Equal(result.Single().UserId, _testUser1.Id);
         }
 
         [Fact]
