@@ -1,5 +1,7 @@
-﻿using SocialNetwork.Console.VerbLogics;
+﻿using SocialNetwork.Application;
+using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;
+using SocialNetwork.Infrastructure;
 using System;
 
 namespace SocialNetwork.Console
@@ -9,7 +11,8 @@ namespace SocialNetwork.Console
         static void Main(string[] args)
         {
             var consoleOutput = new ConsoleOutput();
-            var postsRepository = new PostRepository();
+            var dbContext = new ApplicationDbContext();
+            var postsRepository = new PostRepository(dbContext);
             var userRepository = new UserRepository();
             var verbLogicRunner = new VerbLogicRunner(new PostLogic(consoleOutput, postsRepository, userRepository), new TimelineLogic(consoleOutput, postsRepository, userRepository));
             var application = new Application(consoleOutput, verbLogicRunner);

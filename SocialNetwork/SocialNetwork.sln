@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Domain", "SocialNetwork.Domain\SocialNetwork.Domain.csproj", "{55CC0F99-DEBD-4E5A-99F5-9D5F11284255}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Domain", "SocialNetwork.Domain\SocialNetwork.Domain.csproj", "{55CC0F99-DEBD-4E5A-99F5-9D5F11284255}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Domain.Tests", "SocialNetwork.Domain.Tests\SocialNetwork.Domain.Tests.csproj", "{19B308EE-E1CD-4D28-A3C0-596EB85E7195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Domain.Tests", "SocialNetwork.Domain.Tests\SocialNetwork.Domain.Tests.csproj", "{19B308EE-E1CD-4D28-A3C0-596EB85E7195}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Console.Tests", "SocialNetwork.Console.Tests\SocialNetwork.Console.Tests.csproj", "{09FC1409-1A42-4DE5-89D7-5B0D90C33E50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Console.Tests", "SocialNetwork.Console.Tests\SocialNetwork.Console.Tests.csproj", "{09FC1409-1A42-4DE5-89D7-5B0D90C33E50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Console", "SocialNetwork.Console\SocialNetwork.Console.csproj", "{48720961-18A4-448C-ACD0-6DA0C095676E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Console", "SocialNetwork.Console\SocialNetwork.Console.csproj", "{48720961-18A4-448C-ACD0-6DA0C095676E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Infrastructure", "SocialNetwork.Infrastructure\SocialNetwork.Infrastructure.csproj", "{DE234ACB-802E-45F4-BDA8-8FCA00FF04CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Application", "SocialNetwork.Application\SocialNetwork.Application.csproj", "{358BCA41-4C80-46EE-AFB0-4CA4D9182F83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{48720961-18A4-448C-ACD0-6DA0C095676E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48720961-18A4-448C-ACD0-6DA0C095676E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48720961-18A4-448C-ACD0-6DA0C095676E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE234ACB-802E-45F4-BDA8-8FCA00FF04CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE234ACB-802E-45F4-BDA8-8FCA00FF04CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE234ACB-802E-45F4-BDA8-8FCA00FF04CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE234ACB-802E-45F4-BDA8-8FCA00FF04CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{358BCA41-4C80-46EE-AFB0-4CA4D9182F83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{358BCA41-4C80-46EE-AFB0-4CA4D9182F83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{358BCA41-4C80-46EE-AFB0-4CA4D9182F83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{358BCA41-4C80-46EE-AFB0-4CA4D9182F83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

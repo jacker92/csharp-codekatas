@@ -1,4 +1,5 @@
-﻿using SocialNetwork.Console.CommandLineOptions;
+﻿using SocialNetwork.Application;
+using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain;
 
 namespace SocialNetwork.Console.VerbLogics
