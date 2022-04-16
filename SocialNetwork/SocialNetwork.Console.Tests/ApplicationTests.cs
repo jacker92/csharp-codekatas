@@ -22,5 +22,22 @@ namespace SocialNetwork.Console.Tests
 
             _output.Verify(x => x.Write("Name is required!"));
         }
+
+
+        [Fact]
+        public void ShouldReturnErrorMessage_IfNameIsWhitespace()
+        {
+            _application.Run(new string[] {" "});
+
+            _output.Verify(x => x.Write("Name is required!"));
+        }
+
+        [Fact]
+        public void ShouldReturnErrorMessage_IfInvalidVerbIsGiven()
+        {
+            _application.Run(new string[] { "Alice /test" });
+
+            _output.Verify(x => x.Write("Invalid verb is given!"));
+        }
     }
 }

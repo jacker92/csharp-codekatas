@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace SocialNetwork.Console
 {
@@ -13,7 +14,14 @@ namespace SocialNetwork.Console
 
         public void Run(string[] args)
         {
-            _output.Write("Name is required!");
+            var name = args.FirstOrDefault();
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                _output.Write("Name is required!");
+            }
+
+            _output.Write("Invalid verb is given!");
         }
     }
 }
