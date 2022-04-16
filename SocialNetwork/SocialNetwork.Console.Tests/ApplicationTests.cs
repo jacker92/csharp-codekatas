@@ -71,17 +71,21 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoData]
-        public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<Post> posts, User user)
+        public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<Post> posts, User invokedByUser, User userToView)
         {
-            _userRepository.Setup(x => x.CreateIfNotExists(It.IsAny<string>()))
-                .Returns(user);
+            _userRepository.Setup(x => x.CreateIfNotExists(invokedByUser.Name))
+                .Returns(invokedByUser);
 
-            _postRepository.Setup(x => x.GetPosts(It.Is<User>(x => x.Name == user.Name)))
+            _userRepository.Setup(x => x.CreateIfNotExists(userToView.Name))
+                .Returns(userToView);
+
+            _postRepository.Setup(x => x.GetPosts(userToView))
                            .Returns(posts);
 
-            _application.Run(new string[] { "Bob", "/timeline", user.Name });
+            _application.Run(new string[] { invokedByUser.Name, "/timeline", userToView.Name });
 
-            _output.Verify(x => x.WriteLine($"{user.Name}'s timeline:"));
+            _output.Verify(x => x.WriteLine($"{userToView.Name}'s timeline:"));
+
             foreach (var post in posts)
             {
                 _output.Verify(x => x.WriteLine(post.Content));
