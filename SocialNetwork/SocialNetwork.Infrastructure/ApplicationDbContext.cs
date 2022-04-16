@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Domain;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SocialNetwork.Infrastructure
 {
+    [ExcludeFromCodeCoverage]
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Post> Posts { get; set; }
