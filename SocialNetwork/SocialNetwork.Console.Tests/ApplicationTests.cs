@@ -58,10 +58,10 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteError("Name is required!"));
         }
 
-        [Fact]
-        public void Run_ShouldReturnErrorMessage_IfInvalidVerbIsGiven()
+        [Theory, AutoMoqData]
+        public void Run_ShouldReturnErrorMessage_IfInvalidVerbIsGiven(User user)
         {
-            _application.Run(new string[] { "Alice", "/test" });
+            _application.Run(new string[] { user.Name, "/test" });
 
             _output.Verify(x => x.WriteError(It.Is<string>(x => x.Contains("Verb '/test' is not recognized."))));
         }
@@ -69,33 +69,27 @@ namespace SocialNetwork.Console.Tests
         [Theory, AutoMoqData]
         public void Run_Post_ShouldCreatePostMessage(Post post, User user)
         {
-            _userRepository.Setup(x => x.CreateIfNotExists(user.Name))
-                                        .Returns(user);
+            SetupUserRepositoryUser(user);
 
             _application.Run(new string[] { user.Name, "/post", post.Content });
 
             _postRepository.Verify(x => x.Create(It.Is<Post>(x => x.Content == post.Content && x.User.Name == user.Name)));
         }
 
-        [Fact]
-        public void Run_Timeline_ShouldBeEmpty_ByDefault()
+        [Theory, AutoMoqData]
+        public void Run_Timeline_ShouldBeEmpty_ByDefault(User invokedByUser, User userToView)
         {
-            _application.Run(new string[] { "Bob", "/timeline", "Alice" });
+            _application.Run(new string[] { invokedByUser.Name, "/timeline", userToView.Name });
 
-            _output.Verify(x => x.WriteLine("Alice's timeline does not contain any posts."));
+            _output.Verify(x => x.WriteLine($"{userToView.Name}'s timeline does not contain any posts."));
         }
 
         [Theory, AutoMoqData]
         public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<Post> posts, User invokedByUser, User userToView)
         {
-            _userRepository.Setup(x => x.CreateIfNotExists(invokedByUser.Name))
-                .Returns(invokedByUser);
-
-            _userRepository.Setup(x => x.CreateIfNotExists(userToView.Name))
-                .Returns(userToView);
-
-            _postRepository.Setup(x => x.GetPosts(userToView))
-                           .Returns(posts);
+            SetupUserRepositoryUser(invokedByUser);
+            SetupUserRepositoryUser(userToView);
+            SetupPostRepositoryPosts(posts, userToView);
 
             _application.Run(new string[] { invokedByUser.Name, "/timeline", userToView.Name });
 
@@ -110,11 +104,8 @@ namespace SocialNetwork.Console.Tests
         [Theory, AutoMoqData]
         public void Run_FollowUser_ShouldAddUserToSubscriptionList(User invokedByUser, User userToView)
         {
-            _userRepository.Setup(x => x.CreateIfNotExists(invokedByUser.Name))
-                .Returns(invokedByUser);
-
-            _userRepository.Setup(x => x.CreateIfNotExists(userToView.Name))
-                .Returns(userToView);
+            SetupUserRepositoryUser(invokedByUser);
+            SetupUserRepositoryUser(userToView);
 
             _application.Run(new string[] { invokedByUser.Name, "/follow", userToView.Name });
 
@@ -126,8 +117,7 @@ namespace SocialNetwork.Console.Tests
         [Theory, AutoMoqData]
         public void Run_Wall_ShouldBeEmpty_ByDefault(User invokedByUser)
         {
-            _userRepository.Setup(x => x.CreateIfNotExists(invokedByUser.Name))
-             .Returns(invokedByUser);
+            SetupUserRepositoryUser(invokedByUser);
 
             _application.Run(new string[] { invokedByUser.Name, "/wall" });
 
@@ -139,14 +129,9 @@ namespace SocialNetwork.Console.Tests
         {
             invokedByUser.Subscriptions.Add(userToView);
 
-            _userRepository.Setup(x => x.CreateIfNotExists(invokedByUser.Name))
-                .Returns(invokedByUser);
-
-            _userRepository.Setup(x => x.CreateIfNotExists(userToView.Name))
-                .Returns(userToView);
-
-            _postRepository.Setup(x => x.GetPosts(userToView))
-                .Returns(posts);
+            SetupUserRepositoryUser(invokedByUser);
+            SetupUserRepositoryUser(userToView);
+            SetupPostRepositoryPosts(posts, userToView);
 
             _application.Run(new string[] { invokedByUser.Name, "/wall" });
 
@@ -156,6 +141,18 @@ namespace SocialNetwork.Console.Tests
             {
                 _output.Verify(x => x.WriteLine(post.Content));
             }
+        }
+
+        private void SetupPostRepositoryPosts(IEnumerable<Post> posts, User userToView)
+        {
+            _postRepository.Setup(x => x.GetPosts(userToView))
+             .Returns(posts);
+        }
+
+        private void SetupUserRepositoryUser(User user)
+        {
+            _userRepository.Setup(x => x.CreateIfNotExists(user.Name))
+                                        .Returns(user);
         }
     }
 }
