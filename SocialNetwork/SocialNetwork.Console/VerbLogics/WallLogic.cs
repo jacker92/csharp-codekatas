@@ -1,6 +1,5 @@
 ﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
-using SocialNetwork.Domain;
 using SocialNetwork.Domain.Requests;
 using SocialNetwork.Domain.Responses;
 using System.Collections.Generic;

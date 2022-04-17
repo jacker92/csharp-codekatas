@@ -1,7 +1,6 @@
 ﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain.Requests;
-using System.Collections.Generic;
 
 namespace SocialNetwork.Console.VerbLogics
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace SocialNetwork.Domain.Responses
+﻿namespace SocialNetwork.Domain.Responses
 {
     public class GetUserResponse
     {

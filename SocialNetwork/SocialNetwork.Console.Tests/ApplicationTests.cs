@@ -4,7 +4,6 @@ using Moq;
 using SocialNetwork.Application.Mappings;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.VerbLogics;
-using SocialNetwork.Domain;
 using SocialNetwork.Domain.Requests;
 using SocialNetwork.Domain.Responses;
 using SocialNetwork.Infrastructure;

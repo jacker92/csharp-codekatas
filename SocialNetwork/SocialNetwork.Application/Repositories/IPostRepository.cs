@@ -1,5 +1,4 @@
-﻿using SocialNetwork.Domain;
-using SocialNetwork.Domain.Requests;
+﻿using SocialNetwork.Domain.Requests;
 using SocialNetwork.Domain.Responses;
 
 namespace SocialNetwork.Application.Repositories

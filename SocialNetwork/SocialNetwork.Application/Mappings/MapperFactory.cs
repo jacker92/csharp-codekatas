@@ -2,12 +2,6 @@
 using SocialNetwork.Domain.Models;
 using SocialNetwork.Domain.Requests;
 using SocialNetwork.Domain.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Application.Mappings
 {
