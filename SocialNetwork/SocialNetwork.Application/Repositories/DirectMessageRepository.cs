@@ -34,5 +34,10 @@ namespace SocialNetwork.Application.Repositories
 
             return _mapper.Map<CreateDirectMessageResponse>(created.Entity);
         }
+
+        public IEnumerable<GetDirectMessageResponse> GetAll()
+        {
+            return _mapper.Map<IEnumerable<GetDirectMessageResponse>>(_applicationDbContext.DirectMessages.ToList());
+        }
     }
 }

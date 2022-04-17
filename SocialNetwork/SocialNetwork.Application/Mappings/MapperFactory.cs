@@ -36,6 +36,7 @@ namespace SocialNetwork.Application.Mappings
         private static void DirectMessages(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<DirectMessage, CreateDirectMessageResponse>();
+            cfg.CreateMap<DirectMessage, GetDirectMessageResponse>();
         }
     }
 }

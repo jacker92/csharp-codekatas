@@ -4,5 +4,6 @@
     {
         public IEnumerable<GetUserResponse> Subscriptions { get; set; }
         public int Id { get; set; }
+        public object Name { get; set; }
     }
 }

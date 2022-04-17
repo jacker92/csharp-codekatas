@@ -6,5 +6,6 @@ namespace SocialNetwork.Application.Repositories
     public interface IDirectMessageRepository
     {
         CreateDirectMessageResponse Create(CreateDirectMessageRequest request);
+        IEnumerable<GetDirectMessageResponse> GetAll();
     }
 }

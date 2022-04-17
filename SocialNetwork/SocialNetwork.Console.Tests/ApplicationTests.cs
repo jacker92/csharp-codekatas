@@ -47,7 +47,7 @@ namespace SocialNetwork.Console.Tests
             _postLogic = new PostLogic(_output.Object, _postRepository, _userRepository);
             _followLogic = new FollowLogic(_userRepository, _output.Object);
             _wallLogic = new WallLogic(_userRepository, _postRepository, _output.Object);
-            _viewMessagesLogic = new ViewMessagesLogic(_output.Object);
+            _viewMessagesLogic = new ViewMessagesLogic(_output.Object, _directMessageRepository, _userRepository);
             _sendMessagesLogic = new SendMessageLogic(_directMessageRepository, _userRepository, _output.Object);
             _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic, _viewMessagesLogic, _sendMessagesLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
@@ -194,20 +194,30 @@ namespace SocialNetwork.Console.Tests
             Assert.Equal(_testUser2.Id, message.To.Id);
         }
 
-        //[Fact]
-        //public void Run_ViewMessages_ShouldShowOneMessage_IfOneMessageIsReceived()
-        //{
-        //    _application.Run(new string[] { _testUser1.Name, "/view_messages" });
-
-        //    _output.Verify(x => x.WriteLine($"No direct messages found."));
-        //}
-
         [Fact]
         public void Run_ViewMessages_ShouldShowNoMessages_IfNoMessagesArePresent()
         {
             _application.Run(new string[] { _testUser1.Name, "/view_messages" });
 
             _output.Verify(x => x.WriteLine($"No direct messages found."));
+        }
+
+        [Theory, AutoMoqData]
+        public void Run_ViewMessages_ShouldShowOneSentMessage_AfterMessageIsSent(string content)
+        {
+            _application.Run(new string[] { _testUser1.Name, "/send_message", _testUser2.Name, content });
+            _application.Run(new string[] { _testUser1.Name, "/view_messages" });
+
+            _output.Verify(x => x.WriteLine($"{_testUser1.Name}: " + content));
+        }
+
+        [Theory, AutoMoqData]
+        public void Run_ViewMessages_ShouldShowOneReceivedMessage_AfterMessageIsSent(string content)
+        {
+            _application.Run(new string[] { _testUser1.Name, "/send_message", _testUser2.Name, content });
+            _application.Run(new string[] { _testUser2.Name, "/view_messages" });
+
+            _output.Verify(x => x.WriteLine($"{_testUser1.Name}: " + content));
         }
 
         [Theory, AutoMoqData]
