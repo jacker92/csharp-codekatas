@@ -7,6 +7,7 @@ namespace SocialNetwork.Infrastructure
     {
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<DirectMessage> DirectMessages { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -24,6 +25,9 @@ namespace SocialNetwork.Infrastructure
 
             modelBuilder.Entity<Post>()
                  .HasKey(c => c.Id);
+
+            modelBuilder.Entity<DirectMessage>()
+                .HasKey(c => c.Id);
         }
     }
 }
