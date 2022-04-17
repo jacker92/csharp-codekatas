@@ -23,10 +23,6 @@ namespace SocialNetwork.Application.Mappings
 
         private static void Users(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<CreateUserRequest, User>()
-            .ForMember(x => x.Id, opt => opt.Ignore())
-            .ForMember(x => x.Subscriptions, opt => opt.Ignore());
-
             cfg.CreateMap<UpdateUserRequest, User>().ForMember(x => x.Subscriptions, opt => opt.Ignore());
             cfg.CreateMap<User, CreateUserResponse>().ForMember(x => x.Subscriptions, opt => opt.MapFrom(src => src.Subscriptions.Select(x => x.Id)));
             cfg.CreateMap<User, GetUserResponse>();

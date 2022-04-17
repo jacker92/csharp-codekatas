@@ -30,7 +30,10 @@ namespace SocialNetwork.Application.Repositories
                 return _mapper.Map<CreateUserResponse>(existing);
             }
 
-            var user = _mapper.Map<User>(createUserRequest);
+            var user = new User
+            {
+                Name = createUserRequest.Name
+            };
 
             var result = _applicationDbContext.Users.Add(user);
             _applicationDbContext.SaveChanges();
