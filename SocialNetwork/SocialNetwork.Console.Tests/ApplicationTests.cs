@@ -102,15 +102,12 @@ namespace SocialNetwork.Console.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Run_Post_ShouldCreatePostMessage(string postContent)
+        public void Run_Post_ShouldCreatePostMessage_WhichIsVisibleOnTimeline(string postContent)
         {
             _application.Run(new string[] { _testUser1.Name, "/post", postContent });
+            _application.Run(new string[] { _testUser1.Name, "/timeline", _testUser1.Name });
 
-            var result = _postService.GetByUserId(_testUser1.Id);
-
-            Assert.Single(result);
-            Assert.Equal(result.Single().Content, postContent);
-            Assert.Equal(result.Single().UserId, _testUser1.Id);
+            _output.Verify(x => x.WriteLine(postContent));
         }
 
         [Fact]
@@ -133,7 +130,7 @@ namespace SocialNetwork.Console.Tests
         [Theory, AutoMoqData]
         public void Run_PostMessage_ShouldBeVisible_OnUsersTimeline(IEnumerable<CreatePostRequest> posts)
         {
-            AddPostsForUser(posts, _testUser2.Id);
+            AddPostsForUser(posts, _testUser2.Name);
 
             _application.Run(new string[] { _testUser1.Name, "/timeline", _testUser2.Name });
 
@@ -168,7 +165,7 @@ namespace SocialNetwork.Console.Tests
         [Theory, AutoMoqData]
         public void Run_Wall_ShouldShowAllUsersPostInOrderByCreationDate(IEnumerable<CreatePostRequest> postRequests)
         {
-            AddPostsForUser(postRequests, _testUser2.Id);
+            AddPostsForUser(postRequests, _testUser2.Name);
 
             _userService.Update(new UpdateUserRequest { Subscriptions = new List<int> { _testUser2.Id }, Id = _testUser1.Id, Name = _testUser1.Name });
 
@@ -246,14 +243,12 @@ namespace SocialNetwork.Console.Tests
             _output.Verify(x => x.WriteLine(It.Is<string>(x => x.Contains("--help              Display this help screen."))));
         }
 
-        private void AddPostsForUser(IEnumerable<CreatePostRequest> postRequests, int userId)
+        private void AddPostsForUser(IEnumerable<CreatePostRequest> postRequests, string userName)
         {
             foreach (var postRequest in postRequests)
             {
-                postRequest.UserId = userId;
+                _application.Run(new string[] { userName, "/post", postRequest.Content });
             }
-
-            _postService.Create(postRequests);
         }
     }
 }
