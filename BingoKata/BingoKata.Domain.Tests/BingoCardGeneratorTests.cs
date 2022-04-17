@@ -12,6 +12,11 @@ namespace BingoKata.Domain.Tests
             var bingoCardGenerator = new BingoCardGenerator(bingoNumberGenerator);
             var bingoCard = bingoCardGenerator.Generate();
 
+            ValidateBingoCard(bingoCard);
+        }
+
+        private static void ValidateBingoCard(BingoCard bingoCard)
+        {
             bingoCard.SpaceRows.GetLength(0).Should().Be(5);
             bingoCard.SpaceRows.GetLength(1).Should().Be(5);
 
