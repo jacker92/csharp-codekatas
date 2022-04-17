@@ -15,7 +15,6 @@ namespace SocialNetwork.Application.Mappings
                 Users(cfg);
             });
 
-            configuration.AssertConfigurationIsValid();
             var mapper = configuration.CreateMapper();
 
             return mapper;
