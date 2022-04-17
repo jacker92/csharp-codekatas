@@ -1,7 +1,7 @@
 using SocialNetwork.Application.Mappings;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.Tests;
-using SocialNetwork.Domain.Requests;
+using SocialNetwork.Domain.DTO.Requests;
 using SocialNetwork.Infrastructure;
 using System.Linq;
 using Xunit;

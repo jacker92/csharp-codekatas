@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.Domain.Requests
+﻿namespace SocialNetwork.Domain.DTO.Requests
 {
     public class CreateUserRequest
     {

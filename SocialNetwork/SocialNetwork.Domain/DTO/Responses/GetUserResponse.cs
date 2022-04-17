@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.Domain.Responses
+﻿namespace SocialNetwork.Domain.DTO.Responses
 {
     public class GetUserResponse
     {

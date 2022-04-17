@@ -1,6 +1,6 @@
 ﻿using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.CommandLineOptions;
-using SocialNetwork.Domain.Requests;
+using SocialNetwork.Domain.DTO.Requests;
 using System.Linq;
 
 namespace SocialNetwork.Console.VerbLogics

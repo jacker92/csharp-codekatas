@@ -1,6 +1,6 @@
-﻿namespace SocialNetwork.Domain.Requests
+﻿namespace SocialNetwork.Domain.DTO.Responses
 {
-    public class UpdateUserRequest
+    public class CreateUserResponse
     {
         public int Id { get; set; }
         public string Name { get; set; }
