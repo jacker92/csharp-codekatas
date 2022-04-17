@@ -19,11 +19,6 @@ namespace SocialNetwork.Infrastructure
                 .HasKey(c => c.Id);
 
             modelBuilder.Entity<Post>()
-                .HasOne(x => x.User)
-                .WithMany()
-                .HasForeignKey(x => x.UserId);
-
-            modelBuilder.Entity<Post>()
                  .HasKey(c => c.Id);
 
             modelBuilder.Entity<DirectMessage>()

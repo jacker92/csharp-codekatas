@@ -19,19 +19,8 @@ namespace SocialNetwork.Application.Repositories
 
         public CreateDirectMessageResponse Create(CreateDirectMessageRequest request)
         {
-            var from = _applicationDbContext.Users.SingleOrDefault(x => x.Id == request.From);
-
-            if(from == null)
-            {
-                throw new Exception("User not found");
-            }
-
-            var to = _applicationDbContext.Users.SingleOrDefault(x => x.Id == request.To);
-
-            if (to == null)
-            {
-                throw new Exception("User not found");
-            }
+            var from = _applicationDbContext.Users.Single(x => x.Id == request.From);
+            var to = _applicationDbContext.Users.Single(x => x.Id == request.To);
 
             var directMessage = new DirectMessage
             {

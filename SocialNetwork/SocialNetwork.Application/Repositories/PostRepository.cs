@@ -20,14 +20,15 @@ namespace SocialNetwork.Application.Repositories
 
         public void Create(CreatePostRequest createPostRequest)
         {
-            var post = _mapper.Map<Post>(createPostRequest);
+            var post = CreatePost(createPostRequest);
+
             _applicationDbContext.Posts.Add(post);
             _applicationDbContext.SaveChanges();
         }
 
         public void Create(IEnumerable<CreatePostRequest> createPostRequests)
         {
-            var postsList = _mapper.Map<IEnumerable<Post>>(createPostRequests);
+            var postsList = createPostRequests.Select(x => CreatePost(x));
             _applicationDbContext.Posts.AddRange(postsList);
             _applicationDbContext.SaveChanges();
         }
@@ -48,6 +49,19 @@ namespace SocialNetwork.Application.Repositories
                .AsNoTracking();
 
             return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
+        }
+
+        private Post CreatePost(CreatePostRequest createPostRequest)
+        {
+            var user = _applicationDbContext.Users.Single(x => x.Id == createPostRequest.UserId);
+
+            var post = new Post
+            {
+                User = user,
+                Content = createPostRequest.Content,
+                Created = DateTime.UtcNow
+            };
+            return post;
         }
     }
 }

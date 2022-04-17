@@ -35,11 +35,6 @@ namespace SocialNetwork.Application.Mappings
 
         private static void Posts(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<CreatePostRequest, Post>()
-                .ForMember(x => x.Id, opt => opt.Ignore())
-                .ForMember(x => x.UserId, opt => opt.MapFrom(src => src.UserId))
-                .ForMember(x => x.User, opt => opt.Ignore());
-
             cfg.CreateMap<Post, GetPostResponse>();
         }
 
