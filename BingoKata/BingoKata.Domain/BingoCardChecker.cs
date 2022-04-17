@@ -49,7 +49,7 @@
             var hasDiagonalBingo = true;
             for (int x = 4; x >= 0; x--)
             {
-                var current = bingoCard.SpaceRows[x, 4-x];
+                var current = bingoCard.SpaceRows[x, 4 - x];
 
                 if (current.Value.HasValue && !list.Contains(current.Value.Value))
                 {

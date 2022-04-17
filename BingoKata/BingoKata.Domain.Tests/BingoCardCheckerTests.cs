@@ -110,7 +110,7 @@ namespace BingoKata.Domain.Tests
 
             for (int x = 4; x >= 0; x--)
             {
-                numbers.Add(bingoCard.SpaceRows[x, 4-x].Value ?? -1);
+                numbers.Add(bingoCard.SpaceRows[x, 4 - x].Value ?? -1);
             }
 
             var result = _bingoCardChecker.HasBingo(numbers, bingoCard);
