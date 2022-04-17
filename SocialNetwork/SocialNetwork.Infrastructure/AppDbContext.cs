@@ -28,6 +28,14 @@ namespace SocialNetwork.Infrastructure
 
             modelBuilder.Entity<DirectMessage>()
                 .HasKey(c => c.Id);
+
+            modelBuilder.Entity<DirectMessage>()
+                .HasOne(x => x.From)
+                .WithMany()
+                .HasForeignKey(x => x.FromUserId)
+                .HasForeignKey(x => x.ToUserId);
+                
+            
         }
     }
 }

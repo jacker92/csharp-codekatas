@@ -7,6 +7,7 @@ namespace SocialNetwork.Infrastructure
     {
         DbSet<Post> Posts { get; set; }
         DbSet<User> Users { get; set; }
+        DbSet<DirectMessage> DirectMessages { get; set; }
         int SaveChanges();
     }
 }

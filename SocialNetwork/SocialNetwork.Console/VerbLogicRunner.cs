@@ -10,14 +10,14 @@ namespace SocialNetwork.Console
         private readonly IVerbLogic<FollowOptions> _followLogic;
         private readonly IVerbLogic<WallOptions> _wallLogic;
         private readonly IVerbLogic<ViewMessagesOptions> _viewMessagesLogic;
-        private readonly IVerbLogic<SendMessagesOptions> _sendMessagesLogic;
+        private readonly IVerbLogic<SendMessageOptions> _sendMessagesLogic;
 
         public VerbLogicRunner(IVerbLogic<PostOptions> postLogic,
                                IVerbLogic<TimelineOptions> timelineLogic,
                                IVerbLogic<FollowOptions> followLogic,
                                IVerbLogic<WallOptions> wallLogic,
                                IVerbLogic<ViewMessagesOptions> viewMessagesLogic,
-                               IVerbLogic<SendMessagesOptions> sendMessagesLogic)
+                               IVerbLogic<SendMessageOptions> sendMessagesLogic)
         {
             _postLogic = postLogic;
             _timelineLogic = timelineLogic;
@@ -46,7 +46,7 @@ namespace SocialNetwork.Console
                 case ViewMessagesOptions v:
                     _viewMessagesLogic.Run(v, userName);
                     break;
-                case SendMessagesOptions s:
+                case SendMessageOptions s:
                     _sendMessagesLogic.Run(s, userName);
                     break;
             }

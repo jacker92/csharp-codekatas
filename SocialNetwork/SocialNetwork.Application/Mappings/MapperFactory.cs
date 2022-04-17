@@ -13,6 +13,7 @@ namespace SocialNetwork.Application.Mappings
             {
                 Posts(cfg);
                 Users(cfg);
+                DirectMessages(cfg);
             });
 
             var mapper = configuration.CreateMapper();
@@ -40,6 +41,17 @@ namespace SocialNetwork.Application.Mappings
                 .ForMember(x => x.User, opt => opt.Ignore());
 
             cfg.CreateMap<Post, GetPostResponse>();
+        }
+
+        private static void DirectMessages(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<CreateDirectMessageRequest, DirectMessage>()
+                .ForMember(x => x.From, opt => opt.Ignore())
+                .ForMember(x => x.To, opt => opt.Ignore())
+                .ForMember(x => x.FromUserId, opt => opt.MapFrom(src => src.From))
+                .ForMember(x => x.ToUserId, opt => opt.MapFrom(src => src.To));
+
+            cfg.CreateMap<DirectMessage, CreateDirectMessageResponse>();
         }
     }
 }

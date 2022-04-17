@@ -1,5 +1,6 @@
 using AutoFixture;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using SocialNetwork.Application.Mappings;
 using SocialNetwork.Application.Repositories;
@@ -21,13 +22,15 @@ namespace SocialNetwork.Console.Tests
         private readonly PostLogic _postLogic;
         private readonly PostRepository _postRepository;
         private readonly UserRepository _userRepository;
+        private readonly DirectMessageRepository _directMessageRepository;
         private readonly TimelineLogic _timelineLogic;
         private readonly FollowLogic _followLogic;
         private readonly WallLogic _wallLogic;
         private readonly ViewMessagesLogic _viewMessagesLogic;
-        private readonly SendMessagesLogic _sendMessagesLogic;
+        private readonly SendMessageLogic _sendMessagesLogic;
         private readonly Application _application;
         private readonly IMapper _mapper;
+        private readonly AppDbContext _appDbContext;
 
         private CreateUserResponse _testUser1;
         private CreateUserResponse _testUser2;
@@ -36,15 +39,16 @@ namespace SocialNetwork.Console.Tests
         {
             _output = new Mock<IOutput>();
             _mapper = MapperFactory.Create();
-            var context = new AppDbContextFactory().CreateInMemoryDbContext();
-            _postRepository = new PostRepository(context, _mapper);
-            _userRepository = new UserRepository(context, _mapper);
+            _appDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
+            _postRepository = new PostRepository(_appDbContext, _mapper);
+            _userRepository = new UserRepository(_appDbContext, _mapper);
+            _directMessageRepository = new DirectMessageRepository(_appDbContext, _mapper);
             _timelineLogic = new TimelineLogic(_output.Object, _postRepository, _userRepository);
             _postLogic = new PostLogic(_output.Object, _postRepository, _userRepository);
             _followLogic = new FollowLogic(_userRepository, _output.Object);
             _wallLogic = new WallLogic(_userRepository, _postRepository, _output.Object);
             _viewMessagesLogic = new ViewMessagesLogic(_output.Object);
-            _sendMessagesLogic = new SendMessagesLogic();
+            _sendMessagesLogic = new SendMessageLogic(_directMessageRepository, _userRepository, _output.Object);
             _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic, _viewMessagesLogic, _sendMessagesLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
 
@@ -172,6 +176,31 @@ namespace SocialNetwork.Console.Tests
 
             _output.Verify(x => x.WriteLine($"Showing {_testUser1.Name}'s wall:"));
         }
+
+        [Theory, AutoMoqData]
+        public void Run_SendMessage_ShouldSendMessage(string content)
+        {
+            _application.Run(new string[] { _testUser1.Name, "/send_message", _testUser2.Name, content });
+
+            _output.Verify(x => x.WriteLine($"Message sent to {_testUser2.Name}!"));
+
+            var message = _appDbContext.DirectMessages
+                .Include(x => x.From)
+                .Include(x => x.To)
+                .Single();
+
+            Assert.Equal(content, message.Content);
+            Assert.Equal(_testUser1.Id, message.From.Id);
+            Assert.Equal(_testUser2.Id, message.To.Id);
+        }
+
+        //[Fact]
+        //public void Run_ViewMessages_ShouldShowOneMessage_IfOneMessageIsReceived()
+        //{
+        //    _application.Run(new string[] { _testUser1.Name, "/view_messages" });
+
+        //    _output.Verify(x => x.WriteLine($"No direct messages found."));
+        //}
 
         [Fact]
         public void Run_ViewMessages_ShouldShowNoMessages_IfNoMessagesArePresent()
