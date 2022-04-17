@@ -45,12 +45,6 @@ namespace SocialNetwork.Application.Mappings
 
         private static void DirectMessages(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<CreateDirectMessageRequest, DirectMessage>()
-                .ForMember(x => x.From, opt => opt.Ignore())
-                .ForMember(x => x.To, opt => opt.Ignore())
-                .ForMember(x => x.FromUserId, opt => opt.MapFrom(src => src.From))
-                .ForMember(x => x.ToUserId, opt => opt.MapFrom(src => src.To));
-
             cfg.CreateMap<DirectMessage, CreateDirectMessageResponse>();
         }
     }
