@@ -7,13 +7,22 @@ namespace BingoKata.Domain.Tests
 {
     public class BingoCardCheckerTests
     {
+        private readonly BingoCardChecker _bingoCardChecker;
+        private readonly BingoNumberGenerator _bingoNumberGenerator;
+        private readonly BingoCardGenerator _bingoCardGenerator;
+
+        public BingoCardCheckerTests()
+        {
+            _bingoCardChecker = new BingoCardChecker();
+            _bingoNumberGenerator = new BingoNumberGenerator();
+            _bingoCardGenerator = new BingoCardGenerator(_bingoNumberGenerator);
+        }
+
         [Fact]
         public void HasBingo_ShouldBeFalse_IfNoBingoCanBeFound()
         {
-            var bingoCardChecker = new BingoCardChecker();
-            var bingoNumberGenerator = new BingoNumberGenerator();
-            var bingoCardGenerator = new BingoCardGenerator(bingoNumberGenerator);
-            var result = bingoCardChecker.HasBingo(new List<int> { 1}, bingoCardGenerator.Generate());
+            var bingoCard = _bingoCardGenerator.Generate();
+            var result = _bingoCardChecker.HasBingo(new List<int> { 1 }, bingoCard);
 
             result.Should().BeFalse();
         }
@@ -21,10 +30,42 @@ namespace BingoKata.Domain.Tests
         [Fact]
         public void HasBingo_ShouldBeTrue_IfAllNumbersHaveBeenCalled()
         {
-            var bingoCardChecker = new BingoCardChecker();
-            var bingoNumberGenerator = new BingoNumberGenerator();
-            var bingoCardGenerator = new BingoCardGenerator(bingoNumberGenerator);
-            var result = bingoCardChecker.HasBingo(bingoNumberGenerator.GenerateNumbers().ToList(), bingoCardGenerator.Generate());
+            var bingoCard = _bingoCardGenerator.Generate();
+            var numbers = _bingoNumberGenerator.GenerateNumbers().ToList();
+
+            var result = _bingoCardChecker.HasBingo(numbers, bingoCard);
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void HasBingo_ShouldBeTrue_IfHasVerticalBingo()
+        {
+            var bingoCard = _bingoCardGenerator.Generate();
+            var numbers = new List<int>();
+
+            for (int y = 0; y < 5; y++)
+            {
+                numbers.Add(bingoCard.SpaceRows[0, y].Value!.Value);
+            }
+
+            var result = _bingoCardChecker.HasBingo(numbers, bingoCard);
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void HasBingo_ShouldBeTrue_IfHasHorizontalBingo()
+        {
+            var bingoCard = _bingoCardGenerator.Generate();
+            var numbers = new List<int>();
+
+            for (int x = 0; x < 5; x++)
+            {
+                numbers.Add(bingoCard.SpaceRows[x, 0].Value!.Value);
+            }
+
+            var result = _bingoCardChecker.HasBingo(numbers, bingoCard);
 
             result.Should().BeTrue();
         }

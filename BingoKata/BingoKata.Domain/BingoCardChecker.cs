@@ -24,7 +24,30 @@
                 }
             }
 
+   
+            for (int y = 0; y < 5; y++)
+            {
+                var hasHorizonatlBingo = true;
+                for (int x = 0; x < 5; x++)
+                {
+                    var current = bingoCard.SpaceRows[x, y];
 
+                    if (current.Value.HasValue && !list.Contains(current.Value.Value))
+                    {
+                        hasHorizonatlBingo = false;
+                        break;
+                    }
+
+
+
+                }
+
+                if (hasHorizonatlBingo)
+                {
+                    return true;
+                }
+            }
+            
             return false;
         }
     }
