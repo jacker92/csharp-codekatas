@@ -189,7 +189,7 @@ namespace SocialNetwork.Console.Tests
         public void Run_SendMessage_ShouldSendMessage(string content)
         {
             _application.Run(new string[] { _testUser1.Name, "/send_message", _testUser2.Name, content });
-            _application.Run(new string[] { _testUser1.Name, "/view_messages"});
+            _application.Run(new string[] { _testUser1.Name, "/view_messages" });
 
             _output.Verify(x => x.WriteLine($"Message sent to {_testUser2.Name}!"));
             _output.Verify(x => x.WriteLine($"{_testUser1.Name}: {content}"));
