@@ -39,14 +39,19 @@ namespace SocialNetwork.Application.Repositories
 
         public UpdateUserResponse Update(UpdateUserRequest updateUserRequest)
         {
-            var user = _applicationDbContext.Users.SingleOrDefault(x => x.Id == updateUserRequest.Id);
-            user.Name = updateUserRequest.Name;
-            var subscribers = _applicationDbContext.Users.Where(x => updateUserRequest.Subscriptions.Any(y => y == x.Id));
-            user.Subscriptions = subscribers.TryGetNonEnumeratedCount(out int _) ? subscribers.ToList() : new List<User>();
+            var user = _applicationDbContext.Users.Single(x => x.Id == updateUserRequest.Id);
+            UpdateValues(updateUserRequest, user);
             var result = _applicationDbContext.Users.Update(user);
             _applicationDbContext.SaveChanges();
 
             return _mapper.Map<UpdateUserResponse>(result.Entity);
+        }
+
+        private void UpdateValues(UpdateUserRequest updateUserRequest, User user)
+        {
+            user.Name = updateUserRequest.Name;
+            var subscribers = _applicationDbContext.Users.Where(x => updateUserRequest.Subscriptions != null && updateUserRequest.Subscriptions.Any(y => y == x.Id));
+            user.Subscriptions = subscribers.ToList();
         }
 
         public GetUserResponse GetByName(string name)
