@@ -1,6 +1,5 @@
 using AutoFixture;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using SocialNetwork.Application.Mappings;
 using SocialNetwork.Application.Repositories;
@@ -8,7 +7,6 @@ using SocialNetwork.Application.Services;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain.DTO.Requests;
 using SocialNetwork.Domain.DTO.Responses;
-using SocialNetwork.Domain.Models;
 using SocialNetwork.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -45,7 +43,7 @@ namespace SocialNetwork.Console.Tests
             _output = new Mock<IOutput>();
             _mapper = MapperFactory.Create();
             _appDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
-            
+
             _userRepository = new UserRepository(_appDbContext);
             _postRepository = new PostRepository(_appDbContext);
             _directMessageRepository = new DirectMessageRepository(_appDbContext);

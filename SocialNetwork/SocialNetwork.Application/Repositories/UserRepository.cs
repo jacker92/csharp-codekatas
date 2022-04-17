@@ -34,7 +34,7 @@ namespace SocialNetwork.Application.Repositories
 
         public User? GetById(int id)
         {
-           return _applicationDbContext.Users.SingleOrDefault(x => x.Id == id);
+            return _applicationDbContext.Users.SingleOrDefault(x => x.Id == id);
         }
     }
 }

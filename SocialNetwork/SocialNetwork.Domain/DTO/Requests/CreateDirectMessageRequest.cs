@@ -1,6 +1,4 @@
-﻿using SocialNetwork.Domain.DTO.Responses;
-
-namespace SocialNetwork.Domain.DTO.Requests
+﻿namespace SocialNetwork.Domain.DTO.Requests
 {
     public class CreateDirectMessageRequest
     {

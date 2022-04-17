@@ -3,11 +3,6 @@ using SocialNetwork.Application.Repositories;
 using SocialNetwork.Domain.DTO.Requests;
 using SocialNetwork.Domain.DTO.Responses;
 using SocialNetwork.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Application.Services
 {

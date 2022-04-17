@@ -1,5 +1,4 @@
-﻿using SocialNetwork.Application.Repositories;
-using SocialNetwork.Application.Services;
+﻿using SocialNetwork.Application.Services;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain.DTO.Requests;
 using SocialNetwork.Domain.DTO.Responses;

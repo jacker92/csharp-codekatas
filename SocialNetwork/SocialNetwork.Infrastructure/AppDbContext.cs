@@ -22,7 +22,7 @@ namespace SocialNetwork.Infrastructure
                  .HasKey(c => c.Id);
 
             modelBuilder.Entity<DirectMessage>()
-                .HasKey(c => c.Id);           
+                .HasKey(c => c.Id);
         }
     }
 }

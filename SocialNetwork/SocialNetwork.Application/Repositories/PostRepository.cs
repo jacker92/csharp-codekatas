@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using SocialNetwork.Domain.DTO.Requests;
-using SocialNetwork.Domain.DTO.Responses;
+﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Domain.Models;
 using SocialNetwork.Infrastructure;
 

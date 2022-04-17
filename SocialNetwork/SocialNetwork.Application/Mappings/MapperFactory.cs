@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using SocialNetwork.Domain.DTO.Requests;
 using SocialNetwork.Domain.DTO.Responses;
 using SocialNetwork.Domain.Models;
 
