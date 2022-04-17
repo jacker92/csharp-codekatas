@@ -44,13 +44,6 @@ namespace SocialNetwork.Application.Services
             return _mapper.Map<UpdateUserResponse>(result);
         }
 
-        public GetUserResponse GetByName(string name)
-        {
-            var user = _userRepository.GetAll().SingleOrDefault(x => x.Name == name);
-
-            return _mapper.Map<GetUserResponse>(user);
-        }
-
         private void UpdateValues(UpdateUserRequest updateUserRequest, User user)
         {
             user.Name = !string.IsNullOrWhiteSpace(updateUserRequest!.Name) ? updateUserRequest.Name : user.Name;

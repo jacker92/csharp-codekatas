@@ -6,7 +6,6 @@ namespace SocialNetwork.Application.Services
     public interface IUserService
     {
         CreateUserResponse CreateIfNotExists(CreateUserRequest createUserRequest);
-        GetUserResponse GetByName(string name);
         UpdateUserResponse Update(UpdateUserRequest updateUserRequest);
     }
 }

@@ -6,7 +6,6 @@ namespace SocialNetwork.Application.Services
     public interface IPostService
     {
         void Create(CreatePostRequest createPostRequest);
-        void Create(IEnumerable<CreatePostRequest> createPostRequests);
         IEnumerable<GetPostResponse> GetAll();
         IEnumerable<GetPostResponse> GetByUserId(int userId);
     }

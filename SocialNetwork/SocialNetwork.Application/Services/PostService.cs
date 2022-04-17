@@ -25,12 +25,6 @@ namespace SocialNetwork.Application.Services
             _postRepository.Create(post);
         }
 
-        public void Create(IEnumerable<CreatePostRequest> createPostRequests)
-        {
-            var postsList = createPostRequests.Select(x => CreatePost(x));
-            _postRepository.CreateMany(postsList);
-        }
-
         public IEnumerable<GetPostResponse> GetAll()
         {
             var posts = _postRepository.GetAll();

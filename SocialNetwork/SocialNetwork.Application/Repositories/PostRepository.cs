@@ -20,12 +20,6 @@ namespace SocialNetwork.Application.Repositories
             return created.Entity;
         }
 
-        public void CreateMany(IEnumerable<Post> posts)
-        {
-            _applicationDbContext.Posts.AddRange(posts);
-            _applicationDbContext.SaveChanges();
-        }
-
         public IEnumerable<Post> GetAll()
         {
             return _applicationDbContext.Posts;

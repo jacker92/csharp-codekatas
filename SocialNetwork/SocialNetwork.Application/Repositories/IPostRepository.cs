@@ -5,7 +5,6 @@ namespace SocialNetwork.Application.Repositories
     public interface IPostRepository
     {
         Post Create(Post post);
-        void CreateMany(IEnumerable<Post> posts);
         IEnumerable<Post> GetByUserId(int userId);
         IEnumerable<Post> GetAll();
     }
