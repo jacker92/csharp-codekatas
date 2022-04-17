@@ -14,26 +14,48 @@
                 return true;
             }
 
+            if (HasDiagonalBingo(list, bingoCard))
+            {
+                return true;
+            }
+
             return false;
+        }
+
+        private bool HasDiagonalBingo(List<int> list, BingoCard bingoCard)
+        {
+            var hasDiagonalBingo = true;
+            for (int x = 0; x < 5; x++)
+            {
+                var current = bingoCard.SpaceRows[x, x];
+
+                if (current.Value.HasValue && !list.Contains(current.Value.Value))
+                {
+                    hasDiagonalBingo = false;
+                    break;
+                }
+            }
+
+            return hasDiagonalBingo;
         }
 
         private static bool HasHorizontalBingo(List<int> list, BingoCard bingoCard)
         {
             for (int y = 0; y < 5; y++)
             {
-                var hasHorizonatlBingo = true;
+                var hasHorizontalBingo = true;
                 for (int x = 0; x < 5; x++)
                 {
                     var current = bingoCard.SpaceRows[x, y];
 
                     if (current.Value.HasValue && !list.Contains(current.Value.Value))
                     {
-                        hasHorizonatlBingo = false;
+                        hasHorizontalBingo = false;
                         break;
                     }
                 }
 
-                if (hasHorizonatlBingo)
+                if (hasHorizontalBingo)
                 {
                     return true;
                 }

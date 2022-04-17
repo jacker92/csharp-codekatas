@@ -69,5 +69,37 @@ namespace BingoKata.Domain.Tests
 
             result.Should().BeTrue();
         }
+
+        [Fact]
+        public void HasBingo_ShouldBeTrue_IfHasHorizontalInCenterBingo()
+        {
+            var bingoCard = _bingoCardGenerator.Generate();
+            var numbers = new List<int>();
+
+            for (int x = 0; x < 5; x++)
+            {
+                numbers.Add(bingoCard.SpaceRows[x, 2].Value ?? -1);
+            }
+
+            var result = _bingoCardChecker.HasBingo(numbers, bingoCard);
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void HasBingo_ShouldBeTrue_IfHasDiagonalBingo()
+        {
+            var bingoCard = _bingoCardGenerator.Generate();
+            var numbers = new List<int>();
+
+            for (int x = 0; x < 5; x++)
+            {
+                numbers.Add(bingoCard.SpaceRows[x, x].Value ?? -1);
+            }
+
+            var result = _bingoCardChecker.HasBingo(numbers, bingoCard);
+
+            result.Should().BeTrue();
+        }
     }
 }
