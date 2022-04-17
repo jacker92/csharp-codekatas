@@ -1,4 +1,5 @@
-﻿using SocialNetwork.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Domain.Models;
 using SocialNetwork.Infrastructure;
 
 namespace SocialNetwork.Application.Repositories
@@ -21,7 +22,8 @@ namespace SocialNetwork.Application.Repositories
 
         public IEnumerable<User> GetAll()
         {
-            return _applicationDbContext.Users;
+            return _applicationDbContext.Users
+                .Include(x => x.Subscriptions);
         }
 
         public User Update(User user)
