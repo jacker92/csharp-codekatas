@@ -19,7 +19,7 @@ namespace SocialNetwork.Application.Services
 
         public CreateUserResponse CreateIfNotExists(CreateUserRequest createUserRequest)
         {
-            var existing = _userRepository.GetAll().FirstOrDefault(x => x.Name == createUserRequest.Name);
+            var existing = _userRepository.Find(x => x.Name == createUserRequest.Name);
 
             if (existing != null)
             {
@@ -60,8 +60,7 @@ namespace SocialNetwork.Application.Services
 
         private List<User> GetSubscribers(List<int> subscriptions)
         {
-            return _userRepository.GetAll()
-                .Where(x => subscriptions != null && subscriptions.Any(y => y == x.Id))
+            return _userRepository.GetWhere(x => subscriptions != null && subscriptions.Any(y => y == x.Id))
                 .ToList();
         }
     }

@@ -1,30 +1,13 @@
 ﻿using SocialNetwork.Domain.Models;
 using SocialNetwork.Infrastructure;
+using System.Linq.Expressions;
 
 namespace SocialNetwork.Application.Repositories
 {
-    public class DirectMessageRepository : IDirectMessageRepository
+    public class DirectMessageRepository : BaseRepository<DirectMessage>, IDirectMessageRepository
     {
-        private readonly IApplicationDbContext _applicationDbContext;
-
-        public DirectMessageRepository(IApplicationDbContext applicationDbContext)
+        public DirectMessageRepository(IApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
-            _applicationDbContext = applicationDbContext;
-        }
-
-        public void Create(DirectMessage directMessage)
-        {
-            _applicationDbContext.DirectMessages.Add(directMessage);
-        }
-
-        public IEnumerable<DirectMessage> GetAll()
-        {
-            return _applicationDbContext.DirectMessages;
-        }
-
-        public void Save()
-        {
-            _applicationDbContext.SaveChanges();
         }
     }
 }

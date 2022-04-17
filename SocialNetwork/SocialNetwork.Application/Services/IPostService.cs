@@ -6,7 +6,7 @@ namespace SocialNetwork.Application.Services
     public interface IPostService
     {
         void Create(CreatePostRequest createPostRequest);
-        IEnumerable<GetPostResponse> GetAll();
         IEnumerable<GetPostResponse> GetByUserId(int userId);
+        IEnumerable<GetPostResponse> GetWhereMentioned(string userName);
     }
 }

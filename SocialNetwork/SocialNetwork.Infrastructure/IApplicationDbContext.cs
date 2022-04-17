@@ -10,6 +10,6 @@ namespace SocialNetwork.Infrastructure
         DbSet<User> Users { get; set; }
         DbSet<DirectMessage> DirectMessages { get; set; }
         int SaveChanges();
-        EntityEntry Entry(object obj);
+        DbSet<T> Set<T>() where T : class;
     }
 }

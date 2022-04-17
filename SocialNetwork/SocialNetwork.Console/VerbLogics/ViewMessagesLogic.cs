@@ -21,10 +21,8 @@ namespace SocialNetwork.Console.VerbLogics
         public int Run(ViewMessagesOptions options, string userName)
         {
             var from = _userService.CreateIfNotExists(new CreateUserRequest { Name = userName });
-
-            var messages = _directMessageService.GetAll()
-                .Where(x => x.From.Id == from.Id || x.To.Id == from.Id);
-
+            var messages = _directMessageService.GetBySender(from.Id);
+               
             if (!messages.Any())
             {
                 _output.WriteLine("No direct messages found.");

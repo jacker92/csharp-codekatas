@@ -31,9 +31,10 @@ namespace SocialNetwork.Application.Services
             return _mapper.Map<CreateDirectMessageResponse>(directMessage);
         }
 
-        public IEnumerable<GetDirectMessageResponse> GetAll()
+        public IEnumerable<GetDirectMessageResponse> GetBySender(int fromId)
         {
-            return _mapper.Map<IEnumerable<GetDirectMessageResponse>>(_directMessageRepository.GetAll());
+            var result = _directMessageRepository.GetWhere(x => x.From.Id == fromId || x.To.Id == fromId);
+            return _mapper.Map<IEnumerable<GetDirectMessageResponse>>(result);
         }
 
         private static DirectMessage CreateDirectMessage(CreateDirectMessageRequest request, User? from, User? to)

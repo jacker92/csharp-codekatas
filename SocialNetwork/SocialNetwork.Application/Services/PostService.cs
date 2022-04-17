@@ -26,17 +26,16 @@ namespace SocialNetwork.Application.Services
             _postRepository.Save();
         }
 
-        public IEnumerable<GetPostResponse> GetAll()
+        public IEnumerable<GetPostResponse> GetWhereMentioned(string userName)
         {
-            var posts = _postRepository.GetAll();
+            var posts = _postRepository.GetWhere(x => x.Content.Contains($"@{userName}"));
 
             return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
         }
 
         public IEnumerable<GetPostResponse> GetByUserId(int userId)
         {
-            var posts = _postRepository.GetAll()
-                .Where(x => x.User.Id == userId);
+            var posts = _postRepository.GetWhere(x => x.User.Id == userId);
 
             return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
         }

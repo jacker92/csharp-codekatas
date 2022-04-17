@@ -1,32 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Domain.Models;
 using SocialNetwork.Infrastructure;
+using System.Linq.Expressions;
 
 namespace SocialNetwork.Application.Repositories
 {
-    public class PostRepository : IPostRepository
+    public class PostRepository : BaseRepository<Post>, IPostRepository
     {
-        private readonly IApplicationDbContext _applicationDbContext;
-
-        public PostRepository(IApplicationDbContext dbContext)
+        public PostRepository(IApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
-            _applicationDbContext = dbContext;
         }
 
-        public void Create(Post post)
-        {
-            _applicationDbContext.Posts.Add(post);
-        }
-
-        public IEnumerable<Post> GetAll()
+        public override IEnumerable<Post> GetWhere(Expression<Func<Post, bool>> predicate)
         {
             return _applicationDbContext.Posts
+                .Where(predicate)
                 .Include(x => x.User);
-        }
-
-        public void Save()
-        {
-            _applicationDbContext.SaveChanges();
         }
     }
 }

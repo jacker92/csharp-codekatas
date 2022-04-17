@@ -24,7 +24,7 @@ namespace SocialNetwork.Console.VerbLogics
         {
             var request = new CreateUserRequest { Name = userName };
             var user = _userService.CreateIfNotExists(request);
-            var mentions = _postService.GetAll().Where(x => x.Content.Contains($"@{userName}"));
+            var mentions = _postService.GetWhereMentioned(userName);
 
             if (!user.Subscriptions.Any() && !mentions.Any())
             {

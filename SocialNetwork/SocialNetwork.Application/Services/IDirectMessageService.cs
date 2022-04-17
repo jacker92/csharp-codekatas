@@ -6,6 +6,6 @@ namespace SocialNetwork.Application.Services
     public interface IDirectMessageService
     {
         CreateDirectMessageResponse Create(CreateDirectMessageRequest request);
-        IEnumerable<GetDirectMessageResponse> GetAll();
+        IEnumerable<GetDirectMessageResponse> GetBySender(int fromId);
     }
 }

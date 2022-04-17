@@ -1,11 +1,9 @@
 ﻿using SocialNetwork.Domain.Models;
+using System.Linq.Expressions;
 
 namespace SocialNetwork.Application.Repositories
 {
-    public interface IPostRepository
+    public interface IPostRepository : IRepository<Post>
     {
-        void Create(Post post);
-        IEnumerable<Post> GetAll();
-        void Save();
     }
 }

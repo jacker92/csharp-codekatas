@@ -1,42 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Domain.Models;
 using SocialNetwork.Infrastructure;
+using System.Linq.Expressions;
 
 namespace SocialNetwork.Application.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        private readonly IApplicationDbContext _applicationDbContext;
-
-        public UserRepository(IApplicationDbContext applicationDbContext)
+        public UserRepository(IApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
-            _applicationDbContext = applicationDbContext;
         }
 
-        public void Create(User user)
+        public override IEnumerable<User> GetWhere(Expression<Func<User, bool>> predicate)
         {
-            _applicationDbContext.Users.Add(user);
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            return _applicationDbContext.Users
+           return _applicationDbContext.Users
+                .Where(predicate)
                 .Include(x => x.Subscriptions);
-        }
-
-        public void Update(User user)
-        {
-            _applicationDbContext.Entry(user).State = EntityState.Modified;
-        }
-
-        public User? GetById(int id)
-        {
-            return _applicationDbContext.Users.SingleOrDefault(x => x.Id == id);
-        }
-
-        public void Save()
-        {
-            _applicationDbContext.SaveChanges();
         }
     }
 }
