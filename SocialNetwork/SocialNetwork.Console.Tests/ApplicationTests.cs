@@ -35,6 +35,7 @@ namespace SocialNetwork.Console.Tests
         private readonly AppDbContext _appDbContext;
         private readonly UserService _userService;
         private readonly PostService _postService;
+        private readonly DirectMessageService _directMessageService;
 
         private CreateUserResponse _testUser1;
         private CreateUserResponse _testUser2;
@@ -47,15 +48,16 @@ namespace SocialNetwork.Console.Tests
             
             _userRepository = new UserRepository(_appDbContext);
             _postRepository = new PostRepository(_appDbContext);
+            _directMessageRepository = new DirectMessageRepository(_appDbContext);
             _postService = new PostService(_postRepository, _userRepository, _mapper);
             _userService = new UserService(_userRepository, _mapper);
-            _directMessageRepository = new DirectMessageRepository(_appDbContext, _mapper);
+            _directMessageService = new DirectMessageService(_directMessageRepository, _userRepository, _mapper);
             _timelineLogic = new TimelineLogic(_output.Object, _postService, _userService);
             _postLogic = new PostLogic(_output.Object, _postService, _userService);
             _followLogic = new FollowLogic(_userService, _output.Object);
             _wallLogic = new WallLogic(_userService, _postService, _output.Object);
-            _viewMessagesLogic = new ViewMessagesLogic(_output.Object, _directMessageRepository, _userService);
-            _sendMessagesLogic = new SendMessageLogic(_directMessageRepository, _userService, _output.Object);
+            _viewMessagesLogic = new ViewMessagesLogic(_output.Object, _directMessageService, _userService);
+            _sendMessagesLogic = new SendMessageLogic(_directMessageService, _userService, _output.Object);
             _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic, _viewMessagesLogic, _sendMessagesLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
 
@@ -191,10 +193,7 @@ namespace SocialNetwork.Console.Tests
 
             _output.Verify(x => x.WriteLine($"Message sent to {_testUser2.Name}!"));
 
-            var message = _appDbContext.DirectMessages
-                .Include(x => x.From)
-                .Include(x => x.To)
-                .Single();
+            var message = _directMessageService.GetAll().Single();
 
             Assert.Equal(content, message.Content);
             Assert.Equal(_testUser1.Id, message.From.Id);

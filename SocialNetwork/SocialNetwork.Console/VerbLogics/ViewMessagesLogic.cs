@@ -10,13 +10,13 @@ namespace SocialNetwork.Console.VerbLogics
     public class ViewMessagesLogic : IVerbLogic<ViewMessagesOptions>
     {
         private readonly IOutput _output;
-        private readonly IDirectMessageRepository _directMessageRepository;
+        private readonly IDirectMessageService _directMessageService;
         private readonly IUserService _userService;
 
-        public ViewMessagesLogic(IOutput output, IDirectMessageRepository directMessageRepository, IUserService userService)
+        public ViewMessagesLogic(IOutput output, IDirectMessageService directMessageService, IUserService userService)
         {
             _output = output;
-            _directMessageRepository = directMessageRepository;
+            _directMessageService = directMessageService;
             _userService = userService;
         }
 
@@ -24,7 +24,7 @@ namespace SocialNetwork.Console.VerbLogics
         {
             var from = _userService.CreateIfNotExists(new CreateUserRequest { Name = userName });
 
-            var messages = _directMessageRepository.GetAll()
+            var messages = _directMessageService.GetAll()
                 .Where(x => x.From.Id == from.Id || x.To.Id == from.Id);
 
             if (!messages.Any())

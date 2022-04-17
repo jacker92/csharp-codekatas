@@ -9,35 +9,23 @@ namespace SocialNetwork.Application.Repositories
     public class DirectMessageRepository : IDirectMessageRepository
     {
         private readonly IApplicationDbContext _applicationDbContext;
-        private readonly IMapper _mapper;
 
-        public DirectMessageRepository(IApplicationDbContext applicationDbContext, IMapper mapper)
+        public DirectMessageRepository(IApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            _mapper = mapper;
         }
 
-        public CreateDirectMessageResponse Create(CreateDirectMessageRequest request)
+        public DirectMessage Create(DirectMessage directMessage)
         {
-            var from = _applicationDbContext.Users.Single(x => x.Id == request.From);
-            var to = _applicationDbContext.Users.Single(x => x.Id == request.To);
-
-            var directMessage = new DirectMessage
-            {
-                Content = request.Content,
-                From = from,
-                To = to
-            };
-
             var created = _applicationDbContext.DirectMessages.Add(directMessage);
             _applicationDbContext.SaveChanges();
 
-            return _mapper.Map<CreateDirectMessageResponse>(created.Entity);
+            return created.Entity;
         }
 
-        public IEnumerable<GetDirectMessageResponse> GetAll()
+        public IEnumerable<DirectMessage> GetAll()
         {
-            return _mapper.Map<IEnumerable<GetDirectMessageResponse>>(_applicationDbContext.DirectMessages.ToList());
+            return _applicationDbContext.DirectMessages;
         }
     }
 }

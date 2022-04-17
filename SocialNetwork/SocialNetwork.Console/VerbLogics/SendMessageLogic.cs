@@ -8,13 +8,13 @@ namespace SocialNetwork.Console.VerbLogics
     public class SendMessageLogic : IVerbLogic<SendMessageOptions>
     {
         private readonly IOutput _output;
-        private readonly IDirectMessageRepository _directMessageRepository;
+        private readonly IDirectMessageService _directMessageService;
         private readonly IUserService _userService;
 
-        public SendMessageLogic(IDirectMessageRepository directMessageRepository, IUserService userService, IOutput output)
+        public SendMessageLogic(IDirectMessageService directMessageService, IUserService userService, IOutput output)
         {
             _output = output;
-            _directMessageRepository = directMessageRepository;
+            _directMessageService = directMessageService;
             _userService = userService;
         }
 
@@ -30,7 +30,7 @@ namespace SocialNetwork.Console.VerbLogics
                 Content = options.Content
             };
 
-            _directMessageRepository.Create(request);
+            _directMessageService.Create(request);
             _output.WriteLine($"Message sent to {options.UserToSend}!");
             return 0;
         }
