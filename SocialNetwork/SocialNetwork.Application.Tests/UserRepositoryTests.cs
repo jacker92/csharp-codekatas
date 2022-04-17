@@ -30,8 +30,8 @@ namespace SocialNetwork.Application.Tests
         [Theory, AutoMoqData]
         public void Update_ShouldUpdateUser(string userName, string userNameToUpdate)
         {
-            var request = new User { Name = userName };
-            var user = _userRepository.Create(request);
+            var user = new User { Name = userName };
+            _userRepository.Create(user);
 
             user.Name = userNameToUpdate;
 

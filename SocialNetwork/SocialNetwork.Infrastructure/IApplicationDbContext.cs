@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SocialNetwork.Domain.Models;
 
 namespace SocialNetwork.Infrastructure
@@ -9,5 +10,6 @@ namespace SocialNetwork.Infrastructure
         DbSet<User> Users { get; set; }
         DbSet<DirectMessage> DirectMessages { get; set; }
         int SaveChanges();
+        EntityEntry Entry(object obj);
     }
 }

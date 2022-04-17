@@ -13,24 +13,16 @@ namespace SocialNetwork.Application.Repositories
             _applicationDbContext = dbContext;
         }
 
-        public Post Create(Post post)
+        public void Create(Post post)
         {
-            var created = _applicationDbContext.Posts.Add(post);
+            _applicationDbContext.Posts.Add(post);
             _applicationDbContext.SaveChanges();
-            return created.Entity;
         }
 
         public IEnumerable<Post> GetAll()
         {
-            return _applicationDbContext.Posts;
-        }
-
-        public IEnumerable<Post> GetByUserId(int userId)
-        {
             return _applicationDbContext.Posts
-               .Include(x => x.User)
-               .Where(x => x.User.Id == userId)
-               .AsNoTracking();
+                .Include(x => x.User);
         }
     }
 }

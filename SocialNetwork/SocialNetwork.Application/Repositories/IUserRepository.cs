@@ -4,8 +4,8 @@ namespace SocialNetwork.Application.Repositories
 {
     public interface IUserRepository
     {
-        User Create(User user);
-        User Update(User user);
+        void Create(User user);
+        void Update(User user);
         IEnumerable<User> GetAll();
         User? GetById(int id);
     }

@@ -13,11 +13,10 @@ namespace SocialNetwork.Application.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public User Create(User user)
+        public void Create(User user)
         {
-            var result = _applicationDbContext.Users.Add(user);
+            _applicationDbContext.Users.Add(user);
             _applicationDbContext.SaveChanges();
-            return result.Entity;
         }
 
         public IEnumerable<User> GetAll()
@@ -26,12 +25,10 @@ namespace SocialNetwork.Application.Repositories
                 .Include(x => x.Subscriptions);
         }
 
-        public User Update(User user)
+        public void Update(User user)
         {
-            var result = _applicationDbContext.Users.Update(user);
+            _applicationDbContext.Entry(user).State = EntityState.Modified;
             _applicationDbContext.SaveChanges();
-
-            return result.Entity;
         }
 
         public User? GetById(int id)

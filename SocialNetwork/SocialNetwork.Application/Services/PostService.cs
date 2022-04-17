@@ -34,7 +34,8 @@ namespace SocialNetwork.Application.Services
 
         public IEnumerable<GetPostResponse> GetByUserId(int userId)
         {
-            var posts = _postRepository.GetByUserId(userId);
+            var posts = _postRepository.GetAll()
+                .Where(x => x.User.Id == userId);
 
             return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
         }

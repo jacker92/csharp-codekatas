@@ -31,17 +31,17 @@ namespace SocialNetwork.Application.Services
                 Name = createUserRequest.Name
             };
 
-            var createdUser = _userRepository.Create(user);
+            _userRepository.Create(user);
 
-            return _mapper.Map<CreateUserResponse>(createdUser);
+            return _mapper.Map<CreateUserResponse>(user);
         }
 
         public UpdateUserResponse Update(UpdateUserRequest updateUserRequest)
         {
             var user = _userRepository.GetById(updateUserRequest.Id);
             UpdateValues(updateUserRequest, user);
-            var result = _userRepository.Update(user);
-            return _mapper.Map<UpdateUserResponse>(result);
+            _userRepository.Update(user);
+            return _mapper.Map<UpdateUserResponse>(user);
         }
 
         private void UpdateValues(UpdateUserRequest updateUserRequest, User user)
