@@ -142,16 +142,19 @@ namespace SocialNetwork.Console.Tests
             }
         }
 
-        [Fact]
-        public void Run_FollowUser_ShouldAddUserToSubscriptionList()
+        [Theory, AutoMoqData]
+        public void Run_FollowUser_ShouldAddUserToSubscriptionList(IEnumerable<CreatePostRequest> posts)
         {
-            _application.Run(new string[] { _testUser1.Name, "/follow", _testUser2.Name });
+            AddPostsForUser(posts, _testUser2.Name);
 
-            var updatedUser = _userService.GetByName(_testUser1.Name);
+            _application.Run(new string[] { _testUser1.Name, "/follow", _testUser2.Name });
+            _application.Run(new string[] { _testUser1.Name, "/wall" });
 
             _output.Verify(x => x.WriteLine($"Subscribed to user's {_testUser2.Name} timeline."));
-            Assert.Single(updatedUser.Subscriptions);
-            Assert.Equal(_testUser2.Id, updatedUser.Subscriptions.First().Id);
+            foreach (var post in posts)
+            {
+                _output.Verify(x => x.WriteLine(post.Content));
+            }
         }
 
         [Fact]
@@ -167,7 +170,7 @@ namespace SocialNetwork.Console.Tests
         {
             AddPostsForUser(postRequests, _testUser2.Name);
 
-            _userService.Update(new UpdateUserRequest { Subscriptions = new List<int> { _testUser2.Id }, Id = _testUser1.Id, Name = _testUser1.Name });
+            _application.Run(new string[] { _testUser1.Name, "/follow", _testUser2.Name });
 
             var posts = _postService.GetByUserId(_testUser2.Id).OrderByDescending(x => x.Created).ToList();
 
@@ -179,26 +182,31 @@ namespace SocialNetwork.Console.Tests
             _application.Run(new string[] { _testUser1.Name, "/wall" });
 
             _output.Verify(x => x.WriteLine($"Showing {_testUser1.Name}'s wall:"));
+            Assert.Equal(3, callOrder);
         }
 
         [Theory, AutoMoqData]
         public void Run_SendMessage_ShouldSendMessage(string content)
         {
             _application.Run(new string[] { _testUser1.Name, "/send_message", _testUser2.Name, content });
+            _application.Run(new string[] { _testUser1.Name, "/view_messages"});
 
             _output.Verify(x => x.WriteLine($"Message sent to {_testUser2.Name}!"));
-
-            var message = _directMessageService.GetAll().Single();
-
-            Assert.Equal(content, message.Content);
-            Assert.Equal(_testUser1.Id, message.From.Id);
-            Assert.Equal(_testUser2.Id, message.To.Id);
+            _output.Verify(x => x.WriteLine($"{_testUser1.Name}: {content}"));
         }
 
         [Fact]
         public void Run_ViewMessages_ShouldShowNoMessages_IfNoMessagesArePresent()
         {
             _application.Run(new string[] { _testUser1.Name, "/view_messages" });
+
+            _output.Verify(x => x.WriteLine($"No direct messages found."));
+        }
+
+        [Fact]
+        public void Run_ViewMessages_ShouldShowNoMessages_IfNoMessagesArePresent_ForNewUser()
+        {
+            _application.Run(new string[] { "asdf", "/view_messages" });
 
             _output.Verify(x => x.WriteLine($"No direct messages found."));
         }
