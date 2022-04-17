@@ -21,12 +21,12 @@ namespace SocialNetwork.Console.VerbLogics
         public int Run(TimelineOptions options, string userName)
         {
             var request = new CreateUserRequest { Name = userName };
-            _userRepository.CreateIfNotExists(request);
+            var invokedByUser = _userRepository.CreateIfNotExists(request);
 
             request = new CreateUserRequest { Name = options.UserName };
-            _userRepository.CreateIfNotExists(request);
+            var userToView = _userRepository.CreateIfNotExists(request);
 
-            var posts = _postRepository.GetByUserName(options.UserName);
+            var posts = _postRepository.GetByUserId(userToView.Id);
 
             if (!posts.Any())
             {

@@ -92,7 +92,7 @@ namespace SocialNetwork.Console.Tests
         {
             _application.Run(new string[] { _testUser1.Name, "/post", postContent });
 
-            var result = _postRepository.GetByUserName(_testUser1.Name);
+            var result = _postRepository.GetByUserId(_testUser1.Id);
 
             Assert.Single(result);
             Assert.Equal(result.Single().Content, postContent);
@@ -158,7 +158,7 @@ namespace SocialNetwork.Console.Tests
 
             _userRepository.Update(new UpdateUserRequest { Subscriptions = new List<int> { _testUser2.Id }, Id = _testUser1.Id, Name = _testUser1.Name });
 
-            var posts = _postRepository.GetByUserName(_testUser2.Name).OrderByDescending(x => x.Created).ToList();
+            var posts = _postRepository.GetByUserId(_testUser2.Id).OrderByDescending(x => x.Created).ToList();
 
             int callOrder = 0;
             _output.Setup(x => x.WriteLine(posts[0].Content)).Callback(() => Assert.Equal(0, callOrder++));

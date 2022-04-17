@@ -49,15 +49,5 @@ namespace SocialNetwork.Application.Repositories
 
             return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
         }
-
-        public IEnumerable<GetPostResponse> GetByUserName(string user)
-        {
-            var posts = _applicationDbContext.Posts
-                .Include(x => x.User)
-                .Where(x => x.User.Name == user)
-                .AsNoTracking();
-
-            return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
-        }
     }
 }

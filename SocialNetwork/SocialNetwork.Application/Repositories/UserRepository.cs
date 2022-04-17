@@ -47,13 +47,6 @@ namespace SocialNetwork.Application.Repositories
             return _mapper.Map<UpdateUserResponse>(result.Entity);
         }
 
-        private void UpdateValues(UpdateUserRequest updateUserRequest, User user)
-        {
-            user.Name = updateUserRequest.Name;
-            var subscribers = _applicationDbContext.Users.Where(x => updateUserRequest.Subscriptions != null && updateUserRequest.Subscriptions.Any(y => y == x.Id));
-            user.Subscriptions = subscribers.ToList();
-        }
-
         public GetUserResponse GetByName(string name)
         {
             var user = _applicationDbContext.Users
@@ -62,6 +55,19 @@ namespace SocialNetwork.Application.Repositories
                 .SingleOrDefault(x => x.Name == name)!;
 
             return _mapper.Map<GetUserResponse>(user);
+        }
+
+        private void UpdateValues(UpdateUserRequest updateUserRequest, User user)
+        {
+            user.Name = !string.IsNullOrWhiteSpace(updateUserRequest!.Name) ? updateUserRequest.Name : user.Name;
+            user.Subscriptions = updateUserRequest!.Subscriptions == null ? user.Subscriptions : GetSubscribers(updateUserRequest.Subscriptions);
+        }
+
+        private List<User> GetSubscribers(List<int> subscriptions)
+        {
+            return _applicationDbContext.Users
+                .Where(x => subscriptions != null && subscriptions.Any(y => y == x.Id))
+                .ToList();
         }
     }
 }

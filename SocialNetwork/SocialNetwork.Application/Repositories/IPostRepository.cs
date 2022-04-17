@@ -7,7 +7,6 @@ namespace SocialNetwork.Application.Repositories
     public interface IPostRepository
     {
         void Create(CreatePostRequest createPostRequest);
-        IEnumerable<GetPostResponse> GetByUserName(string user);
         IEnumerable<GetPostResponse> GetByUserId(int userId);
         IEnumerable<GetPostResponse> GetAll();
     }
