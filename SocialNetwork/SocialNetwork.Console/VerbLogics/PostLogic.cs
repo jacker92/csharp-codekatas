@@ -8,13 +8,13 @@ namespace SocialNetwork.Console.VerbLogics
     public class PostLogic : IVerbLogic<PostOptions>
     {
         private readonly IOutput _output;
-        private readonly IPostRepository _postRepository;
+        private readonly IPostService _postService;
         private readonly IUserService _userService;
 
-        public PostLogic(IOutput output, IPostRepository postRepository, IUserService userService)
+        public PostLogic(IOutput output, IPostService postService, IUserService userService)
         {
             _output = output;
-            _postRepository = postRepository;
+            _postService = postService;
             _userService = userService;
         }
 
@@ -24,7 +24,7 @@ namespace SocialNetwork.Console.VerbLogics
             var user = _userService.CreateIfNotExists(request);
 
             var post = new CreatePostRequest { Content = options.Message, UserId = user.Id };
-            _postRepository.Create(post);
+            _postService.Create(post);
 
             return 0;
         }

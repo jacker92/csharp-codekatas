@@ -10,58 +10,36 @@ namespace SocialNetwork.Application.Repositories
     public class PostRepository : IPostRepository
     {
         private readonly IApplicationDbContext _applicationDbContext;
-        private readonly IMapper _mapper;
 
-        public PostRepository(IApplicationDbContext dbContext, IMapper mapper)
+        public PostRepository(IApplicationDbContext dbContext)
         {
             _applicationDbContext = dbContext;
-            _mapper = mapper;
         }
 
-        public void Create(CreatePostRequest createPostRequest)
+        public Post Create(Post post)
         {
-            var post = CreatePost(createPostRequest);
+            var created = _applicationDbContext.Posts.Add(post);
+            _applicationDbContext.SaveChanges();
+            return created.Entity;
+        }
 
-            _applicationDbContext.Posts.Add(post);
+        public void CreateMany(IEnumerable<Post> posts)
+        {
+            _applicationDbContext.Posts.AddRange(posts);
             _applicationDbContext.SaveChanges();
         }
 
-        public void Create(IEnumerable<CreatePostRequest> createPostRequests)
+        public IEnumerable<Post> GetAll()
         {
-            var postsList = createPostRequests.Select(x => CreatePost(x));
-            _applicationDbContext.Posts.AddRange(postsList);
-            _applicationDbContext.SaveChanges();
+            return _applicationDbContext.Posts;
         }
 
-        public IEnumerable<GetPostResponse> GetAll()
+        public IEnumerable<Post> GetByUserId(int userId)
         {
-            var posts = _applicationDbContext.Posts
-                .AsNoTracking();
-
-            return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
-        }
-
-        public IEnumerable<GetPostResponse> GetByUserId(int userId)
-        {
-            var posts = _applicationDbContext.Posts
+            return _applicationDbContext.Posts
                .Include(x => x.User)
                .Where(x => x.User.Id == userId)
                .AsNoTracking();
-
-            return _mapper.Map<IEnumerable<GetPostResponse>>(posts);
-        }
-
-        private Post CreatePost(CreatePostRequest createPostRequest)
-        {
-            var user = _applicationDbContext.Users.Single(x => x.Id == createPostRequest.UserId);
-
-            var post = new Post
-            {
-                User = user,
-                Content = createPostRequest.Content,
-                Created = DateTime.UtcNow
-            };
-            return post;
         }
     }
 }

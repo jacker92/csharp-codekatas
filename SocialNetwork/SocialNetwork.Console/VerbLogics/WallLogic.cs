@@ -11,13 +11,13 @@ namespace SocialNetwork.Console.VerbLogics
     public class WallLogic : IVerbLogic<WallOptions>
     {
         private readonly IUserService _userService;
-        private readonly IPostRepository _postRepository;
+        private readonly IPostService _postService;
         private readonly IOutput _output;
 
-        public WallLogic(IUserService userService, IPostRepository postRepository, IOutput output)
+        public WallLogic(IUserService userService, IPostService postService, IOutput output)
         {
             _userService = userService;
-            _postRepository = postRepository;
+            _postService = postService;
             _output = output;
         }
 
@@ -25,7 +25,7 @@ namespace SocialNetwork.Console.VerbLogics
         {
             var request = new CreateUserRequest { Name = userName };
             var user = _userService.CreateIfNotExists(request);
-            var mentions = _postRepository.GetAll().Where(x => x.Content.Contains($"@{userName}"));
+            var mentions = _postService.GetAll().Where(x => x.Content.Contains($"@{userName}"));
 
             if (!user.Subscriptions.Any() && !mentions.Any())
             {
@@ -37,7 +37,7 @@ namespace SocialNetwork.Console.VerbLogics
             var posts = new List<GetPostResponse>();
             foreach (var sub in user.Subscriptions)
             {
-                var subscribedPosts = _postRepository.GetByUserId(sub);
+                var subscribedPosts = _postService.GetByUserId(sub);
                 posts.AddRange(subscribedPosts);
             }
 

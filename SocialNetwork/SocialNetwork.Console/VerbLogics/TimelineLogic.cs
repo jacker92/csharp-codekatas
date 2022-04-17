@@ -9,13 +9,13 @@ namespace SocialNetwork.Console.VerbLogics
     public class TimelineLogic : IVerbLogic<TimelineOptions>
     {
         private readonly IOutput _output;
-        private readonly IPostRepository _postRepository;
+        private readonly IPostService _postService;
         private readonly IUserService _userService;
 
-        public TimelineLogic(IOutput output, IPostRepository postRepository, IUserService userService)
+        public TimelineLogic(IOutput output, IPostService postService, IUserService userService)
         {
             _output = output;
-            _postRepository = postRepository;
+            _postService = postService;
             _userService = userService;
         }
 
@@ -27,7 +27,7 @@ namespace SocialNetwork.Console.VerbLogics
             request = new CreateUserRequest { Name = options.UserName };
             var userToView = _userService.CreateIfNotExists(request);
 
-            var posts = _postRepository.GetByUserId(userToView.Id);
+            var posts = _postService.GetByUserId(userToView.Id);
 
             if (!posts.Any())
             {

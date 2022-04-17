@@ -34,6 +34,7 @@ namespace SocialNetwork.Console.Tests
         private readonly IMapper _mapper;
         private readonly AppDbContext _appDbContext;
         private readonly UserService _userService;
+        private readonly PostService _postService;
 
         private CreateUserResponse _testUser1;
         private CreateUserResponse _testUser2;
@@ -43,14 +44,16 @@ namespace SocialNetwork.Console.Tests
             _output = new Mock<IOutput>();
             _mapper = MapperFactory.Create();
             _appDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
-            _postRepository = new PostRepository(_appDbContext, _mapper);
+            
             _userRepository = new UserRepository(_appDbContext);
+            _postRepository = new PostRepository(_appDbContext);
+            _postService = new PostService(_postRepository, _userRepository, _mapper);
             _userService = new UserService(_userRepository, _mapper);
             _directMessageRepository = new DirectMessageRepository(_appDbContext, _mapper);
-            _timelineLogic = new TimelineLogic(_output.Object, _postRepository, _userService);
-            _postLogic = new PostLogic(_output.Object, _postRepository, _userService);
+            _timelineLogic = new TimelineLogic(_output.Object, _postService, _userService);
+            _postLogic = new PostLogic(_output.Object, _postService, _userService);
             _followLogic = new FollowLogic(_userService, _output.Object);
-            _wallLogic = new WallLogic(_userService, _postRepository, _output.Object);
+            _wallLogic = new WallLogic(_userService, _postService, _output.Object);
             _viewMessagesLogic = new ViewMessagesLogic(_output.Object, _directMessageRepository, _userService);
             _sendMessagesLogic = new SendMessageLogic(_directMessageRepository, _userService, _output.Object);
             _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic, _viewMessagesLogic, _sendMessagesLogic);
@@ -103,7 +106,7 @@ namespace SocialNetwork.Console.Tests
         {
             _application.Run(new string[] { _testUser1.Name, "/post", postContent });
 
-            var result = _postRepository.GetByUserId(_testUser1.Id);
+            var result = _postService.GetByUserId(_testUser1.Id);
 
             Assert.Single(result);
             Assert.Equal(result.Single().Content, postContent);
@@ -169,7 +172,7 @@ namespace SocialNetwork.Console.Tests
 
             _userService.Update(new UpdateUserRequest { Subscriptions = new List<int> { _testUser2.Id }, Id = _testUser1.Id, Name = _testUser1.Name });
 
-            var posts = _postRepository.GetByUserId(_testUser2.Id).OrderByDescending(x => x.Created).ToList();
+            var posts = _postService.GetByUserId(_testUser2.Id).OrderByDescending(x => x.Created).ToList();
 
             int callOrder = 0;
             _output.Setup(x => x.WriteLine(posts[0].Content)).Callback(() => Assert.Equal(0, callOrder++));
@@ -253,7 +256,7 @@ namespace SocialNetwork.Console.Tests
                 postRequest.UserId = userId;
             }
 
-            _postRepository.Create(postRequests);
+            _postService.Create(postRequests);
         }
     }
 }
