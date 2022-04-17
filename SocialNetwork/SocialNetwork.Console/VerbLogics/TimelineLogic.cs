@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Application.Repositories;
+using SocialNetwork.Application.Services;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain.DTO.Requests;
 using System.Linq;
@@ -9,22 +10,22 @@ namespace SocialNetwork.Console.VerbLogics
     {
         private readonly IOutput _output;
         private readonly IPostRepository _postRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public TimelineLogic(IOutput output, IPostRepository postRepository, IUserRepository userRepository)
+        public TimelineLogic(IOutput output, IPostRepository postRepository, IUserService userService)
         {
             _output = output;
             _postRepository = postRepository;
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         public int Run(TimelineOptions options, string userName)
         {
             var request = new CreateUserRequest { Name = userName };
-            var invokedByUser = _userRepository.CreateIfNotExists(request);
+            var invokedByUser = _userService.CreateIfNotExists(request);
 
             request = new CreateUserRequest { Name = options.UserName };
-            var userToView = _userRepository.CreateIfNotExists(request);
+            var userToView = _userService.CreateIfNotExists(request);
 
             var posts = _postRepository.GetByUserId(userToView.Id);
 

@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Application.Repositories;
+using SocialNetwork.Application.Services;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain.DTO.Requests;
 using SocialNetwork.Domain.DTO.Responses;
@@ -9,13 +10,13 @@ namespace SocialNetwork.Console.VerbLogics
 {
     public class WallLogic : IVerbLogic<WallOptions>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IPostRepository _postRepository;
         private readonly IOutput _output;
 
-        public WallLogic(IUserRepository userRepository, IPostRepository postRepository, IOutput output)
+        public WallLogic(IUserService userService, IPostRepository postRepository, IOutput output)
         {
-            _userRepository = userRepository;
+            _userService = userService;
             _postRepository = postRepository;
             _output = output;
         }
@@ -23,7 +24,7 @@ namespace SocialNetwork.Console.VerbLogics
         public int Run(WallOptions options, string userName)
         {
             var request = new CreateUserRequest { Name = userName };
-            var user = _userRepository.CreateIfNotExists(request);
+            var user = _userService.CreateIfNotExists(request);
             var mentions = _postRepository.GetAll().Where(x => x.Content.Contains($"@{userName}"));
 
             if (!user.Subscriptions.Any() && !mentions.Any())

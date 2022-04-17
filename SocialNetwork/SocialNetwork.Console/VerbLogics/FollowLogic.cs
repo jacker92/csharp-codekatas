@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Application.Repositories;
+using SocialNetwork.Application.Services;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain.DTO.Requests;
 
@@ -6,19 +7,19 @@ namespace SocialNetwork.Console.VerbLogics
 {
     public class FollowLogic : IVerbLogic<FollowOptions>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IOutput _output;
 
-        public FollowLogic(IUserRepository userRepository, IOutput output)
+        public FollowLogic(IUserService userService, IOutput output)
         {
-            _userRepository = userRepository;
+            _userService = userService;
             _output = output;
         }
 
         public int Run(FollowOptions options, string userName)
         {
-            var user = _userRepository.CreateIfNotExists(new CreateUserRequest { Name = userName });
-            var userToFollow = _userRepository.CreateIfNotExists(new CreateUserRequest { Name = options.UserToFollow });
+            var user = _userService.CreateIfNotExists(new CreateUserRequest { Name = userName });
+            var userToFollow = _userService.CreateIfNotExists(new CreateUserRequest { Name = options.UserToFollow });
 
             var updateUserRequest = new UpdateUserRequest
             {
@@ -29,7 +30,7 @@ namespace SocialNetwork.Console.VerbLogics
 
             updateUserRequest.Subscriptions.Add(userToFollow.Id);
 
-            _userRepository.Update(updateUserRequest);
+            _userService.Update(updateUserRequest);
 
             _output.WriteLine($"Subscribed to user's {options.UserToFollow} timeline.");
 

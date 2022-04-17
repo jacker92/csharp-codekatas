@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Application.Repositories;
+using SocialNetwork.Application.Services;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain.DTO.Requests;
 using SocialNetwork.Infrastructure;
@@ -10,18 +11,18 @@ namespace SocialNetwork.Console.VerbLogics
     {
         private readonly IOutput _output;
         private readonly IDirectMessageRepository _directMessageRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public ViewMessagesLogic(IOutput output, IDirectMessageRepository directMessageRepository, IUserRepository userRepository)
+        public ViewMessagesLogic(IOutput output, IDirectMessageRepository directMessageRepository, IUserService userService)
         {
             _output = output;
             _directMessageRepository = directMessageRepository;
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         public int Run(ViewMessagesOptions options, string userName)
         {
-            var from = _userRepository.CreateIfNotExists(new CreateUserRequest { Name = userName });
+            var from = _userService.CreateIfNotExists(new CreateUserRequest { Name = userName });
 
             var messages = _directMessageRepository.GetAll()
                 .Where(x => x.From.Id == from.Id || x.To.Id == from.Id);

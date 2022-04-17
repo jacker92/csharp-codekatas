@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using SocialNetwork.Application.Mappings;
 using SocialNetwork.Application.Repositories;
+using SocialNetwork.Application.Services;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain.DTO.Requests;
 using SocialNetwork.Domain.DTO.Responses;
+using SocialNetwork.Domain.Models;
 using SocialNetwork.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -31,6 +33,7 @@ namespace SocialNetwork.Console.Tests
         private readonly Application _application;
         private readonly IMapper _mapper;
         private readonly AppDbContext _appDbContext;
+        private readonly UserService _userService;
 
         private CreateUserResponse _testUser1;
         private CreateUserResponse _testUser2;
@@ -42,13 +45,14 @@ namespace SocialNetwork.Console.Tests
             _appDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
             _postRepository = new PostRepository(_appDbContext, _mapper);
             _userRepository = new UserRepository(_appDbContext, _mapper);
+            _userService = new UserService(_userRepository, _mapper);
             _directMessageRepository = new DirectMessageRepository(_appDbContext, _mapper);
-            _timelineLogic = new TimelineLogic(_output.Object, _postRepository, _userRepository);
-            _postLogic = new PostLogic(_output.Object, _postRepository, _userRepository);
-            _followLogic = new FollowLogic(_userRepository, _output.Object);
-            _wallLogic = new WallLogic(_userRepository, _postRepository, _output.Object);
-            _viewMessagesLogic = new ViewMessagesLogic(_output.Object, _directMessageRepository, _userRepository);
-            _sendMessagesLogic = new SendMessageLogic(_directMessageRepository, _userRepository, _output.Object);
+            _timelineLogic = new TimelineLogic(_output.Object, _postRepository, _userService);
+            _postLogic = new PostLogic(_output.Object, _postRepository, _userService);
+            _followLogic = new FollowLogic(_userService, _output.Object);
+            _wallLogic = new WallLogic(_userService, _postRepository, _output.Object);
+            _viewMessagesLogic = new ViewMessagesLogic(_output.Object, _directMessageRepository, _userService);
+            _sendMessagesLogic = new SendMessageLogic(_directMessageRepository, _userService, _output.Object);
             _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic, _viewMessagesLogic, _sendMessagesLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
 
@@ -58,8 +62,8 @@ namespace SocialNetwork.Console.Tests
         private void InitializeTestUsers()
         {
             var fixture = new Fixture();
-            _testUser1 = _userRepository.CreateIfNotExists(fixture.Create<CreateUserRequest>());
-            _testUser2 = _userRepository.CreateIfNotExists(fixture.Create<CreateUserRequest>());
+            _testUser1 = _userService.CreateIfNotExists(fixture.Create<CreateUserRequest>());
+            _testUser2 = _userService.CreateIfNotExists(fixture.Create<CreateUserRequest>());
         }
 
         [Fact]

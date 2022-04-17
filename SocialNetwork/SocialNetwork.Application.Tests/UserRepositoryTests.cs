@@ -2,6 +2,7 @@ using SocialNetwork.Application.Mappings;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.Tests;
 using SocialNetwork.Domain.DTO.Requests;
+using SocialNetwork.Domain.Models;
 using SocialNetwork.Infrastructure;
 using System.Linq;
 using Xunit;
@@ -21,8 +22,8 @@ namespace SocialNetwork.Application.Tests
         [Theory, AutoMoqData]
         public void CreateIfNotExists_ShouldCreateUser(string userName)
         {
-            var request = new CreateUserRequest { Name = userName };
-            _userRepository.CreateIfNotExists(request);
+            var request = new User { Name = userName };
+            _userRepository.Create(request);
 
             var user = _applicationDbContext.Users.Single();
             Assert.Equal(userName, user.Name);
@@ -31,8 +32,8 @@ namespace SocialNetwork.Application.Tests
         [Theory, AutoMoqData]
         public void Update_ShouldUpdateUser(string userName, string userNameToUpdate)
         {
-            var request = new CreateUserRequest { Name = userName };
-            var user = _userRepository.CreateIfNotExists(request);
+            var request = new User { Name = userName };
+            var user = _userRepository.Create(request);
 
             var updateUserRequest = new UpdateUserRequest
             {

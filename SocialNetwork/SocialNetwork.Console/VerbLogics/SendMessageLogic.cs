@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Application.Repositories;
+using SocialNetwork.Application.Services;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain.DTO.Requests;
 
@@ -8,19 +9,19 @@ namespace SocialNetwork.Console.VerbLogics
     {
         private readonly IOutput _output;
         private readonly IDirectMessageRepository _directMessageRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public SendMessageLogic(IDirectMessageRepository directMessageRepository, IUserRepository userRepository, IOutput output)
+        public SendMessageLogic(IDirectMessageRepository directMessageRepository, IUserService userService, IOutput output)
         {
             _output = output;
             _directMessageRepository = directMessageRepository;
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         public int Run(SendMessageOptions options, string userName)
         {
-            var from = _userRepository.CreateIfNotExists(new CreateUserRequest { Name = userName });
-            var to = _userRepository.CreateIfNotExists(new CreateUserRequest { Name = options.UserToSend });
+            var from = _userService.CreateIfNotExists(new CreateUserRequest { Name = userName });
+            var to = _userService.CreateIfNotExists(new CreateUserRequest { Name = options.UserToSend });
 
             var request = new CreateDirectMessageRequest
             {

@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Application.Repositories;
+using SocialNetwork.Application.Services;
 using SocialNetwork.Console.CommandLineOptions;
 using SocialNetwork.Domain.DTO.Requests;
 
@@ -8,19 +9,19 @@ namespace SocialNetwork.Console.VerbLogics
     {
         private readonly IOutput _output;
         private readonly IPostRepository _postRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public PostLogic(IOutput output, IPostRepository postRepository, IUserRepository userRepository)
+        public PostLogic(IOutput output, IPostRepository postRepository, IUserService userService)
         {
             _output = output;
             _postRepository = postRepository;
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         public int Run(PostOptions options, string userName)
         {
             var request = new CreateUserRequest { Name = userName };
-            var user = _userRepository.CreateIfNotExists(request);
+            var user = _userService.CreateIfNotExists(request);
 
             var post = new CreatePostRequest { Content = options.Message, UserId = user.Id };
             _postRepository.Create(post);

@@ -18,26 +18,11 @@ namespace SocialNetwork.Application.Repositories
             _mapper = mapper;
         }
 
-        public CreateUserResponse CreateIfNotExists(CreateUserRequest createUserRequest)
+        public User Create(User user)
         {
-            var existing = _applicationDbContext.Users
-                .Include(x => x.Subscriptions)
-                .AsNoTracking()
-                .SingleOrDefault(x => x.Name == createUserRequest.Name)!;
-
-            if (existing != null)
-            {
-                return _mapper.Map<CreateUserResponse>(existing);
-            }
-
-            var user = new User
-            {
-                Name = createUserRequest.Name
-            };
-
             var result = _applicationDbContext.Users.Add(user);
             _applicationDbContext.SaveChanges();
-            return _mapper.Map<CreateUserResponse>(result.Entity);
+            return result.Entity;
         }
 
         public UpdateUserResponse Update(UpdateUserRequest updateUserRequest)
@@ -71,6 +56,24 @@ namespace SocialNetwork.Application.Repositories
             return _applicationDbContext.Users
                 .Where(x => subscriptions != null && subscriptions.Any(y => y == x.Id))
                 .ToList();
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return _applicationDbContext.Users;
+        }
+
+        public User Update(User user)
+        {
+            var result = _applicationDbContext.Users.Update(user);
+            _applicationDbContext.SaveChanges();
+
+            return result.Entity;
+        }
+
+        public User? GetById(int id)
+        {
+           return _applicationDbContext.Users.SingleOrDefault(x => x.Id == id);
         }
     }
 }
