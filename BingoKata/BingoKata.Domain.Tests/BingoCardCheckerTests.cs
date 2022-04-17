@@ -87,7 +87,7 @@ namespace BingoKata.Domain.Tests
         }
 
         [Fact]
-        public void HasBingo_ShouldBeTrue_IfHasDiagonalBingo()
+        public void HasBingo_ShouldBeTrue_IfHasDiagonalBingo_FromUpperLeftCorner_ToLowerRightCorner()
         {
             var bingoCard = _bingoCardGenerator.Generate();
             var numbers = new List<int>();
@@ -95,6 +95,22 @@ namespace BingoKata.Domain.Tests
             for (int x = 0; x < 5; x++)
             {
                 numbers.Add(bingoCard.SpaceRows[x, x].Value ?? -1);
+            }
+
+            var result = _bingoCardChecker.HasBingo(numbers, bingoCard);
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void HasBingo_ShouldBeTrue_IfHasDiagonalBingo_FromLowerLeftCorner_ToUpperRightCorner()
+        {
+            var bingoCard = _bingoCardGenerator.Generate();
+            var numbers = new List<int>();
+
+            for (int x = 4; x >= 0; x--)
+            {
+                numbers.Add(bingoCard.SpaceRows[x, 4-x].Value ?? -1);
             }
 
             var result = _bingoCardChecker.HasBingo(numbers, bingoCard);
