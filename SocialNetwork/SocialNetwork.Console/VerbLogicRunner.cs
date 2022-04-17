@@ -9,13 +9,22 @@ namespace SocialNetwork.Console
         private readonly IVerbLogic<TimelineOptions> _timelineLogic;
         private readonly IVerbLogic<FollowOptions> _followLogic;
         private readonly IVerbLogic<WallOptions> _wallLogic;
+        private readonly IVerbLogic<ViewMessagesOptions> _viewMessagesLogic;
+        private readonly IVerbLogic<SendMessagesOptions> _sendMessagesLogic;
 
-        public VerbLogicRunner(IVerbLogic<PostOptions> postLogic, IVerbLogic<TimelineOptions> timelineLogic, IVerbLogic<FollowOptions> followLogic, IVerbLogic<WallOptions> wallLogic)
+        public VerbLogicRunner(IVerbLogic<PostOptions> postLogic,
+                               IVerbLogic<TimelineOptions> timelineLogic,
+                               IVerbLogic<FollowOptions> followLogic,
+                               IVerbLogic<WallOptions> wallLogic,
+                               IVerbLogic<ViewMessagesOptions> viewMessagesLogic,
+                               IVerbLogic<SendMessagesOptions> sendMessagesLogic)
         {
             _postLogic = postLogic;
             _timelineLogic = timelineLogic;
             _followLogic = followLogic;
             _wallLogic = wallLogic;
+            _viewMessagesLogic = viewMessagesLogic;
+            _sendMessagesLogic = sendMessagesLogic;
         }
 
         public void Run(object options, string userName)
@@ -33,6 +42,12 @@ namespace SocialNetwork.Console
                     break;
                 case WallOptions w:
                     _wallLogic.Run(w, userName);
+                    break;
+                case ViewMessagesOptions v:
+                    _viewMessagesLogic.Run(v, userName);
+                    break;
+                case SendMessagesOptions s:
+                    _sendMessagesLogic.Run(s, userName);
                     break;
             }
         }

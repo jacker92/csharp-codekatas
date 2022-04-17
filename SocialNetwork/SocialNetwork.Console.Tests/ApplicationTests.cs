@@ -24,6 +24,8 @@ namespace SocialNetwork.Console.Tests
         private readonly TimelineLogic _timelineLogic;
         private readonly FollowLogic _followLogic;
         private readonly WallLogic _wallLogic;
+        private readonly ViewMessagesLogic _viewMessagesLogic;
+        private readonly SendMessagesLogic _sendMessagesLogic;
         private readonly Application _application;
         private readonly IMapper _mapper;
 
@@ -41,7 +43,9 @@ namespace SocialNetwork.Console.Tests
             _postLogic = new PostLogic(_output.Object, _postRepository, _userRepository);
             _followLogic = new FollowLogic(_userRepository, _output.Object);
             _wallLogic = new WallLogic(_userRepository, _postRepository, _output.Object);
-            _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic);
+            _viewMessagesLogic = new ViewMessagesLogic(_output.Object);
+            _sendMessagesLogic = new SendMessagesLogic();
+            _verbLogicRunner = new VerbLogicRunner(_postLogic, _timelineLogic, _followLogic, _wallLogic, _viewMessagesLogic, _sendMessagesLogic);
             _application = new Application(_output.Object, _verbLogicRunner);
 
             InitializeTestUsers();
@@ -167,6 +171,14 @@ namespace SocialNetwork.Console.Tests
             _application.Run(new string[] { _testUser1.Name, "/wall" });
 
             _output.Verify(x => x.WriteLine($"Showing {_testUser1.Name}'s wall:"));
+        }
+
+        [Fact]
+        public void Run_ViewMessages_ShouldShowNoMessages_IfNoMessagesArePresent()
+        {
+            _application.Run(new string[] { _testUser1.Name, "/view_messages" });
+
+            _output.Verify(x => x.WriteLine($"No direct messages found."));
         }
 
         [Theory, AutoMoqData]
