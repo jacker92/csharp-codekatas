@@ -44,7 +44,7 @@ namespace SocialNetwork.Console.Tests
             _mapper = MapperFactory.Create();
             _appDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
             _postRepository = new PostRepository(_appDbContext, _mapper);
-            _userRepository = new UserRepository(_appDbContext, _mapper);
+            _userRepository = new UserRepository(_appDbContext);
             _userService = new UserService(_userRepository, _mapper);
             _directMessageRepository = new DirectMessageRepository(_appDbContext, _mapper);
             _timelineLogic = new TimelineLogic(_output.Object, _postRepository, _userService);
@@ -147,7 +147,7 @@ namespace SocialNetwork.Console.Tests
         {
             _application.Run(new string[] { _testUser1.Name, "/follow", _testUser2.Name });
 
-            var updatedUser = _userRepository.GetByName(_testUser1.Name);
+            var updatedUser = _userService.GetByName(_testUser1.Name);
 
             _output.Verify(x => x.WriteLine($"Subscribed to user's {_testUser2.Name} timeline."));
             Assert.Single(updatedUser.Subscriptions);
@@ -167,7 +167,7 @@ namespace SocialNetwork.Console.Tests
         {
             AddPostsForUser(postRequests, _testUser2.Id);
 
-            _userRepository.Update(new UpdateUserRequest { Subscriptions = new List<int> { _testUser2.Id }, Id = _testUser1.Id, Name = _testUser1.Name });
+            _userService.Update(new UpdateUserRequest { Subscriptions = new List<int> { _testUser2.Id }, Id = _testUser1.Id, Name = _testUser1.Name });
 
             var posts = _postRepository.GetByUserId(_testUser2.Id).OrderByDescending(x => x.Created).ToList();
 

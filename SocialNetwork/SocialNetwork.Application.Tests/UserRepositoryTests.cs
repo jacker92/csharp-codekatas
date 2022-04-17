@@ -16,7 +16,7 @@ namespace SocialNetwork.Application.Tests
         public UserRepositoryTests()
         {
             _applicationDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
-            _userRepository = new UserRepository(_applicationDbContext, MapperFactory.Create());
+            _userRepository = new UserRepository(_applicationDbContext);
         }
 
         [Theory, AutoMoqData]
@@ -35,13 +35,9 @@ namespace SocialNetwork.Application.Tests
             var request = new User { Name = userName };
             var user = _userRepository.Create(request);
 
-            var updateUserRequest = new UpdateUserRequest
-            {
-                Id = user.Id,
-                Name = userNameToUpdate
-            };
+            user.Name = userNameToUpdate;
 
-            _userRepository.Update(updateUserRequest);
+            _userRepository.Update(user);
 
             var updatedUser = _applicationDbContext.Users.Single();
             Assert.Equal(userNameToUpdate, updatedUser.Name);
