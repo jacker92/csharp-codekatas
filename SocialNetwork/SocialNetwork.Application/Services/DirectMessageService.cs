@@ -24,20 +24,26 @@ namespace SocialNetwork.Application.Services
             var from = _userRepository.GetById(request.From);
             var to = _userRepository.GetById(request.To);
 
-            var directMessage = new DirectMessage
-            {
-                Content = request.Content,
-                From = from,
-                To = to
-            };
+            var directMessage = CreateDirectMessage(request, from, to);
 
-            var created = _directMessageRepository.Create(directMessage);
-            return _mapper.Map<CreateDirectMessageResponse>(created);
+            _directMessageRepository.Create(directMessage);
+            _directMessageRepository.Save();
+            return _mapper.Map<CreateDirectMessageResponse>(directMessage);
         }
 
         public IEnumerable<GetDirectMessageResponse> GetAll()
         {
             return _mapper.Map<IEnumerable<GetDirectMessageResponse>>(_directMessageRepository.GetAll());
+        }
+
+        private static DirectMessage CreateDirectMessage(CreateDirectMessageRequest request, User? from, User? to)
+        {
+            return new DirectMessage
+            {
+                Content = request.Content,
+                From = from,
+                To = to
+            };
         }
     }
 }

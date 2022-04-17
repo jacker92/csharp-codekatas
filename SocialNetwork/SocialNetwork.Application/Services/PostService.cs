@@ -23,6 +23,7 @@ namespace SocialNetwork.Application.Services
         {
             var post = CreatePost(createPostRequest);
             _postRepository.Create(post);
+            _postRepository.Save();
         }
 
         public IEnumerable<GetPostResponse> GetAll()

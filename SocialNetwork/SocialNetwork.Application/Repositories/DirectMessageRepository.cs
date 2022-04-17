@@ -12,17 +12,19 @@ namespace SocialNetwork.Application.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public DirectMessage Create(DirectMessage directMessage)
+        public void Create(DirectMessage directMessage)
         {
-            var created = _applicationDbContext.DirectMessages.Add(directMessage);
-            _applicationDbContext.SaveChanges();
-
-            return created.Entity;
+            _applicationDbContext.DirectMessages.Add(directMessage);
         }
 
         public IEnumerable<DirectMessage> GetAll()
         {
             return _applicationDbContext.DirectMessages;
+        }
+
+        public void Save()
+        {
+            _applicationDbContext.SaveChanges();
         }
     }
 }

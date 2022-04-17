@@ -16,7 +16,6 @@ namespace SocialNetwork.Application.Repositories
         public void Create(User user)
         {
             _applicationDbContext.Users.Add(user);
-            _applicationDbContext.SaveChanges();
         }
 
         public IEnumerable<User> GetAll()
@@ -28,12 +27,16 @@ namespace SocialNetwork.Application.Repositories
         public void Update(User user)
         {
             _applicationDbContext.Entry(user).State = EntityState.Modified;
-            _applicationDbContext.SaveChanges();
         }
 
         public User? GetById(int id)
         {
             return _applicationDbContext.Users.SingleOrDefault(x => x.Id == id);
+        }
+
+        public void Save()
+        {
+            _applicationDbContext.SaveChanges();
         }
     }
 }

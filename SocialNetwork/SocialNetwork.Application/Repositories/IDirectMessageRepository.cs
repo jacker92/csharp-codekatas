@@ -4,7 +4,8 @@ namespace SocialNetwork.Application.Repositories
 {
     public interface IDirectMessageRepository
     {
-        DirectMessage Create(DirectMessage directMessage);
+        void Create(DirectMessage directMessage);
         IEnumerable<DirectMessage> GetAll();
+        void Save();
     }
 }

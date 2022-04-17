@@ -8,5 +8,6 @@ namespace SocialNetwork.Application.Repositories
         void Update(User user);
         IEnumerable<User> GetAll();
         User? GetById(int id);
+        void Save();
     }
 }

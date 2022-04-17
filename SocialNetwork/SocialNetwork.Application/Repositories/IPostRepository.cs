@@ -6,5 +6,6 @@ namespace SocialNetwork.Application.Repositories
     {
         void Create(Post post);
         IEnumerable<Post> GetAll();
+        void Save();
     }
 }

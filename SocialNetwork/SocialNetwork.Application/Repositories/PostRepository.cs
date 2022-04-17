@@ -16,13 +16,17 @@ namespace SocialNetwork.Application.Repositories
         public void Create(Post post)
         {
             _applicationDbContext.Posts.Add(post);
-            _applicationDbContext.SaveChanges();
         }
 
         public IEnumerable<Post> GetAll()
         {
             return _applicationDbContext.Posts
                 .Include(x => x.User);
+        }
+
+        public void Save()
+        {
+            _applicationDbContext.SaveChanges();
         }
     }
 }

@@ -26,12 +26,10 @@ namespace SocialNetwork.Application.Services
                 return _mapper.Map<CreateUserResponse>(existing);
             }
 
-            var user = new User
-            {
-                Name = createUserRequest.Name
-            };
+            var user = CreateUser(createUserRequest);
 
             _userRepository.Create(user);
+            _userRepository.Save();
 
             return _mapper.Map<CreateUserResponse>(user);
         }
@@ -41,7 +39,17 @@ namespace SocialNetwork.Application.Services
             var user = _userRepository.GetById(updateUserRequest.Id);
             UpdateValues(updateUserRequest, user);
             _userRepository.Update(user);
+            _userRepository.Save();
+
             return _mapper.Map<UpdateUserResponse>(user);
+        }
+
+        private static User CreateUser(CreateUserRequest createUserRequest)
+        {
+            return new User
+            {
+                Name = createUserRequest.Name
+            };
         }
 
         private void UpdateValues(UpdateUserRequest updateUserRequest, User user)

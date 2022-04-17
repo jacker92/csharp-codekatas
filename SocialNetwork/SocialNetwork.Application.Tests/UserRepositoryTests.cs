@@ -22,6 +22,7 @@ namespace SocialNetwork.Application.Tests
         {
             var request = new User { Name = userName };
             _userRepository.Create(request);
+            _userRepository.Save();
 
             var user = _applicationDbContext.Users.Single();
             Assert.Equal(userName, user.Name);
@@ -32,6 +33,7 @@ namespace SocialNetwork.Application.Tests
         {
             var user = new User { Name = userName };
             _userRepository.Create(user);
+            _userRepository.Save();
 
             user.Name = userNameToUpdate;
 
