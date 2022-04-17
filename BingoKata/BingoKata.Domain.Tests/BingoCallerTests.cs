@@ -5,11 +5,17 @@ namespace BingoKata.Domain.Tests
 {
     public class BingoCallerTests
     {
+        private readonly BingoCaller _bingoCaller;
+
+        public BingoCallerTests()
+        {
+            _bingoCaller = new BingoCaller();
+        }
+
         [Fact]
         public void CallNumber_ShouldReturnNumber_Between1And75()
         {
-            var bingoCaller = new BingoCaller();
-            var result = bingoCaller.CallNumber();
+            var result = _bingoCaller.CallNumber();
 
             result.Should()
                 .BeGreaterThanOrEqualTo(1)
@@ -20,15 +26,13 @@ namespace BingoKata.Domain.Tests
         [Fact]
         public void CallNumber_ShouldThrowNoNumbersLeftException_After76Time()
         {
-            var bingoCaller = new BingoCaller();
             for (int i = 0; i < 75; i++)
             {
-                bingoCaller.CallNumber();
+                _bingoCaller.CallNumber();
             }
 
-            var exception = Assert.Throws<NoNumbersLeftException>(() => bingoCaller.CallNumber());
-
-            Assert.Equal("No numbers left!", exception.Message);
+            var exception = Assert.Throws<NoNumbersLeftException>(() => _bingoCaller.CallNumber());
+            exception.Message.Should().Be("No numbers left!");
         }
     }
 }
