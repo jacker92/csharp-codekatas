@@ -1,7 +1,7 @@
 using AutoFixture;
 using AutoMapper;
 using Moq;
-using SocialNetwork.Application;
+using SocialNetwork.Application.Mappings;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain;

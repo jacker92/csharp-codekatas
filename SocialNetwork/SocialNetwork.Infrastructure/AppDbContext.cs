@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.Domain;
+using SocialNetwork.Domain.Models;
 
 namespace SocialNetwork.Infrastructure
 {

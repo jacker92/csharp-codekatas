@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SocialNetwork.Domain;
+using SocialNetwork.Domain.Models;
 using SocialNetwork.Domain.Requests;
 using SocialNetwork.Domain.Responses;
 using System;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Application
+namespace SocialNetwork.Application.Mappings
 {
     public static class MapperFactory
     {

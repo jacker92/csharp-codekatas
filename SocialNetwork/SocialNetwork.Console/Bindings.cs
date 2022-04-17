@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Ninject.Extensions.Conventions;
 using Ninject.Modules;
-using SocialNetwork.Application;
+using SocialNetwork.Application.Mappings;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Infrastructure;
 

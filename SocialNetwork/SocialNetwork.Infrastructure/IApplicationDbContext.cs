@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using SocialNetwork.Domain;
+using SocialNetwork.Domain.Models;
 
 namespace SocialNetwork.Infrastructure
 {

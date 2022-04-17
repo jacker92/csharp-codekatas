@@ -1,3 +1,4 @@
+using SocialNetwork.Application.Mappings;
 using SocialNetwork.Application.Repositories;
 using SocialNetwork.Console.Tests;
 using SocialNetwork.Domain.Requests;
