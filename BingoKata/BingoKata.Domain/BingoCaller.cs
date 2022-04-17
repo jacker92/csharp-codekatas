@@ -3,23 +3,12 @@
     public class BingoCaller
     {
         private readonly Stack<int> _numbers;
+        private readonly BingoNumberGenerator _bingoNumberGenerator;
 
         public BingoCaller()
         {
-            _numbers = new Stack<int>();
-
-            InitializeBingoNumbers();
-        }
-
-        private void InitializeBingoNumbers()
-        {
-            var random = new Random();
-            var numbers = Enumerable.Range(1, 75).OrderBy(i => random.Next());
-
-            foreach (var number in numbers)
-            {
-                _numbers.Push(number);
-            }
+            _bingoNumberGenerator = new BingoNumberGenerator();
+           _numbers = _bingoNumberGenerator.GenerateNumbers();
         }
 
         public int CallNumber()
