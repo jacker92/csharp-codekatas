@@ -8,10 +8,12 @@ namespace BingoKata.Domain.Tests
     public class BingoCallerTests
     {
         private readonly BingoCaller _bingoCaller;
+        private readonly BingoNumberGenerator _bingoNumberGenerator;
 
         public BingoCallerTests()
         {
-            _bingoCaller = new BingoCaller();
+            _bingoNumberGenerator = new BingoNumberGenerator();
+            _bingoCaller = new BingoCaller(_bingoNumberGenerator);
         }
 
         [Fact]

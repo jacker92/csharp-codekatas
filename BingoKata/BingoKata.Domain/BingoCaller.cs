@@ -5,9 +5,9 @@
         private readonly Stack<int> _numbers;
         private readonly BingoNumberGenerator _bingoNumberGenerator;
 
-        public BingoCaller()
+        public BingoCaller(BingoNumberGenerator bingoNumberGenerator)
         {
-            _bingoNumberGenerator = new BingoNumberGenerator();
+            _bingoNumberGenerator = bingoNumberGenerator;
            _numbers = _bingoNumberGenerator.GenerateNumbers();
         }
 

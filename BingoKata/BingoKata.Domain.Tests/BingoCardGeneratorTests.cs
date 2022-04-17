@@ -8,7 +8,8 @@ namespace BingoKata.Domain.Tests
         [Fact]
         public void Generate_ShouldGenerateValidBingoCard()
         {
-            var bingoCardGenerator = new BingoCardGenerator();
+            var bingoNumberGenerator = new BingoNumberGenerator();
+            var bingoCardGenerator = new BingoCardGenerator(bingoNumberGenerator);
             var bingoCard = bingoCardGenerator.Generate();
 
             bingoCard.SpaceRows.GetLength(0).Should().Be(5);
