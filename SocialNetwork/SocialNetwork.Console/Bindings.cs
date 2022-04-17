@@ -43,7 +43,7 @@ namespace SocialNetwork.Console
             Bind<IOutput>().To<ConsoleOutput>();
             var dbContext = new AppDbContextFactory().CreateDbContext(null);
             Bind<IApplicationDbContext>().ToConstant(dbContext);
-            Bind<IMapper>().ToConstant(new MapperFactory().Create());
+            Bind<IMapper>().ToConstant(MapperFactory.Create());
         }
     }
 }

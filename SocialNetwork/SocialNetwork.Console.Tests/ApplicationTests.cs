@@ -34,7 +34,7 @@ namespace SocialNetwork.Console.Tests
         public ApplicationTests()
         {
             _output = new Mock<IOutput>();
-            _mapper = new MapperFactory().Create();
+            _mapper = MapperFactory.Create();
             var context = new AppDbContextFactory().CreateInMemoryDbContext();
             _postRepository = new PostRepository(context, _mapper);
             _userRepository = new UserRepository(context, _mapper);

@@ -14,7 +14,7 @@ namespace SocialNetwork.Application.Tests
         public UserRepositoryTests()
         {
             _applicationDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
-            _userRepository = new UserRepository(_applicationDbContext, new MapperFactory().Create());
+            _userRepository = new UserRepository(_applicationDbContext, MapperFactory.Create());
         }
 
         [Theory, AutoMoqData]
