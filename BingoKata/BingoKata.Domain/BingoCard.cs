@@ -21,7 +21,7 @@
                         continue;
                     }
 
-                    SpaceRows[x, y] = new Space { Value = numbers[x,y] };
+                    SpaceRows[x, y] = new Space { Value = numbers[x, y] };
                 }
             }
         }

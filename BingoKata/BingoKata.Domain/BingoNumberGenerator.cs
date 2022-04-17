@@ -6,7 +6,7 @@
 
         public BingoNumberGenerator()
         {
-            _random = new Random(); 
+            _random = new Random();
         }
 
         public Stack<int> GenerateNumbers()
@@ -29,7 +29,7 @@
 
             var stack = new Stack<int>();
 
-            foreach (var item in numbersShuffled.Take(5)) 
+            foreach (var item in numbersShuffled.Take(5))
             {
                 stack.Push(item);
             }

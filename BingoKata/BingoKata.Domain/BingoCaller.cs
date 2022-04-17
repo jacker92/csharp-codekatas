@@ -8,7 +8,7 @@
         public BingoCaller(BingoNumberGenerator bingoNumberGenerator)
         {
             _bingoNumberGenerator = bingoNumberGenerator;
-           _numbers = _bingoNumberGenerator.GenerateNumbers();
+            _numbers = _bingoNumberGenerator.GenerateNumbers();
         }
 
         public int CallNumber()
