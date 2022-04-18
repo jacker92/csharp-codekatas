@@ -10,6 +10,8 @@ namespace SocialNetwork.Console.IntegrationTests
         protected readonly PostRepository _postRepository;
         protected readonly UserRepository _userRepository;
         protected readonly DirectMessageRepository _directMessageRepository;
+        protected readonly SubscriptionRepository _subscriptionRepository;
+
         private readonly AppDbContext _appDbContext;
 
         public IntegrationTestBase()
@@ -23,6 +25,7 @@ namespace SocialNetwork.Console.IntegrationTests
             _userRepository = new UserRepository(_appDbContext);
             _postRepository = new PostRepository(_appDbContext);
             _directMessageRepository = new DirectMessageRepository(_appDbContext);
+            _subscriptionRepository = new SubscriptionRepository(_appDbContext);
 
             try
             {

@@ -27,6 +27,7 @@ namespace SocialNetwork.Console.IntegrationTests
         private readonly UserService _userService;
         private readonly PostService _postService;
         private readonly DirectMessageService _directMessageService;
+        private readonly SubscriptionService _subscriptionService;
 
         private CreateUserResponse _testUser1;
         private CreateUserResponse _testUser2;
@@ -39,9 +40,10 @@ namespace SocialNetwork.Console.IntegrationTests
             _postService = new PostService(_postRepository, _userRepository, _mapper);
             _userService = new UserService(_userRepository, _mapper);
             _directMessageService = new DirectMessageService(_directMessageRepository, _userRepository, _mapper);
+            _subscriptionService = new SubscriptionService(_subscriptionRepository);
             _timelineLogic = new TimelineLogic(_output.Object, _postService, _userService);
             _postLogic = new PostLogic(_output.Object, _postService, _userService);
-            _followLogic = new FollowLogic(_userService, _output.Object);
+            _followLogic = new FollowLogic(_userService, _subscriptionService, _output.Object);
             _wallLogic = new WallLogic(_userService, _postService, _output.Object);
             _viewMessagesLogic = new ViewMessagesLogic(_output.Object, _directMessageService, _userService);
             _sendMessagesLogic = new SendMessageLogic(_directMessageService, _userService, _output.Object);

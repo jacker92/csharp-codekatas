@@ -7,11 +7,13 @@ namespace SocialNetwork.Console.VerbLogics
     public class FollowLogic : IVerbLogic<FollowOptions>
     {
         private readonly IUserService _userService;
+        private readonly ISubscriptionService _subscriptionService;
         private readonly IOutput _output;
 
-        public FollowLogic(IUserService userService, IOutput output)
+        public FollowLogic(IUserService userService, ISubscriptionService subscriptionService, IOutput output)
         {
             _userService = userService;
+            _subscriptionService = subscriptionService;
             _output = output;
         }
 
@@ -20,16 +22,13 @@ namespace SocialNetwork.Console.VerbLogics
             var user = _userService.CreateIfNotExists(new CreateUserRequest { Name = userName });
             var userToFollow = _userService.CreateIfNotExists(new CreateUserRequest { Name = options.UserToFollow });
 
-            var updateUserRequest = new UpdateUserRequest
+            var createSubscriptionRequest = new CreateSubscriptionRequest
             {
-                Id = user.Id,
-                Name = user.Name,
-                Subscriptions = user.Subscriptions
+                SubscriberId = user.Id,
+                SubscribedId = userToFollow.Id
             };
 
-            updateUserRequest.Subscriptions.Add(userToFollow.Id);
-
-            _userService.Update(updateUserRequest);
+            _subscriptionService.Create(createSubscriptionRequest);
 
             _output.WriteLine($"Subscribed to user's {options.UserToFollow} timeline.");
 

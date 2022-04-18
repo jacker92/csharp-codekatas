@@ -23,13 +23,8 @@ namespace SocialNetwork.Infrastructure
 
             modelBuilder.Entity<User>()
              .HasMany(x => x.Subscriptions)
-             .WithOne()
+             .WithOne(x => x.Subscriber)
              .HasForeignKey(x => x.SubscriberId);
-
-            modelBuilder.Entity<User>()
-             .HasMany(x => x.Subscriptions)
-             .WithOne()
-             .HasForeignKey(x => x.SubscribedId);
 
             modelBuilder.Entity<Post>()
                  .HasKey(c => c.Id);
