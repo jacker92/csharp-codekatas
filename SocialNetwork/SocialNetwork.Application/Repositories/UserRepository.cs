@@ -15,7 +15,8 @@ namespace SocialNetwork.Application.Repositories
         {
             return _applicationDbContext.Users
                  .Where(predicate)
-                 .Include(x => x.Subscriptions);
+                 .Include(x => x.Subscriptions)
+                 .ThenInclude(x => x.Subscribed);
         }
     }
 }

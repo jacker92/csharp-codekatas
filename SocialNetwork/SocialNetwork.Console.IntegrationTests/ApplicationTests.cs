@@ -143,6 +143,31 @@ namespace SocialNetwork.Console.IntegrationTests
         }
 
         [Theory, AutoMoqData]
+        public void Run_Wall_ShouldShowBothUsersPostsThatUserIsFollowing(IEnumerable<CreatePostRequest> postRequests, IEnumerable<CreatePostRequest> anotherPostRequests)
+        {
+            var testUser3 = "test";
+            AddPostsForUser(postRequests, _testUser2.Name);
+            AddPostsForUser(anotherPostRequests, testUser3);
+
+            _application.Run(new string[] { _testUser1.Name, "/follow", _testUser2.Name });
+            _application.Run(new string[] { _testUser1.Name, "/follow", testUser3 });
+
+            _application.Run(new string[] { _testUser1.Name, "/wall" });
+
+            _output.Verify(x => x.WriteLine($"Showing {_testUser1.Name}'s wall:"));
+
+            foreach (var item in postRequests)
+            {
+                _output.Verify(x => x.WriteLine(item.Content));
+            }
+
+            foreach (var item in anotherPostRequests)
+            {
+                _output.Verify(x => x.WriteLine(item.Content));
+            }
+        }
+
+        [Theory, AutoMoqData]
         public void Run_SendMessage_ShouldSendMessage(string content)
         {
             _application.Run(new string[] { _testUser1.Name, "/send_message", _testUser2.Name, content });

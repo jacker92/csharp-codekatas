@@ -55,12 +55,12 @@ namespace SocialNetwork.Application.Services
         private void UpdateValues(UpdateUserRequest updateUserRequest, User user)
         {
             user.Name = !string.IsNullOrWhiteSpace(updateUserRequest!.Name) ? updateUserRequest.Name : user.Name;
-            user.Subscriptions = updateUserRequest!.Subscriptions == null ? user.Subscriptions : GetSubscribers(updateUserRequest.Subscriptions);
+            user.Subscriptions = updateUserRequest!.Subscriptions == null ? user.Subscriptions : GetSubscribers(user, updateUserRequest.Subscriptions);
         }
 
-        private List<User> GetSubscribers(List<int> subscriptions)
+        private List<Subscription> GetSubscribers(User subscriber, List<int> subscriptions)
         {
-            return _userRepository.GetWhere(x => subscriptions != null && subscriptions.Any(y => y == x.Id))
+            return _userRepository.GetWhere(x => subscriptions != null && subscriptions.Any(y => y == x.Id)).Select(x => new Subscription { Subscriber = subscriber, Subscribed = x })
                 .ToList();
         }
     }

@@ -18,6 +18,14 @@ namespace SocialNetwork.Infrastructure
             modelBuilder.Entity<User>()
                 .HasKey(c => c.Id);
 
+            modelBuilder.Entity<Subscription>()
+                .HasOne(x => x.Subscribed)
+                .WithMany();
+
+            modelBuilder.Entity<Subscription>()
+                .HasOne(x => x.Subscriber)
+                .WithMany();
+
             modelBuilder.Entity<Post>()
                  .HasKey(c => c.Id);
 
