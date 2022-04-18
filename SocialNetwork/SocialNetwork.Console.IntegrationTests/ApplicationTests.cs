@@ -2,13 +2,10 @@ using AutoFixture;
 using AutoMapper;
 using Moq;
 using SocialNetwork.Application.Mappings;
-using SocialNetwork.Application.Repositories;
 using SocialNetwork.Application.Services;
 using SocialNetwork.Console.VerbLogics;
 using SocialNetwork.Domain.DTO.Requests;
 using SocialNetwork.Domain.DTO.Responses;
-using SocialNetwork.Infrastructure;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -20,7 +17,6 @@ namespace SocialNetwork.Console.Tests
         private readonly Mock<IOutput> _output;
         private readonly VerbLogicRunner _verbLogicRunner;
         private readonly PostLogic _postLogic;
-     
         private readonly TimelineLogic _timelineLogic;
         private readonly FollowLogic _followLogic;
         private readonly WallLogic _wallLogic;
@@ -60,38 +56,6 @@ namespace SocialNetwork.Console.Tests
             var fixture = new Fixture();
             _testUser1 = _userService.CreateIfNotExists(fixture.Create<CreateUserRequest>());
             _testUser2 = _userService.CreateIfNotExists(fixture.Create<CreateUserRequest>());
-        }
-
-        [Fact]
-        public void Run_ShouldReturnErrorMessage_IfNullArgumentListIsGiven()
-        {
-            _application.Run(null);
-
-            _output.Verify(x => x.WriteError("No arguments were given!"));
-        }
-
-        [Fact]
-        public void Run_ShouldReturnErrorMessage_IfNoNameIsGiven()
-        {
-            _application.Run(Array.Empty<string>());
-
-            _output.Verify(x => x.WriteError("Name is required!"));
-        }
-
-        [Fact]
-        public void Run_ShouldReturnErrorMessage_IfNameIsWhitespace()
-        {
-            _application.Run(new string[] { " " });
-
-            _output.Verify(x => x.WriteError("Name is required!"));
-        }
-
-        [Fact]
-        public void Run_ShouldReturnErrorMessage_IfInvalidVerbIsGiven()
-        {
-            _application.Run(new string[] { _testUser1.Name, "/test" });
-
-            _output.Verify(x => x.WriteError(It.Is<string>(x => x.Contains("Verb '/test' is not recognized."))));
         }
 
         [Theory, AutoMoqData]
@@ -220,28 +184,6 @@ namespace SocialNetwork.Console.Tests
             _application.Run(new string[] { _testUser2.Name, "/view_messages" });
 
             _output.Verify(x => x.WriteLine($"{_testUser1.Name}: " + content));
-        }
-
-        [Theory, AutoMoqData]
-        public void Run_ShouldWriteError_IfApplicationThrowsError(string message)
-        {
-            var verbLogicRunner = new Mock<IVerbLogicRunner>();
-            verbLogicRunner.Setup(x => x.Run(It.IsAny<object>(), It.IsAny<string>()))
-                .Throws(new Exception(message));
-
-            var application = new Application(_output.Object, verbLogicRunner.Object);
-
-            application.Run(new string[] { _testUser1.Name, "/post", message });
-
-            _output.Verify(x => x.WriteError(message));
-        }
-
-        [Fact]
-        public void Run_ShouldWriteHelp_IfHelpIsRequested()
-        {
-            _application.Run(new string[] { _testUser1.Name, "/post", "--help" });
-
-            _output.Verify(x => x.WriteLine(It.Is<string>(x => x.Contains("--help              Display this help screen."))));
         }
 
         private void AddPostsForUser(IEnumerable<CreatePostRequest> postRequests, string userName)
