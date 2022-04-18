@@ -60,7 +60,7 @@ namespace SocialNetwork.Application.Services
 
         private List<Subscription> GetSubscribers(User subscriber, List<int> subscriptions)
         {
-            return _userRepository.GetWhere(x => subscriptions != null && subscriptions.Any(y => y == x.Id)).Select(x => new Subscription { Subscriber = subscriber, Subscribed = x })
+            return _userRepository.GetWhere(x => subscriptions != null && subscriptions.Any(y => y == x.Id)).Select(x => new Subscription { SubscriberId = subscriber.Id, SubscribedId = x.Id })
                 .ToList();
         }
     }

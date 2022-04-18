@@ -88,16 +88,9 @@ namespace SocialNetwork.Infrastructure.Migrations
                     b.Property<int>("SubscriberId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("SubscribedId");
-
-                    b.HasIndex("SubscriberId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Subscription");
                 });
@@ -151,26 +144,11 @@ namespace SocialNetwork.Infrastructure.Migrations
 
             modelBuilder.Entity("SocialNetwork.Domain.Models.Subscription", b =>
                 {
-                    b.HasOne("SocialNetwork.Domain.Models.User", "Subscribed")
-                        .WithMany()
+                    b.HasOne("SocialNetwork.Domain.Models.User", null)
+                        .WithMany("Subscriptions")
                         .HasForeignKey("SubscribedId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("SocialNetwork.Domain.Models.User", "Subscriber")
-                        .WithMany()
-                        .HasForeignKey("SubscriberId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SocialNetwork.Domain.Models.User", null)
-                        .WithMany("Subscriptions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Subscribed");
-
-                    b.Navigation("Subscriber");
                 });
 
             modelBuilder.Entity("SocialNetwork.Domain.Models.User", b =>

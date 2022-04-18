@@ -12,8 +12,8 @@ using SocialNetwork.Infrastructure;
 namespace SocialNetwork.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220418041418_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220418061208_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,6 +76,27 @@ namespace SocialNetwork.Infrastructure.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("SocialNetwork.Domain.Models.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("SubscribedId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubscriberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscribedId");
+
+                    b.ToTable("Subscription");
+                });
+
             modelBuilder.Entity("SocialNetwork.Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -88,12 +109,7 @@ namespace SocialNetwork.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
@@ -128,12 +144,13 @@ namespace SocialNetwork.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SocialNetwork.Domain.Models.User", b =>
+            modelBuilder.Entity("SocialNetwork.Domain.Models.Subscription", b =>
                 {
                     b.HasOne("SocialNetwork.Domain.Models.User", null)
                         .WithMany("Subscriptions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("SubscribedId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SocialNetwork.Domain.Models.User", b =>

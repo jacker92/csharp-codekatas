@@ -15,16 +15,22 @@ namespace SocialNetwork.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Subscription>()
+                .HasKey(x => x.Id);
+
             modelBuilder.Entity<User>()
                 .HasKey(c => c.Id);
 
-            modelBuilder.Entity<Subscription>()
-                .HasOne(x => x.Subscribed)
-                .WithMany();
+            modelBuilder.Entity<User>()
+             .HasMany(x => x.Subscriptions)
+             .WithOne()
+             .HasForeignKey(x => x.SubscriberId);
 
-            modelBuilder.Entity<Subscription>()
-                .HasOne(x => x.Subscriber)
-                .WithMany();
+            modelBuilder.Entity<User>()
+             .HasMany(x => x.Subscriptions)
+             .WithOne()
+             .HasForeignKey(x => x.SubscribedId);
 
             modelBuilder.Entity<Post>()
                  .HasKey(c => c.Id);
