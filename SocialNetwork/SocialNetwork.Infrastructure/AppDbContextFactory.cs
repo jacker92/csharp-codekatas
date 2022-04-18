@@ -13,7 +13,6 @@ namespace SocialNetwork.Infrastructure
 
             optionsBuilder.UseSqlServer(connectionString ?? $"Server=(localdb)\\mssqllocaldb;Database=SocialNetwork;Trusted_Connection=True;");
 
-            Console.WriteLine("Afterr use sql server");
             return new AppDbContext(optionsBuilder.Options);
         }
     }
