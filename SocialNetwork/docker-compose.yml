@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  sql-server-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1533:1433"
+    environment:
+      SA_PASSWORD: "Guess_me"
+      ACCEPT_EULA: "Y"
+    logging:
+      driver: none
+
+  integrationtests:
+    image: integrationtests
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        connection_string: Data Source=sql-server-db;User Id=sa;Password=Guess_me
+    environment:
+      WAIT_HOSTS: sql-server-db:1433
+    depends_on:
+      - sql-server-db
