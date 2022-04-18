@@ -15,7 +15,6 @@ namespace SocialNetwork.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Subscription>()
                 .HasKey(x => x.Id);
 
