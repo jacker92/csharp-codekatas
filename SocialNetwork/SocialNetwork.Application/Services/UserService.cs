@@ -19,7 +19,7 @@ namespace SocialNetwork.Application.Services
 
         public CreateUserResponse CreateIfNotExists(CreateUserRequest createUserRequest)
         {
-            var existing = _userRepository.Find(x => x.Name == createUserRequest.Name);
+            var existing = _userRepository.GetWhere(x => x.Name == createUserRequest.Name).SingleOrDefault();
 
             if (existing != null)
             {
