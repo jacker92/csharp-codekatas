@@ -18,7 +18,7 @@ namespace SocialNetwork.Console.IntegrationTests
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            var connectionString = Environment.GetEnvironmentVariable("ConnectionsStrings:Database");
+            var connectionString = Environment.GetEnvironmentVariable("connection_string");
 
             optionsBuilder.UseSqlServer(connectionString ??
               $"Server=(localdb)\\mssqllocaldb;Database=EFSample.{Guid.NewGuid()};Trusted_Connection=True;");

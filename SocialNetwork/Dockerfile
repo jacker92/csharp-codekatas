@@ -8,7 +8,7 @@ ENV ConnectionStrings__Database=${connection_string}
 # Standard docker build
 COPY . .
 
-RUN dotnet restore "SocialNetwork.Console.IntegrationTests/SocialNetwork.Console.IntegrationTests.csproj"
+RUN dotnet restore
 COPY . .
 WORKDIR "SocialNetwork.Console.IntegrationTests"
 
@@ -21,5 +21,9 @@ RUN dotnet build "SocialNetwork.Console.IntegrationTests.csproj" -c Release -o /
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.5.0/wait /wait
 RUN chmod +x /wait
 
+WORKDIR "../SocialNetwork.Infrastructure"
+
+RUN echo ${connection_string}
+RUN dotnet ef database update
 # Wait for sql server and then migrate the db and run tests
-CMD /wait && dotnet ef database update --context AppDbContext && dotnet t
+CMD dotnet t

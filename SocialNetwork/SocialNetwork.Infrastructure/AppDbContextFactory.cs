@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using System.Linq;
 
 namespace SocialNetwork.Infrastructure
 {
@@ -8,8 +9,12 @@ namespace SocialNetwork.Infrastructure
         public AppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseSqlServer($"Server=(localdb)\\mssqllocaldb;Database=SocialNetwork;Trusted_Connection=True;");
+            var connectionString = Environment.GetEnvironmentVariable("connection_string");
+      
+            Console.WriteLine(connectionString);
+            optionsBuilder.UseSqlServer(connectionString ?? $"Server=(localdb)\\mssqllocaldb;Database=SocialNetwork;Trusted_Connection=True;");
 
+            Console.WriteLine("Afterr use sql server");
             return new AppDbContext(optionsBuilder.Options);
         }
     }
