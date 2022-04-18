@@ -8,6 +8,7 @@ namespace SocialNetwork.Infrastructure
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<DirectMessage> DirectMessages { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -23,8 +24,7 @@ namespace SocialNetwork.Infrastructure
 
             modelBuilder.Entity<User>()
              .HasMany(x => x.Subscriptions)
-             .WithOne(x => x.Subscriber)
-             .HasForeignKey(x => x.SubscriberId);
+             .WithOne(x => x.Subscriber);
 
             modelBuilder.Entity<Post>()
                  .HasKey(c => c.Id);

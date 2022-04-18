@@ -9,6 +9,7 @@ namespace SocialNetwork.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ISubscriptionRepository _subscriptionRepository;
         private readonly IMapper _mapper;
 
         public UserService(IUserRepository userRepository, IMapper mapper)
@@ -55,13 +56,6 @@ namespace SocialNetwork.Application.Services
         private void UpdateValues(UpdateUserRequest updateUserRequest, User user)
         {
             user.Name = !string.IsNullOrWhiteSpace(updateUserRequest!.Name) ? updateUserRequest.Name : user.Name;
-            user.Subscriptions = updateUserRequest!.Subscriptions == null ? user.Subscriptions : GetSubscribers(user, updateUserRequest.Subscriptions);
-        }
-
-        private List<Subscription> GetSubscribers(User subscriber, List<int> subscriptions)
-        {
-            return _userRepository.GetWhere(x => subscriptions != null && subscriptions.Any(y => y == x.Id)).Select(x => new Subscription { SubscriberId = subscriber.Id, SubscribedId = x.Id })
-                .ToList();
         }
     }
 }

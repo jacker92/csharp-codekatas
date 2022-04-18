@@ -7,10 +7,12 @@ namespace SocialNetwork.Application.Services
     public class SubscriptionService : ISubscriptionService
     {
         private readonly ISubscriptionRepository _subscriptionRepository;
+        private readonly IUserRepository _userRepository;
 
-        public SubscriptionService(ISubscriptionRepository subscriptionRepository)
+        public SubscriptionService(ISubscriptionRepository subscriptionRepository, IUserRepository userRepository)
         {
             _subscriptionRepository = subscriptionRepository;
+            _userRepository = userRepository;
         }
 
         public void Create(CreateSubscriptionRequest createSubscriptionRequest)
@@ -24,8 +26,8 @@ namespace SocialNetwork.Application.Services
         {
             return new Subscription
             {
-                SubscriberId = createSubscriptionRequest.SubscriberId,
-                SubscribedId = createSubscriptionRequest.SubscribedId
+                Subscriber = _userRepository.GetById(createSubscriptionRequest.SubscriberId),
+                Subscribed = _userRepository.GetById(createSubscriptionRequest.SubscribedId)
             };
         }
     }

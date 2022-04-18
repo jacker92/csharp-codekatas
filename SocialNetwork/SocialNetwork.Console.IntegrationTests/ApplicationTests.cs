@@ -40,7 +40,7 @@ namespace SocialNetwork.Console.IntegrationTests
             _postService = new PostService(_postRepository, _userRepository, _mapper);
             _userService = new UserService(_userRepository, _mapper);
             _directMessageService = new DirectMessageService(_directMessageRepository, _userRepository, _mapper);
-            _subscriptionService = new SubscriptionService(_subscriptionRepository);
+            _subscriptionService = new SubscriptionService(_subscriptionRepository, _userRepository);
             _timelineLogic = new TimelineLogic(_output.Object, _postService, _userService);
             _postLogic = new PostLogic(_output.Object, _postService, _userService);
             _followLogic = new FollowLogic(_userService, _subscriptionService, _output.Object);
