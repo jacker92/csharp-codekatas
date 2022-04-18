@@ -1,4 +1,4 @@
-version: "3"
+version: "3.4"
 
 services:
   sql-server-db:
@@ -6,8 +6,6 @@ services:
     environment:
       SA_PASSWORD: "Guess_me"
       ACCEPT_EULA: "Y"
-    ports:
-      - 1533:1433
   integrationtests:
     image: integrationtests
     build:
@@ -15,9 +13,9 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        connection_string: Data Source=.,1533;User Id=sa;Password=Guess_me
+        connection_string: Data Source=sql-server-db;User Id=sa;Password=Guess_me
     environment:
-      WAIT_HOSTS: localhost:1533
+      WAIT_HOSTS: sql-server-db:1433
       WAIT_TIMEOUT: 120
     depends_on:
       - sql-server-db
