@@ -13,7 +13,7 @@ namespace SocialNetwork.Application.Tests
         private readonly AppDbContext _applicationDbContext;
         public UserRepositoryTests()
         {
-            _applicationDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
+            _applicationDbContext = new AppDbContextFactory().CreateDbContext(null);
             _userRepository = new UserRepository(_applicationDbContext);
         }
 

@@ -15,14 +15,12 @@ using Xunit;
 
 namespace SocialNetwork.Console.Tests
 {
-    public class ApplicationTests
+    public class ApplicationTests : IntegrationTestBase
     {
         private readonly Mock<IOutput> _output;
         private readonly VerbLogicRunner _verbLogicRunner;
         private readonly PostLogic _postLogic;
-        private readonly PostRepository _postRepository;
-        private readonly UserRepository _userRepository;
-        private readonly DirectMessageRepository _directMessageRepository;
+     
         private readonly TimelineLogic _timelineLogic;
         private readonly FollowLogic _followLogic;
         private readonly WallLogic _wallLogic;
@@ -30,7 +28,6 @@ namespace SocialNetwork.Console.Tests
         private readonly SendMessageLogic _sendMessagesLogic;
         private readonly Application _application;
         private readonly IMapper _mapper;
-        private readonly AppDbContext _appDbContext;
         private readonly UserService _userService;
         private readonly PostService _postService;
         private readonly DirectMessageService _directMessageService;
@@ -42,11 +39,7 @@ namespace SocialNetwork.Console.Tests
         {
             _output = new Mock<IOutput>();
             _mapper = MapperFactory.Create();
-            _appDbContext = new AppDbContextFactory().CreateInMemoryDbContext();
-
-            _userRepository = new UserRepository(_appDbContext);
-            _postRepository = new PostRepository(_appDbContext);
-            _directMessageRepository = new DirectMessageRepository(_appDbContext);
+        
             _postService = new PostService(_postRepository, _userRepository, _mapper);
             _userService = new UserService(_userRepository, _mapper);
             _directMessageService = new DirectMessageService(_directMessageRepository, _userRepository, _mapper);
