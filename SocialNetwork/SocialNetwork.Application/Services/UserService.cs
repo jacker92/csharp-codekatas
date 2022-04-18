@@ -9,7 +9,6 @@ namespace SocialNetwork.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly ISubscriptionRepository _subscriptionRepository;
         private readonly IMapper _mapper;
 
         public UserService(IUserRepository userRepository, IMapper mapper)
@@ -35,27 +34,12 @@ namespace SocialNetwork.Application.Services
             return _mapper.Map<CreateUserResponse>(user);
         }
 
-        public UpdateUserResponse Update(UpdateUserRequest updateUserRequest)
-        {
-            var user = _userRepository.GetById(updateUserRequest.Id);
-            UpdateValues(updateUserRequest, user);
-            _userRepository.Update(user);
-            _userRepository.Save();
-
-            return _mapper.Map<UpdateUserResponse>(user);
-        }
-
         private static User CreateUser(CreateUserRequest createUserRequest)
         {
             return new User
             {
                 Name = createUserRequest.Name
             };
-        }
-
-        private void UpdateValues(UpdateUserRequest updateUserRequest, User user)
-        {
-            user.Name = !string.IsNullOrWhiteSpace(updateUserRequest!.Name) ? updateUserRequest.Name : user.Name;
         }
     }
 }
