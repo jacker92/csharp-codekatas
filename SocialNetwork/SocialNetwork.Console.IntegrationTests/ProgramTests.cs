@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace SocialNetwork.Console.Tests
+namespace SocialNetwork.Console.IntegrationTests
 {
     public class ProgramTests
     {

@@ -3,7 +3,7 @@ using SocialNetwork.Application.Repositories;
 using SocialNetwork.Infrastructure;
 using System;
 
-namespace SocialNetwork.Console.Tests
+namespace SocialNetwork.Console.IntegrationTests
 {
     public class IntegrationTestBase : IDisposable
     {

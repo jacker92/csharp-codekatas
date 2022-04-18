@@ -22,7 +22,7 @@ namespace SocialNetwork.Console.VerbLogics
         {
             var from = _userService.CreateIfNotExists(new CreateUserRequest { Name = userName });
             var messages = _directMessageService.GetBySender(from.Id);
-               
+
             if (!messages.Any())
             {
                 _output.WriteLine("No direct messages found.");

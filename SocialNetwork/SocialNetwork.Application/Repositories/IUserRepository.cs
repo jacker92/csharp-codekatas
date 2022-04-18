@@ -4,6 +4,6 @@ namespace SocialNetwork.Application.Repositories
 {
     public interface IUserRepository : IRepository<User>
     {
-    
+
     }
 }

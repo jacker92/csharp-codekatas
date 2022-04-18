@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace SocialNetwork.Console.Tests
+namespace SocialNetwork.Console.IntegrationTests
 {
     public class ApplicationTests : IntegrationTestBase
     {
@@ -35,7 +35,7 @@ namespace SocialNetwork.Console.Tests
         {
             _output = new Mock<IOutput>();
             _mapper = MapperFactory.Create();
-        
+
             _postService = new PostService(_postRepository, _userRepository, _mapper);
             _userService = new UserService(_userRepository, _mapper);
             _directMessageService = new DirectMessageService(_directMessageRepository, _userRepository, _mapper);

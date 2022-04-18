@@ -13,9 +13,9 @@ namespace SocialNetwork.Application.Repositories
 
         public override IEnumerable<User> GetWhere(Expression<Func<User, bool>> predicate)
         {
-           return _applicationDbContext.Users
-                .Where(predicate)
-                .Include(x => x.Subscriptions);
+            return _applicationDbContext.Users
+                 .Where(predicate)
+                 .Include(x => x.Subscriptions);
         }
     }
 }

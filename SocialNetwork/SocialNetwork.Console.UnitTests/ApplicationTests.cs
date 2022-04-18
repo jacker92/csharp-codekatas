@@ -1,5 +1,5 @@
 using Moq;
-using SocialNetwork.Console.Tests;
+using SocialNetwork.Console.IntegrationTests;
 using System;
 using Xunit;
 

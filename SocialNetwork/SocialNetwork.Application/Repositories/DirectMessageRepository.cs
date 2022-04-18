@@ -1,6 +1,5 @@
 ﻿using SocialNetwork.Domain.Models;
 using SocialNetwork.Infrastructure;
-using System.Linq.Expressions;
 
 namespace SocialNetwork.Application.Repositories
 {

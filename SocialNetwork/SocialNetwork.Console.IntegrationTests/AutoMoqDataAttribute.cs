@@ -3,7 +3,7 @@ using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
 using System.Linq;
 
-namespace SocialNetwork.Console.Tests
+namespace SocialNetwork.Console.IntegrationTests
 {
     public sealed class AutoMoqDataAttribute : AutoDataAttribute
     {
