@@ -9,13 +9,12 @@ services:
   integrationtests:
     image: integrationtests
     build:
-      network: host
       context: .
       dockerfile: Dockerfile
       args:
         connection_string: Data Source=sql-server-db;User Id=sa;Password=Guess_me
     environment:
+      connection_string: Data Source=sql-server-db;User Id=sa;Password=Guess_me
       WAIT_HOSTS: sql-server-db:1433
-      WAIT_TIMEOUT: 120
     depends_on:
       - sql-server-db

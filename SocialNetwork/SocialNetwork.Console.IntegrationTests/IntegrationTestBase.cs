@@ -20,8 +20,16 @@ namespace SocialNetwork.Console.IntegrationTests
 
             var connectionString = Environment.GetEnvironmentVariable("connection_string");
 
+            if (connectionString != null)
+            {
+                connectionString += $";Initial Catalog=EFSample.{Guid.NewGuid()}";
+            }
+
+            // var connectionString = $"Data Source=sql-server-db;Initial Catalog=EFSample.{Guid.NewGuid()};User Id=sa;Password=Guess_me;";
+
+
             optionsBuilder.UseSqlServer(connectionString ??
-              $"Server=(localdb)\\mssqllocaldb;Database=EFSample.{Guid.NewGuid()};Trusted_Connection=True;");
+              $"Database=EFSample.{Guid.NewGuid()};Trusted_Connection=True;");
 
             _appDbContext = new AppDbContext(optionsBuilder.Options);
 
@@ -30,14 +38,15 @@ namespace SocialNetwork.Console.IntegrationTests
             _directMessageRepository = new DirectMessageRepository(_appDbContext);
             _subscriptionRepository = new SubscriptionRepository(_appDbContext);
 
-            try
-            {
+            //try
+            //{
                 _appDbContext.Database.Migrate();
-            }
-            catch (Exception)
-            {
-                _appDbContext?.Database?.EnsureDeleted();
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    System.Console.WriteLine("Exception thrown: " + e.Message + ", " + e.StackTrace);
+            //    _appDbContext?.Database?.EnsureDeleted();
+            //}
         }
 
         public void Dispose()

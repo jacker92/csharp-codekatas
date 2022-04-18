@@ -3,7 +3,7 @@ WORKDIR /src
 
 # Get connection string argument from docker compose and set it as an environment variable
 ARG connection_string
-ENV ConnectionStrings__Database=${connection_string}
+ENV connection_string=${connection_string}
 
 # Standard docker build
 COPY . .
@@ -23,7 +23,5 @@ RUN chmod +x /wait
 
 WORKDIR "../SocialNetwork.Infrastructure"
 
-RUN echo ${connection_string}
-RUN dotnet ef database update
 # Wait for sql server and then migrate the db and run tests
-CMD dotnet t
+CMD /wait && dotnet ef database update && cd .. && dotnet test --no-build
